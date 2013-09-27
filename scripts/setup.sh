@@ -1,10 +1,12 @@
 #!/bin/bash
-if [ ! -n "env" ]; then
-	./scripts/pyvenvex.py env
+if [ ! -d "scripts/env" ]; then
+	./scripts/pyvenvex.py scripts/env
 fi
 
-. ./env/bin/activate
-echo 'run `deactivate` to stop'
+. ./scripts/env/bin/activate
+printf "pip @ "
+which pip
 
 pip install -r  scripts/packages.txt
 
+echo "<<Finished>>"
