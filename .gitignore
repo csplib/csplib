@@ -1,4 +1,5 @@
 deploy/
+_deploy/
 env/
 scripts/env/
 
@@ -81,6 +82,7 @@ Icon
 ### SublimeText ###
 # SublimeText project files
 *.sublime-workspace
+*.sublime-project
 
 ### Eclipse ###
 *.pydevproject
