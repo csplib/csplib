@@ -1,5 +1,3 @@
-## Results
-
   * The first set of instances contains satisfiable and infeasible instances:
     * Instance `4/72`: satisfiable (Regin, Puget, 1997)
     * Instance `6/76`: infeasible (Regin, Puget, 1997), upper bound of 6 constraint violations (Gottlieb, Puchta, Solnon, 2003)
