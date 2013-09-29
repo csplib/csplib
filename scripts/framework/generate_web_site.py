@@ -14,7 +14,7 @@ from distutils import dir_util
 # config
 base = "/Users/bilalh/CS/csplib/"
 templates_dir = path.join(base, "templates")
-output_dir = "/Users/bilalh/CS/csplib/_deploy"
+output_dir = "/Users/bilalh/Sites"
 
 
 class Problem(object):
@@ -53,6 +53,9 @@ class Problem(object):
 			return [path.join(dirr, f) for f in os.listdir(dirr) if not f[0] == '.']
 		return []
 
+	def is_vaild(self):
+		return self.specification is not None
+
 
 def create_problem(name, path):
 	prob = Problem(name, path)
@@ -60,38 +63,46 @@ def create_problem(name, path):
 	return prob
 
 
-def copy_resources(output_dir):
+def copy_web_resources(output_dir):
 	dir_util.copy_tree(path.join(base, "web"), output_dir)
 
 
 problems_path = path.join(base, "problems")
 
 probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
-probs = [create_problem(p, problems_path) for p in probs_names]
+probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
 print(probs)
 
-copy_resources(output_dir)
+copy_web_resources(output_dir)
 
-# markdown
+markdown_exts = ['extra', 'meta', 'sane_lists']
+template_env = Environment(loader=FileSystemLoader(templates_dir))
 
-exts = ['extra', 'meta', 'sane_lists']
-inn = "/Users/bilalh/CS/csplib/problems/prob001/specification.md"
 
-md = markdown.Markdown(extensions=exts)
-with open(inn) as f:
-	md_input = "".join(f.readlines())
+def convert_markdown(page_path):
+	md = markdown.Markdown(extensions=markdown_exts)
+	with open(page_path) as f:
+		md_input = "".join(f.readlines())
+	page = md.convert(md_input)
+	metadata = md.Meta
+	return (page, metadata)
 
-prob001 = md.convert(md_input)
-metadata = md.Meta
 
-# templating
-env = Environment(loader=FileSystemLoader(templates_dir))
-template = env.get_template('problem.html')
+def apply_template(template_name, **kwargs):
+	template = template_env.get_template('problem.html')
+	return template.render(kwargs)
 
-title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-res = template.render(title=title, problemContent=prob001)
 
-with open(path.join(output_dir, "prob001.html"), "w") as f:
-	f.write(res)
+def process_problem(prob):
+	(content, metadata) = convert_markdown(prob.specification)
+	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
+	res = apply_template("problem.html", title=title, problemContent=content)
 
+	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
+	os.makedirs(prob_dir)
+	with open(path.join(prob_dir, "index.html"), "w") as f:
+		f.write(res)
+
+for prob in probs:
+	process_problem(prob)
