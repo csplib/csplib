@@ -12,7 +12,7 @@ import markdown
 # config
 base = "/Users/bilalh/CS/csplib/"
 templates_dir = path.join(base, "web/templates")
-ouput_dir = "/Users/bilalh/CS/csplib/web"
+ouput_dir = "/Users/bilalh/CS/csplib/_deploy"
 
 
 def process_prob(name):
@@ -47,5 +47,6 @@ res = template.render(title=title, problemContent=prob001)
 with open(path.join(ouput_dir, "prob001.html"), "w") as f:
 	f.write(res)
 
-index = env.get_template('index.html')
-print(index.render())
+
+
+
