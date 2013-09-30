@@ -1,0 +1,14 @@
+{% extends "problem.html" %}
+
+{% block mainContent %}
+
+
+{% for result in results %}
+<p> 
+	<a href="{{ result['filename'] }}">
+		{{result['name']}}
+	</a> 
+</p>
+{% endfor %}
+
+{% endblock %}

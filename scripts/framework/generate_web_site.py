@@ -67,7 +67,7 @@ def create_problem(name, path):
 def copy_web_resources(output_dir):
 	dir_util.copy_tree(path.join(base, "web"), output_dir)
 
-
+# Read the data
 problems_path = path.join(base, "problems")
 
 probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
@@ -98,20 +98,42 @@ def apply_template(template_name, **kwargs):
 
 
 def process_problem(prob):
+	"Creates the problem's html"
+
 	(content, metadata) = convert_markdown(prob.specification)
 	prob.metadata = metadata
+
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	res = apply_template("problem.html", title=title, problemContent=content)
+	spec = apply_template("problem.html", title=title, problemContent=content)
 
 	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
-	with open(path.join(prob_dir, "index.html"), "w") as f:
-		f.write(res)
+
+	def write(data, name):
+		with open(path.join(prob_dir, name), "w") as f:
+			f.write(data)
+
+	write(spec, "index.html")
+
+	results_metadata = []
+	os.makedirs(prob_dir + "/results/", exist_ok=True)
+	for result in prob.results:
+		(content, metadata) = convert_markdown(result)
+		name = path.basename(result)
+		filename = path.splitext(name)[0] + ".html"
+		res = apply_template("problem.html", title=title, problemContent=content)
+		write(res, "results/" + filename)
+		results_metadata.append({"name": name, "filename": filename})
+
+	write(apply_template("results.html", results=results_metadata, title=title), "results/index.html")
+
 
 for prob in probs:
-	process_problem(prob)
 	print(prob)
+	process_problem(prob)
 
+
+# index page
 index_path = path.join(output_dir, "index.html")
 res = apply_template("index.html")
 with open(index_path, "w") as f:
