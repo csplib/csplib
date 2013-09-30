@@ -1,0 +1,15 @@
+{% set type = 'models' %}
+{% extends "problem.html" %}
+
+{% block mainContent %}
+
+
+{% for model in metadata %}
+<p> 
+	<a href="{{ model['filename'] }}">
+		{{model['name']}}
+	</a> 
+</p>
+{% endfor %}
+
+{% endblock %}

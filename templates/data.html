@@ -1,0 +1,15 @@
+{% set type = 'data_files' %}
+{% extends "problem.html" %}
+
+{% block mainContent %}
+
+
+{% for data in metadata %}
+<p> 
+	<a href="{{ data['filename'] }}">
+		{{data['name']}}
+	</a> 
+</p>
+{% endfor %}
+
+{% endblock %}

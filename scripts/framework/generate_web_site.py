@@ -10,6 +10,10 @@ from jinja2 import Environment, FileSystemLoader
 import markdown
 
 from distutils import dir_util
+import subprocess
+import sys
+
+import re
 
 # config
 base = "/Users/bilalh/CS/csplib/"
@@ -116,17 +120,35 @@ def process_problem(prob):
 
 	write(spec, "index.html")
 
-	results_metadata = []
-	os.makedirs(prob_dir + "/results/", exist_ok=True)
-	for result in prob.results:
-		(content, metadata) = convert_markdown(result)
-		name = path.basename(result)
-		filename = path.splitext(name)[0] + ".html"
-		res = apply_template("problem.html", problemContent=content, **prob_meta)
-		write(res, "results/" + filename)
-		results_metadata.append({"name": name, "filename": filename})
+	def problem_part(part_name):
+		part_metadata = []
+		os.makedirs(prob_dir + "/" + part_name + "/", exist_ok=True)
+		for part in prob.__dict__[part_name]:
+			(content, metadata) = convert_markdown(part)
+			name = path.basename(part)
+			filename = path.splitext(name)[0] + ".html"
+			res = apply_template("problem.html", problemContent=content, **prob_meta)
+			write(res, part_name + "/" + filename)
+			part_metadata.append({"name": name, "filename": filename})
 
-	write(apply_template("results.html", results=results_metadata, **prob_meta), "results/index.html")
+		write(apply_template(part_name + ".html", metadata=part_metadata, **prob_meta), part_name + "/index.html")
+
+	problem_part("results")
+	problem_part("data")
+	problem_part("models")
+	bib_html = get_bib_references(prob.references)
+	refs = apply_template("references.html", references=bib_html, **prob_meta)
+	write(refs, "references.html")
+
+
+def get_bib_references(filepath):
+	prog_name = path.dirname(sys.argv[0])
+	abs_prog_dir = path.abspath(prog_name)
+	bib_cmd = [path.join(abs_prog_dir, "make_bibtex_html.sh"), filepath]
+	bib_html = subprocess.check_output(bib_cmd, universal_newlines=True)
+	# easier then using a html parser
+	regex = re.compile(r"<p>.*?</p>", re.DOTALL)
+	return "\n".join(regex.findall(bib_html))
 
 
 for prob in probs:
