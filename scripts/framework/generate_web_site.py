@@ -28,6 +28,7 @@ class Problem(object):
 		self.models = []
 		self.results = []
 		self.specification = None
+		self.metadata = {}
 
 	def __repr__(self):
 		return "%s(%s)" % (self.__class__, self.__dict__)
@@ -72,37 +73,51 @@ problems_path = path.join(base, "problems")
 probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
-print(probs)
-
 copy_web_resources(output_dir)
 
 markdown_exts = ['extra', 'meta', 'sane_lists']
 template_env = Environment(loader=FileSystemLoader(templates_dir))
 
 
+def read_file(filepath):
+	with open(filepath, "r") as f:
+		return "".join(f.readlines())
+
+
 def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
-	with open(page_path) as f:
-		md_input = "".join(f.readlines())
+	md_input = read_file(page_path)
 	page = md.convert(md_input)
 	metadata = md.Meta
 	return (page, metadata)
 
 
 def apply_template(template_name, **kwargs):
-	template = template_env.get_template('problem.html')
+	template = template_env.get_template(template_name)
 	return template.render(kwargs)
 
 
 def process_problem(prob):
 	(content, metadata) = convert_markdown(prob.specification)
+	prob.metadata = metadata
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
 	res = apply_template("problem.html", title=title, problemContent=content)
 
 	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
-	os.makedirs(prob_dir)
+	os.makedirs(prob_dir, exist_ok=True)
 	with open(path.join(prob_dir, "index.html"), "w") as f:
 		f.write(res)
 
 for prob in probs:
 	process_problem(prob)
+	print(prob)
+
+index_path = path.join(output_dir, "index.html")
+res = apply_template("index.html")
+with open(index_path, "w") as f:
+	f.write(res)
+
+probs_path = path.join(output_dir, "problems.html")
+res = apply_template("problems.html", problems=probs)
+with open(probs_path, "w") as f:
+	f.write(res)

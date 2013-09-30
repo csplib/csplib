@@ -1,0 +1,16 @@
+{% set title = "Problems in Numerical Order" %}
+{% extends "wrapper.html" %}
+
+{% block mainContent %}
+
+
+{% for prob in problems %}
+<p> 
+	<a href="prob/prob{{ prob.metadata['id'] | join('') }}">
+		prob{{ prob.metadata['id'] | join('') }}
+	</a>: 
+	{{ prob.metadata['title'] | join('') }} 
+</p>
+{% endfor %}
+
+{% endblock %}
