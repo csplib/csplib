@@ -104,8 +104,9 @@ def process_problem(prob):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	spec = apply_template("problem.html", title=title, problemContent=content)
+	prob_meta = {"title": title, "prob_name": prob.name}
 
+	spec = apply_template("problem.html", problemContent=content, **prob_meta)
 	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 
@@ -121,11 +122,11 @@ def process_problem(prob):
 		(content, metadata) = convert_markdown(result)
 		name = path.basename(result)
 		filename = path.splitext(name)[0] + ".html"
-		res = apply_template("problem.html", title=title, problemContent=content)
+		res = apply_template("problem.html", problemContent=content, **prob_meta)
 		write(res, "results/" + filename)
 		results_metadata.append({"name": name, "filename": filename})
 
-	write(apply_template("results.html", results=results_metadata, title=title), "results/index.html")
+	write(apply_template("results.html", results=results_metadata, **prob_meta), "results/index.html")
 
 
 for prob in probs:

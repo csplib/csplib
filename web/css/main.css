@@ -12,7 +12,7 @@
 #navigation ul li { 
 	display: inline; float: left; 
 }
-#navigation ul li a { 
+#navigation ul li a, #navigation ul li p{ 
   display: block; 
   padding: 0 8px; 
   font-size: 1.1em;
