@@ -104,9 +104,9 @@ def process_problem(prob):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_name": prob.name}
+	prob_meta = {"title": title, "prob_base": "/prob/" + prob.name}
 
-	spec = apply_template("problem.html", problemContent=content, **prob_meta)
+	spec = apply_template("problem.html", problemContent=content, type="specification", **prob_meta)
 	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 

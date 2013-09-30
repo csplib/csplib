@@ -12,6 +12,7 @@
 #navigation ul li { 
 	display: inline; float: left; 
 }
+
 #navigation ul li a, #navigation ul li p{ 
   display: block; 
   padding: 0 8px; 
@@ -21,6 +22,7 @@
   font-weight: bold; 
   margin-right: 6px;
 }
+
 #navigation ul li a:hover { 
 	color: #a8d6e7; 
 }
