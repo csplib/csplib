@@ -124,7 +124,7 @@ def process_problem(prob):
 		part_metadata = []
 		os.makedirs(prob_dir + "/" + part_name + "/", exist_ok=True)
 		for part in prob.__dict__[part_name]:
-			(content, metadata) = convert_markdown(part)
+			(content, metadata) = get_content_and_metadata(part)
 			name = path.basename(part)
 			filename = path.splitext(name)[0] + ".html"
 			res = apply_template("problem.html", problemContent=content, **prob_meta)
@@ -139,6 +139,14 @@ def process_problem(prob):
 	bib_html = get_bib_references(prob.references)
 	refs = apply_template("references.html", references=bib_html, **prob_meta)
 	write(refs, "references.html")
+
+
+def get_content_and_metadata(filepath):
+	(_, ext) = path.splitext(filepath)
+	if (ext == ".md"):
+		return convert_markdown(filepath)
+	else:
+		return ("<pre>{}</pre>".format(read_file(filepath)), None)
 
 
 def get_bib_references(filepath):
