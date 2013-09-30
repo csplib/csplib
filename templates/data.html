@@ -1,8 +1,12 @@
 {% set type = 'data_files' %}
 {% extends "problem.html" %}
 
-{% block mainContent %}
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="{{prob_base}}/data">Data</a></li>
+{% endblock %}
 
+{% block mainContent %}
 
 {% for data in metadata %}
 <p> 

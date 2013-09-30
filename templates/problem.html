@@ -1,5 +1,10 @@
 {% extends "wrapper.html" %}
 
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="/problems">Problems</a></li>
+{% endblock %}
+
 {% block headerContent %}
 
 <!-- macro to Not made a link if on the page the link links to -->
@@ -17,7 +22,7 @@
   {{ make_nav_item("Specification", "",                "specification") }}
   {{ make_nav_item("Data files",    "data",            "data_files") }}
   {{ make_nav_item("Results",       "results",         "results") }}
-  {{ make_nav_item("References",    "references.html", "references") }}
+  {{ make_nav_item("References",    "references",      "references") }}
   {{ make_nav_item("Models",        "Models",          "models") }}
 </ul>
 </nav>

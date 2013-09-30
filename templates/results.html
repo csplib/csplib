@@ -1,8 +1,12 @@
 {% set type = 'results' %}
 {% extends "problem.html" %}
 
-{% block mainContent %}
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="{{prob_base}}/results">Results</a></li>
+{% endblock %}
 
+{% block mainContent %}
 
 {% for result in metadata %}
 <p> 

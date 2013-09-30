@@ -15,10 +15,16 @@ import sys
 
 import re
 
-# config
-base = "/Users/bilalh/CS/csplib/"
+#Where we are
+prog_name = path.dirname(sys.argv[0])
+abs_prog_dir = path.abspath(prog_name)
+
+base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
 output_dir = "/Users/bilalh/Sites"
+
+print("Base:{}", base)
+print("Output:{}", output_dir)
 
 
 class Problem(object):
@@ -108,10 +114,10 @@ def process_problem(prob):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_base": "/prob/" + prob.name}
+	prob_meta = {"title": title, "prob_base": "/problems/" + prob.name}
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", **prob_meta)
-	prob_dir = path.join(output_dir, "prob/{}".format(prob.name))
+	prob_dir = path.join(output_dir, "problems/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 
 	def write(data, name):
@@ -127,7 +133,7 @@ def process_problem(prob):
 			(content, metadata) = get_content_and_metadata(part)
 			name = path.basename(part)
 			filename = path.splitext(name)[0] + ".html"
-			res = apply_template("problem.html", problemContent=content, **prob_meta)
+			res = apply_template("file.html", problemContent=content, name=name, part=part_name, **prob_meta)
 			write(res, part_name + "/" + filename)
 			part_metadata.append({"name": name, "filename": filename})
 
@@ -138,7 +144,8 @@ def process_problem(prob):
 	problem_part("models")
 	bib_html = get_bib_references(prob.references)
 	refs = apply_template("references.html", references=bib_html, **prob_meta)
-	write(refs, "references.html")
+	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
+	write(refs, "references/index.html")
 
 
 def get_content_and_metadata(filepath):
@@ -150,8 +157,6 @@ def get_content_and_metadata(filepath):
 
 
 def get_bib_references(filepath):
-	prog_name = path.dirname(sys.argv[0])
-	abs_prog_dir = path.abspath(prog_name)
 	bib_cmd = [path.join(abs_prog_dir, "make_bibtex_html.sh"), filepath]
 	bib_html = subprocess.check_output(bib_cmd, universal_newlines=True)
 	# easier then using a html parser
@@ -170,7 +175,7 @@ res = apply_template("index.html")
 with open(index_path, "w") as f:
 	f.write(res)
 
-probs_path = path.join(output_dir, "problems.html")
+probs_path = path.join(output_dir, "problems/index.html")
 res = apply_template("problems.html", problems=probs)
 with open(probs_path, "w") as f:
 	f.write(res)

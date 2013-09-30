@@ -32,10 +32,17 @@
 
 <body>
 	
+	<ol class="breadcrumb">
+	  {% block breadcrumb %}
+	  <li><a href="/">CSPlib</a></li>
+	  {% endblock %}
+	</ol>
+
 	<div class="container">
 
 		<div class="page-header">
 			<h1>{{title}}</h1>
+
 			{% block headerContent %}
 
 			{% endblock %}

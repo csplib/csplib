@@ -1,13 +1,13 @@
-{% set type = 'references' %}
 {% extends "problem.html" %}
 
 {% block breadcrumb %}
   {{ super() }}
-  <li><a href="{{prob_base}}/references">References</a></li>
+  <li><a href="{{prob_base}}/{{part}}">{{part | capitalize}}</a></li>
+  <li>{{name}}</li>
 {% endblock %}
 
 {% block mainContent %}
 
-{{references}}
+{{problemContent}}
 
 {% endblock %}

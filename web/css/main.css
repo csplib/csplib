@@ -26,3 +26,7 @@
 #navigation ul li a:hover { 
 	color: #a8d6e7; 
 }
+
+div.page-header{
+  margin: 0px 0 20px;
+}

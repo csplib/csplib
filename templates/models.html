@@ -1,8 +1,12 @@
 {% set type = 'models' %}
 {% extends "problem.html" %}
 
-{% block mainContent %}
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="{{prob_base}}/models">Models</a></li>
+{% endblock %}
 
+{% block mainContent %}
 
 {% for model in metadata %}
 <p> 
