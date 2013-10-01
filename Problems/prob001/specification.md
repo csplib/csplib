@@ -15,5 +15,32 @@ The format of the data files is as follows:
 * Third line: for each option, the block size to which the maximum number refers.
 * Then for each class: index no.; no. of cars in this class; for each option, whether or not this class requires it (1 or 0).
 
- 
-These problems have many practical applications in communications and electrical engineering. The objective is to construct a binary sequence $S_i$ of length n that minimizes the autocorrelations between bits. Each bit in the sequence takes the value +1 or -1. With non-periodic (or open) boundary conditions, the k-th autocorrelation,  $C_k$ is defined to be $\sum\limits_{i=0}^{n-k-1} S_i * S_i+k$. With periodic (or cyclic) boundary conditions, the k-th autocorrelation, $C_k$ is defined to be $\sum\limits_{i=0}^{n-1} s_i * s_{i+k\ mod\ n } $. The aim is to minimize the sum of the squares of these autocorrelations. That is, to minimize $E=\sum\limits_{k=1}^{n-1} C_k^2$.
+This is the example given in (Dincbas et al., ECAI88):
+
+<pre>
+10 5 6
+1 2 1 2 1
+2 3 3 5 5
+0 1 1 0 1 1 0 
+1 1 0 0 0 1 0 
+2 2 0 1 0 0 1 
+3 2 0 1 0 1 0 
+4 2 1 0 1 0 0 
+5 2 1 1 0 0 0 
+</pre>
+
+A valid sequence for this set of cars is:
+
+<pre>
+Class	Options req.
+0	1 0 1 1 0
+1	0 0 0 1 0
+5	1 1 0 0 0
+2	0 1 0 0 1
+4	1 0 1 0 0
+3	0 1 0 1 0
+3	0 1 0 1 0
+4	1 0 1 0 0
+2	0 1 0 0 1
+5	1 1 0 0 0
+</pre>
