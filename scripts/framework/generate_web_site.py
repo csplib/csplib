@@ -79,7 +79,7 @@ def copy_web_resources(output_dir):
 	dir_util.copy_tree(path.join(base, "web"), output_dir)
 
 # Read the data
-problems_path = path.join(base, "problems")
+problems_path = path.join(base, "Problems")
 
 probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
