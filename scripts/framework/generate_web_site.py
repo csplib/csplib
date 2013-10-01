@@ -115,10 +115,10 @@ def process_problem(prob):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_base": "/problems/" + prob.name}
+	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name}
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", **prob_meta)
-	prob_dir = path.join(output_dir, "problems/{}".format(prob.name))
+	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 
 	def write(data, name):
@@ -176,7 +176,7 @@ res = apply_template("index.html")
 with open(index_path, "w") as f:
 	f.write(res)
 
-probs_path = path.join(output_dir, "problems/index.html")
+probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=probs)
 with open(probs_path, "w") as f:
 	f.write(res)
