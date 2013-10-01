@@ -30,3 +30,23 @@
 div.page-header{
   margin: 0px 0 20px;
 }
+
+
+table {
+  box-shadow: 2px 2px 2px #888888;
+  border:1px solid #000000;
+  margin: 10px;
+}
+
+
+table tr:nth-child(odd){ background-color:#eee4ff; }
+table tr:nth-child(even){ background-color:#ffffff; }
+
+table td, table th{
+  vertical-align:middle;
+  border:1px solid #000000;
+  border-width:1px;
+  padding:3px;
+}
+
+table thead tr th { background-color:#bbc0ff; }
