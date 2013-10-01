@@ -86,7 +86,7 @@ probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p
 
 copy_web_resources(output_dir)
 
-markdown_exts = ['extra', 'meta', 'sane_lists']
+markdown_exts = ['extra', 'meta', 'sane_lists', 'tables']
 template_env = Environment(loader=FileSystemLoader(templates_dir))
 
 
