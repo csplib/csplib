@@ -12,6 +12,9 @@ from jinja2_exts import urlize2
 import markdown
 
 from distutils import dir_util
+from distutils import file_util
+
+
 import subprocess
 import sys
 
@@ -23,8 +26,8 @@ abs_prog_dir = path.abspath(prog_name)
 
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
-# output_dir = "/Users/bilalh/Sites"
-output_dir = path.join(base, "_deploy")
+output_dir = "/Users/bilalh/Sites"
+# output_dir = path.join(base, "_deploy")
 
 print("Base:%s" % base)
 print("Output:%s" % output_dir)
@@ -138,13 +141,21 @@ def process_problem(prob):
 
 	def problem_part(part_name):
 		part_metadata = []
-		os.makedirs(prob_dir + "/" + part_name + "/", exist_ok=True)
+		part_dir = prob_dir + "/" + part_name + "/"
+		os.makedirs(part_dir, exist_ok=True)
 		for part in prob.__dict__[part_name]:
-			(content, metadata) = get_content_and_metadata(part)
-			name = path.basename(part)
-			filename = path.splitext(name)[0] + ".html"
-			res = apply_template("file.html", problemContent=content, name=name, part=part_name, **prob_meta)
-			write(res, part_name + "/" + filename)
+			fp = path.join(prob_meta['prob_base'], part_name)
+			(content, metadata, url) = get_content_and_metadata(part, fp)
+			if not url:
+				name = path.basename(part)
+				filename = path.splitext(name)[0] + ".html"
+				res = apply_template("file.html", problemContent=content, name=name, part=part_name, **prob_meta)
+				write(res, part_name + "/" + filename)
+			else:
+				filename = url
+				name = path.basename(filename)
+				file_util.copy_file(part, path.join(part_dir, name))
+
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
 		template = apply_template(part_name + ".html", metadata=part_metadata, **prob_meta)
@@ -168,26 +179,39 @@ def process_problem(prob):
 source_types = {"essence", "eprime", "param", "solution", "js", "javascript", 'cpp', 'hpp', 'hh', 'cc', 'h', "c"
 																"java", "cs", "erl", "hrl", "groovy", "pl", "php",
 																"rb", "py", "xml", "scala"}
+binary = {"zip", "7z", "rar", "gzip", 'tar', 'bz2', 'gz', 'lz', 'lzma', 'lzo', 'rz', 'xz', 'z', 'Z',
+										's7z', 'ace', 'dmg', 'iso', 'ice', 'lzh', 'lzx', 'sea', 'sit',
+										'sitx', 'sqx', 'tbz2', 'tlz', 'xar', 'zipx', 'zz', 'exe', 'app',
+										'par', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'jar', 'rpm', 'xlsx'
+										'db', 'sqlite', 'odt', 'ott', 'odm', 'rtf', 'xps', 'xls', 'png',
+										'jpg', 'svg', 'gif', 'bmp', 'eps', 'ps', 'ai', 'dvi', 'jpeg',
+										'jp2', 'jpeg2', ''}
 
 
-def get_content_and_metadata(filepath):
+def get_content_and_metadata(filepath, store_dir):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".md"):
-		return convert_markdown(filepath)
+		(a, b) = convert_markdown(filepath)
+		return (a, b, None)
 	elif (ext == '.html'):
-		return (read_file(filepath), None)
+		return (read_file(filepath), None, None)
+
+	meta_path = filepath + ".metadata"
+	try:
+		(_, meta) = convert_markdown(meta_path)
+	except Exception:
+		meta = None
+
+	if (ext == "" or ext[1:] in binary):
+		bname = path.basename(filepath)
+		url = path.join(store_dir, bname)
+		return ("<a href='{}'> {} </a>".format(url, bname), meta, url)
 	else:
 		css_class = ""
 		if ext[1:] in source_types:
 			css_class = "class ='brush: {}'".format(ext[1:])
 
-		meta_path = filepath + ".metadata"
-		try:
-			(_, meta) = convert_markdown(meta_path)
-			print(meta)
-		except Exception:
-			meta = None
-		return ("<pre {}>{}</pre>".format(css_class, read_file(filepath)), meta)
+		return ("<pre {}>{}</pre>".format(css_class, read_file(filepath)), meta, None)
 
 
 def get_bib_references(filepath):
