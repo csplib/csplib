@@ -1,0 +1,32 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Hello SyntaxHighlighter</title>
+    <link type="text/css" rel="stylesheet" href="syntax_highlighter/shCoreDefault.css"/>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>Hello SyntaxHighlighter</h1>
+<pre class="brush: js;">
+function helloSyntaxHighlighter()
+{
+    return "hi!";
+}
+</pre>
+
+<script type="text/javascript" src="syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['js','jscript','javascript','syntax_highlighter/shBrushJScript.js'],
+    ['bash','shell','syntax_highlighter/shBrushBash.js'],
+    ['css','syntax_highlighter/shBrushCss.js'],
+    ['xml','syntax_highlighter/shBrushXml.js'],
+    ['sql','syntax_highlighter/shBrushSql.js'],
+    ['php','syntax_highlighter/shBrushPhp.js']
+    );
+    SyntaxHighlighter.all();
+</script>
+</html>
