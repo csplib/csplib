@@ -3,6 +3,7 @@
 {% block breadcrumb %}
   {{ super() }}
   <li><a href="/Problems">Problems</a></li>
+  <li><a href="{{prob_base}}">{{prob_name}}</a></li>
 {% endblock %}
 
 {% block headerContent %}
@@ -11,6 +12,8 @@
 {% macro make_nav_item(text, link, page_type) -%}
 {% if type == page_type %}
 	<li><p>{{ text }}</p></li>
+	{% elif prob.__dict__[link] == [] %}
+	<li><p class='no-files'>{{ text }}</p></li>
 	{% else %}
  	<li><a href="{{prob_base}}/{{ link }}">{{ text }}</a></li>
  	{% endif %}
@@ -20,7 +23,7 @@
 <nav id="navigation">
 <ul>
   {{ make_nav_item("Specification", "",                "specification") }}
-  {{ make_nav_item("Data files",    "data",            "data_files") }}
+  {{ make_nav_item("Data files",    "data",            "data") }}
   {{ make_nav_item("Results",       "results",         "results") }}
   {{ make_nav_item("References",    "references",      "references") }}
   {{ make_nav_item("Models",        "models",          "models") }}
@@ -31,8 +34,14 @@
 
 {% endblock %}
 
-
 {% block mainContent %}
+
+
+{% if prob.metadata['proposer']  %}
+<p class='proposed'>
+Proposed by {{prob.metadata['proposer'] | join(', ') }}
+</p>
+{% endif %}
 
 {{problemContent}}
 

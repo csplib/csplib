@@ -1,0 +1,37 @@
+<p>
+	With non-periodic boundary conditions, problems have only been solved by exhaustive enumeration of all configurations. This has found ground states up to n=50. The ground states for n from 17 to 50 can be found at <a href="http://itp.nat.uni-magdeburg.de/~mertens/bernasconi/open.dat">http://itp.nat.uni-magdeburg.de/~mertens/bernasconi/open.dat</a>.
+</p>
+<p>
+	With periodic boundary conditions, the situation is better. The tight connection between the correlations of periodic binary sequences and mathematical objects called cyclic difference sets can be exploited to get some exact analytical results about the states. The density of states for n up to 41 can be found at <a href="http://itp.nat.uni-magdeburg.de/~mertens/bernasconi/cyclic.shtml">http://itp.nat.uni-magdeburg.de/~mertens/bernasconi/cyclic.shtml</a>.
+</p>
+<p>
+	These problems pose a significant challenge to local search methods. Natural objective functions have a ``golf course'' shape, with holes in this landscape that are extremely isolated in configuration space. However, Steven Prestwich <a href="labs.ps">reports</a> good results with an hybrid algorithm.
+</p>
+<p>
+Recently (September 2008), Steven Halim, Roland H.C. Yap and Felix Halim proposed
+a Stochastic Local Search algorithm (Tabu Search) called TSv7 <a href="labs_ts.zip">(C source code)</a>
+which performs at the state-of-the-art level. They report
+their findings in their <a href="halimetal08_springer.pdf">paper</a> and
+<a href="http://www.comp.nus.edu.sg/~stevenha/viz/results_labs.html">website</a>.
+
+</p>
+<pre> n  E(s)  F(s)  Runtime   Limit  Best Found LABS in Run Length Notation
+61   226  8.23      3 m   1.1 h  33211112111235183121221111311311
+62   235  8.18      8 m   1.5 h  112212212711111511121143111422321
+63   207  9.59      4 m   2.0 h  2212221151211451117111112323231
+64   208  9.85     47 m   2.7 h  223224111341121115111117212212212
+65   240  8.80    2.2 h   3.7 h  132323211111711154112151122212211
+66   265  8.22    3.1 h   4.9 h  24321123123112112124123181111111311
+67   241  9.31    4.1 h   6.6 h  12112111211222B2221111111112224542
+68   250  9.25    6.6 h   8.8 h  11111111141147232123251412112221212
+69   274  8.69    8.2 h  11.8 h  111111111141147232123251412112221212
+70   295  8.31   12.4 h  15.8 h  232441211722214161125212311111111
+------------------------------------------------------------------------
+71   275  9.17    7.8 h  10.0 h  241244124172222111113112311211231121
+72   300  8.64    2.4 h  10.0 h  1111114111444171151122142122224222
+73   308  8.65    1.2 h  10.0 h  1111112311231122113111212114171322374
+74   349  7.85    0.2 h  10.0 h  11321321612333125111412121122511131111
+75   341  8.25    8.0 h  10.0 h  12122132121211211111131111618433213232
+76   338  8.54    4.6 h  10.0 h  111211112234322111134114212211221311B11
+77   366  8.10    3.9 h  10.0 h  111111191342222431123312213411212112112
+</pre>

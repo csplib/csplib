@@ -1,0 +1,14 @@
+{% for data in metadata %}
+<p> 
+	<a href="{{ data['filename'] }}">
+		{{data['name']}}
+	</a> 
+	{{data['meta']['title'] | join(' ') 
+	 | replace(' results/' ,' ' + prob_base + '/results/') 
+	 | replace(' data/' ,' ' + prob_base + '/data/') 
+	 | replace(' models/' ,' ' + prob_base + '/models/') 
+	 | replace(' references/' ,' ' + prob_base + '/references/') 
+
+	 | urlize2 }}
+</p>
+{% endfor %}

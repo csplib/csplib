@@ -7,13 +7,5 @@
 {% endblock %}
 
 {% block mainContent %}
-
-{% for model in metadata %}
-<p> 
-	<a href="{{ model['filename'] }}">
-		{{model['name']}}
-	</a> 
-</p>
-{% endfor %}
-
+{% include 'link_file.html' %}
 {% endblock %}

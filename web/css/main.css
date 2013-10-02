@@ -23,15 +23,24 @@
   margin-right: 6px;
 }
 
+p.no-files{
+	visibility:hidden  !important;
+}
+
 #navigation ul li a:hover { 
 	color: #a8d6e7; 
 }
 
+/* Headers */
 div.page-header{
   margin: 0px 0 20px;
 }
 
+h2.smaller{
+    font-size: 1.5em;
+}
 
+/* Tables*/
 table {
   box-shadow: 2px 2px 2px #888888;
   border:1px solid #000000;
@@ -50,3 +59,9 @@ table td, table th{
 }
 
 table thead tr th { background-color:#bbc0ff; }
+
+
+/* problem metadata */
+.proposed{
+    font-size: 1.15em;
+}

@@ -7,13 +7,5 @@
 {% endblock %}
 
 {% block mainContent %}
-
-{% for result in metadata %}
-<p> 
-	<a href="{{ result['filename'] }}">
-		{{result['name']}}
-	</a> 
-</p>
-{% endfor %}
-
+{% include 'link_file.html' %}
 {% endblock %}

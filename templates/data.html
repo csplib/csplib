@@ -1,4 +1,4 @@
-{% set type = 'data_files' %}
+{% set type = 'data' %}
 {% extends "problem.html" %}
 
 {% block breadcrumb %}
@@ -7,13 +7,5 @@
 {% endblock %}
 
 {% block mainContent %}
-
-{% for data in metadata %}
-<p> 
-	<a href="{{ data['filename'] }}">
-		{{data['name']}}
-	</a> 
-</p>
-{% endfor %}
-
+{% include 'link_file.html' %}
 {% endblock %}

@@ -6,6 +6,8 @@ import os
 import os.path as path
 
 from jinja2 import Environment, FileSystemLoader
+from jinja2_exts import urlize2
+
 
 import markdown
 
@@ -21,15 +23,15 @@ abs_prog_dir = path.abspath(prog_name)
 
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
-#output_dir = "/Users/bilalh/Sites"
+# output_dir = "/Users/bilalh/Sites"
 output_dir = path.join(base, "_deploy")
 
-print("Base:{}", base)
-print("Output:{}", output_dir)
+print("Base:%s" % base)
+print("Output:%s" % output_dir)
 
 
 class Problem(object):
-	"""Hold all the problem data"""
+	"""Hold all the problem's data"""
 	def __init__(self, name, prefix):
 		super(Problem, self).__init__()
 		self.name = name
@@ -52,7 +54,10 @@ class Problem(object):
 			self.specification = spec
 
 		refs = path.join(base_path, "references.bib")
-		if path.exists(refs):
+		refs_html = path.join(base_path, "references.html")
+		if path.exists(refs_html):
+			self.references = refs_html
+		elif path.exists(refs):
 			self.references = refs
 
 		self.models = self.get_directory(base_path, "models")
@@ -62,7 +67,7 @@ class Problem(object):
 	def get_directory(self, base_path, name):
 		dirr = path.join(base_path, name)
 		if path.exists(dirr):
-			return [path.join(dirr, f) for f in os.listdir(dirr) if not f[0] == '.']
+			return [path.join(dirr, f) for f in os.listdir(dirr) if f[0] != '.' and path.splitext(f)[1] != ".metadata"]
 		return []
 
 	def is_vaild(self):
@@ -84,10 +89,12 @@ problems_path = path.join(base, "Problems")
 probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
+# Copy every file in web  to the output directory
 copy_web_resources(output_dir)
 
 markdown_exts = ['extra', 'meta', 'sane_lists', 'tables']
 template_env = Environment(loader=FileSystemLoader(templates_dir))
+template_env.filters['urlize2'] = urlize2
 
 
 def read_file(filepath):
@@ -112,10 +119,12 @@ def process_problem(prob):
 	"Creates the problem's html"
 
 	(content, metadata) = convert_markdown(prob.specification)
+	if not "category" in metadata:
+		metadata['category'] = ['Unclassified']
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name}
+	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", **prob_meta)
 	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
@@ -136,28 +145,56 @@ def process_problem(prob):
 			filename = path.splitext(name)[0] + ".html"
 			res = apply_template("file.html", problemContent=content, name=name, part=part_name, **prob_meta)
 			write(res, part_name + "/" + filename)
-			part_metadata.append({"name": name, "filename": filename})
+			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
-		write(apply_template(part_name + ".html", metadata=part_metadata, **prob_meta), part_name + "/index.html")
+		template = apply_template(part_name + ".html", metadata=part_metadata, **prob_meta)
+		write(template, part_name + "/index.html")
 
 	problem_part("results")
 	problem_part("data")
 	problem_part("models")
+
 	bib_html = get_bib_references(prob.references)
 	refs = apply_template("references.html", references=bib_html, **prob_meta)
 	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
 	write(refs, "references/index.html")
+
+	old_path = path.join(output_dir, "prob/{}".format(prob.name))
+	os.makedirs(old_path, exist_ok=True)
+	with open(path.join(old_path, "index.html"), "w") as f:
+		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
+
+
+source_types = {"essence", "eprime", "param", "solution", "js", "javascript", 'cpp', 'hpp', 'hh', 'cc', 'h', "c"
+																"java", "cs", "erl", "hrl", "groovy", "pl", "php",
+																"rb", "py", "xml", "scala"}
 
 
 def get_content_and_metadata(filepath):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".md"):
 		return convert_markdown(filepath)
+	elif (ext == '.html'):
+		return (read_file(filepath), None)
 	else:
-		return ("<pre>{}</pre>".format(read_file(filepath)), None)
+		css_class = ""
+		if ext[1:] in source_types:
+			css_class = "class ='brush: {}'".format(ext[1:])
+
+		meta_path = filepath + ".metadata"
+		try:
+			(_, meta) = convert_markdown(meta_path)
+			print(meta)
+		except Exception:
+			meta = None
+		return ("<pre {}>{}</pre>".format(css_class, read_file(filepath)), meta)
 
 
 def get_bib_references(filepath):
+	(_, ext) = path.splitext(filepath)
+	if (ext == ".html"):
+		return read_file(filepath)
+
 	bib_cmd = [path.join(abs_prog_dir, "make_bibtex_html.sh"), filepath]
 	bib_html = subprocess.check_output(bib_cmd, universal_newlines=True)
 	# easier then using a html parser
@@ -178,5 +215,10 @@ with open(index_path, "w") as f:
 
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=probs)
+with open(probs_path, "w") as f:
+	f.write(res)
+
+probs_path = path.join(output_dir, "Problems/categories.html")
+res = apply_template("categories.html", problems=probs)
 with open(probs_path, "w") as f:
 	f.write(res)

@@ -1,5 +1,10 @@
 {% extends "problem.html" %}
 
+{% block head %}
+  {{ super() }}
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+{% endblock %}
+
 {% block breadcrumb %}
   {{ super() }}
   <li><a href="{{prob_base}}/{{part}}">{{part | capitalize}}</a></li>
@@ -11,3 +16,32 @@
 {{problemContent}}
 
 {% endblock %}
+
+{% block bodyEnd %}
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+	
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+{% endblock %}
+

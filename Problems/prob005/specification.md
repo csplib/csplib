@@ -1,7 +1,6 @@
 Title:    Low autocorrelation binary sequences
 Id:       005  
 Proposer: Toby Walsh (tw@cs.york.ac.uk)
-Category: Frequency assignment and related problems
 
 
  

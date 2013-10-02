@@ -1,0 +1,26 @@
+{% set title = "Problems by Category" %}
+{% extends "wrapper.html" %}
+
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="/Problems/categories.html">Categories</a></li>
+{% endblock %}
+
+
+{% block mainContent %}
+
+{% for prob in problems|groupby('metadata.category') %}
+    <h2 class='smaller'>{{ prob.grouper | join (' ') }}</h2>
+		
+    {% for prob in prob.list %}
+		<p> 
+			<a href="prob{{ prob.metadata['id'] | join('') }}">
+				prob{{ prob.metadata['id'] | join('') }}
+			</a>: 
+			{{ prob.metadata['title'] | join('') }} 
+		</p>
+    {% endfor %}
+		
+{% endfor %}
+
+{% endblock %}
