@@ -26,8 +26,8 @@ abs_prog_dir = path.abspath(prog_name)
 
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
-output_dir = "/Users/bilalh/Sites"
-# output_dir = path.join(base, "_deploy")
+# output_dir = "/Users/bilalh/Sites"
+output_dir = path.join(base, "_deploy")
 
 print("Base:%s" % base)
 print("Output:%s" % output_dir)
