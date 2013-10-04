@@ -62,6 +62,8 @@ class Problem(object):
 			self.references = refs_html
 		elif path.exists(refs):
 			self.references = refs
+		else:
+			self.references = None
 
 		self.models = self.get_directory(base_path, "models")
 		self.data = self.get_directory(base_path, "data")
@@ -165,7 +167,11 @@ def process_problem(prob):
 	problem_part("data")
 	problem_part("models")
 
-	bib_html = get_bib_references(prob.references)
+	if prob.references is None:
+		bib_html = ""
+	else:
+		bib_html = get_bib_references(prob.references)
+
 	refs = apply_template("references.html", references=bib_html, **prob_meta)
 	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
 	write(refs, "references/index.html")
