@@ -225,8 +225,9 @@ def get_bib_references(filepath):
 	if (ext == ".html"):
 		return read_file(filepath)
 
-	bib_cmd = [path.join(abs_prog_dir, "make_bibtex_html.sh"), filepath]
-	bib_html = subprocess.check_output(bib_cmd, universal_newlines=True)
+	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
+	# not using subprocess.check_output to so I can specify the current working dir
+	bib_html = subprocess.Popen(bib_cmd, stdout=subprocess.PIPE, universal_newlines=True, cwd=abs_prog_dir).communicate()[0]
 	# easier then using a html parser
 	regex = re.compile(r"<p>.*?</p>", re.DOTALL)
 	return "\n".join(regex.findall(bib_html))
