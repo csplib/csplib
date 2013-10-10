@@ -8,7 +8,7 @@ To view locally:
 	make serve
 	<open localhost:8000 in your browser>
 	
-To add a new problem:
+To add a new problem use new_problem.sh or:
 	add a new folder `probXXX` to problems/
 	add specification.md
 	add references.bib or references.html
