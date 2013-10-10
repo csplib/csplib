@@ -23,8 +23,8 @@
   margin-right: 6px;
 }
 
-p.no-files{
-	visibility:hidden  !important;
+.no-files{
+    color: #ff0000; 
 }
 
 #navigation ul li a:hover { 

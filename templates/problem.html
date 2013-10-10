@@ -13,7 +13,7 @@
 {% if type == page_type %}
 	<li><p>{{ text }}</p></li>
 	{% elif prob.__dict__[link] == [] %}
-	<li><p class='no-files'>{{ text }}</p></li>
+	 	<li><a class='no-files' href="{{prob_base}}/{{ link }}">{{ text }}</a></li>
 	{% else %}
  	<li><a href="{{prob_base}}/{{ link }}">{{ text }}</a></li>
  	{% endif %}
