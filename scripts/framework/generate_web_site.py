@@ -20,6 +20,8 @@ import sys
 
 import re
 
+import cgi # for cgi.escape
+
 #Where we are
 prog_name = path.dirname(sys.argv[0])
 abs_prog_dir = path.abspath(prog_name)
@@ -214,10 +216,12 @@ def get_content_and_metadata(filepath, store_dir):
 		return ("<a href='{}'> {} </a>".format(url, bname), meta, url)
 	else:
 		css_class = ""
+		txt = read_file(filepath)
 		if ext[1:] in source_types:
 			css_class = "class ='brush: {}'".format(ext[1:])
+			txt = cgi.escape(txt)
 
-		return ("<pre {}>{}</pre>".format(css_class, read_file(filepath)), meta, None)
+		return ("<pre {}>{}</pre>".format(css_class, txt), meta, None)
 
 
 def get_bib_references(filepath):
