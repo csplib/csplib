@@ -133,7 +133,7 @@ def process_problem(prob):
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
 	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
-	spec = apply_template("problem.html", problemContent=content, type="specification", **prob_meta)
+	spec = apply_template("problem.html", problemContent=content, type="specification",rel_path='specification.md', **prob_meta)
 	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 
@@ -153,7 +153,9 @@ def process_problem(prob):
 			if not url:
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"
-				res = apply_template("file.html", problemContent=content, name=name, part=part_name, **prob_meta)
+				res = apply_template("file.html", problemContent=content, 
+					name=name, part=part_name, rel_path="{}/{}".format(part_name,name), 
+					**prob_meta)
 				write(res, part_name + "/" + filename)
 			else:
 				filename = url
@@ -162,7 +164,7 @@ def process_problem(prob):
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
-		template = apply_template(part_name + ".html", metadata=part_metadata, **prob_meta)
+		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name, **prob_meta)
 		write(template, part_name + "/index.html")
 
 	problem_part("results")
@@ -170,11 +172,11 @@ def process_problem(prob):
 	problem_part("models")
 
 	if prob.references is None:
-		bib_html = ""
+		(bib_html,rel_path) = ("","")
 	else:
-		bib_html = get_bib_references(prob.references)
+		(bib_html,rel_path) = get_bib_references(prob.references)
 
-	refs = apply_template("references.html", references=bib_html, **prob_meta)
+	refs = apply_template("references.html", references=bib_html,rel_path=rel_path, **prob_meta)
 	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
 	write(refs, "references/index.html")
 
@@ -227,14 +229,14 @@ def get_content_and_metadata(filepath, store_dir):
 def get_bib_references(filepath):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".html"):
-		return read_file(filepath)
+		return (read_file(filepath),'references.html')
 
 	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
 	# not using subprocess.check_output to so I can specify the current working dir
 	bib_html = subprocess.Popen(bib_cmd, stdout=subprocess.PIPE, universal_newlines=True, cwd=abs_prog_dir).communicate()[0]
 	# easier then using a html parser
 	regex = re.compile(r"<p>.*?</p>", re.DOTALL)
-	return "\n".join(regex.findall(bib_html))
+	return ("\n".join(regex.findall(bib_html)), 'references.bib')
 
 
 categories_names = set()
