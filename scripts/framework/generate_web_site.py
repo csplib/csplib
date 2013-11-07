@@ -237,14 +237,23 @@ def get_bib_references(filepath):
 	return "\n".join(regex.findall(bib_html))
 
 
+categories_names = set()
+authors_names = set()
+
 for prob in probs:
+	print("")
+	print(prob.name)
 	print(prob)
+	print("")
 	process_problem(prob)
+	categories_names |=  set(prob.metadata['category'])
+	authors_names |= set(prob.metadata['proposer'])
 
 
 # index page
 index_path = path.join(output_dir, "index.html")
-res = apply_template("index.html")
+res = apply_template("index.html", 
+	num_problems=len(probs), num_categories=len(categories_names),num_authors=len(authors_names))
 with open(index_path, "w") as f:
 	f.write(res)
 
