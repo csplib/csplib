@@ -155,8 +155,8 @@ def process_problem(prob):
 			if not url:
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"
-				res = apply_template("file.html", problemContent=content, 
-					name=name, part=part_name, rel_path="{}/{}".format(part_name,name), 
+				res = apply_template("file.html", problemContent=content,
+					name=name, part=part_name, rel_path="{}/{}".format(part_name,name),
 					**prob_meta)
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))
@@ -261,11 +261,11 @@ for prob in probs:
 	process_problem(prob)
 	categories_names |=  set(prob.metadata['category'])
 	authors_names |= set(prob.metadata['proposer'])
-	
+
 	def fix_path(f):
 		"""filepath inside zip"""
 		return f.replace(problems_path+"/","").replace("/models","")
-		
+
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
 
@@ -280,13 +280,13 @@ create_zip_file(path.join(output_dir, "essences.zip"),essences)
 
 # index page
 index_path = path.join(output_dir, "index.html")
-res = apply_template("index.html", 
+res = apply_template("index.html",
 	num_problems=len(probs), num_categories=len(categories_names),num_authors=len(authors_names))
 with open(index_path, "w") as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/index.html")
-res = apply_template("problems.html", problems=probs)
+res = apply_template("problems.html", problems=sorted(probs, key = lambda x: x.metadata["id"]))
 with open(probs_path, "w") as f:
 	f.write(res)
 
