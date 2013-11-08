@@ -22,6 +22,8 @@ import re
 
 import cgi # for cgi.escape
 
+import zipfile
+
 #Where we are
 prog_name = path.dirname(sys.argv[0])
 abs_prog_dir = path.abspath(prog_name)
@@ -249,6 +251,8 @@ def get_bib_references(filepath):
 categories_names = set()
 authors_names = set()
 
+essences = []
+
 for prob in probs:
 	print("")
 	print(prob.name)
@@ -257,7 +261,22 @@ for prob in probs:
 	process_problem(prob)
 	categories_names |=  set(prob.metadata['category'])
 	authors_names |= set(prob.metadata['proposer'])
+	
+	def fix_path(f):
+		"""filepath inside zip"""
+		return f.replace(problems_path+"/","").replace("/models","")
+		
+	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
+
+def create_zip_file(create_path,files):
+	""" creates a zip file with the specified (src,dst) """
+	zf = zipfile.ZipFile(create_path, "w")
+	for (src,dst) in files:
+		zf.write(src,dst)
+	zf.close()
+
+create_zip_file(path.join(output_dir, "essences.zip"),essences)
 
 # index page
 index_path = path.join(output_dir, "index.html")
