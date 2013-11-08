@@ -157,6 +157,7 @@ def process_problem(prob):
 					name=name, part=part_name, rel_path="{}/{}".format(part_name,name), 
 					**prob_meta)
 				write(res, part_name + "/" + filename)
+				file_util.copy_file(part, path.join(part_dir, name))
 			else:
 				filename = url
 				name = path.basename(filename)
