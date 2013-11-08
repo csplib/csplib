@@ -291,6 +291,6 @@ with open(probs_path, "w") as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/categories.html")
-res = apply_template("categories.html", problems=probs)
+res = apply_template("categories.html", problems=sorted(probs, key = lambda x: x.metadata["id"]))
 with open(probs_path, "w") as f:
 	f.write(res)
