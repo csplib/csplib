@@ -172,12 +172,18 @@ def process_problem(prob):
 	problem_part("data")
 	problem_part("models")
 
+	has_bibtex=None
 	if prob.references is None:
 		(bib_html,rel_path) = ("","")
 	else:
+		(_, ext) = path.splitext(prob.references)
+		if (ext == ".bib"):
+			file_util.copy_file(prob.references, path.join(prob_dir, "references/references.bib"))
+			has_bibtex = True
 		(bib_html,rel_path) = get_bib_references(prob.references)
 
-	refs = apply_template("references.html", references=bib_html,rel_path=rel_path, **prob_meta)
+	refs = apply_template("references.html", references=bib_html,rel_path=rel_path,
+		has_bibtex=has_bibtex, **prob_meta)
 	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
 	write(refs, "references/index.html")
 

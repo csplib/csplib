@@ -8,6 +8,12 @@
 
 {% block mainContent %}
 
+{% if has_bibtex %}
+<p>
+	<a href="{{prob_base}}/references/references.bib">Download bibtex</a>
+</p>
+{% endif %}
+
 {{references}}
 
 {% endblock %}
