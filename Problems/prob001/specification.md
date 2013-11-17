@@ -1,5 +1,4 @@
 Title:    Car Sequencing
-Id:       001  
 Proposer: Barbara Smith (bms@scs.leeds.ac.uk)
 Category: Scheduling and related problems
 

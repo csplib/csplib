@@ -1,5 +1,4 @@
 Title:    Template Design
-Id:       002
 Proposer: Barbara Smith (bms@scs.leeds.ac.uk)
 Category: Bin packing, partitioning and related problems
 
