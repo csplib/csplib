@@ -20,7 +20,7 @@ import sys
 
 import re
 
-import cgi # for cgi.escape
+import cgi  # for cgi.escape
 
 import zipfile
 
@@ -30,7 +30,6 @@ abs_prog_dir = path.abspath(prog_name)
 
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
-# output_dir = "/Users/bilalh/Sites"
 output_dir = path.join(base, "_deploy")
 
 print("Base:%s" % base)
@@ -130,6 +129,7 @@ def process_problem(prob):
 	(content, metadata) = convert_markdown(prob.specification)
 	if not "category" in metadata:
 		metadata['category'] = ['Unclassified']
+	metadata['id'] = [prob.name[4:7]]
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
