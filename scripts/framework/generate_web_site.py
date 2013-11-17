@@ -180,6 +180,7 @@ def process_problem(prob):
 	else:
 		(_, ext) = path.splitext(prob.references)
 		if (ext == ".bib"):
+			os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
 			file_util.copy_file(prob.references, path.join(prob_dir, "references/references.bib"))
 			has_bibtex = True
 		(bib_html,rel_path) = get_bib_references(prob.references)
