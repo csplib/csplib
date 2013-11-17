@@ -5,7 +5,7 @@ set -o nounset
 if [ $# -eq 0 ]; then
 	echo "$0 new_problem_name"
 	echo "Creates a template for a new problem"
-	highest=`ls -1 Problems/ | egrep 'prob[0-9]+' | sort -n | tail -n 1 | sed -e 's/prob0*//'`
+	highest=`ls -1 Problems/ | egrep 'prob[0-9]+' | sort -n | tail -n 1 | sed -e 's/prob*//'`
 	if [ $highest -lt 0 ]; then
 		highest=0
 	fi
@@ -27,7 +27,6 @@ echo "Created $prob_dir"
 
 touch "$prob_dir/specification.md" 
 echo "Title:    " >> "$prob_dir/specification.md" 
-echo "Id:       " >> "$prob_dir/specification.md" 
 echo "Proposer: " >> "$prob_dir/specification.md" 
 echo "Category: " >> "$prob_dir/specification.md" 
 echo "" >> "$prob_dir/specification.md" 
