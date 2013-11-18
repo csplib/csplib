@@ -154,12 +154,16 @@ def process_problem(prob):
 		for part in getattr(prob, part_name):
 			fp = path.join(prob_meta['prob_base'], part_name)
 
-			print(part)
 			if (path.splitext(part)[1] == '.inline-html'):
 				with open(part) as f:
 					raw_html = f.read()
 				raw_htmls.append(raw_html.strip())
 				continue
+			elif (path.splitext(part)[1] == '.inline-md'):
+				(html, _) = convert_markdown(part)
+				raw_htmls.append(html.strip())
+				continue
+
 
 			(content, metadata, url) = get_content_and_metadata(part, fp)
 			if not url:
@@ -177,7 +181,6 @@ def process_problem(prob):
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
-		print(raw_htmls)
 		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name,
 									raw_htmls=raw_htmls, **prob_meta)
 
