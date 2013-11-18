@@ -149,14 +149,14 @@ def process_problem(prob):
 		part_metadata = []
 		part_dir = prob_dir + "/" + part_name + "/"
 		os.makedirs(part_dir, exist_ok=True)
-		for part in prob.__dict__[part_name]:
+		for part in getattr(prob, part_name):
 			fp = path.join(prob_meta['prob_base'], part_name)
 			(content, metadata, url) = get_content_and_metadata(part, fp)
 			if not url:
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"
 				res = apply_template("file.html", problemContent=content,
-					name=name, part=part_name, rel_path="{}/{}".format(part_name,name),
+					name=name, part=part_name, rel_path="{}/{}".format(part_name, name),
 					**prob_meta)
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))
