@@ -7,5 +7,14 @@
 {% endblock %}
 
 {% block mainContent %}
+
+{% if raw_htmls %}
+
+{% for raw_html in raw_htmls %}
+	{{raw_html}}
+{% endfor %}
+{% endif %}
+
 {% include 'link_file.html' %}
+
 {% endblock %}

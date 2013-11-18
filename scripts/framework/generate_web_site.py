@@ -135,7 +135,7 @@ def process_problem(prob):
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
 	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
-	spec = apply_template("problem.html", problemContent=content, type="specification",rel_path='specification.md', **prob_meta)
+	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
 	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
 	os.makedirs(prob_dir, exist_ok=True)
 
@@ -149,8 +149,18 @@ def process_problem(prob):
 		part_metadata = []
 		part_dir = prob_dir + "/" + part_name + "/"
 		os.makedirs(part_dir, exist_ok=True)
+
+		raw_htmls = []
 		for part in getattr(prob, part_name):
 			fp = path.join(prob_meta['prob_base'], part_name)
+
+			print(part)
+			if (path.splitext(part)[1] == '.inline-html'):
+				with open(part) as f:
+					raw_html = f.read()
+				raw_htmls.append(raw_html.strip())
+				continue
+
 			(content, metadata, url) = get_content_and_metadata(part, fp)
 			if not url:
 				name = path.basename(part)
@@ -167,7 +177,10 @@ def process_problem(prob):
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
-		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name, **prob_meta)
+		print(raw_htmls)
+		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name,
+									raw_htmls=raw_htmls, **prob_meta)
+
 		write(template, part_name + "/index.html")
 
 	problem_part("results")
@@ -176,7 +189,7 @@ def process_problem(prob):
 
 	has_bibtex=None
 	if prob.references is None:
-		(bib_html,rel_path) = ("","")
+		(bib_html, rel_path) = ("", "")
 	else:
 		(_, ext) = path.splitext(prob.references)
 		if (ext == ".bib"):
