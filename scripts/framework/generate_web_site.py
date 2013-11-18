@@ -100,7 +100,7 @@ probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p
 # Copy every file in web  to the output directory
 copy_web_resources(output_dir)
 
-markdown_exts = ['extra', 'meta', 'sane_lists', 'tables']
+markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)']
 template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)
 template_env.filters['urlize2'] = urlize2
 
