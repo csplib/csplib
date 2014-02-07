@@ -1,5 +1,5 @@
 Title:    Template Design
-Proposer: Barbara Smith (bms@scs.leeds.ac.uk)
+Proposer: Barbara Smith 
 Category: Bin packing, partitioning and related problems
 
 

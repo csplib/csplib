@@ -1,5 +1,5 @@
 Title:    Solitaire Battleships
-Proposer: Ian Gent (ipg@dcs.st-and.ac.uk)
+Proposer: Ian Gent 
 Category:
 
 

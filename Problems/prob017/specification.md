@@ -1,5 +1,5 @@
 Title:    Ramsey Numbers
-Proposer: Toby Walsh (tw@cs.york.ac.uk)
+Proposer: Toby Walsh 
 Category:
 
 

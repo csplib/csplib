@@ -1,5 +1,5 @@
 Title:    Quasigroup Existence
-Proposer: Toby Walsh (tw@cs.york.ac.uk)
+Proposer: Toby Walsh 
 Category: Combinatorial mathematics
 
 

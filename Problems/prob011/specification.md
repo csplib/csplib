@@ -1,5 +1,5 @@
 Title:    ACC Basketball Schedule
-Proposer: Toby Walsh (tw@cs.york.ac.uk)
+Proposer: Toby Walsh 
 Category:
 
 

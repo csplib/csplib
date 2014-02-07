@@ -1,5 +1,5 @@
 Title:    Nonogram
-Proposer: Gary Duncan (gduncan@cs.strath.ac.uk) and Ian Gent (ipg@dcs.st-and.ac.uk)
+Proposer: Gary Duncan  and Ian Gent 
 Category:
 
 

@@ -1,5 +1,5 @@
 Title:    Car Sequencing
-Proposer: Barbara Smith (bms@scs.leeds.ac.uk)
+Proposer: Barbara Smith 
 Category: Scheduling and related problems
 
 
