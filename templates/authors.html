@@ -1,0 +1,26 @@
+{% set title = "Problems by each Author" %}
+{% extends "wrapper.html" %}
+
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="/Problems/authors.html">Authors</a></li>
+{% endblock %}
+
+
+{% block mainContent %}
+
+{% for name, probs in authors | dictsort %}
+    <h2 class='smaller'>{{name}}</h2>
+
+	{% for prob in probs %}
+		<p>
+			<a href="prob{{ prob.metadata['id'] | join('') }}">
+				prob{{ prob.metadata['id'] | join('') }}
+			</a>:
+			{{ prob.metadata['title'] | join('') }}
+		</p>
+	{% endfor %}
+
+{% endfor %}
+
+{% endblock %}

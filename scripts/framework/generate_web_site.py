@@ -49,19 +49,19 @@ class Problem(object):
 		self.results = []
 		self.specification = None
 		self.metadata = {}
+		self.base_path = path.join(self.prefix, self.name)
 
 	def __repr__(self):
 		return "%s(%s)" % (self.__class__, self.__dict__)
 
 	def find_files(self):
-		base_path = path.join(self.prefix, self.name)
 
-		spec = path.join(base_path, "specification.md")
+		spec = path.join(self.base_path, "specification.md")
 		if path.exists(spec):
 			self.specification = spec
 
-		refs = path.join(base_path, "references.bib")
-		refs_html = path.join(base_path, "references.html")
+		refs = path.join(self.base_path, "references.bib")
+		refs_html = path.join(self.base_path, "references.html")
 		if path.exists(refs_html):
 			self.references = refs_html
 		elif path.exists(refs):
@@ -69,12 +69,12 @@ class Problem(object):
 		else:
 			self.references = None
 
-		self.models = self.get_directory(base_path, "models")
-		self.data = self.get_directory(base_path, "data")
-		self.results = self.get_directory(base_path, "results")
+		self.models = self.get_directory("models")
+		self.data = self.get_directory("data")
+		self.results = self.get_directory("results")
 
-	def get_directory(self, base_path, name):
-		dirr = path.join(base_path, name)
+	def get_directory(self, name):
+		dirr = path.join(self.base_path, name)
 		if path.exists(dirr):
 			return [path.join(dirr, f) for f in os.listdir(dirr) if f[0] != '.' and path.splitext(f)[1] != ".metadata"]
 		return []
@@ -283,11 +283,9 @@ def get_bib_references(filepath):
 	return ("\n".join(regex.findall(bib_html)), 'references.bib')
 
 
-categories_names = set()
-authors_names = set()
-
 essences = []
 categories_map = defaultdict(list)
+authors_map = defaultdict(list)
 
 
 for prob in probs:
@@ -299,8 +297,8 @@ for prob in probs:
 	for category in prob.metadata['category']:
 		categories_map[category].append(prob)
 
-	authors_names |= set(prob.metadata['proposer'])
-
+	for author in prob.metadata['proposer']:
+		authors_map[author].append(prob)
 
 	def fix_path(f):
 		"""filepath inside zip"""
@@ -308,8 +306,7 @@ for prob in probs:
 
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
-authors_names = { author for author in authors_names if author }
-print("authors_names", authors_names)
+print("authors", authors_map.keys())
 
 
 def create_zip_file(create_path,files):
@@ -324,7 +321,7 @@ create_zip_file(path.join(output_dir, "essences.zip"),essences)
 # index page
 index_path = path.join(output_dir, "index.html")
 res = apply_template("index.html",
-	num_problems=len(probs), num_categories=len(categories_names),num_authors=len(authors_names))
+	num_problems=len(probs), num_categories=len(categories_map),num_authors=len(authors_map))
 with open(index_path, "w") as f:
 	f.write(res)
 
@@ -338,3 +335,11 @@ res = apply_template("categories.html", categories=categories_map)
 with open(probs_path, "w") as f:
 	f.write(res)
 
+probs_path = path.join(output_dir, "authors.html")
+res = apply_template("authors.html", authors=authors_map)
+with open(probs_path, "w") as f:
+	f.write(res)
+
+
+from pprint import pprint
+pprint(authors_map)
