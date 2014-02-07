@@ -9,18 +9,19 @@
 
 {% block mainContent %}
 
-{% for prob in problems|groupby('metadata.category') %}
-    <h2 class='smaller'>{{ prob.grouper | join (' ') }}</h2>
-		
-    {% for prob in prob.list %}
-		<p> 
+{% for name, probs in categories.items() %}
+    <h2 class='smaller'>{{name}}</h2>
+
+	{% for prob in probs %}
+		<p>
 			<a href="prob{{ prob.metadata['id'] | join('') }}">
 				prob{{ prob.metadata['id'] | join('') }}
-			</a>: 
-			{{ prob.metadata['title'] | join('') }} 
+			</a>:
+			{{ prob.metadata['title'] | join('') }}
 		</p>
-    {% endfor %}
-		
+	{% endfor %}
+
 {% endfor %}
 
 {% endblock %}
+

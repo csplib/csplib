@@ -14,6 +14,7 @@ import markdown
 from distutils import dir_util
 from distutils import file_util
 
+from collections import defaultdict
 
 import subprocess
 import sys
@@ -132,8 +133,8 @@ def process_problem(prob):
 	else:
 		metadata['category'] = [ m for m in  metadata['category'] if m ]
 		if len(metadata['category']) == 0 :
-			metadata['category'] = ['Unclassified']			
-		
+			metadata['category'] = ['Unclassified']
+
 	metadata['id'] = [prob.name[4:7]]
 	prob.metadata = metadata
 
@@ -205,7 +206,7 @@ def process_problem(prob):
 	if path.exists(assets_in):
 		print("Copying assets from {} to {}", assets_in, assets_out )
 		dir_util.copy_tree(assets_in, assets_out)
-	
+
 
 	has_bibtex=None
 	if prob.references is None:
@@ -286,6 +287,8 @@ categories_names = set()
 authors_names = set()
 
 essences = []
+categories_map = defaultdict(list)
+
 
 for prob in probs:
 	print("")
@@ -293,8 +296,11 @@ for prob in probs:
 	print(prob)
 	print("")
 	process_problem(prob)
-	categories_names |=  set(prob.metadata['category'])
+	for category in prob.metadata['category']:
+		categories_map[category].append(prob)
+
 	authors_names |= set(prob.metadata['proposer'])
+
 
 	def fix_path(f):
 		"""filepath inside zip"""
@@ -304,6 +310,7 @@ for prob in probs:
 
 authors_names = { author for author in authors_names if author }
 print("authors_names", authors_names)
+
 
 def create_zip_file(create_path,files):
 	""" creates a zip file with the specified (src,dst) """
@@ -327,6 +334,7 @@ with open(probs_path, "w") as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/categories.html")
-res = apply_template("categories.html", problems=sorted(probs, key = lambda x: x.metadata["id"]))
+res = apply_template("categories.html", categories=categories_map)
 with open(probs_path, "w") as f:
 	f.write(res)
+
