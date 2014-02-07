@@ -1,5 +1,6 @@
 Title:    Traffic Lights
-Proposer: Toby Walsh  and Walter Hower 
+Proposer: Toby Walsh
+          Walter Hower 
 Category:
 
 

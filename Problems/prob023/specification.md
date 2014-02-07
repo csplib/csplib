@@ -1,6 +1,8 @@
 Title:    Magic Hexagon
 Proposer: Toby Walsh
-Category: Design and configuration, Combinatorial mathematics, Games and puzzles
+Category: Design and configuration
+          Combinatorial mathematics
+          Games and puzzles
 
 A magic hexagon consists of the number 1 to 19 arranged in a hexagonal pattern:
 

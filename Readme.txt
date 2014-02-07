@@ -25,6 +25,19 @@ specification.md
 See prob001, prob002, and prob005 for examples
 
 
+specification.md
+----------------
+
+The specification needs a `Title`, `Proposer` and `Category` in the following format:
+
+Title:    Magic Hexagon
+Proposer: Toby Walsh
+Category: Design and configuration
+          Combinatorial mathematics
+          Games and puzzles
+
+If the `Proposer` or `Category` has multiple values, they are put on a new indent line as shown above
+
 models, data and results directories
 ------------------------------------
 
