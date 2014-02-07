@@ -129,6 +129,11 @@ def process_problem(prob):
 	(content, metadata) = convert_markdown(prob.specification)
 	if not "category" in metadata:
 		metadata['category'] = ['Unclassified']
+	else:
+		metadata['category'] = [ m for m in  metadata['category'] if m ]
+		if len(metadata['category']) == 0 :
+			metadata['category'] = ['Unclassified']			
+		
 	metadata['id'] = [prob.name[4:7]]
 	prob.metadata = metadata
 
@@ -296,6 +301,8 @@ for prob in probs:
 
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
+authors_names = { author for author in authors_names if author }
+print("authors_names", authors_names)
 
 def create_zip_file(create_path,files):
 	""" creates a zip file with the specified (src,dst) """
