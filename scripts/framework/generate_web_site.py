@@ -190,6 +190,17 @@ def process_problem(prob):
 	problem_part("data")
 	problem_part("models")
 
+
+	# Copying assets bindly
+	prob_dir_in = path.join(base, "Problems/{}".format(prob.name))
+	assets_in = path.join(prob_dir_in, "assets")
+	assets_out = path.join(prob_dir, "assets")
+
+	if path.exists(assets_in):
+		print("Copying assets from {} to {}", assets_in, assets_out )
+		dir_util.copy_tree(assets_in, assets_out)
+	
+
 	has_bibtex=None
 	if prob.references is None:
 		(bib_html, rel_path) = ("", "")
