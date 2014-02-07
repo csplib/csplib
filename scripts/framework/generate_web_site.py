@@ -129,6 +129,11 @@ def process_problem(prob):
 	(content, metadata) = convert_markdown(prob.specification)
 	if not "category" in metadata:
 		metadata['category'] = ['Unclassified']
+	else:
+		metadata['category'] = [ m for m in  metadata['category'] if m ]
+		if len(metadata['category']) == 0 :
+			metadata['category'] = ['Unclassified']			
+		
 	metadata['id'] = [prob.name[4:7]]
 	prob.metadata = metadata
 
@@ -189,6 +194,17 @@ def process_problem(prob):
 	problem_part("results")
 	problem_part("data")
 	problem_part("models")
+
+
+	# Copying assets bindly
+	prob_dir_in = path.join(base, "Problems/{}".format(prob.name))
+	assets_in = path.join(prob_dir_in, "assets")
+	assets_out = path.join(prob_dir, "assets")
+
+	if path.exists(assets_in):
+		print("Copying assets from {} to {}", assets_in, assets_out )
+		dir_util.copy_tree(assets_in, assets_out)
+	
 
 	has_bibtex=None
 	if prob.references is None:
@@ -285,6 +301,8 @@ for prob in probs:
 
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
+authors_names = { author for author in authors_names if author }
+print("authors_names", authors_names)
 
 def create_zip_file(create_path,files):
 	""" creates a zip file with the specified (src,dst) """

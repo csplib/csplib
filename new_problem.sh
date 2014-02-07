@@ -5,13 +5,12 @@ set -o nounset
 if [ $# -eq 0 ]; then
 	echo "$0 new_problem_name"
 	echo "Creates a template for a new problem"
-	highest=`ls -1 Problems/ | egrep 'prob[0-9]+' | sort -n | tail -n 1 | sed -e 's/prob*//'`
+	highest=`ls -1 Problems/ | egrep 'prob[0-9]+' | sort -n | tail -n 1 | sed -e 's/prob*//' | sed 's/^0*//'`
 	if [ $highest -lt 0 ]; then
 		highest=0
 	fi
 	(( highest++ ))
-
-	printf "e.g $0 prob%03d for the next free problem number\n" $highest
+	printf "e.g $0 prob%03d for the next(highest) free problem number\n" $highest
 	exit 0
 fi
 
@@ -25,8 +24,13 @@ fi
 mkdir "$prob_dir"
 echo "Created $prob_dir"
 mkdir "$prob_dir/data"
+mkdir "$prob_dir/data/.gitkeep"
 mkdir "$prob_dir/models"
+mkdir "$prob_dir/models/.gitkeep"
 mkdir "$prob_dir/results"
+mkdir "$prob_dir/results/.gitkeep"
+mkdir "$prob_dir/assets"
+mkdir "$prob_dir/assets/.gitkeep"
 
 
 touch "$prob_dir/specification.md"

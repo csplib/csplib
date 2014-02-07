@@ -1,5 +1,6 @@
 Title:    Traffic Lights
-Proposer: Toby Walsh (toby.walsh@nicta.com.au) and Walter Hower (hower@hs-albsig.de)
+Proposer: Toby Walsh
+          Walter Hower 
 Category:
 
 

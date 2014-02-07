@@ -1,5 +1,5 @@
 Title:    Social Golfer Problem
-Proposer: 	 Warwick Harvey (wharvey@cs.monash.edu.au)
+Proposer: 	 Warwick Harvey 
 Category:
 
 
