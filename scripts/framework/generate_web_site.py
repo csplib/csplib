@@ -107,7 +107,7 @@ template_env.filters['urlize2'] = urlize2
 
 def read_file(filepath):
 	with open(filepath, "r") as f:
-		return "".join(f.readlines())
+		return "".join(f.readlines() + ["\n"])
 
 
 def convert_markdown(page_path):
@@ -171,6 +171,7 @@ def process_problem(prob):
 
 
 			(content, metadata, url) = get_content_and_metadata(part, fp)
+			print(part, metadata, content[0:5])
 			if not url:
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"

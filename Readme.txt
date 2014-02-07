@@ -49,9 +49,10 @@ are given a download link. If any file is incorrectly identified
 as binary or human readable, please submit a bug report!
 
 You can describe a file 'file.txt' in a file 'file.txt.metadata'.
-This file should contain a single line of the form:
+This file should contain the folowing then a new line:
 
 Title: This describes the data file
+
 
 You can finally use files with the extension .inline-html or
 .inline-md which will be displayed inline directly in the 
