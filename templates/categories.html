@@ -9,7 +9,7 @@
 
 {% block mainContent %}
 
-{% for name, probs in categories.items() %}
+{% for name, probs in categories | dictsort %}
     <h2 class='smaller'>{{name}}</h2>
 
 	{% for prob in probs %}
