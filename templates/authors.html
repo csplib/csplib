@@ -14,7 +14,7 @@
 
 	{% for prob in probs %}
 		<p>
-			<a href="prob{{ prob.metadata['id'] | join('') }}">
+			<a href="Problems/prob{{ prob.metadata['id'] | join('') }}">
 				prob{{ prob.metadata['id'] | join('') }}
 			</a>:
 			{{ prob.metadata['title'] | join('') }}
