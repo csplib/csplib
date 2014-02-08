@@ -320,8 +320,9 @@ for prob in probs:
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
 	if prob.name in creations_times:
-		creation = datetime.strptime(creations_times[prob.name], "%Y-%m-%d %H:%M:%S %z")
-		months_map[(creation.year, creation.month)].append( (creation, prob) )
+		if creations_times[prob.name].strip():
+			creation = datetime.strptime(creations_times[prob.name], "%Y-%m-%d %H:%M:%S %z")
+			months_map[(creation.year, creation.month)].append( (creation, prob) )
 
 print("authors", authors_map.keys())
 
