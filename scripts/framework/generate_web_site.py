@@ -311,10 +311,14 @@ categories_map = defaultdict(list)
 authors_map = defaultdict(list)
 months_map  = defaultdict(list)
 
-# get creation times from git
-with open(path.join(output_dir, "problems_creation_dates.txt"), "r") as f:
-	creations_times = dict(line.strip().split(',') for line in f.readlines())
-print(creations_times)
+try:
+	# get creation times from git
+	with open(path.join(output_dir, "problems_creation_dates.txt"), "r") as f:
+		creations_times = dict(line.strip().split(',') for line in f.readlines())
+	print(creations_times)
+except IOError:
+	print("no creation times, updates pages will be empty")
+	creations_times={}
 
 for prob in probs:
 	print("")
@@ -372,10 +376,6 @@ probs_path = path.join(output_dir, "authors.html")
 res = apply_template("authors.html", authors=authors_map)
 with open(probs_path, "w") as f:
 	f.write(res)
-
-from pprint import pprint
-
-pprint(months_map)
 
 probs_path = path.join(output_dir, "updates.html")
 res = apply_template("updates.html", mapping=months_map)
