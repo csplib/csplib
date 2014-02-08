@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
+import sys
+
+if sys.version_info.major == 2:
+	# Hack to get unicode to work properly in python2
+	reload(sys)
+	sys.setdefaultencoding('utf-8')
+
 import os
 import os.path as path
 
@@ -18,7 +25,6 @@ from collections import defaultdict
 from datetime import datetime, date
 
 import subprocess
-import sys
 
 import re
 
@@ -119,6 +125,15 @@ def read_file(filepath):
 		return "".join(f.readlines() + ["\n"])
 
 
+# since exist_ok is not in python2
+def makedirs_exist_ok(path):
+	try:
+		os.makedirs(path)
+	except OSError:
+		if not os.path.isdir(path):
+			raise
+
+
 def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
 	md_input = read_file(page_path)
@@ -151,7 +166,7 @@ def process_problem(prob):
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
 	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
-	os.makedirs(prob_dir, exist_ok=True)
+	makedirs_exist_ok(prob_dir)
 
 	def write(data, name):
 		with open(path.join(prob_dir, name), "w") as f:
@@ -162,7 +177,7 @@ def process_problem(prob):
 	def problem_part(part_name):
 		part_metadata = []
 		part_dir = prob_dir + "/" + part_name + "/"
-		os.makedirs(part_dir, exist_ok=True)
+		makedirs_exist_ok(part_dir)
 
 		raw_htmls = []
 		for part in getattr(prob, part_name):
@@ -222,18 +237,18 @@ def process_problem(prob):
 	else:
 		(_, ext) = path.splitext(prob.references)
 		if (ext == ".bib"):
-			os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
+			makedirs_exist_ok(path.join(prob_dir, "references"))
 			file_util.copy_file(prob.references, path.join(prob_dir, "references/references.bib"))
 			has_bibtex = True
 		(bib_html,rel_path) = get_bib_references(prob.references)
 
 	refs = apply_template("references.html", references=bib_html,rel_path=rel_path,
 		has_bibtex=has_bibtex, **prob_meta)
-	os.makedirs(path.join(prob_dir, "references"), exist_ok=True)
+	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
 
 	old_path = path.join(output_dir, "prob/{}".format(prob.name))
-	os.makedirs(old_path, exist_ok=True)
+	makedirs_exist_ok(old_path)
 	with open(path.join(old_path, "index.html"), "w") as f:
 		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
@@ -321,7 +336,7 @@ for prob in probs:
 
 	if prob.name in creations_times:
 		if creations_times[prob.name].strip():
-			creation = datetime.strptime(creations_times[prob.name], "%Y-%m-%d %H:%M:%S %z")
+			creation = datetime.fromtimestamp(float(creations_times[prob.name]))
 			months_map[(creation.year, creation.month)].append( (creation, prob) )
 
 print("authors", authors_map.keys())
