@@ -15,6 +15,7 @@ from distutils import dir_util
 from distutils import file_util
 
 from collections import defaultdict
+from datetime import datetime, date
 
 import subprocess
 import sys
@@ -104,6 +105,13 @@ copy_web_resources(output_dir)
 markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)']
 template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)
 template_env.filters['urlize2'] = urlize2
+
+
+def formatted_time_for_updates(year_month):
+	d = date(*year_month, day=1)
+	return d.strftime("%B %Y")
+
+template_env.filters['formatted_time_for_updates'] = formatted_time_for_updates
 
 
 def read_file(filepath):
@@ -286,7 +294,12 @@ def get_bib_references(filepath):
 essences = []
 categories_map = defaultdict(list)
 authors_map = defaultdict(list)
+months_map  = defaultdict(list)
 
+# get creation times from git
+with open(path.join(output_dir, "problems_creation_dates.txt"), "r") as f:
+	creations_times = dict(line.strip().split(',') for line in f.readlines())
+print(creations_times)
 
 for prob in probs:
 	print("")
@@ -305,6 +318,10 @@ for prob in probs:
 		return f.replace(problems_path+"/","").replace("/models","")
 
 	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
+
+	if prob.name in creations_times:
+		creation = datetime.strptime(creations_times[prob.name], "%Y-%m-%d %H:%M:%S %z")
+		months_map[(creation.year, creation.month)].append( (creation, prob) )
 
 print("authors", authors_map.keys())
 
@@ -340,6 +357,13 @@ res = apply_template("authors.html", authors=authors_map)
 with open(probs_path, "w") as f:
 	f.write(res)
 
-
 from pprint import pprint
-pprint(authors_map)
+
+pprint(months_map)
+
+probs_path = path.join(output_dir, "updates.html")
+res = apply_template("updates.html", mapping=months_map)
+with open(probs_path, "w") as f:
+	f.write(res)
+
+

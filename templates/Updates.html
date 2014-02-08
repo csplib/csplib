@@ -1,0 +1,26 @@
+{% set title = "Updates" %}
+{% extends "wrapper.html" %}
+
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="/Problems/updates.html">Updates</a></li>
+{% endblock %}
+
+
+{% block mainContent %}
+
+{% for year_months, probs in mapping | dictsort %}
+    <h2 class='smaller'>{{year_months | formatted_time_for_updates}}</h2>
+
+	{% for (creation, prob) in probs %}
+		<p>
+			<a href="prob{{ prob.metadata['id'] | join('') }}">
+				prob{{ prob.metadata['id'] | join('') }}
+			</a>:
+			{{ prob.metadata['title'] | join('') }}
+		</p>
+	{% endfor %}
+
+{% endfor %}
+
+{% endblock %}
