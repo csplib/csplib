@@ -7,10 +7,10 @@ To view locally:
 	make
 	make serve
 	<open localhost:8000 in your browser>
-	
+
 To add a new problem use new_problem.sh to create a basic outline.
 
-The minimum required to create a new problem is to complete 
+The minimum required to create a new problem is to complete
 specification.md.
 
 References are added to references.bib or references.html.
@@ -21,7 +21,7 @@ Files in these directories are handled specially. See below for details.
 The assets/ directory will be copied but not automatically linked to.
 Use this directory for files, such as images, which are linked to from
 specification.md
-	
+
 See prob001, prob002, and prob005 for examples
 
 
@@ -55,7 +55,24 @@ Title: This describes the data file
 
 
 You can finally use files with the extension .inline-html or
-.inline-md which will be displayed inline directly in the 
+.inline-md which will be displayed inline directly in the
 results/references/model tab. See problem XXX for an example
 of all these types of files!
+
+
+Python 2
+--------
+Installing Python 3.3+ is highly recommended but if some reason you can not install it
+and have Python 2 and pip installed then running the below commands will work.
+Note all requirements are installed for the **user**.
+
+To build
+	make buildpy2
+
+To view locally:
+	make buildpy2
+	make servepy2
+	<open localhost:8000 in your browser>
+
+
 
