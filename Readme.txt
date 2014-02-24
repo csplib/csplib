@@ -75,4 +75,14 @@ To view locally:
 	<open localhost:8000 in your browser>
 
 
+Build specific problems
+------------------------
+To build and view locally only specific problems run 
+
+	make only probs=<probs>
+
+where `probs` is a comma separated list e.g
+
+	make only probs=prob029,prob011
+
 

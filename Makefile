@@ -30,3 +30,14 @@ servepy2:
 	# open localhost:8000 in your browser
 	# Crtl-C to finish
 	cd _deploy && python -m SimpleHTTPServer
+
+
+# Build specific problems and serve locally
+.PHONY: only
+only: ./scripts/env creation_dates only_build serve
+
+# to use a comma in $(subst you need to put it in a varible
+comma :=,
+only_build:
+	. ./scripts/env/bin/activate && \
+	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${probs})
