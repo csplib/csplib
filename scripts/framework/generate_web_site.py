@@ -101,8 +101,13 @@ def copy_web_resources(output_dir):
 
 # Read the data
 problems_path = path.join(base, "Problems")
+probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
 
-probs_names = [f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f))]
+# If args are given, only build the specifed problems
+if len(sys.argv) > 1:
+	to_build = set(sys.argv[1:])
+	probs_names = probs_names & to_build  
+
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
 # Copy every file in web  to the output directory
@@ -238,7 +243,7 @@ def process_problem(prob):
 		(_, ext) = path.splitext(prob.references)
 		if (ext == ".bib"):
 			makedirs_exist_ok(path.join(prob_dir, "references"))
-			file_util.copy_file(prob.references, path.join(prob_dir, "references/references.bib"))
+			file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
 			has_bibtex = True
 		(bib_html,rel_path) = get_bib_references(prob.references)
 
