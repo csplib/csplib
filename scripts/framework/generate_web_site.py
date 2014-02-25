@@ -243,7 +243,7 @@ def process_problem(prob):
 		(_, ext) = path.splitext(prob.references)
 		if (ext == ".bib"):
 			makedirs_exist_ok(path.join(prob_dir, "references"))
-			file_util.copy_file(prob.references, path.join(prob_dir, "references/references.bib"))
+			file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
 			has_bibtex = True
 		(bib_html,rel_path) = get_bib_references(prob.references)
 
