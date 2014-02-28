@@ -3,18 +3,30 @@
 # Bilal Syed Hussain
 
 import markdown
+import re
 
-CITE_BIBTEX_RE = r' ?cite\{(\w+?)\}',
+CITE_BIBTEX_RE = r' ?cite\{([\w:/-]+?)\}',
 
 
 class CitePattern(markdown.inlinepatterns.Pattern):
+	numbered = {}
+
 	def handleMatch(self, m):
 		ref = m.group(2)
+		# to allow in a html Fragment
+		ref = re.sub("[^\w]", "_", ref)
+		ref = re.sub("^(\d+)", "_\\1", ref)
 		url = 'references/#' + ref
+
+		if ref in self.numbered:
+			num = self.numbered[ref]
+		else:
+			num = len(self.numbered) + 1
+			self.numbered[ref] = num
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
-		el.text = markdown.util.AtomicString("[" + ref + "]")
+		el.text = markdown.util.AtomicString("[{}]".format(num))
 		return el
 
 

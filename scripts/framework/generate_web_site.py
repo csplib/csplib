@@ -306,7 +306,11 @@ def get_bib_references(filepath):
 	regex = re.compile(r'<p>(.*?<a +name="(.*?)".*?)</p>', re.DOTALL)
 
 	def f(html_match):
-		return '<p id="{}">{}</p>'.format(html_match.group(2), html_match.group(1))
+		ref_name = html_match.group(2)
+		# to allow in a html Fragment
+		ref_name = re.sub("[^\w]", "_", ref_name)
+		ref_name = re.sub("^(\d+)", "_\\1", ref_name)
+		return '<p id="{}">{}</p>'.format(ref_name, html_match.group(1))
 
 
 	refs = [  f(r) for r in regex.finditer(bib_html) ]

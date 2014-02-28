@@ -14,3 +14,11 @@ Each card is characterised by the power it requires. Each rack model is characte
 * the total price is minimised.
 
 A reference cite{sabin1999optimization}
+
+A 2nd ref cite{sabin1999optimization}
+
+A 3rd ref cite{Kiziltan01symmetrybreaking}
+
+A 4rd ref cite{Ilog:Solver02}
+
+A 5th ref cite{Kiziltan01symmetrybreaking}
