@@ -9,27 +9,21 @@ if sys.version_info.major == 2:
 	reload(sys)
 	sys.setdefaultencoding('utf-8')
 
-import os
-import os.path as path
-
-from jinja2 import Environment, FileSystemLoader
-from jinja2_exts import urlize2
-
-
-import markdown
+from collections import defaultdict
+from datetime import datetime, date
 
 from distutils import dir_util
 from distutils import file_util
 
-from collections import defaultdict
-from datetime import datetime, date
-
-import subprocess
-
-import re
+from jinja2 import Environment, FileSystemLoader
+from jinja2_exts import urlize2
 
 import cgi  # for cgi.escape
-
+import markdown
+import os
+import os.path as path
+import re
+import subprocess
 import zipfile
 
 #Where we are
@@ -106,7 +100,7 @@ probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(p
 # If args are given, only build the specifed problems
 if len(sys.argv) > 1:
 	to_build = set(sys.argv[1:])
-	probs_names = probs_names & to_build  
+	probs_names = probs_names & to_build
 
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
@@ -159,8 +153,8 @@ def process_problem(prob):
 	if not "category" in metadata:
 		metadata['category'] = ['Unclassified']
 	else:
-		metadata['category'] = [ m for m in  metadata['category'] if m ]
-		if len(metadata['category']) == 0 :
+		metadata['category'] = [ m for m in metadata['category'] if m ]
+		if len(metadata['category']) == 0:
 			metadata['category'] = ['Unclassified']
 
 	metadata['id'] = [prob.name[4:7]]
@@ -245,9 +239,9 @@ def process_problem(prob):
 			makedirs_exist_ok(path.join(prob_dir, "references"))
 			file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
 			has_bibtex = True
-		(bib_html,rel_path) = get_bib_references(prob.references)
+		(bib_html, rel_path) = get_bib_references(prob.references)
 
-	refs = apply_template("references.html", references=bib_html,rel_path=rel_path,
+	refs = apply_template("references.html", references=bib_html, rel_path=rel_path,
 		has_bibtex=has_bibtex, **prob_meta)
 	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
@@ -301,7 +295,7 @@ def get_content_and_metadata(filepath, store_dir):
 def get_bib_references(filepath):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".html"):
-		return (read_file(filepath),'references.html')
+		return (read_file(filepath), 'references.html')
 
 	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
 	# not using subprocess.check_output to so I can specify the current working dir
@@ -314,7 +308,7 @@ def get_bib_references(filepath):
 essences = []
 categories_map = defaultdict(list)
 authors_map = defaultdict(list)
-months_map  = defaultdict(list)
+months_map = defaultdict(list)
 
 try:
 	# get creation times from git
@@ -339,9 +333,9 @@ for prob in probs:
 
 	def fix_path(f):
 		"""filepath inside zip"""
-		return f.replace(problems_path+"/","").replace("/models","")
+		return f.replace(problems_path + "/", "").replace("/models", "")
 
-	essences += [(f,fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
+	essences += [(f, fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
 	if prob.name in creations_times:
 		if creations_times[prob.name].strip():
@@ -351,24 +345,24 @@ for prob in probs:
 print("authors", authors_map.keys())
 
 
-def create_zip_file(create_path,files):
+def create_zip_file(create_path, files):
 	""" creates a zip file with the specified (src,dst) """
 	zf = zipfile.ZipFile(create_path, "w")
-	for (src,dst) in files:
-		zf.write(src,dst)
+	for (src, dst) in files:
+		zf.write(src, dst)
 	zf.close()
 
-create_zip_file(path.join(output_dir, "essences.zip"),essences)
+create_zip_file(path.join(output_dir, "essences.zip"), essences)
 
 # index page
 index_path = path.join(output_dir, "index.html")
 res = apply_template("index.html",
-	num_problems=len(probs), num_categories=len(categories_map),num_authors=len(authors_map))
+	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
 with open(index_path, "w") as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/index.html")
-res = apply_template("problems.html", problems=sorted(probs, key = lambda x: x.metadata["id"]))
+res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w") as f:
 	f.write(res)
 
