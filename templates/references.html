@@ -6,7 +6,8 @@
 	<style>
 	p.highlight{
 		border: 1px solid;
-		padding-left: 10px;
+		padding-left: 5px;
+		padding-right: 1px;
 	}
 	</style>
 
@@ -15,7 +16,7 @@
 	<script type="text/javascript">
 	$( document ).ready(function() {
 	  ref_id= window.location.hash.substring(1);
-	  $('p.'+ ref_id).addClass('highlight');
+	  $('p#'+ ref_id).addClass('highlight');
 	});
 
 	</script>

@@ -26,6 +26,7 @@ import re
 import subprocess
 import zipfile
 
+
 #Where we are
 prog_name = path.dirname(sys.argv[0])
 abs_prog_dir = path.abspath(prog_name)
@@ -107,7 +108,7 @@ probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p
 # Copy every file in web  to the output directory
 copy_web_resources(output_dir)
 
-markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)']
+markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
 template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)
 template_env.filters['urlize2'] = urlize2
 
@@ -300,9 +301,18 @@ def get_bib_references(filepath):
 	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
 	# not using subprocess.check_output to so I can specify the current working dir
 	bib_html = subprocess.Popen(bib_cmd, stdout=subprocess.PIPE, universal_newlines=True, cwd=abs_prog_dir).communicate()[0]
-	# easier then using a html parser
-	regex = re.compile(r"<p>.*?</p>", re.DOTALL)
-	return ("\n".join(regex.findall(bib_html)), 'references.bib')
+
+	# less sane then using a html parser
+	regex = re.compile(r'<p>(.*?<a +name="(.*?)".*?)</p>', re.DOTALL)
+
+	def f(html_match):
+		return '<p id="{}">{}</p>'.format(html_match.group(2), html_match.group(1))
+
+
+	refs = [  f(r) for r in regex.finditer(bib_html) ]
+
+
+	return ("\n".join(refs), 'references.bib')
 
 
 essences = []
