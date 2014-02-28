@@ -13,4 +13,4 @@ Each card is characterised by the power it requires. Each rack model is characte
 * the total power demand and the number of connectors required by the cards does not exceed that available for a rack
 * the total price is minimised.
 
-cite{sabin1999optimization}
+A reference cite{sabin1999optimization}
