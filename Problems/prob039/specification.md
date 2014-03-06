@@ -13,7 +13,7 @@ Players can arrive at rehearsals immediately before the first piece in which the
 In the table below, 1 indicates that the player is required for the corresponding  piece, 0 otherwise. The duration (i.e. time required to rehearse each piece) is in some unspecified time units.
 
 
-<TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TABLE>
    <TR><TD>Piece </TD><TD>   1 </TD><TD>  2</TD><TD>   3 </TD><TD>  4 </TD><TD>  5</TD><TD>   6 </TD><TD>  7</TD><TD>   8</TD><TD>   9 </TR>
    <TR><TD>Player 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  0</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   1</TD><TD>   0</TD><TD>   1 </TR>
    <TR><TD>Player 2</TD><TD>  1</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   1</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   0 </TR>
@@ -44,9 +44,9 @@ A very similar problem occurs in devising a schedule for shooting a film. Differ
 
 The first problem, <I>Film1</I>,  is based on  one given by Cheng, Diamond and Lin (see <A href="references/">references</A>).
 
-<TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
- <TR><TD>  Day   </TD><TD WIDTH=20>  1 </TD><TD  WIDTH=20> 2 </TD><TD  WIDTH=20>  3 </TD><TD  WIDTH=20>  4 </TD><TD  WIDTH=20>  5 </TD><TD  WIDTH=20>  6 </TD><TD  WIDTH=20>  7 </TD><TD  WIDTH=20>  8 </TD><TD  WIDTH=20>  9 </TD><TD  WIDTH=20>  10 </TD><TD  WIDTH=20>  11
-</TD><TD  WIDTH=20>  12 </TD><TD  WIDTH=20>  13 </TD><TD  WIDTH=20>  14 </TD><TD  WIDTH=20>  15 </TD><TD  WIDTH=20>  16 </TD><TD  WIDTH=20>  17 </TD><TD  WIDTH=20>  18 </TD><TD  WIDTH=20>  19 </TD><TD  WIDTH=20>  20 </TD><TD  WIDTH=20>  Cost/100  </TD></TR>
+<TABLE>
+ <TR><TD>  Day   </TD><TD>  1 </TD><TD > 2 </TD><TD >  3 </TD><TD >  4 </TD><TD >  5 </TD><TD >  6 </TD><TD >  7 </TD><TD >  8 </TD><TD >  9 </TD><TD >  10 </TD><TD >  11
+</TD><TD >  12 </TD><TD >  13 </TD><TD >  14 </TD><TD >  15 </TD><TD >  16 </TD><TD >  17 </TD><TD >  18 </TD><TD >  19 </TD><TD >  20 </TD><TD >  Cost/100  </TD></TR>
 <TR><TD>Actor 1   </TD><TD> 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0
  </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  10</TD></TR>
 <TR><TD>Actor 2   </TD><TD> 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0
@@ -71,8 +71,8 @@ The first problem, <I>Film1</I>,  is based on  one given by Cheng, Diamond and L
 The problem below, <I>Film2</I>, is also based on real film data (although the costs are purely fictitious).  It is easier to solve than <I>Film1</I>.
 
 
-<TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
-<TR><TD>Day     </TD><TD WIDTH=20>   1 </TD><TD WIDTH=20>  2 </TD><TD WIDTH=20>  3 </TD><TD WIDTH=20>  4 </TD><TD WIDTH=20>  5 </TD><TD WIDTH=20>  6 </TD><TD WIDTH=20>  7 </TD><TD WIDTH=20>  8 </TD><TD WIDTH=20>  9 </TD><TD WIDTH=20>  10 </TD><TD WIDTH=20>  11 </TD><TD WIDTH=20> 12 </TD><TD WIDTH=20>  13</TD><TD  WIDTH=20>  Cost/100  </TD></TR>
+<TABLE>
+<TR><TD>Day     </TD><TD>   1 </TD><TD>  2 </TD><TD>  3 </TD><TD>  4 </TD><TD>  5 </TD><TD>  6 </TD><TD>  7 </TD><TD>  8 </TD><TD>  9 </TD><TD>  10 </TD><TD>  11 </TD><TD> 12 </TD><TD>  13</TD><TD >  Cost/100  </TD></TR>
 <TR><TD>Actor 1 </TD><TD>  0 </TD><TD>  0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 40 </TD></TR>
 <TR><TD>Actor 2 </TD><TD>  1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 1 </TD><TD> 20 </TD></TR>
 <TR><TD>Actor 3  </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 20  </TD></TR>
