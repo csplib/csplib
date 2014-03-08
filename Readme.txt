@@ -13,7 +13,7 @@ To add a new problem use new_problem.sh to create a basic outline.
 The minimum required to create a new problem is to complete
 specification.md.
 
-References are added to references.bib or references.html.
+References are added to references.bib (prefered) or references.html.
 
 Optionally add models in models/, data in data/ and results in results/.
 Files in these directories are handled specially. See below for details.
