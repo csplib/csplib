@@ -1,0 +1,15 @@
+deploy/
+_deploy/
+env/
+scripts/env/
+
+
+tmtags
+ctags
+.ctags
+.tags
+tags
+
+syntax: glob
+*~
+.DS_Store
