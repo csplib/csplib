@@ -1,6 +1,6 @@
 Title:    Maximum density still life
 Proposer: Barbara Smith
-Category: None
+Category: Games and puzzles
 
 This problem arises from the Game of Life, invented by John Horton Conway in the 1960s and popularized by Martin Gardner in his
 Scientific American columns.
