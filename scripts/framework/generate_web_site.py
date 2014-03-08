@@ -62,14 +62,11 @@ class Problem(object):
 		if path.exists(spec):
 			self.specification = spec
 
-		refs = path.join(self.base_path, "references.bib")
-		refs_html = path.join(self.base_path, "references.html")
-		if path.exists(refs_html):
-			self.references = refs_html
-		elif path.exists(refs):
-			self.references = refs
-		else:
-			self.references = None
+		self.references = None
+		for fp in ["references.bib",  "references.md", "references.html"]:
+			ref = path.join(self.base_path, fp)
+			if path.exists(ref):
+				self.references = ref
 
 		self.models = self.get_directory("models")
 		self.data = self.get_directory("data")
@@ -297,6 +294,10 @@ def get_bib_references(filepath):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".html"):
 		return (read_file(filepath), 'references.html')
+	elif (ext == '.md' ):
+		(rendered, _) = convert_markdown(filepath)
+		return (rendered,  'references.html')
+
 
 	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
 	# not using subprocess.check_output to so I can specify the current working dir
