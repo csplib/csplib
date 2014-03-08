@@ -44,7 +44,11 @@ echo "" >> "$prob_dir/references.${2:-bib}"
 
 echo "Created $prob_dir/specification.md"
 echo ""
-echo "Optionally add references in bibtex $prob_dir/references.bib"
-echo "    or in html $prob_dir/references.html"
+
+if [ -f "$prob_dir/references.bib" ]; then
+	echo "Optionally add references in bibtex $prob_dir/references.bib"
+else
+	echo "Optionally add references in  $prob_dir/references.${2:-}"
+fi
 echo "See ./Problems/prob001 or ./Problems/prob002 for an example"
 
