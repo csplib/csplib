@@ -40,6 +40,8 @@ echo "Category: " >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 
+echo "" >> "$prob_dir/references.${2:-bib}"
+
 echo "Created $prob_dir/specification.md"
 echo ""
 echo "Optionally add references in bibtex $prob_dir/references.bib"
