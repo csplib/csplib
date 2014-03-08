@@ -24,13 +24,13 @@ fi
 mkdir "$prob_dir"
 echo "Created $prob_dir"
 mkdir "$prob_dir/data"
-mkdir "$prob_dir/data/.gitkeep"
+touch "$prob_dir/data/.gitkeep"
 mkdir "$prob_dir/models"
-mkdir "$prob_dir/models/.gitkeep"
+touch "$prob_dir/models/.gitkeep"
 mkdir "$prob_dir/results"
-mkdir "$prob_dir/results/.gitkeep"
+touch "$prob_dir/results/.gitkeep"
 mkdir "$prob_dir/assets"
-mkdir "$prob_dir/assets/.gitkeep"
+touch "$prob_dir/assets/.gitkeep"
 
 
 touch "$prob_dir/specification.md"
