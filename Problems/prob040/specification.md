@@ -1,5 +1,6 @@
 Title:    A Distribution Problem with Wagner-Whitin Costs
-Proposer: Ian Miguel, Armagan Tarim
+Proposer: Ian Miguel
+          Armagan Tarim
 Category: Scheduling
           Bin packing
 
