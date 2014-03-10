@@ -2,9 +2,14 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
+from __future__ import print_function
 import sys
 
-if sys.version_info.major == 2:
+if sys.version_info[0] == 2:
+	if sys.version_info[1] < 6:
+		print('Only python 2.6+ supported', file=sys.stderr)
+		sys.exit(1)
+
 	# Hack to get unicode to work properly in python2
 	reload(sys)
 	sys.setdefaultencoding('utf-8')
@@ -182,7 +187,7 @@ def process_problem(prob):
 	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
-	prob_dir = path.join(output_dir, "Problems/{}".format(prob.name))
+	prob_dir = path.join(output_dir, "Problems/{0}".format(prob.name))
 	makedirs_exist_ok(prob_dir)
 
 	def write(data, name):
@@ -217,7 +222,7 @@ def process_problem(prob):
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"
 				res = apply_template("file.html", problemContent=content,
-					name=name, part=part_name, rel_path="{}/{}".format(part_name, name),
+					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name),
 					**prob_meta)
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))
@@ -239,7 +244,7 @@ def process_problem(prob):
 
 
 	# Copying assets bindly
-	prob_dir_in = path.join(base, "Problems/{}".format(prob.name))
+	prob_dir_in = path.join(base, "Problems/{0}".format(prob.name))
 	assets_in = path.join(prob_dir_in, "assets")
 	assets_out = path.join(prob_dir, "assets")
 
@@ -264,7 +269,7 @@ def process_problem(prob):
 	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
 
-	old_path = path.join(output_dir, "prob/{}".format(prob.name))
+	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
 	makedirs_exist_ok(old_path)
 	with open(path.join(old_path, "index.html"), "w") as f:
 		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
@@ -297,14 +302,14 @@ def get_content_and_metadata(filepath, store_dir):
 		css_class = ""
 		txt = read_file(filepath)
 		if ext[1:] in source_types:
-			css_class = "class ='brush: {}'".format(ext[1:])
+			css_class = "class ='brush: {0}'".format(ext[1:])
 			txt = cgi.escape(txt)
 
-		return ("<pre {}>{}</pre>".format(css_class, txt), meta, None)
+		return ("<pre {0}>{1}</pre>".format(css_class, txt), meta, None)
 	else:
 		bname = path.basename(filepath)
 		url = path.join(store_dir, bname)
-		return ("<a href='{}'> {} </a>".format(url, bname), meta, url)
+		return ("<a href='{0}'> {1} </a>".format(url, bname), meta, url)
 
 
 def get_bib_references(filepath):
@@ -328,7 +333,7 @@ def get_bib_references(filepath):
 		# to allow in a html Fragment
 		ref_name = re.sub("[^\w]", "_", ref_name)
 		ref_name = re.sub("^(\d+)", "_\\1", ref_name)
-		return '<p id="{}">{}</p>'.format(ref_name, html_match.group(1))
+		return '<p id="{0}">{1}</p>'.format(ref_name, html_match.group(1))
 
 
 	refs = [  f(r) for r in regex.finditer(bib_html) ]

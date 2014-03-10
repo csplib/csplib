@@ -26,7 +26,7 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
-		el.text = markdown.util.AtomicString("[{}]".format(num))
+		el.text = markdown.util.AtomicString("[{0}]".format(num))
 		return el
 
 
