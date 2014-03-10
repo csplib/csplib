@@ -25,6 +25,14 @@ import os.path as path
 import re
 import subprocess
 import zipfile
+import logging
+logger = logging.getLogger(__name__)
+
+logger_format='%(message)s'
+logger_level = logging.INFO
+# logger_format='%(name)s:%(lineno)d:%(funcName)s: %(message)s'
+# logger_level = logging.DEBUG
+logging.basicConfig(format=logger_format, level=logger_level)
 
 
 #Where we are
@@ -35,8 +43,8 @@ base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
 output_dir = path.join(base, "_deploy")
 
-print("Base:%s" % base)
-print("Output:%s" % output_dir)
+logger.info("Base:%s", base)
+logger.info("Output:%s", output_dir)
 
 
 class Problem(object):
@@ -192,7 +200,7 @@ def process_problem(prob):
 
 
 			(content, metadata, url) = get_content_and_metadata(part, fp)
-			print(part, metadata, content[0:5])
+			logger.debug( (part, metadata, content[0:5]))
 			if not url:
 				name = path.basename(part)
 				filename = path.splitext(name)[0] + ".html"
@@ -224,7 +232,7 @@ def process_problem(prob):
 	assets_out = path.join(prob_dir, "assets")
 
 	if path.exists(assets_in):
-		print("Copying assets from {} to {}", assets_in, assets_out )
+		logger.debug("Copying assets from %s to %s", assets_in, assets_out )
 		dir_util.copy_tree(assets_in, assets_out)
 
 
@@ -329,16 +337,16 @@ try:
 	# get creation times from git
 	with open(path.join(output_dir, "problems_creation_dates.txt"), "r") as f:
 		creations_times = dict(line.strip().split(',') for line in f.readlines())
-	print(creations_times)
+	logger.debug(creations_times)
 except IOError:
-	print("no creation times, updates pages will be empty")
+	logger.warning("no creation times, updates pages will be empty")
 	creations_times={}
 
 for prob in probs:
-	print("")
-	print(prob.name)
-	print(prob)
-	print("")
+	logger.info("")
+	logger.info("Processing problem %s", prob.name)
+	logger.debug(prob)
+	logger.debug("")
 	process_problem(prob)
 	for category in prob.metadata['category']:
 		categories_map[category].append(prob)
@@ -357,7 +365,7 @@ for prob in probs:
 			creation = datetime.fromtimestamp(float(creations_times[prob.name]))
 			months_map[(creation.year, creation.month)].append( (creation, prob) )
 
-print("authors", authors_map.keys())
+logger.debug("authors %s", authors_map.keys())
 
 
 def create_zip_file(create_path, files):
