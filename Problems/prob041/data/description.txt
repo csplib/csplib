@@ -1,0 +1,1 @@
+A basic Ilog Solver 5.x program to solve the n-fractions puzzle can be found in FracCode.zip.
