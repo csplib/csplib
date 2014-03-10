@@ -26,25 +26,46 @@ import re
 import subprocess
 import zipfile
 import logging
+import argparse
 logger = logging.getLogger(__name__)
 
-logger_format='%(message)s'
-logger_level = logging.INFO
-# logger_format='%(name)s:%(lineno)d:%(funcName)s: %(message)s'
-# logger_level = logging.DEBUG
+# Option parser
+parser = argparse.ArgumentParser(description='Builds csplib')
+parser.add_argument("only_probs", nargs='*', metavar='Problems', help='Optional, Build only the specifed problems')
+parser.add_argument("--debug",  action='store_true', help='Print debug output')
+args = parser.parse_args()
+
+# set up logging
+if args.debug:
+	logger_format='%(name)s:%(lineno)d:%(funcName)s: %(message)s'
+	logger_level = logging.DEBUG
+else:
+	logger_format='%(message)s'
+	logger_level = logging.INFO
+
 logging.basicConfig(format=logger_format, level=logger_level)
+logger.info(args)
 
-
-#Where we are
+# Where we are
 prog_name = path.dirname(sys.argv[0])
 abs_prog_dir = path.abspath(prog_name)
 
+# Paths
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
 output_dir = path.join(base, "_deploy")
 
 logger.info("Base:%s", base)
 logger.info("Output:%s", output_dir)
+
+# Problem paths
+problems_path = path.join(base, "Problems")
+probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
+
+# If args are given, only build the specifed problems
+if args.only_probs:
+	to_build = set(args.only_probs)
+	probs_names = probs_names & to_build
 
 
 class Problem(object):
@@ -98,15 +119,6 @@ def create_problem(name, path):
 
 def copy_web_resources(output_dir):
 	dir_util.copy_tree(path.join(base, "web"), output_dir)
-
-# Read the data
-problems_path = path.join(base, "Problems")
-probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
-
-# If args are given, only build the specifed problems
-if len(sys.argv) > 1:
-	to_build = set(sys.argv[1:])
-	probs_names = probs_names & to_build
 
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
 
