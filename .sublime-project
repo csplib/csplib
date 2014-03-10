@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": ".",
+			"folder_exclude_patterns": [
+				"_deploy","scripts/env",
+				"scripts/framework/__pycache",
+				"web/bootstrap"
+			],
+			"file_exclude_patterns":
+			[
+				"*.aux",
+				"*.gitkeep"
+			],
+		}
+	]
+}

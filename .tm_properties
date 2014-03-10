@@ -1,1 +1,1 @@
-exclude             = "{$exclude,scripts/env,web/bootstrap,_deploy}"
+exclude             = "{$exclude,scripts/env,web/bootstrap,_deploy,*.aux,*.gitkeep}"
