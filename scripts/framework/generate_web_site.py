@@ -44,7 +44,7 @@ else:
 	logger_level = logging.INFO
 
 logging.basicConfig(format=logger_format, level=logger_level)
-logger.info(args)
+logger.info("args %s", args)
 
 # Where we are
 prog_name = path.dirname(sys.argv[0])
@@ -270,16 +270,12 @@ def process_problem(prob):
 		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
 
-source_types = {"essence", "eprime", "param", "solution", "js", "javascript", 'cpp', 'hpp', 'hh', 'cc', 'h', "c"
-																"java", "cs", "erl", "hrl", "groovy", "pl", "php",
-																"rb", "py", "xml", "scala"}
-binary = {"zip", "7z", "rar", "gzip", 'tar', 'bz2', 'gz', 'lz', 'lzma', 'lzo', 'rz', 'xz', 'z', 'Z',
-										's7z', 'ace', 'dmg', 'iso', 'ice', 'lzh', 'lzx', 'sea', 'sit',
-										'sitx', 'sqx', 'tbz2', 'tlz', 'xar', 'zipx', 'zz', 'exe', 'app',
-										'par', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'jar', 'rpm', 'xlsx'
-										'db', 'sqlite', 'odt', 'ott', 'odm', 'rtf', 'xps', 'xls', 'png',
-										'jpg', 'svg', 'gif', 'bmp', 'eps', 'ps', 'ai', 'dvi', 'jpeg',
-										'jp2', 'jpeg2', ''}
+source_types = set(['cc', 'c', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
+				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js',
+				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml'])
+
+text_formats = set(['txt', 'minizinc', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet', 'chip'])
+text_formats |= source_types
 
 
 def get_content_and_metadata(filepath, store_dir):
@@ -296,11 +292,8 @@ def get_content_and_metadata(filepath, store_dir):
 	except Exception:
 		meta = None
 
-	if (ext == "" or ext[1:] in binary):
-		bname = path.basename(filepath)
-		url = path.join(store_dir, bname)
-		return ("<a href='{}'> {} </a>".format(url, bname), meta, url)
-	else:
+	print
+	if ext[1:] in text_formats:
 		css_class = ""
 		txt = read_file(filepath)
 		if ext[1:] in source_types:
@@ -308,6 +301,10 @@ def get_content_and_metadata(filepath, store_dir):
 			txt = cgi.escape(txt)
 
 		return ("<pre {}>{}</pre>".format(css_class, txt), meta, None)
+	else:
+		bname = path.basename(filepath)
+		url = path.join(store_dir, bname)
+		return ("<a href='{}'> {} </a>".format(url, bname), meta, url)
 
 
 def get_bib_references(filepath):
