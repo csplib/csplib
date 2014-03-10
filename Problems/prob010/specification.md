@@ -1,5 +1,5 @@
 Title:    Social Golfer Problem
-Proposer: 	 Warwick Harvey 
+Proposer: Warwick Harvey 
 Category:
 
 
