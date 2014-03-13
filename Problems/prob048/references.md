@@ -1,0 +1,6 @@
+* David A. Burke and Kenneth N. Brown: Using Relaxations to Improve Search in Distributed Constraint Optimisation. Technical Report TR-01-2008, Cork Constraint Computation Centre, January 2008.
+* I. Papadimitriou and L. Georgiadis: Minimum-energy Broadcasting in Multi-hop Wireless Networks using a Single Broadcast Tree. Mobile Networks and Applications, 11 (3), pp361-375, 2006.
+* J. Cartigny, D. Simplot, and I. Stojmenovic: Localized minimum-energy broadcasting in ad-hoc networks. In Proceedings of IEEE Infocom 03, San Francisco, USA, 2003.
+* R. Das, M. El-Sharkawi, P. Arabshahi, and A. Gray: Minimum power broadcast trees for wireless networks: optimizing using the viability lemma. In Proceedings of IEEE International Symposium on Circuits and Systems, pp245248, 2002.
+* Intae Kang and Radha Poovendran: Iterated local optimization for minimum energy broadcast. In Proceedings Third International Symposium on Modeling and Optimization in Mobile, Ad Hoc, and Wireless Networks, pp332341, 2005.
+* Jeffrey E. Wieselthier, Gam D. Nguyen, and Anthony Ephremides: Energy efficient broadcast and multicast trees in wireless networks. Mobile Networks and Applications, 7(6), pp481492, 2002.
