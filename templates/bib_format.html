@@ -3,18 +3,12 @@
     <head>
         <style>
         .venue { font-style: italic; }
-
-        dt {
-		font-weight: bold;
-        }
-        dd {
-		padding-bottom: 5px;
-        }
+        .title { font-weight: bold; }
         </style>
     </head>
     <body>
             {% for entry in entries %}
-            <p id="{{entry.fields['key']}}">
+            <p id="{{entry.fields['fragment']}}">
                 <span class="authors">
                     {{ entry.persons['author']|author_list }}
                 </span>
@@ -46,7 +40,7 @@
                 {% endfor %}
                 </span>
 
-            </ps>
+            </p>
 
             {% endfor %}
     </body>

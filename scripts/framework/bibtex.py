@@ -30,6 +30,9 @@ class Bib(object):
             db = bibtex.Parser().parse_stream(f)
         for k, v in db.entries.items():
             v.fields['key'] = k
+            fragment = re.sub("[^\w]", "_", k)
+            fragment = re.sub("^(\d+)", "_\\1", fragment)
+            v.fields['fragment'] = fragment
 
         def _sortkey(entry):
             e = entry.fields

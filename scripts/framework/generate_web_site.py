@@ -16,25 +16,23 @@ if sys.version_info[0] == 2:
 
 from collections import defaultdict
 from datetime import datetime, date
-
-from distutils import dir_util
-from distutils import file_util
+from distutils import dir_util, file_util
 
 from jinja2 import Environment, FileSystemLoader
 from jinja2_exts import urlize2
 
-import cgi  # for cgi.escape
-import markdown
-import os
-import os.path as path
-import re
-import subprocess
-import zipfile
-import logging
 import argparse
-logger = logging.getLogger(__name__)
+import cgi  # for cgi.escape
+import logging
+import os, os.path as path
+import zipfile
 
 import bibtex
+import markdown
+
+logger = logging.getLogger(__name__)
+
+
 
 # Option parser
 parser = argparse.ArgumentParser(description='Builds csplib')
