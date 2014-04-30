@@ -34,6 +34,8 @@ import logging
 import argparse
 logger = logging.getLogger(__name__)
 
+import bibtex
+
 # Option parser
 parser = argparse.ArgumentParser(description='Builds csplib')
 parser.add_argument("only_probs", nargs='*', metavar='Problems', help='Optional, Build only the specifed problems')
@@ -73,6 +75,20 @@ if args.only_probs:
 	probs_names = probs_names & to_build
 
 
+markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
+template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)
+template_env.filters['urlize2'] = urlize2
+
+
+def formatted_time_for_updates(year_month):
+	d = date(*year_month, day=1)
+	return d.strftime("%B %Y")
+
+
+template_env.filters['formatted_time_for_updates'] = formatted_time_for_updates
+bibtex.add_filters(template_env)
+
+
 class Problem(object):
 	"""Hold all the problem's data"""
 	def __init__(self, name, prefix):
@@ -97,10 +113,11 @@ class Problem(object):
 			self.specification = spec
 
 		self.references = None
-		for fp in ["references.bib",  "references.md", "references.html"]:
+		for fp in ["references.bib"]:
 			ref = path.join(self.base_path, fp)
 			if path.exists(ref):
 				self.references = ref
+				self.bib = bibtex.Bib(ref)
 
 		self.models = self.get_directory("models")
 		self.data = self.get_directory("data")
@@ -129,17 +146,6 @@ probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p
 
 # Copy every file in web  to the output directory
 copy_web_resources(output_dir)
-
-markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
-template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)
-template_env.filters['urlize2'] = urlize2
-
-
-def formatted_time_for_updates(year_month):
-	d = date(*year_month, day=1)
-	return d.strftime("%B %Y")
-
-template_env.filters['formatted_time_for_updates'] = formatted_time_for_updates
 
 
 def read_file(filepath):
@@ -257,14 +263,12 @@ def process_problem(prob):
 	if prob.references is None:
 		(bib_html, rel_path) = ("", "")
 	else:
-		(_, ext) = path.splitext(prob.references)
-		if (ext == ".bib"):
-			makedirs_exist_ok(path.join(prob_dir, "references"))
-			file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
-			has_bibtex = True
-		(bib_html, rel_path) = get_bib_references(prob.references)
+		makedirs_exist_ok(path.join(prob_dir, "references"))
+		file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
+		has_bibtex = True
+		bib_html = prob.bib.to_html(apply_template)
 
-	refs = apply_template("references.html", references=bib_html, rel_path=rel_path,
+	refs = apply_template("references.html", references=bib_html, rel_path="references.html",
 		has_bibtex=has_bibtex, **prob_meta)
 	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
@@ -310,36 +314,6 @@ def get_content_and_metadata(filepath, store_dir):
 		bname = path.basename(filepath)
 		url = path.join(store_dir, bname)
 		return ("<a href='{0}'> {1} </a>".format(url, bname), meta, url)
-
-
-def get_bib_references(filepath):
-	(_, ext) = path.splitext(filepath)
-	if (ext == ".html"):
-		return (read_file(filepath), 'references.html')
-	elif (ext == '.md' ):
-		(rendered, _) = convert_markdown(filepath)
-		return (rendered,  'references.html')
-
-
-	bib_cmd = [path.join(abs_prog_dir, "bib2xhtml"), "-s", "paragraph", filepath]
-	# not using subprocess.check_output to so I can specify the current working dir
-	bib_html = subprocess.Popen(bib_cmd, stdout=subprocess.PIPE, universal_newlines=True, cwd=abs_prog_dir).communicate()[0]
-
-	# less sane then using a html parser
-	regex = re.compile(r'<p>(.*?<a +name="(.*?)".*?)</p>', re.DOTALL)
-
-	def f(html_match):
-		ref_name = html_match.group(2)
-		# to allow in a html Fragment
-		ref_name = re.sub("[^\w]", "_", ref_name)
-		ref_name = re.sub("^(\d+)", "_\\1", ref_name)
-		return '<p id="{0}">{1}</p>'.format(ref_name, html_match.group(1))
-
-
-	refs = [  f(r) for r in regex.finditer(bib_html) ]
-
-
-	return ("\n".join(refs), 'references.bib')
 
 
 essences = []

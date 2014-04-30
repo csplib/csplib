@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        .venue { font-style: italic; }
+
+        dt {
+		font-weight: bold;
+        }
+        dd {
+		padding-bottom: 5px;
+        }
+        </style>
+    </head>
+    <body>
+            {% for entry in entries %}
+            <p id="{{entry.fields['key']}}">
+                <span class="authors">
+                    {{ entry.persons['author']|author_list }}
+                </span>
+
+                <br>
+
+                <span class="title">
+                    {% set url = entry|main_url %}
+                    {% if url %}
+                    <a href="{{ url|escape }}">{{ entry|title }}</a>
+                    {% else %}
+                    {{ entry|title }}
+                    {% endif %}
+                </span>
+
+                <br>
+
+                <span class="venuetype">{{ entry|venue_type -}}</span>
+                <span class="venue">{{ entry|venue -}}</span>{% if entry|venue  %}, {% endif %}
+
+                <span class="date">
+                    {{ entry.fields['month'] }}
+                    {{ entry.fields['year'] }}
+                </span>
+
+                <span class="links">
+                {% for type, url in (entry|extra_urls).items() %}
+                    <a href="{{ url|escape }}">{{ type|escape }}</a>
+                {% endfor %}
+                </span>
+
+            </ps>
+
+            {% endfor %}
+    </body>
+</html>
