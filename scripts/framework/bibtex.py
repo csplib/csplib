@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pybtex.database.input import bibtex
 import re
 from calendar import month_name
@@ -57,13 +58,13 @@ class Bib(object):
         def _sortkey(entry):
             e = entry.fields
             try:
-                year = '{:04d}'.format(int(e['year']))
+                year = '%04d'% (int(e['year']))
             except KeyError:
                 return "000000"
 
             try:
                 monthnum = _month_match(e['month'])
-                year += '{:02d}'.format(monthnum)
+                year += '%02d' % monthnum
             except KeyError:
                 year += '00'
             return year
@@ -142,7 +143,7 @@ def _title(entry):
         title = entry.fields['title']
 
     # remove curlies from titles -- useful in TeX, not here
-    title = title.translate({ ord('{'): None, ord('}'): None})
+    title = re.sub("[{}]", "", title)
     return title
 
 
