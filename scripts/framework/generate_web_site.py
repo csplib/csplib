@@ -111,9 +111,15 @@ class Problem(object):
 			self.specification = spec
 
 		self.bib = None
+		self.ref_notes=None
 		ref = path.join(self.base_path, "references.bib")
+		ref_notes = path.join(self.base_path, "references-notes.inline-md")
+
 		if path.exists(ref):
 			self.bib = bibtex.Bib(ref)
+
+		if path.exists(ref_notes):
+			self.ref_notes = ref_notes
 
 		self.models = self.get_directory("models")
 		self.data = self.get_directory("data")
@@ -257,14 +263,18 @@ def process_problem(prob):
 
 	has_bibtex=None
 	bib_html=""
+	ref_notes_html=""
 	if prob.bib:
 		makedirs_exist_ok(path.join(prob_dir, "references"))
 		file_util.copy_file(prob.bib.bibfile, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
 		has_bibtex = True
 		bib_html = prob.bib.to_html(apply_template)
 
+	if prob.ref_notes:
+		(ref_notes_html, _) = convert_markdown(prob.ref_notes)
+
 	refs = apply_template("references.html", references=bib_html, rel_path="references.html",
-		has_bibtex=has_bibtex, **prob_meta)
+		has_bibtex=has_bibtex, notes=ref_notes_html, **prob_meta)
 	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
 
