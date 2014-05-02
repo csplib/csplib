@@ -12,7 +12,7 @@
 {% for name, probs in categories | dictsort %}
     <h2 class='smaller'>{{name}}</h2>
 
-	{% for prob in probs %}
+	{% for prob in probs | sort(case_sensitive=False, attribute='name') %}
 		<p>
 			<a href="prob{{ prob.metadata['id'] | join('') }}">
 				prob{{ prob.metadata['id'] | join('') }}
