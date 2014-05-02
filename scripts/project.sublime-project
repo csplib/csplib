@@ -3,9 +3,10 @@
 	[
 		{
 			"follow_symlinks": true,
-			"path": ".",
+			"path": "../",
 			"folder_exclude_patterns": [
-				"_deploy","scripts/env",
+				"_deploy",
+				"scripts/env",
 				"scripts/framework/__pycache",
 				"web/bootstrap"
 			],
@@ -13,7 +14,7 @@
 			[
 				"*.aux",
 				"*.gitkeep"
-			],
+			]
 		}
 	]
 }
