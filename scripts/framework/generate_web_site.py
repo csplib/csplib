@@ -110,12 +110,10 @@ class Problem(object):
 		if path.exists(spec):
 			self.specification = spec
 
-		self.references = None
-		for fp in ["references.bib"]:
-			ref = path.join(self.base_path, fp)
-			if path.exists(ref):
-				self.references = ref
-				self.bib = bibtex.Bib(ref)
+		self.bib = None
+		ref = path.join(self.base_path, "references.bib")
+		if path.exists(ref):
+			self.bib = bibtex.Bib(ref)
 
 		self.models = self.get_directory("models")
 		self.data = self.get_directory("data")
@@ -258,11 +256,10 @@ def process_problem(prob):
 
 
 	has_bibtex=None
-	if prob.references is None:
-		(bib_html, rel_path) = ("", "")
-	else:
+	bib_html=""
+	if prob.bib:
 		makedirs_exist_ok(path.join(prob_dir, "references"))
-		file_util.copy_file(prob.references, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
+		file_util.copy_file(prob.bib.bibfile, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
 		has_bibtex = True
 		bib_html = prob.bib.to_html(apply_template)
 
