@@ -1,47 +1,48 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-        .venue { font-style: italic; }
-        .title { font-weight: bold; }
-        </style>
-    </head>
-    <body>
-            {% for entry in entries %}
-            <p id="{{entry.fields['fragment']}}">
-                <span class="authors">
-                    {{ entry.persons['author']|author_list }}
-                </span>
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+{% for entry in entries %}
+<p id="{{entry.fields['fragment']}}">
+    <span class="bibkey">
+        [{{entry.fields['key']}}]
+    </span>
+    <br>
+    <span class="authors">
+        {{ entry.persons['author']|author_list }}
+    </span>
 
-                <br>
+    <br>
 
-                <span class="title">
-                    {% set url = entry|main_url %}
-                    {% if url %}
-                    <a href="{{ url|escape }}">{{ entry|title }}</a>
-                    {% else %}
-                    {{ entry|title }}
-                    {% endif %}
-                </span>
+    <span class="title">
+        {% set url = entry|main_url %}
+        {% if url %}
+        <a href="{{ url|escape }}">{{ entry|title }}</a>
+        {% else %}
+        {{ entry|title }}
+        {% endif %}
+    </span>
 
-                <br>
+    <br>
 
-                <span class="venuetype">{{ entry|venue_type -}}</span>
-                <span class="venue">{{ entry|venue -}}</span>{% if entry|venue  %}, {% endif %}
+    <span class="venuetype">{{ entry|venue_type -}}</span>
+    <span class="venue">{{ entry|venue -}}</span>{% if entry|venue  %}, {% endif %}
 
-                <span class="date">
-                    {{ entry.fields['month'] }}
-                    {{ entry.fields['year'] }}
-                </span>
+    <span class="date">
+        {{ entry.fields['month'] }}
+        {{ entry.fields['year'] }}
+    </span>
 
-                <span class="links">
-                {% for type, url in (entry|extra_urls).items() %}
-                    <a href="{{ url|escape }}">{{ type|escape }}</a>
-                {% endfor %}
-                </span>
+    <span class="links">
+    {% for type, url in (entry|extra_urls).items() %}
+        <a href="{{ url|escape }}">{{ type|escape }}</a>
+    {% endfor %}
+    </span>
 
-            </p>
+</p>
 
-            {% endfor %}
-    </body>
-</html>
+{% endfor %}
