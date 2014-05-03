@@ -15,7 +15,7 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 		# to allow in a html Fragment
 		ref = re.sub("[^\w]", "_", ref)
 		ref = re.sub("^(\d+)", "_\\1", ref)
-		url = 'references/#' + ref
+		url = '~~PROB_BASE~~/references/#' + ref
 
 		if ref in self.numbered:
 			num = self.numbered[ref]
@@ -25,7 +25,12 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
-		el.text = markdown.util.AtomicString("[{0}]".format(num))
+
+		# number refs
+		# el.text = markdown.util.AtomicString("[{0}]".format(num))
+		# bibkey refs
+		el.text = markdown.util.AtomicString(" [{0}]".format(ref))
+
 		return el
 
 

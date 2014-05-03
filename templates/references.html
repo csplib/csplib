@@ -1,4 +1,6 @@
 {% set type = 'references' %}
+{% set ff = 'dsdsd' %}
+
 {% extends "problem.html" %}
 
 {% block head %}
@@ -32,7 +34,7 @@
 
 {% block mainContent %}
 
-{{notes}}
+{{notes.replace("~~PROB_BASE~~",prob_base) }}
 
 {% if has_bibtex %}
 <p>

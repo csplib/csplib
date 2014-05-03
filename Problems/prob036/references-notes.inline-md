@@ -21,12 +21,5 @@ The Lee distance is been found useful in other contexts, for example:
 topological properties of k-ary n-cubes, IEEE Transactions on Computers
 44 (1995) 1021-1030</li>
 </ul>
-A CSP model is presented in:
-<ul>
-  <p> </p>
-  <li> A. M. Frisch, C. Jefferson, I. Miguel, "Constraints for Breaking
-More Row and Column Symmetries," Proceedings of the 9th International
-Conference on Principles and Practice of Constraint Programming, 2003.
-    <p> </p>
-  </li>
-</ul>
+
+A CSP model is presented in cite{rowsym03}

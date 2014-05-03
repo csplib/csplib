@@ -14,7 +14,7 @@
 {% block mainContent %}
 
 <a href="{{prob_base}}/{{part}}/{{name}}">Download</a>
-{{problemContent}}
+{{problemContent.replace("~~PROB_BASE~~",prob_base)}}
 
 {% endblock %}
 
@@ -40,7 +40,7 @@
     ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
     ['scala'  , '/syntax_highlighter/shBrushScala.js']
 	);
-	
+
 	SyntaxHighlighter.defaults['toolbar'] = false;
   SyntaxHighlighter.all();
 </script>

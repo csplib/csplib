@@ -44,6 +44,6 @@ Proposed by {{prob.metadata['proposer'] | join(', ') }}
 </p>
 {% endif %}
 
-{{problemContent}}
+{{problemContent.replace("~~PROB_BASE~~",prob_base)}}
 
 {% endblock %}
