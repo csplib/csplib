@@ -25,6 +25,8 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
+		el.set('class', 'bibref')
+		el.set('data-bibfragment', ref)
 
 		# number refs
 		# el.text = markdown.util.AtomicString("[{0}]".format(num))

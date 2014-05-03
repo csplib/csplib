@@ -17,10 +17,17 @@
 
 	<script type="text/javascript">
 	$( document ).ready(function() {
-	  ref_id= window.location.hash.substring(1);
-	  if (ref_id){
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
 		  $('p#'+ ref_id).addClass('highlight');
-	  }
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
 	});
 
 	</script>
@@ -34,13 +41,13 @@
 
 {% block mainContent %}
 
-{{notes.replace("~~PROB_BASE~~",prob_base) }}
-
 {% if has_bibtex %}
 <p>
 	<a href="{{prob_base}}/references/{{prob_name}}-refs.bib">Download bibtex</a>
 </p>
 {% endif %}
+
+{{notes.replace("~~PROB_BASE~~",prob_base) }}
 
 {{references}}
 

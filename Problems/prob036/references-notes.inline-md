@@ -1,25 +1,8 @@
 One of the most complete references on Hamming distances and coding in
-general was written by Hamming:<br>
-<ul>
-  <p> </p>
-  <li>Richard Hamming, Coding and Information Theory, Prentice-Hall,
-1980 ISBN 0-13-139139-9.</li>
-</ul>
-Lee distances have been of interest since 1994, mainly due to the
-following paper which discusses Lee codes and their relation:<br>
-<ul>
-  <p> </p>
-  <li>A. Roger Hammons, Jr. P. Vikay Kumar, A.R. Calderbank, N.J.A.
-Sloane and Patrick Sol&eacute;, The Z<sub>4</sub>-linearity of Kerdock,
-Preparata, Goethals, and related codes, <em>IEEE Transactions on
-Information Theory</em>, 40(2):301-319, 1994.</li>
-</ul>
-The Lee distance is been found useful in other contexts, for example:
-<ul>
-  <p> </p>
-  <li> B. Bose, B. Brong, Y. Kwon and Y. Ashir, Lee Distance and
-topological properties of k-ary n-cubes, IEEE Transactions on Computers
-44 (1995) 1021-1030</li>
-</ul>
+general was written by Hamming cite{roman1980coding}
+
+Lee distances have been of interest since 1994, mainly due to the following paper which discusses Lee codes and their relation cite{hammons1994z}
+
+The Lee distance is been found useful in other contexts cite{bose1995lee}
 
 A CSP model is presented in cite{rowsym03}
