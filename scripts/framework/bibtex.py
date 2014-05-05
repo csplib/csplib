@@ -2,6 +2,14 @@
 from pybtex.database.input import bibtex
 import re
 from calendar import month_name
+import codecs
+import latexcodec  #needed
+import sys
+
+if sys.version_info[0] == 3:
+    from io import StringIO
+else:
+    from stringIO import StringIO
 
 _months = {
     'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
@@ -27,8 +35,11 @@ class Bib(object):
         self.db=None
 
     def parse(self):
-        with open(self.bibfile) as f:
-            db = bibtex.Parser().parse_stream(f)
+        with codecs.open(self.bibfile, encoding="latex+utf8") as ff:
+            # remove {} useful in TeX, not in html
+            f=re.sub(u"{(\w)}", u"\\1", ff.read(), re.UNICODE)
+            buf=StringIO(f)
+            db = bibtex.Parser().parse_stream(buf)
         for k, v in db.entries.items():
             v.fields['key'] = k
             # fragment is the bibtex key sanitised for use in html anchors
@@ -144,8 +155,8 @@ def _title(entry):
     else:
         title = entry.fields['title']
 
-    # remove curlies from titles -- useful in TeX, not here
-    title = re.sub("[{}]", "", title)
+    # remove {} useful in TeX, not in html
+    # title = re.sub("[{}]", "", title)
     return title
 
 
