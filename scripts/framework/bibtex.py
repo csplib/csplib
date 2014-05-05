@@ -118,13 +118,14 @@ def _venue(entry):
                 venue += ' {0}({1})'.format(f['volume'], f['number'])
         except KeyError:
             pass
-    elif entry.type == 'inproceedings':
+    elif entry.type in {'inproceedings', 'incollection'}:
         venue = f['booktitle']
-        try:
-            if f['series']:
-                venue += ' ({})'.format(f['series'])
-        except KeyError:
-            pass
+        # Not sure I want the series
+        # try:
+        #     if f['series']:
+        #         venue += ' ({})'.format(f['series'])
+        # except KeyError:
+        #     pass
     elif entry.type == 'inbook':
         venue = f['title']
     elif entry.type == 'techreport':
