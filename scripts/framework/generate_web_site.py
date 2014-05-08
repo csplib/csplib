@@ -199,7 +199,7 @@ def process_problem(prob):
 	makedirs_exist_ok(prob_dir)
 
 	def write(data, name):
-		with open(path.join(prob_dir, name), "w") as f:
+		with open(path.join(prob_dir, name), "w", encoding='utf-8') as f:
 			f.write(data)
 
 	write(spec, "index.html")
@@ -214,7 +214,7 @@ def process_problem(prob):
 			fp = path.join(prob_meta['prob_base'], part_name)
 
 			if (path.splitext(part)[1] == '.inline-html'):
-				with open(part) as f:
+				with open(part, encoding='utf-8'    ) as f:
 					raw_html = f.read()
 				raw_htmls.append(raw_html.strip())
 				continue
@@ -280,7 +280,7 @@ def process_problem(prob):
 
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
 	makedirs_exist_ok(old_path)
-	with open(path.join(old_path, "index.html"), "w") as f:
+	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
 		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
 
@@ -328,7 +328,7 @@ months_map = defaultdict(list)
 
 try:
 	# get creation times from git
-	with open(path.join(output_dir, "problems_creation_dates.txt"), "r") as f:
+	with open(path.join(output_dir, "problems_creation_dates.txt"), "r", encoding='utf-8') as f:
 		creations_times = dict(line.strip().split(',') for line in f.readlines())
 	logger.debug(creations_times)
 except IOError:
@@ -379,25 +379,25 @@ create_zip_file(path.join(output_dir, "essences.zip"), essences)
 index_path = path.join(output_dir, "index.html")
 res = apply_template("index.html",
 	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
-with open(index_path, "w") as f:
+with open(index_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
-with open(probs_path, "w") as f:
+with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/categories.html")
 res = apply_template("categories.html", categories=categories_map)
-with open(probs_path, "w") as f:
+with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "authors.html")
 res = apply_template("authors.html", authors=authors_map)
-with open(probs_path, "w") as f:
+with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "updates.html")
 res = apply_template("updates.html", mapping=months_map)
-with open(probs_path, "w") as f:
+with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
