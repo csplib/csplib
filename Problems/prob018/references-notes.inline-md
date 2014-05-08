@@ -1,0 +1,5 @@
+The problem appeared in the *Sunday Telegraph* newspaper on 2nd September 1999, in an article by Robert Matthews, [Labyrinthine theories to stop us getting lost](http://www.telegraph.co.uk:80/et?ac=000112753058119&rtmo=LihilyKd&atmo=99999999&pg=/et/99/9/2/ecfmaze02.html).
+
+Peter van Beek and Xinguang Chen have shown that constraint satisfaction can be a viable approach to solve planning problems. They distribute [CPlan](ftp://ftp.cs.ualberta.ca/pub/vanbeek/software/cplan.tar.gz), a C program for solving planning problems (see the [README](ftp://ftp.cs.ualberta.ca/pub/vanbeek/software/README.cplan) file for more details).
+
+Encoding planning problems into propositional satisfiability has also been highly popular in the last few years. See, for example, Henry Kautz's [Blackbox](http://www.research.att.com/~kautz/blackbox/index.html) system.
