@@ -11,3 +11,5 @@ different sizes. The sum of the square surfaces is equal to the surface of the
 packing square, so that there is no spare capacity. A simple perfect square 
 placement problem is a perfect square placement problem in which no subset of 
 the squares (greater than one) are placed in a rectangle. 
+
+A note with an example solution is available in the Data files section.
