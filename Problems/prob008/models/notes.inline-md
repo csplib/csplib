@@ -1,0 +1,1 @@
+The simplest approach to modelling the problem as a CSP is to cover the larger rectangle with a grid of points. The rectangles to be packed are then the variables. The values will be pairs of orientation and grid point of the north west corner of the placed rectangle.
