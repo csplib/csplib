@@ -1,6 +1,6 @@
 Title:    Nonogram
 Proposer: Gary Duncan
-          Ian Gent 
+          Ian Gent
 Category:
 
 

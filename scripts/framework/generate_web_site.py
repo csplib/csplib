@@ -336,27 +336,32 @@ except IOError:
 	creations_times={}
 
 for prob in probs:
-	logger.info("")
-	logger.info("Processing problem %s", prob.name)
-	logger.debug(prob)
-	logger.debug("")
-	process_problem(prob)
-	for category in prob.metadata['category']:
-		categories_map[category].append(prob)
+	try:
+		logger.debug("")
+		logger.debug("Processing problem %s", prob.name)
+		logger.debug(prob)
+		logger.debug("")
+		process_problem(prob)
+		for category in prob.metadata['category']:
+			categories_map[category].append(prob)
 
-	for author in prob.metadata['proposer']:
-		authors_map[author].append(prob)
+		for author in prob.metadata['proposer']:
+			authors_map[author].append(prob)
 
-	def fix_path(f):
-		"""filepath inside zip"""
-		return f.replace(problems_path + "/", "").replace("/models", "")
+		def fix_path(f):
+			"""filepath inside zip"""
+			return f.replace(problems_path + "/", "").replace("/models", "")
 
-	essences += [(f, fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
+		essences += [(f, fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
 
-	if prob.name in creations_times:
-		if creations_times[prob.name].strip():
-			creation = datetime.fromtimestamp(float(creations_times[prob.name]))
-			months_map[(creation.year, creation.month)].append( (creation, prob) )
+		if prob.name in creations_times:
+			if creations_times[prob.name].strip():
+				creation = datetime.fromtimestamp(float(creations_times[prob.name]))
+				months_map[(creation.year, creation.month)].append( (creation, prob) )
+	except Exception as e:
+		logger.info("Failure in problem %s", prob.name)
+		logger.info("Error: %s", e)
+		raise
 
 logger.debug("authors %s", authors_map.keys())
 
@@ -396,5 +401,3 @@ probs_path = path.join(output_dir, "updates.html")
 res = apply_template("updates.html", mapping=months_map)
 with open(probs_path, "w") as f:
 	f.write(res)
-
-
