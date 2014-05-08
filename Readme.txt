@@ -1,4 +1,4 @@
-Requries Python 3.3+, bibtex, Perl
+Requires Python 3.3+
 
 To build
 	make
