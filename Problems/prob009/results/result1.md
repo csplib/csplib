@@ -1,8 +1,8 @@
 
-The following table contains all the data for all problem instances from [BD92].
+The following table contains all the data for all problem instances from cite{bouwkamp-duijvestijn-92}.
 The fields describe the problem number, the number of squares, the size of the
 master square and a list of the square sizes. The problem number corresponds
-to the page number in [BD92]. Problems 166 and 167, 168 and 169, 182 and 183
+to the page number in cite{bouwkamp-duijvestijn-92}. Problems 166 and 167, 168 and 169, 182 and 183
 are identical, but have two non-isomorphic solutions.
 
 Problem number | Number of squares | Size of master square | List of square sizes
