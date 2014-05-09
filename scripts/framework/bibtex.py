@@ -165,6 +165,10 @@ def _main_url(entry):
     for f in urlfields:
         if f in entry.fields:
             return entry.fields[f]
+    if 'howpublished' in entry.fields:
+        urlmatch = re.match("\\s*\\\\url\\s*{(.*)}\\s*", entry.fields['howpublished'])
+        if urlmatch:
+            return urlmatch.group(1)
     return None
 
 
