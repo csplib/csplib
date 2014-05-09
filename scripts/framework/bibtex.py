@@ -123,7 +123,7 @@ def _venue(entry):
     f = entry.fields
     venue = ''
     if entry.type == 'article':
-        venue = f['journal']
+        venue = f.get('journal', '')
         try:
             if f['volume'] and f['number']:
                 venue += ' {0}({1})'.format(f['volume'], f['number'])
