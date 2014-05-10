@@ -40,15 +40,13 @@ echo "Category: " >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 
-echo "" >> "$prob_dir/references.${2:-bib}"
+echo "" > "$prob_dir/references.bib"
+echo "" > "$prob_dir/references-notes.inline-md"
+
 
 echo "Created $prob_dir/specification.md"
 echo ""
 
-if [ -f "$prob_dir/references.bib" ]; then
-	echo "Optionally add references in bibtex $prob_dir/references.bib"
-else
-	echo "Optionally add references in  $prob_dir/references.${2:-}"
-fi
+echo "Optionally add references in bibtex $prob_dir/references.bib"
 echo "See ./Problems/prob001 or ./Problems/prob002 for an example"
 
