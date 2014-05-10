@@ -1,0 +1,10 @@
+Probably the first appearance of the 3-fractions puzzle in the
+constraints literature is cite{schulte2004finite}.
+
+The following paper shows how a basic model of the 3-fractions puzzle can be
+improved automatically cite{frisch2001extensions}.
+
+Using hand-reformulation, the following paper discusses how different
+using symmetry-breaking schemes on the 3-fractions puzzle, followed by
+the derivation of implied constraints, can lead to models of varying
+quality cite{frisch2004symmetry}. 
