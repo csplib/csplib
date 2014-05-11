@@ -5,6 +5,7 @@ from calendar import month_name
 import codecs
 import latexcodec  #needed
 import sys
+from pprint  import pprint, pformat
 
 if sys.version_info[0] == 3:
     from io import StringIO
@@ -86,7 +87,7 @@ class Bib(object):
         return html
 
     def __repr__(self):
-        return "%s(%s)" % (self.__class__, self.__dict__)
+        return "%s(%s)" % (self.__class__, pformat(self.__dict__))
 
 
 

@@ -30,6 +30,8 @@ import zipfile
 import bibtex
 import markdown
 
+from pprint import pprint, pformat
+
 logger = logging.getLogger(__name__)
 
 
@@ -102,7 +104,7 @@ class Problem(object):
 		self.base_path = path.join(self.prefix, self.name)
 
 	def __repr__(self):
-		return "%s(%s)" % (self.__class__, self.__dict__)
+		return "%s(%s)" % (self.__class__, pformat(self.__dict__))
 
 	def find_files(self):
 
