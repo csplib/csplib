@@ -178,7 +178,7 @@ def _extra_urls(entry):
                 continue
 
         url = v
-        urlmatch = re.match("\\s*\\\\url\\s*{(.*)}\\s*", url)
+        urlmatch = re.match(r"\s*\\url\s*{(.*)}\s*", url)
         if urlmatch:
             url = urlmatch.group(1)
         urltype = "{}: {}".format(k, url)
