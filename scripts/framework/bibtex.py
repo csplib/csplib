@@ -165,21 +165,24 @@ def _main_url(entry):
     for f in urlfields:
         if f in entry.fields:
             return entry.fields[f]
-    if 'howpublished' in entry.fields:
-        urlmatch = re.match("\\s*\\\\url\\s*{(.*)}\\s*", entry.fields['howpublished'])
-        if urlmatch:
-            return urlmatch.group(1)
     return None
 
 
 def _extra_urls(entry):
     urls = {}
     for k, v in entry.fields.items():
-        if not k.endswith('_url'):
-            continue
-        k = k[:-4]
-        urltype = k.replace('_', ' ')
-        urls[urltype] = v
+        if k != 'howpublished':
+            if k.endswith('_url'):
+                k = k[:-4]
+            else:
+                continue
+
+        url = v
+        urlmatch = re.match("\\s*\\\\url\\s*{(.*)}\\s*", url)
+        if urlmatch:
+            url = urlmatch.group(1)
+        urltype = "{}: {}".format(k, url)
+        urls[urltype] = url
     return urls
 
 
