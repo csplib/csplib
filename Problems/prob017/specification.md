@@ -1,5 +1,5 @@
 Title:    Ramsey Numbers
-Proposer: Toby Walsh 
+Proposer: Toby Walsh
 Category:
 
 
@@ -9,3 +9,6 @@ The problem can be posed as edge-colouring. The Ramsey number R(k,l) is the smal
 A related problem (which is often called the Ramsey problem) is to colour the edges of a complete graph with n nodes using at most k colours, in such a way that there is no monochromatic triangle in the graph, i.e. in any triangle at most two edges have the same colour. With 3 colours, the problem has a solution if n < 17.
 
 There exist various interesting generalizations of Ramsey numbers (e.g. to hypergraphs, to graphs which are complete except for a limited number of edges, or to infinite size graphs).
+
+Schur's lemma is closely related, and is described in
+<A HREF="../../prob015/">prob015</A>.
