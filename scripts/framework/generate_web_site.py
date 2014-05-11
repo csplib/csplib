@@ -280,6 +280,13 @@ def process_problem(prob):
 	makedirs_exist_ok(path.join(prob_dir, "references"))
 	write(refs, "references/index.html")
 
+	# Cite a problem
+	# pprint(prob_meta)
+	cite = apply_template("problem_cite.html", **prob_meta)
+	makedirs_exist_ok(path.join(prob_dir, "cite"))
+	write(cite, "cite/index.html")
+
+
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
 	makedirs_exist_ok(old_path)
 	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:

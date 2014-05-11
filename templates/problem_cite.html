@@ -1,0 +1,34 @@
+{% set type = 'cite' %}
+{% extends "problem.html" %}
+
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="{{prob_base}}/cite">Cite</a></li>
+{% endblock %}
+
+{% block mainContent %}
+
+<p>
+To cite this page use the following bibtex:
+</p>
+
+<pre>
+@misc{csplib{{prob_name}},
+title={CSPLib Problem {{prob.metadata['id']| join(', ') }}: {{prob.metadata['title'] | join(', ')  }}},
+author={ {{prob.metadata['proposer'] | join(' and ') }} },
+howpublished={\url{http://csplib.org{{prob_base}}}}
+}
+</pre>
+
+<p>
+To cite csplib as a whole, please use:
+</p>
+
+<pre>
+@misc{csplib,
+title={CSPLib}
+howpublished={http://csplib.org}
+</pre>
+
+
+{% endblock %}
