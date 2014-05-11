@@ -1,5 +1,5 @@
 Title:    ACC Basketball Schedule
-Proposer: Toby Walsh 
+Proposer: Toby Walsh
 Category:
 
 
@@ -24,3 +24,5 @@ The 9 basketball teams in the tournament are Clemson (Clem), Duke (Duke), Florid
 **8. Opponent Sequence Constraints**. No team plays in two consecutive dates away against UNC and Duke. No team plays in three consecutive dates against UNC, Duke and Wake (independent of home/away).
 
 **9. Other Constraints**. UNC plays its rival Duke in the last date and in date 11. UNC plays Clem in the second date. Duke has a bye in date 16. Wake does not play home in date 17. Wake has a bye in the first date. Clem, Duke, UMD and Wake do not play away in the last date. Clem, FSU, GT and Wake do not play away in the first date. Neither FSU nor NCSt have a bye in last date. UNC does not have a bye in the first date.
+
+See also <A HREF="../prob026/">prob026</A>, round robin tournaments (of which prob011 is an instance).
