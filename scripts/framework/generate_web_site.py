@@ -154,7 +154,7 @@ copy_web_resources(output_dir)
 
 def read_file(filepath):
 	with open(filepath, "r") as f:
-		return "".join(f.readlines() + ["\n"])
+		return "".join(["temp:nothing\n"] + f.readlines() + ["\n"])
 
 
 # since exist_ok is not in python2
