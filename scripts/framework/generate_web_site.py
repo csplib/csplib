@@ -115,7 +115,7 @@ class Problem(object):
 		self.bib = None
 		self.ref_notes=None
 		ref = path.join(self.base_path, "references", "references.bib")
-		ref_notes = path.join(self.base_path, "references", "notes.inline-md")
+		ref_notes = path.join(self.base_path, "references", "notes.inline.md")
 
 		if path.exists(ref):
 			self.bib = bibtex.Bib(ref)
@@ -215,12 +215,12 @@ def process_problem(prob):
 		for part in getattr(prob, part_name):
 			fp = path.join(prob_meta['prob_base'], part_name)
 
-			if (path.splitext(part)[1] == '.inline-html'):
+			if (path.splitext(part)[1] == '.inline.html'):
 				with open(part, encoding='utf-8'    ) as f:
 					raw_html = f.read()
 				raw_htmls.append(raw_html.strip())
 				continue
-			elif (path.splitext(part)[1] == '.inline-md'):
+			elif (path.splitext(part)[1] == '.inline.md'):
 				(html, _) = convert_markdown(part)
 				raw_htmls.append(html.strip())
 				continue
