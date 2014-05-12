@@ -1,5 +1,7 @@
 Title: Meeting Scheduling   
-Proposer: Uri Shapen, Roie Zivan and Amnon Meisels
+Proposer: Uri Shapen
+          Roie Zivan
+		  Amnon Meisels
 Category: Distributed CSP,
           Scheduling and related problems
 
