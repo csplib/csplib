@@ -1,6 +1,7 @@
 Title:    Tank Allocation
 Proposer: Pierre Schaus
-Category: Bin packing, partitioning and related problems
+Category: Bin packing
+          Partitioning and related problems
 
 
 The tank allocation problem involves the assignment of different cargoes (volumes of chemical products to be shipped by the vessel) to the available tanks of the vessel. The loading plans of bulk vessels are generally generated manually by the vessel planners although it is difficult to generate high quality solutions. The constraints to satisfy are mainly segregation constraints:

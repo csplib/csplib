@@ -3,7 +3,7 @@ Proposer: Chris Jefferson
           Angela Miguel
           Ian Miguel
           Armagan Tarmin
-Category: Games and Puzzles
+Category: Games and puzzles
 
 Peg Solitaire (also known as Hi-Q) is played on a board with a number of holes. In the English version of the game, the board is in the shape of a cross with 33 holes:
 

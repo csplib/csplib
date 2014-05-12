@@ -1,6 +1,6 @@
 Title:    Vessel Loading
 Proposer: Ken Brown
-Category: Design, configuration and diagnosis
+Category: Design and configuration
 
 
 

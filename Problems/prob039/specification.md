@@ -1,6 +1,6 @@
 Title:    The Rehearsal Problem
 Proposer: Barbara Smith
-Category: Scheduling
+Category: Scheduling and related problems
 
 <H3>The Rehearsal Scheduling Problem</H3>
 
