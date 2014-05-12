@@ -141,7 +141,7 @@ def _venue(entry):
     elif entry.type == 'inbook':
         venue = f['title']
     elif entry.type == 'techreport':
-        venue = '{0}, {1}'.format(f['number'], f['institution'])
+        venue = ", ".join(filter(lambda a: a, [ f.get(k, "") for k in ['number', 'institution'] ]))
     elif entry.type == 'phdthesis':
         venue = ''
     else:
