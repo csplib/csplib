@@ -13,7 +13,7 @@ To add a new problem use new_problem.sh to create a basic outline.
 The minimum required to create a new problem is to complete
 specification.md.
 
-References are added to references.bib.
+References are added to references/eferences.bib.
 
 Optionally add models in models/, data in data/ and results in results/.
 Files in these directories are handled specially. See below for details.
@@ -36,7 +36,8 @@ Category: Design and configuration
           Combinatorial mathematics
           Games and puzzles
 
-If the `Proposer` or `Category` has multiple values, they are put on a new indent line as shown above
+If the `Proposer` or `Category` has multiple values, they are put on 
+a new indent line as shown above
 
 models, data and results directories
 ------------------------------------
@@ -54,16 +55,16 @@ This file should contain the folowing then a new line:
 Title: This describes the data file
 
 
-You can finally use files with the extension .inline-html or
-.inline-md which will be displayed inline directly in the
-results/references/model tab. See problem XXX for an example
+You can finally use files with the extension .inline.html or
+.inline.md which will be displayed inline directly in the
+results/references/model tab. See problem prob013 for an example
 of all these types of files!
 
 
 Python 2
 --------
-Installing Python 3.3+ is highly recommended but if some reason you can not install it
-and have Python 2 and pip installed then running the below commands will work.
+Installing Python 3.3+ is highly recommended but if some reason you can not install
+it and have Python 2 and pip installed then running the below commands will work.
 Note all requirements are installed for the **user**.
 
 To build

@@ -43,12 +43,12 @@ echo "" >> "$prob_dir/specification.md"
 mkdir "$prob_dir/references"
 touch "$prob_dir/references/.gitkeep"
 echo "" > "$prob_dir/references/references.bib"
-echo "" > "$prob_dir/references/notes.inline-md"
+echo "" > "$prob_dir/references/notes.inline.md"
 
 
 echo "Created $prob_dir/specification.md"
 echo ""
 
-echo "Optionally add references in bibtex $prob_dir/references.bib"
+echo "Optionally add references (BibTeX format) in $prob_dir/references.bib"
 echo "See ./Problems/prob001 or ./Problems/prob002 for an example"
 
