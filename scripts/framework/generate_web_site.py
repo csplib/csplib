@@ -114,8 +114,8 @@ class Problem(object):
 
 		self.bib = None
 		self.ref_notes=None
-		ref = path.join(self.base_path, "references.bib")
-		ref_notes = path.join(self.base_path, "references-notes.inline-md")
+		ref = path.join(self.base_path, "references", "references.bib")
+		ref_notes = path.join(self.base_path, "references", "notes.inline-md")
 
 		if path.exists(ref):
 			self.bib = bibtex.Bib(ref)

@@ -40,8 +40,10 @@ echo "Category: " >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 
-echo "" > "$prob_dir/references.bib"
-echo "" > "$prob_dir/references-notes.inline-md"
+mkdir "$prob_dir/references"
+touch "$prob_dir/references/.gitkeep"
+echo "" > "$prob_dir/references/references.bib"
+echo "" > "$prob_dir/references/notes.inline-md"
 
 
 echo "Created $prob_dir/specification.md"
