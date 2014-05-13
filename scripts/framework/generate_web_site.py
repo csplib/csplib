@@ -230,7 +230,7 @@ def process_problem(prob):
 			logger.debug( (part, metadata, content[0:5]))
 			if not url:
 				name = path.basename(part)
-				filename = path.splitext(name)[0] + ".html"
+				filename = name + ".html"
 				res = apply_template("file.html", problemContent=content,
 					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name),
 					**prob_meta)
