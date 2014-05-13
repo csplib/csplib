@@ -9,27 +9,58 @@
 {% block mainContent %}
 
 <p>
-To cite this page use the following bibtex:
+Authors of CSPLib problems, and 
+the authors and maintainers of CSPLib itself, would very much appreciate citation in your publications if you use their (our) work.
+</p>
+<p>
+To cite this CSPLib problem, please use the following bibtex entry.  
 </p>
 
 <pre>
 @misc{csplib{{prob_name}},
-title={CSPLib Problem {{prob.metadata['id']| join(', ') }}: {{prob.metadata['title'] | join(', ')  }}},
+title="{CSPLib} Problem {{prob.metadata['id']| join(', ') }}: {{prob.metadata['title'] | join(', ')  }}",
 author={ {{prob.metadata['proposer'] | join(' and ') }} },
-howpublished={\url{http://csplib.org{{prob_base}}}}
+editor = {Jefferson, Christopher and Miguel, Ian and Hnich, Brahim and Walsh, Toby and Gent, Ian P.},
+booktitle = "{CSPLib}: A problem library for constraints",
+howpublished={\url{http://csplib.org{{prob_base}} } }
 }
 </pre>
 
-<p>
-To cite csplib as a whole, please use:
-</p>
+To cite CSPLib as a whole, please use the following bibtex entry:
 
 <pre>
 @misc{csplib,
-title={CSPLib},
-howpublished={http://csplib.org}
+author = {Jefferson, Christopher and Miguel, Ian and Hnich, Brahim and Walsh, Toby and Gent, Ian P.},
+title = "{CSPLib}: A problem library for constraints",
+year=1999,
+howpublished={\url{http://csplib.org} }
 }
 </pre>
+
+If you wish to cite the scripts and mechanisms that make CSPLib work, please cite the github repository as follows:
+
+<pre>
+@misc{csplib-github,
+author = {Hussain, Bilal and Jefferson, Christopher},
+title = "{CSPLib} Github Repository ",
+year=2014,
+howpublished={\url{https://github.com/csplib/csplib} }
+}
+</pre>
+
+If you wish to cite the original paper describing CSPLib by Ian Gent and Toby Walsh, please cite the following:
+
+<pre>
+@incollection{gent1999csplib,
+  title="{CSPLib} : a benchmark library for constraints",
+  author={Gent, Ian P and Walsh, Toby},
+  booktitle={Principles and Practice of Constraint Programming--CP’99},
+  pages={480--481},
+  year={1999},
+  publisher={Springer Berlin Heidelberg}
+}
+</pre>
+
 
 
 {% endblock %}
