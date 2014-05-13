@@ -297,7 +297,8 @@ source_types = set(['cc', 'c', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
 				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js',
 				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml'])
 
-text_formats = set(['txt', 'minizinc', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet', 'chip'])
+text_formats = set(['txt', 'minizinc', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet',
+                    'chip', 'mzn', 'pi', 'pl', 'co'])
 text_formats |= source_types
 
 
