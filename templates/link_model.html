@@ -1,0 +1,20 @@
+<table>
+<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+{% for data in metadata %}
+<tr>
+	<td>
+		<a href="{{ data['filename'] }}">
+			{{data['name']}}
+		</a>
+	</td>
+	<td>
+		{{data['meta']['type'] | join(', ')}}
+	</td>
+	<td>
+	{{data['meta']['title'] | join(' ')
+	 | replace(' models/' ,' ' + prob_base + '/models/')
+	 | urlize2 }}
+	</td>
+</tr>
+{% endfor %}
+</table>
