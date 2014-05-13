@@ -309,11 +309,17 @@ def get_content_and_metadata(filepath, store_dir):
 	elif (ext == '.html'):
 		return (read_file(filepath), None, None)
 
+	meta = dict()
+
 	meta_path = filepath + ".metadata"
 	try:
 		(_, meta) = convert_markdown(meta_path)
 	except Exception:
-		meta = None
+		pass
+
+	# Add the language
+	if not('type' in meta):
+		meta['type'] = [ext[1:]]
 
 	print
 	if ext[1:] in text_formats:
