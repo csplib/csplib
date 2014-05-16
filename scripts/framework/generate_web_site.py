@@ -356,7 +356,7 @@ except IOError:
 	logger.warning("no creation times, updates pages will be empty")
 	creations_times={}
 
-for prob in probs:
+for prob in sorted(probs):
 	try:
 		logger.debug("")
 		logger.debug("Processing problem %s", prob.name)
