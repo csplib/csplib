@@ -103,6 +103,9 @@ class Problem(object):
 		self.metadata = {}
 		self.base_path = path.join(self.prefix, self.name)
 
+	def __lt__(self, other):
+		return (self.prefix, self.name) < (other.prefix, other.name)
+
 	def __repr__(self):
 		return "%s(%s)" % (self.__class__, pformat(self.__dict__))
 

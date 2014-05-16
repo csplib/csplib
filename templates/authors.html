@@ -12,7 +12,7 @@
 {% for name, probs in authors | dictsort %}
     <h2 class='smaller'>{{name}}</h2>
 
-	{% for prob in probs %}
+	{% for prob in probs | sort %}
 		<p>
 			<a href="Problems/prob{{ prob.metadata['id'] | join('') }}">
 				prob{{ prob.metadata['id'] | join('') }}
