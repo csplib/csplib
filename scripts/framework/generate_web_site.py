@@ -154,7 +154,7 @@ copy_web_resources(output_dir)
 
 def read_file(filepath):
 	with open(filepath, "r") as f:
-		return "".join(["temp:nothing\n"] + f.readlines() + ["\n"])
+		return "".join(f.readlines() + ["\n"])
 
 
 # since exist_ok is not in python2
@@ -170,8 +170,10 @@ def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
 	md_input = read_file(page_path)
 	page = md.convert(md_input)
-	metadata = md.Meta
-	return (page, metadata)
+	if hasattr(md, 'Meta'):
+		return (page, md.Meta)
+	else:
+		return (page, dict())
 
 
 def apply_template(template_name, **kwargs):
