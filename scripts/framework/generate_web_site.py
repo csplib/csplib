@@ -135,6 +135,7 @@ for prob in sorted(probs):
 			if creations_times[prob.name].strip():
 				creation = datetime.fromtimestamp(float(creations_times[prob.name]))
 				months_map[(creation.year, creation.month)].append( (creation, prob) )
+
 	except Exception as e:
 		logger.info("Failure in problem %s", prob.name)
 		logger.info("Error: %s", e)
@@ -174,5 +175,5 @@ with open(probs_path, "w", encoding='utf-8') as f:
 
 
 # Other data
-
 create_zip_file(path.join(output_dir, "essences.zip"), essences)
+
