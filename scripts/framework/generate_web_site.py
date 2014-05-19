@@ -176,15 +176,16 @@ for prob in sorted(langs):
 
 # Other standalone pages
 
-index_path = path.join(output_dir, "index.html")
-res = apply_template("index.html",
-	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
-with open(index_path, "w", encoding='utf-8') as f:
-	f.write(res)
+
 
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w", encoding='utf-8') as f:
+	f.write(res)
+
+langs_path = path.join(output_dir, "Languages/index.html")
+res = apply_template("problems.html", problems=sorted(langs, key=lambda x: x.metadata["id"]))
+with open(langs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/categories.html")
@@ -200,6 +201,12 @@ with open(probs_path, "w", encoding='utf-8') as f:
 probs_path = path.join(output_dir, "updates.html")
 res = apply_template("updates.html", mapping=months_map)
 with open(probs_path, "w", encoding='utf-8') as f:
+	f.write(res)
+
+index_path = path.join(output_dir, "index.html")
+res = apply_template("index.html",
+	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
+with open(index_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 
