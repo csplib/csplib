@@ -10,7 +10,7 @@ from pprint  import pprint, pformat
 if sys.version_info[0] == 3:
     from io import StringIO
 else:
-    from stringIO import StringIO
+    from StringIO import StringIO
 
 _months = {
     'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
