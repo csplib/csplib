@@ -1,13 +1,13 @@
 #!/bin/bash
 if [ ! -d "scripts/env" ]; then
-	./scripts/pyvenvex.py scripts/env
+	./scripts/support/pyvenvex.py scripts/env
 fi
 
 . ./scripts/env/bin/activate
 printf "pip @ "
 which pip
 
-pip install -r  scripts/packages.txt
+pip install -r  scripts/support/packages.txt
 
 # guess-language-spirit is required by mdx_smartypants and hosted at https://bitbucket.org/spirit/guess_language/downloads 
 # pip 1.5+ does not like this and requires extra flags

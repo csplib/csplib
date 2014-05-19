@@ -11,15 +11,15 @@ buildpy2: py2setup creation_dates
 
 .PHONY: creation_dates
 creation_dates:
-	./scripts/problem_creation_dates.sh
+	./scripts/support/problem_creation_dates.sh
 
 ./scripts/env:
 	# create virtual python Environment
-	./scripts/setup.sh
+	./scripts/support/setup.sh
 
 .PHONY: py2setup
 py2setup:
-	./scripts/setuppy2.sh
+	./scripts/support/setuppy2.sh
 
 serve:
 	# open localhost:8000 in your browser
