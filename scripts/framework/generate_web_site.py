@@ -22,6 +22,7 @@ import os, os.path as path
 import jinja2_exts
 import bibtex
 import problem
+import language
 
 from collections import defaultdict
 from datetime import datetime
@@ -29,6 +30,7 @@ from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
 from problem import Problem
+from language import Language
 from util import create_zip_file
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,11 @@ logger.info("Output:%s", output_dir)
 problems_path = path.join(base, "Problems")
 probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
 
+# languages paths
+language_path = path.join(base, "Programs_and_Languages")
+lang_names = set(f for f in os.listdir(language_path) if path.isdir(path.join(language_path, f)))
+
+
 # If args are given, only build the specifed problems
 if args.only_probs:
 	to_build = set(args.only_probs)
@@ -94,6 +101,15 @@ def create_problem(name, path):
 
 # Init problems, and peform some validation
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
+
+
+def create_language(name, path):
+	prob = Language(name, path)
+	prob.find_files()
+	return prob
+
+# Init problems, and peform some validation
+langs = [p for p in [create_language(p, language_path) for p in lang_names] if p.is_vaild()]
 
 
 essences = []
@@ -143,6 +159,19 @@ for prob in sorted(probs):
 
 logger.debug("authors %s", authors_map.keys())
 
+# Creates the output for the problems
+for prob in sorted(langs):
+	try:
+		logger.debug("")
+		logger.debug("Processing lang %s", prob.name)
+		logger.debug(prob)
+		logger.debug("")
+		language.process_language(prob, apply_template, output_dir, base)
+
+	except Exception as e:
+		logger.info("Failure in language %s", prob.name)
+		logger.info("Error: %s", e)
+		raise
 
 
 # Other standalone pages
