@@ -2,15 +2,25 @@
 # modfied urlize filter to handle local links
 
 import re
-import errno
 import os.path as path
 
+from datetime import date
 
-from jinja2._compat import text_type, string_types, implements_iterator, \
-     url_quote
+from jinja2._compat import text_type
+from markupsafe import escape
 
-from markupsafe import Markup, escape, soft_unicode
-	 
+
+def init_exts(template_env):
+	template_env.filters['urlize2'] = urlize2
+	template_env.filters['formatted_time_for_updates'] = formatted_time_for_updates
+
+
+def formatted_time_for_updates(year_month):
+	d = date(*year_month, day=1)
+	return d.strftime("%B %Y")
+
+
+
 _word_split_re = re.compile(r'(\s+)')
 
 _punctuation_re = re.compile(
