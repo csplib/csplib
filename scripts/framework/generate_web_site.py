@@ -151,7 +151,6 @@ for prob in sorted(probs):
 			if creations_times[prob.name].strip():
 				creation = datetime.fromtimestamp(float(creations_times[prob.name]))
 				months_map[(creation.year, creation.month)].append( (creation, prob) )
-
 	except Exception as e:
 		logger.info("Failure in problem %s", prob.name)
 		logger.info("Error: %s", e)
@@ -159,32 +158,30 @@ for prob in sorted(probs):
 
 logger.debug("authors %s", authors_map.keys())
 
-# Creates the output for the problems
-for prob in sorted(langs):
+# Creates the output for the languages
+for lang in sorted(langs):
 	try:
 		logger.debug("")
-		logger.debug("Processing lang %s", prob.name)
-		logger.debug(prob)
+		logger.debug("Processing lang %s", lang.name)
+		logger.debug(lang)
 		logger.debug("")
-		language.process_language(prob, apply_template, output_dir, base)
+		language.process_language(lang, apply_template, output_dir, base)
 
 	except Exception as e:
-		logger.info("Failure in language %s", prob.name)
+		logger.info("Failure in language %s", lang.name)
 		logger.info("Error: %s", e)
 		raise
 
 
 # Other standalone pages
 
-
-
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
-
+1
 langs_path = path.join(output_dir, "Languages/index.html")
-res = apply_template("problems.html", problems=sorted(langs, key=lambda x: x.metadata["id"]))
+res = apply_template("languages.html", languages=sorted(langs, key=lambda x: x.metadata["id"]))
 with open(langs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 

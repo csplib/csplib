@@ -75,7 +75,7 @@ def process_language(prob, apply_template, output_dir, base):
 		if len(metadata['category']) == 0:
 			metadata['category'] = ['Unclassified']
 
-	metadata['id'] = [prob.name[4:7]]
+	metadata['id'] = [prob.name]
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
