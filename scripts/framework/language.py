@@ -22,7 +22,6 @@ class Language(object):
 
 		self.data = []
 		self.models = []
-		self.results = []
 		self.specification = None
 		self.metadata = {}
 		self.base_path = path.join(self.prefix, self.name)
@@ -52,7 +51,6 @@ class Language(object):
 
 		self.models = self.get_directory("models")
 		self.data = self.get_directory("data")
-		self.results = self.get_directory("results")
 
 	def get_directory(self, name):
 		dirr = path.join(self.base_path, name)
@@ -78,10 +76,10 @@ def process_language(prob, apply_template, output_dir, base):
 	metadata['id'] = [prob.name]
 	prob.metadata = metadata
 
-	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
+	title = "".join(metadata['title'])
 	prob_meta = {"title": title, "prob_base": "/Languages/" + prob.name, "prob_name": prob.name, "prob": prob}
 
-	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
+	spec = apply_template("language.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
 	prob_dir = path.join(output_dir, "Languages/{0}".format(prob.name))
 	makedirs_exist_ok(prob_dir)
 
@@ -133,7 +131,6 @@ def process_language(prob, apply_template, output_dir, base):
 
 		write(template, part_name + "/index.html")
 
-	problem_part("results")
 	problem_part("data")
 	problem_part("models")
 
