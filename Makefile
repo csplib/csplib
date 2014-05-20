@@ -41,3 +41,10 @@ comma :=,
 only_build:
 	. ./scripts/env/bin/activate && \
 	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${probs})
+
+clean:
+	rm -rf _deploy
+
+purge: 
+	rm -rf _deploy
+	rm -rf scripts/env
