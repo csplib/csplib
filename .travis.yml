@@ -1,5 +1,6 @@
 language: python
 python:
+  - "3,3"
   - "3.4"
 
 # command to install dependencies
@@ -9,6 +10,11 @@ install:
 # command to run tests
 script: 
   - make build
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
 
 cache:
   directories:
