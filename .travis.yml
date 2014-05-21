@@ -1,21 +1,17 @@
 language: python
 python:
-  - "3,3"
+  - "3.3"
   - "3.4"
 
 # command to install dependencies
-install: 
+install:
   - ./scripts/support/setup.sh
 
 # command to run tests
-script: 
+script:
   - make build
 
 notifications:
   email:
     on_success: change
     on_failure: always
-
-cache:
-  directories:
-  - scripts/env
