@@ -1,4 +1,4 @@
-Requires Python 3.3+
+Requires Python 3.3+,  (Python 3.4+ on windows)
 
 To build
 	make
@@ -36,7 +36,7 @@ Category: Design and configuration
           Combinatorial mathematics
           Games and puzzles
 
-If the `Proposer` or `Category` has multiple values, they are put on 
+If the `Proposer` or `Category` has multiple values, they are put on
 a new indent line as shown above
 
 models, data and results directories
@@ -78,7 +78,7 @@ To view locally:
 
 Build specific problems
 ------------------------
-To build and view locally only specific problems run 
+To build and view locally only specific problems run
 
 	make only probs=<probs>
 
