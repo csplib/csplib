@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.4"
+
+# command to install dependencies
+install: 
+  - ./scripts/support/setup.sh
+
+# command to run tests
+script: 
+  - make build
+
+cache:
+  directories:
+  - scripts/env
