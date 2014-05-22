@@ -79,7 +79,7 @@ def process_problem(prob, apply_template, output_dir, base):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_base": "/Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
+	prob_meta = {"title": title, "prob_base": "Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
 	prob_dir = path.join(output_dir, "Problems/{0}".format(prob.name))

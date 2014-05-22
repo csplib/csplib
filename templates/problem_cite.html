@@ -3,7 +3,7 @@
 
 {% block breadcrumb %}
   {{ super() }}
-  <li><a href="{{prob_base}}/cite">Cite</a></li>
+  <li><a href="{{prefix_path}}/{{prob_base}}/cite">Cite</a></li>
 {% endblock %}
 
 {% block mainContent %}
@@ -22,7 +22,7 @@ title="{CSPLib} Problem {{prob.metadata['id']| join(', ') }}: {{prob.metadata['t
 author={ {{prob.metadata['proposer'] | join(' and ') }} },
 editor = {Jefferson, Christopher and Miguel, Ian and Hnich, Brahim and Walsh, Toby and Gent, Ian P.},
 booktitle = "{CSPLib}: A problem library for constraints",
-howpublished={\url{http://www.csplib.org{{prob_base}} } }
+howpublished={\url{http://www.csplib.org{{prefix_path}}/{{prob_base}} } }
 }
 </pre>
 

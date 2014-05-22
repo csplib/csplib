@@ -3,18 +3,18 @@
 
 {% block breadcrumb %}
   {{ super() }}
-  <li><a href="/Problems">Problems</a></li>
+  <li><a href="{{prefix_path}}/Problems">Problems</a></li>
 {% endblock %}
 
 
 {% block mainContent %}
 
 {% for prob in problems %}
-<p> 
+<p>
 	<a href="prob{{ prob.metadata['id'] | join('') }}">
 		prob{{ prob.metadata['id'] | join('') }}
-	</a>: 
-	{{ prob.metadata['title'] | join('') }} 
+	</a>:
+	{{ prob.metadata['title'] | join('') }}
 </p>
 {% endfor %}
 

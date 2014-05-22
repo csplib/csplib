@@ -3,7 +3,7 @@
 
 {% block breadcrumb %}
   {{ super() }}
-  <li><a href="{{prob_base}}/results">Results</a></li>
+  <li><a href="{{prefix_path}}/{{prob_base}}/results">Results</a></li>
 {% endblock %}
 
 {% block mainContent %}
@@ -11,7 +11,7 @@
 {% if raw_htmls %}
 
 {% for raw_html in raw_htmls %}
-	{{raw_html.replace("~~PROB_BASE~~",prob_base)}}
+	{{raw_html.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base)}}
 {% endfor %}
 {% endif %}
 

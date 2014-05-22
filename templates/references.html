@@ -1,5 +1,4 @@
 {% set type = 'references' %}
-{% set ff = 'dsdsd' %}
 
 {% extends "problem.html" %}
 
@@ -36,18 +35,18 @@
 
 {% block breadcrumb %}
   {{ super() }}
-  <li><a href="{{prob_base}}/references">References</a></li>
+  <li><a href="{{prefix_path}}/{{prob_base}}/references">References</a></li>
 {% endblock %}
 
 {% block mainContent %}
 
 {% if has_bibtex %}
 <p>
-	<a href="{{prob_base}}/references/{{prob_name}}-refs.bib">Download bibtex</a>
+	<a href="{{prefix_path}}/{{prob_base}}/references/{{prob_name}}-refs.bib">Download bibtex</a>
 </p>
 {% endif %}
 
-{{notes.replace("~~PROB_BASE~~",prob_base) }}
+{{notes.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
 
 {{references}}
 

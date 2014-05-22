@@ -12,9 +12,9 @@
 	<title>{{title}}</title>
 
 	<!-- Bootstrap core CSS -->
-	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="{{prefix_path}}/bootstrap/css/bootstrap.css" rel="stylesheet">
 
-	<link href="/css/main.css" rel="stylesheet">
+	<link href="{{prefix_path}}/css/main.css" rel="stylesheet">
 	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 	MathJax.Hub.Config({
 	  	tex2jax: {
@@ -23,17 +23,17 @@
 	  	}
 	});
 	</script>
-	
+
   {% block head %}
   {% endblock %}
-	
+
 </head>
 
 <body>
-	
+
 	<ol class="breadcrumb">
 	  {% block breadcrumb %}
-	  <li><a href="/">CSPlib</a></li>
+	  <li><a href="{{prefix_path}}/">CSPlib</a></li>
 	  {% endblock %}
 	</ol>
 
@@ -54,7 +54,7 @@
 	</div>
 
   {% block bodyEnd %}
-	
+
   {% endblock %}
 
 </body>
