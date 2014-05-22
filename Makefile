@@ -1,4 +1,5 @@
 
+
 build: ./scripts/env creation_dates
 	# activate virtual python Environment
 	. ./scripts/env/bin/activate && \
@@ -16,6 +17,12 @@ serve:
 	# open localhost:8000 in your browser
 	# Crtl-C to finish
 	cd _deploy && python3 -m http.server
+
+
+build_for_gh_pages: ./scripts/env
+	./scripts/support/build_for_gh_pages.sh
+	# built website
+
 
 # Build specific problems and serve locally
 .PHONY: only
