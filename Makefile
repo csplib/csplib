@@ -1,12 +1,9 @@
 
+
 build: ./scripts/env creation_dates
 	# activate virtual python Environment
 	. ./scripts/env/bin/activate && \
 	./scripts/framework/generate_web_site.py
-	# built website
-
-buildpy2: py2setup creation_dates
-	python ./scripts/framework/generate_web_site.py
 	# built website
 
 .PHONY: creation_dates
@@ -16,20 +13,15 @@ creation_dates:
 ./scripts/env:
 	# create virtual python Environment
 	./scripts/support/setup.sh
-
-.PHONY: py2setup
-py2setup:
-	./scripts/support/setuppy2.sh
-
 serve:
 	# open localhost:8000 in your browser
 	# Crtl-C to finish
 	cd _deploy && python3 -m http.server
 
-servepy2:
-	# open localhost:8000 in your browser
-	# Crtl-C to finish
-	cd _deploy && python -m SimpleHTTPServer
+
+build_for_gh_pages: ./scripts/env
+	./scripts/support/build_for_gh_pages.sh
+	# built website
 
 
 # Build specific problems and serve locally
@@ -45,6 +37,6 @@ only_build:
 clean:
 	rm -rf _deploy
 
-purge: 
+purge:
 	rm -rf _deploy
 	rm -rf scripts/env

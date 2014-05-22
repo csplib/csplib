@@ -40,6 +40,8 @@ logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser(description='Builds csplib')
 parser.add_argument("only_probs", nargs='*', metavar='Problems', help='Optional, Build only the specifed problems')
 parser.add_argument("--debug",  action='store_true', help='Print debug output')
+parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, useful for github pages')
+parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for github pages')
 args = parser.parse_args()
 
 # set up logging
@@ -60,7 +62,16 @@ abs_prog_dir = path.abspath(prog_name)
 # Paths
 base = path.dirname(path.dirname(abs_prog_dir)) + "/"
 templates_dir = path.join(base, "templates")
-output_dir = path.join(base, "_deploy")
+
+if args.prefix_path:
+	prefix_path=args.prefix_path
+else:
+	prefix_path=""
+
+if args.output_suffix:
+	output_dir = path.join(base, "_deploy", args.output_suffix)
+else:
+	output_dir = path.join(base, "_deploy")
 
 logger.info("Base:%s", base)
 logger.info("Output:%s", output_dir)
@@ -87,7 +98,7 @@ bibtex.add_filters(template_env)
 
 def apply_template(template_name, **kwargs):
 	template = template_env.get_template(template_name)
-	return template.render(kwargs)
+	return template.render(kwargs, prefix_path=prefix_path)
 
 
 # Copy every file in web to the output directory
