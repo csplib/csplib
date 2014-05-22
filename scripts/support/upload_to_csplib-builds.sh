@@ -25,7 +25,7 @@ if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4' && 
 
   #add, commit and push files
   git add -f .
-  git commit -m "Travis build $TRAVIS_BUILD_NUMBER Commit csplib/csplib@$TRAVIS_COMMIT \n Python $TRAVIS_PYTHON_VERSION Commit Range $TRAVIS_COMMIT_RANGE"
+  git commit -m "Travis build $TRAVIS_BUILD_NUMBER Commit csplib/csplib@$TRAVIS_COMMIT Python $TRAVIS_PYTHON_VERSION Commit Range $TRAVIS_COMMIT_RANGE"
   git push -fq origin gh-pages > /dev/null
 
   echo -e "<<Finished>>\n"
