@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -o nounset
+set -e
+
+set -x
+
 if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4'  ]]; then
   echo -e "Starting to update gh-pages\n"
 
@@ -25,3 +30,5 @@ if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4'  ]]
 
   echo -e "Done magic with coverage\n"
 fi
+
+set +x
