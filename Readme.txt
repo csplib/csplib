@@ -69,3 +69,9 @@ To build and view locally only specific problems run
 where `probs` is a comma separated list e.g
 
 	make only probs=prob029,prob011
+
+
+Development builds
+------------------
+
+Development builds of every branch is located at http://csplib.github.io/csplib-builds/
