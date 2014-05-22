@@ -5,7 +5,7 @@ set -e
 
 set -x
 
-if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4'  ]]; then
+if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4' && $TRAVIS_BRANCH == 'master'  ]]; then
   echo -e "Starting to update gh-pages\n"
 
   #copy data we're interested in to other place
@@ -25,10 +25,10 @@ if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4'  ]]
 
   #add, commit and push files
   git add -f .
-  git commit -m "Travis build $TRAVIS_BUILD_NUMBER Python $TRAVIS_PYTHON_VERSION commit $TRAVIS_COMMIT_RANGE pushed to gh-pages"
+  git commit -m "Travis build $TRAVIS_BUILD_NUMBER Commit csplib/csplib@$TRAVIS_COMMIT \n Python $TRAVIS_PYTHON_VERSION Commit Range $TRAVIS_COMMIT_RANGE"
   git push -fq origin gh-pages > /dev/null
 
-  echo -e "Done magic with coverage\n"
+  echo -e "<<Finished>>\n"
 fi
 
 set +x
