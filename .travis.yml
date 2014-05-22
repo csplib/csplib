@@ -5,7 +5,7 @@ python:
 install:
 - ./scripts/support/setup.sh
 script:
-- make build
+- make build_for_gh_pages
 notifications:
   email:
     on_success: change
