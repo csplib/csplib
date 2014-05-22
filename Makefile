@@ -5,10 +5,6 @@ build: ./scripts/env creation_dates
 	./scripts/framework/generate_web_site.py
 	# built website
 
-buildpy2: py2setup creation_dates
-	python ./scripts/framework/generate_web_site.py
-	# built website
-
 .PHONY: creation_dates
 creation_dates:
 	./scripts/support/problem_creation_dates.sh
@@ -16,21 +12,10 @@ creation_dates:
 ./scripts/env:
 	# create virtual python Environment
 	./scripts/support/setup.sh
-
-.PHONY: py2setup
-py2setup:
-	./scripts/support/setuppy2.sh
-
 serve:
 	# open localhost:8000 in your browser
 	# Crtl-C to finish
 	cd _deploy && python3 -m http.server
-
-servepy2:
-	# open localhost:8000 in your browser
-	# Crtl-C to finish
-	cd _deploy && python -m SimpleHTTPServer
-
 
 # Build specific problems and serve locally
 .PHONY: only
@@ -41,3 +26,10 @@ comma :=,
 only_build:
 	. ./scripts/env/bin/activate && \
 	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${probs})
+
+clean:
+	rm -rf _deploy
+
+purge:
+	rm -rf _deploy
+	rm -rf scripts/env
