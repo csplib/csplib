@@ -1,17 +1,15 @@
 language: python
 python:
-  - "3.3"
-  - "3.4"
-
-# command to install dependencies
+- '3.3'
+- '3.4'
 install:
-  - ./scripts/support/setup.sh
-
-# command to run tests
+- ./scripts/support/setup.sh
 script:
-  - make build
-
+- make build
 notifications:
   email:
     on_success: change
     on_failure: always
+env:
+  global:
+    secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
