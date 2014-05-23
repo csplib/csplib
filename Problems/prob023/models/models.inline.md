@@ -6,7 +6,6 @@ Various code is available online for finding magic hexagons:
 
 * some [C code](http://minortriad.com/magichex.html)
 
-* some other [C code](../data/sumsup.html) due to [Phil J. Taylor](mailto:xptaylor@hotmail.com).
+* some other [C code](../data/sumsup.c.html) due to [Phil J. Taylor](mailto:xptaylor@hotmail.com).
 
 * some <A HREF="http://www.koalog.com/resources/samples/MagicHexagonProblem.java">Koalog code</A>
-
