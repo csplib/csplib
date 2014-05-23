@@ -16,6 +16,16 @@
 
 	<link href="{{prefix_path}}/css/main.css" rel="stylesheet">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="{{prefix_path}}/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="{{prefix_path}}/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
 	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 	MathJax.Hub.Config({
 	  	tex2jax: {
