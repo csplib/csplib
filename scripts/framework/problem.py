@@ -122,7 +122,7 @@ def process_problem(prob, apply_template, output_dir, base):
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))
 			else:
-				filename = url
+				filename = path.basename(url)
 				name = path.basename(filename)
 				file_util.copy_file(part, path.join(part_dir, name))
 
