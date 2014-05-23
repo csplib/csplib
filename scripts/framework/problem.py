@@ -91,7 +91,7 @@ def process_problem(prob, apply_template, output_dir, base):
 
 	write(spec, "index.html")
 
-	def problem_part(part_name):
+	def problem_part(part_name, metadata_sorter):
 		part_metadata = []
 		part_dir = prob_dir + "/" + part_name + "/"
 		makedirs_exist_ok(part_dir)
@@ -128,14 +128,15 @@ def process_problem(prob, apply_template, output_dir, base):
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
+		part_metadata.sort(key = metadata_sorter)
 		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name,
 									raw_htmls=raw_htmls, **prob_meta)
 
 		write(template, part_name + "/index.html")
 
-	problem_part("results")
-	problem_part("data")
-	problem_part("models")
+	problem_part("results", lambda x: str.lower(x['name']))
+	problem_part("data", lambda x: str.lower(x['name']))
+	problem_part("models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])] )
 
 
 	# Copying assets bindly
