@@ -37,6 +37,8 @@ def get_content_and_metadata(filepath, store_dir):
 	(_, ext) = path.splitext(filepath)
 	if (ext == ".md"):
 		(a, b) = convert_markdown(filepath)
+		if not('type' in b):
+			b['type'] = [ext[1:]]
 		return (a, b, None)
 	elif (ext == '.html'):
 		return (read_file(filepath), None, None)
