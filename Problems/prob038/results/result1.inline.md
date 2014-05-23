@@ -1,5 +1,5 @@
 The results reported in [1-2] below are on subsets of a 111-order problem,
-which can be obtained <A HREF="../Data/">here</A>. 
+which can be obtained <A HREF="../data/">here</A>. 
 
 Many more, and more recent, results can be found <A HREF="http://becool.info.ucl.ac.be/steelmillslab">here</A>, courtesy
 of the beCool Group at UC Louvain.
