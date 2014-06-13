@@ -36,7 +36,4 @@ only_build:
 
 clean:
 	rm -rf _deploy
-
-purge:
-	rm -rf _deploy
 	rm -rf scripts/env
