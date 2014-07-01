@@ -1,8 +1,8 @@
 language Essence 1.3
 
-$ Problem : Steiner triplets 
+$ Problem : Steiner triplets
 $
-$ Problem details available at http://www.csplib.org/problems/prob044/
+$ Problem details available at http://www.csplib.org/Problems/prob044/
 $
 $ Essence model by Andrew Martin
 $
@@ -22,7 +22,7 @@ find sets : matrix indexed by [int(1..nb)] of set (size 3) of int(1..n)
 $for each pair of sets, must share at most one element
 
 such that
-    
+
     forAll setA : int(1..nb-1) .
     forAll setB : int(setA+1..nb) .
 
