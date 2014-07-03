@@ -20,23 +20,23 @@ find clickMatrix : matrix indexed by [dGridSize, dGridSize] of dColours
 maximising (sum i,j : dGridSize . clickMatrix[i][j])
 
 such that
-    forAll col : int(1..gridSize-1) .
+    forAll index : int(1..gridSize-1) .
 
         $ removing symmetry
-        clickMatrix[col][..] <=lex clickMatrix[col+1][..]
+        clickMatrix[index][..] <=lex clickMatrix[index+1][..]
         /\
-        clickMatrix[..][col] <=lex clickMatrix[..][col+1]
+        clickMatrix[..][index] <=lex clickMatrix[..][index+1]
 
 such that
     $ no way of reaching same state faster exists
     forAll simplerClickMatrix : matrix indexed by [dGridSize, dGridSize] of dColours .
     
-        forAll col : int(1..gridSize-1) . (
+        forAll index : int(1..gridSize-1) . (
 
             $ removing symmetry
-            simplerClickMatrix[col][..] <=lex simplerClickMatrix[col+1][..]
+            simplerClickMatrix[index][..] <=lex simplerClickMatrix[index+1][..]
             /\
-            simplerClickMatrix[..][col] <=lex simplerClickMatrix[..][col+1]
+            simplerClickMatrix[..][index] <=lex simplerClickMatrix[..][index+1]
         )
         /\
 
