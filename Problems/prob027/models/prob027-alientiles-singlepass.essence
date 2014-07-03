@@ -20,25 +20,8 @@ find clickMatrix : matrix indexed by [dGridSize, dGridSize] of dColours
 maximising (sum i,j : dGridSize . clickMatrix[i][j])
 
 such that
-    forAll index : int(1..gridSize-1) .
-
-        $ removing symmetry
-        clickMatrix[index][..] <=lex clickMatrix[index+1][..]
-        /\
-        clickMatrix[..][index] <=lex clickMatrix[..][index+1]
-
-such that
     $ no way of reaching same state faster exists
     forAll simplerClickMatrix : matrix indexed by [dGridSize, dGridSize] of dColours .
-    
-        forAll index : int(1..gridSize-1) . (
-
-            $ removing symmetry
-            simplerClickMatrix[index][..] <=lex simplerClickMatrix[index+1][..]
-            /\
-            simplerClickMatrix[..][index] <=lex simplerClickMatrix[..][index+1]
-        )
-        /\
 
         $ ensure not faster
         (sum i,j : dGridSize . clickMatrix[i][j]) <= (sum i,j : dGridSize . simplerClickMatrix[i][j])
@@ -50,4 +33,5 @@ such that
             ((sum row : dGridSize . clickMatrix[row][y]) + (sum col : dGridSize . clickMatrix[x][col]) - clickMatrix[x][y]) % colours
             !=
             ((sum row : dGridSize . simplerClickMatrix[row][y]) + (sum col : dGridSize . simplerClickMatrix[x][col]) - simplerClickMatrix[x][y]) % colours
+
 
