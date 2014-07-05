@@ -13,7 +13,7 @@ To add a new problem use new_problem.sh to create a basic outline.
 The minimum required to create a new problem is to complete
 specification.md.
 
-References are added to references/eferences.bib.
+References are added to references/references.bib.
 
 Optionally add models in models/, data in data/ and results in results/.
 Files in these directories are handled specially. See below for details.
@@ -50,7 +50,7 @@ are given a download link. If any file is incorrectly identified
 as binary or human readable, please submit a bug report!
 
 You can describe a file 'file.txt' in a file 'file.txt.metadata'.
-This file should contain the folowing then a new line:
+This file should contain the following then a new line:
 
 Title: This describes the data file
 
