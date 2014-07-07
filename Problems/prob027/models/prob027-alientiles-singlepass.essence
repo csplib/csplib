@@ -8,6 +8,7 @@ $ Essence model by Andrew Martin
 $
 $ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
+
 given gridSize : int(1..)
 given colours : int(1..)
 
@@ -30,8 +31,7 @@ such that
         $ ensure not same (for each tile, check if sum of clicks effecting it %colours same as other clickmatrix)
         exists x,y : dGridSize .
 
-            ((sum row : dGridSize . clickMatrix[row][y]) + (sum col : dGridSize . clickMatrix[x][col]) - clickMatrix[x][y]) % colours
+            ((sum index : dGrid . clickMatrix[index][y] + clickMatrix[x][index]) - clickMatrix[x][y]) % colours
             !=
-            ((sum row : dGridSize . simplerClickMatrix[row][y]) + (sum col : dGridSize . simplerClickMatrix[x][col]) - simplerClickMatrix[x][y]) % colours
-
+            ((sum index : dGrid . simplerClickMatrix[index][y] + simplerClickMatrix[x][index]) - simplerClickMatrix[x][y]) % colours
 
