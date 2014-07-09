@@ -1,0 +1,33 @@
+language ESSENCE 1.3.0
+
+$ Problem Equidistant Frequency Permutation Arrays
+$
+$ Problem details available at http://www.csplib.org/Problems/prob055/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+given v : int(1..)
+given d : int(1..)
+given q : int(1..)
+given lam : int(1..)
+
+letting dSequnce be domain int(1..q*lam)
+letting dElement be domain int(1..q)
+
+find E : set (size v) of matrix indexed by [dSequnce] of dElement
+
+$ each element in (1..q) must occur lambda times per sequence
+such that
+    forAll m in E .
+        forAll element : dElement .
+            (sum index : dSequnce . toInt(m[index] = element)) = lam
+
+$ each non-identical pair must be hamming distance d apart
+such that
+    forAll seqA, seqB in E .
+        seqA = seqB
+        \/
+        (sum index : dSequnce . toInt(seqA[index] != seqB[index])) = d
+
