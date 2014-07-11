@@ -34,6 +34,10 @@ only_build:
 	. ./scripts/env/bin/activate && \
 	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${probs})
 
+debug: 
+	. ./scripts/env/bin/activate && \
+	ipython --pdb ./scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${probs})
+
 clean:
 	rm -rf _deploy
 	rm -rf scripts/env

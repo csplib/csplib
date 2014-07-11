@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
-import cgi  # for cgi.escape
+import cgi	# for cgi.escape
 import markdown
 import os, os.path as path
 import zipfile
 
+import logging
+logger = logging.getLogger(__name__)
 
 markdown_exts = ['extra', 'meta', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
 
@@ -17,6 +19,15 @@ text_formats = set(['txt', 'minizinc', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egene
 					'chip', 'mzn', 'pi', 'pl', 'co'])
 text_formats |= source_types
 
+archive_formats = set(['zip', 'tar', 'tar.gz', 'rar', '7z', 'xz', 'sit', 'sitx',
+	 					'iso', 'bz2', 'lz', 'gz', 'lzma', 'lzo', 'z', 'Z', 'ace',
+						'jar', 'pea', 'tarz', 'tar.bz2', 'tbz2', 'tlz', 'xar',
+						'zipx', 'zz', 'zpaq'])
+
+# Mapping file type which are actually source files (all lowercase)
+source_mapping = {
+	"ilog solver": 'cpp'
+}
 
 def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
@@ -38,7 +49,12 @@ def get_content_and_metadata(filepath, store_dir):
 	if (ext == ".md"):
 		(a, b) = convert_markdown(filepath)
 		if not('type' in b):
-			b['type'] = [ext[1:]]
+			if 'Type' in b:
+				b['type'] = b['Type']
+				del b['Type']
+			else:
+				b['type'] = [ext[1:]]
+			
 		return (a, b, None)
 	elif (ext == '.html'):
 		return (read_file(filepath), None, None)
@@ -53,14 +69,21 @@ def get_content_and_metadata(filepath, store_dir):
 
 	# Add the language
 	if not('type' in meta):
-		meta['type'] = [ext[1:]]
+		if 'Type' in meta:
+			meta['type'] = meta['Type']
+			del meta['Type']
+		else:
+			meta['type'] = [ext[1:]]
 
-	print
-	if ext[1:] in text_formats:
+	stype = meta['type'][0].lower()	
+	if stype in source_mapping:
+		stype = source_mapping[stype]
+	logger.debug("stype:%s ext:%s filepath:%s", stype, ext, filepath)
+	if stype in text_formats and ext[1:] not in archive_formats:
 		css_class = ""
 		txt = read_file(filepath)
-		if ext[1:] in source_types:
-			css_class = "class ='brush: {0}'".format(ext[1:])
+		if stype in source_types:
+			css_class = "class ='brush: {0}'".format(stype)
 			txt = cgi.escape(txt)
 
 		return ("<pre {0}>{1}</pre>".format(css_class, txt), meta, None)
