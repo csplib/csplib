@@ -1,0 +1,45 @@
+language Essence 1.3
+
+$ Problem Number Partition
+$
+$ Problem details available at http://www.csplib.org/Problems/prob049/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+ 
+given n : int(1..)
+
+letting numberSets be 2
+
+letting dNum be domain int(1..n)
+
+$ find 'numberSets' sets
+find setlist: set (size numberSets) of (set of dNum)
+ 
+such that
+
+    $ setlist must include all elements in dNum
+    (sum indivset in setlist . |indivset|) = n
+
+such that
+
+    $ for each (non-identical) pair of sets
+    forAll A, B in setlist .
+
+        A = B
+        \/
+        (
+
+           $ cannot share any elements
+           |A intersect B| = 0
+
+           /\
+
+           $ constraints from problem
+           |A| = |B|
+           /\
+           (sum i in A . i) = (sum i in B . i)
+           /\
+           (sum i in A . i*i) = (sum i in B . i*i)
+        )
