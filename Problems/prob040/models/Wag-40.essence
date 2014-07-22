@@ -1,0 +1,63 @@
+language Essence 1.3
+
+$ Problem Wagner-Whitin Distribution
+$
+$ Problem details available at http://www.csplib.org/Problems/prob040/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+$ in this model, rather than define multiple levels, children of each node are defined explicitly
+
+given numNodes : int(1..)
+
+$ leaves are always first numLeaves nodes
+$ leaves cannot have any children
+given numLeaves : int(1..)
+
+$ period 0 is empty, all stock is 0
+given numPeriods : int(1..)
+
+$ used to provide bound to output
+given maxStock : int(1..)
+
+letting dNodes be domain int(1..numNodes)
+letting dLeaves be domain int(1..numLeaves)
+letting dAllPeriods be domain int(0..numPeriods)
+letting dPeriods be domain int(1..numPeriods)
+
+given holdingCost : matrix indexed by [dNodes] of int(0..)
+
+given procCost : matrix indexed by [dNodes] of int(0..)
+
+given demand : matrix indexed by [dLeaves, dPeriods] of int(0..)
+
+$ used to determine where supply comes goes to
+given children : matrix indexed by [dNodes] of set of dNodes
+
+find orders : matrix indexed by [dNodes, dPeriods] of int(0..maxStock)
+
+$ AUX find statement
+find stock : matrix indexed by [dNodes, dAllPeriods] of int(0..maxStock)
+
+$ minimising the cost
+$ holding*stock per period per node plus proc if any orders were placed per period per node
+minimising (sum t : dPeriods . (sum i : dNodes . (holdingCost[i] * stock[i][t] + procCost[i] * (orders[i][t] > 0))))
+
+
+such that
+
+$ stock starts at 0
+    forAll i : dNodes .
+        stock[i][0] = 0
+,
+$ non-leaf constraints - orders coming from children must be fulfilled
+    forAll t : dPeriods .
+        forAll i : int(numLeaves+1..numNodes) .
+            stock[i][t] = stock[i][t-1] + orders[i][t] - (sum m in children[i] . orders[m][t])
+,
+$ leaf constraints - demands must be fullfilled
+    forAll t : dPeriods .
+        forAll i : dLeaves .
+            stock[i][t] = stock[i][t-1] + orders[i][t] - demand[i][t]
