@@ -79,6 +79,8 @@ def get_content_and_metadata(filepath, store_dir):
 	if stype in source_mapping:
 		stype = source_mapping[stype]
 	logger.debug("stype:%s ext:%s filepath:%s", stype, ext, filepath)
+	# This if is necessary because Essence files stored in a zip will have
+	# stype=Essence, ext[1:]=zip
 	if stype in text_formats and ext[1:] not in archive_formats:
 		css_class = ""
 		txt = read_file(filepath)
