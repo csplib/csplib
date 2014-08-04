@@ -1,6 +1,6 @@
 
 
-This is a set of 9 randomly-generated problems, each with 100 cars.  The
+This is a set of randomly-generated problems, each with 100 cars.  The
 utilisation of the option stations is high,  so that these are relatively
 difficult problems to solve.  At least two have no solution (10/93 and 16/81).
 Some of the problems were used by Regin and Puget in their CP97 paper.
@@ -2454,7 +2454,7 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 5 15 1 0 0 0 0
 6 3 0 0 0 1 1
 7 8 0 1 1 1 0
-8 5 1 0 1 0 0 
+8 5 1 0 1 0 0
 9 1 1 0 1 1 1
 10 5 0 0 1 1 0
 11 9 1 1 0 1 0
