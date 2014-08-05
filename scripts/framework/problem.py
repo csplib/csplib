@@ -24,7 +24,7 @@ class PageType:
 	}
 	LANGUAGE = {
 		'class_dir': 'Languages',
-		'base_template': 'languages.html',
+		'base_template': 'language.html',
 		'parts':[
 			["data", lambda x: str.lower(x['name'])],
 			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
@@ -84,8 +84,8 @@ class Problem(object):
 		return self.specification is not None
 
 
-def write_problem(prob, apply_template, output_dir, class_dir, base_template, parts, base):
-	spec = apply_template(base_template, problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
+def write_problem(prob, apply_template, output_dir, base):
+	spec = apply_template(prob.pagetype['base_template'], problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
 	makedirs_exist_ok(prob.prob_dir)
 
 	def write(data, name):
@@ -110,26 +110,26 @@ def write_problem(prob, apply_template, output_dir, class_dir, base_template, pa
 				continue
 
 		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
-									raw_htmls=raw_htmls, base_template=base_template, **prob.prob_meta)
+									raw_htmls=raw_htmls, base_template=prob.pagetype['base_template'], **prob.prob_meta)
 
 		write(template, part_name + "/index.html")
 
-	for p in parts:
+	for p in prob.pagetype['parts']:
 		problem_part(p[0], p[1])
 
 	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html",
-		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, base_template=base_template, **prob.prob_meta)
+		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, base_template=prob.pagetype['base_template'], **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
 	write(refs, "references/index.html")
 
 	# Cite a problem
 	# pprint(prob_meta)
-	cite = apply_template("problem_cite.html", base_template=base_template, **prob.prob_meta)
+	cite = apply_template("problem_cite.html", base_template=prob.pagetype['base_template'], **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
 
-def process_problem(prob, apply_template, output_dir, class_dir, base):
+def process_problem(prob, apply_template, output_dir, base):
 	"Creates the problem's html"
 
 	(content, metadata) = convert_markdown(prob.specification)
@@ -147,10 +147,10 @@ def process_problem(prob, apply_template, output_dir, class_dir, base):
 	prob.metadata = metadata
 
 	title = prob.pagetype['title'](metadata)
-	prob.prob_meta = {"title": title, "prob_base": class_dir + "/" + prob.name, "prob_name": prob.name, "prob": prob}
+	prob.prob_meta = {"title": title, "prob_base": prob.pagetype['class_dir'] + "/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	#todo: remove?
-	prob.prob_dir = path.join(output_dir, class_dir +"/{0}".format(prob.name))
+	prob.prob_dir = path.join(output_dir, prob.pagetype['class_dir'] +"/{0}".format(prob.name))
 	def write(data, name):
 		with open(path.join(prob.prob_dir, name), "w", encoding='utf-8') as f:
 			f.write(data)
@@ -187,18 +187,12 @@ def process_problem(prob, apply_template, output_dir, class_dir, base):
 
 		part_metadata.sort(key = metadata_sorter)
 		prob.parts[part_name] = part_metadata
-		# template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
-		# 							raw_htmls=raw_htmls, **prob.prob_meta)
 
-		# write(template, part_name + "/index.html")
-
-	problem_part("results", lambda x: str.lower(x['name']))
-	problem_part("data", lambda x: str.lower(x['name']))
-	problem_part("models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])] )
-
+	for p in prob.pagetype['parts']:
+		problem_part(p[0], p[1])
 
 	# Copying assets bindly
-	prob_dir_in = path.join(base, class_dir + "/{0}".format(prob.name))
+	prob_dir_in = path.join(base, prob.pagetype['class_dir'] + "/{0}".format(prob.name))
 	assets_in = path.join(prob_dir_in, "assets")
 	assets_out = path.join(prob.prob_dir, "assets")
 

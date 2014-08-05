@@ -1,6 +1,5 @@
 Title: Essence
-Proposer: Chris Jefferson
-Extensions: essence
+Extensions: [essence]
 
 
 ESSENCE is a language we are developing; it allows a combinatorial (optimisation) problem to be sepcified at a level of abstraction above that at which modelling decisions are made. Version 1.1.0 of the language is now fully defined.

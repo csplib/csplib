@@ -125,7 +125,7 @@ except IOError:
 	creations_times={}
 
 
-def generate_pages(pages, class_dir, template, parts):
+def generate_pages(pages):
 	# Creates the output for the problems
 	for page in sorted(pages):
 		try:
@@ -133,13 +133,13 @@ def generate_pages(pages, class_dir, template, parts):
 			logger.debug("Processing page %s", page.name)
 			logger.debug(page)
 			logger.debug("")
-			problem.process_problem(page, apply_template, output_dir, class_dir, base)
-			problem.write_problem(page, apply_template, output_dir, class_dir, template, parts, base)
+			problem.process_problem(page, apply_template, output_dir, base)
+			problem.write_problem(page, apply_template, output_dir, base)
 
-			for category in page.metadata['category']:
+			for category in page.metadata.get('category', []):
 				categories_map[category].append(page)
 
-			for author in page.metadata['proposer']:
+			for author in page.metadata.get('proposer', []):
 				authors_map[author].append(page)
 
 			def fix_path(fp):
@@ -159,14 +159,9 @@ def generate_pages(pages, class_dir, template, parts):
 			logger.info("Error: %s", e)
 			raise
 
-generate_pages(probs, "Problems", "problem.html",
-  [ ["results", lambda x: str.lower(x['name'])],
-    ["data", lambda x: str.lower(x['name'])],
-    ["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]])
+generate_pages(probs)
 
-generate_pages(langs, "Languages", "language.html",
-  [ ["data", lambda x: str.lower(x['name'])],
-    ["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]])
+generate_pages(langs)
 
 for prob in probs:
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
