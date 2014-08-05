@@ -65,7 +65,7 @@ class Problem(object):
 		return self.specification is not None
 
 
-def write_problem(prob, apply_template, output_dir, base):
+def write_problem(prob, apply_template, output_dir, class_dir, base):
 	spec = apply_template("problem.html", problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
 	makedirs_exist_ok(prob.prob_dir)
 
@@ -99,8 +99,6 @@ def write_problem(prob, apply_template, output_dir, base):
 	problem_part("data", lambda x: str.lower(x['name']))
 	problem_part("models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])] )
 
-	# end
-
 	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html",
 		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
@@ -112,13 +110,8 @@ def write_problem(prob, apply_template, output_dir, base):
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
-	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
-	makedirs_exist_ok(old_path)
-	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
-		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
-
-def process_problem(prob, apply_template, output_dir, base):
+def process_problem(prob, apply_template, output_dir, class_dir, base):
 	"Creates the problem's html"
 
 	(content, metadata) = convert_markdown(prob.specification)
@@ -131,14 +124,15 @@ def process_problem(prob, apply_template, output_dir, base):
 		if len(metadata['category']) == 0:
 			metadata['category'] = ['Unclassified']
 
-	metadata['id'] = [prob.name[4:7]]
+	metadata['id'] = [prob.name]
+	metadata['shortid'] = [prob.name[4:]]
 	prob.metadata = metadata
 
-	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob.prob_meta = {"title": title, "prob_base": "Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
+	title = " ".join(metadata['shortid']) + ": " + " ".join(metadata['title'])
+	prob.prob_meta = {"title": title, "prob_base": class_dir + "/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	#todo: remove?
-	prob.prob_dir = path.join(output_dir, "Problems/{0}".format(prob.name))
+	prob.prob_dir = path.join(output_dir, class_dir +"/{0}".format(prob.name))
 	def write(data, name):
 		with open(path.join(prob.prob_dir, name), "w", encoding='utf-8') as f:
 			f.write(data)
@@ -186,7 +180,7 @@ def process_problem(prob, apply_template, output_dir, base):
 
 
 	# Copying assets bindly
-	prob_dir_in = path.join(base, "Problems/{0}".format(prob.name))
+	prob_dir_in = path.join(base, class_dir + "/{0}".format(prob.name))
 	assets_in = path.join(prob_dir_in, "assets")
 	assets_out = path.join(prob.prob_dir, "assets")
 

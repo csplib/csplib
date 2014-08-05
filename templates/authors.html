@@ -14,8 +14,8 @@
 
 	{% for prob in probs | sort %}
 		<p>
-			<a href="Problems/prob{{ prob.metadata['id'] | join('') }}">
-				prob{{ prob.metadata['id'] | join('') }}
+			<a href="Problems/{{ prob.metadata['id'] | join('') }}">
+				{{ prob.metadata['id'] | join('') }}
 			</a>:
 			{{ prob.metadata['title'] | join('') }}
 		</p>

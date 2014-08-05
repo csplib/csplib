@@ -29,7 +29,7 @@ from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
 from problem import Problem
-from util import create_zip_file
+from util import create_zip_file, makedirs_exist_ok
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +78,9 @@ logger.info("Output:%s", output_dir)
 problems_path = path.join(base, "Problems")
 probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
 
+languages_path = path.join(base, "Languages")
+langs_names = set(f for f in os.listdir(languages_path) if path.isdir(path.join(languages_path, f)))
+
 # If args are given, only build the specifed problems
 if args.only_probs:
 	to_build = set(args.only_probs)
@@ -105,7 +108,7 @@ def create_problem(name, path):
 
 # Init problems, and peform some validation
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
-
+langs = [p for p in [create_problem(p, languages_path) for p in langs_names] if p.is_vaild()]
 
 essences = []
 categories_map = defaultdict(list)
@@ -122,37 +125,49 @@ except IOError:
 	creations_times={}
 
 
-# Creates the output for the problems
-for prob in sorted(probs):
-	try:
-		logger.debug("")
-		logger.debug("Processing problem %s", prob.name)
-		logger.debug(prob)
-		logger.debug("")
-		problem.process_problem(prob, apply_template, output_dir, base)
-		problem.write_problem(prob, apply_template, output_dir, base)
+def generate_pages(pages, class_dir):
+	# Creates the output for the problems
+	for page in sorted(pages):
+		try:
+			logger.debug("")
+			logger.debug("Processing page %s", page.name)
+			logger.debug(page)
+			logger.debug("")
+			problem.process_problem(page, apply_template, output_dir, class_dir, base)
+			problem.write_problem(page, apply_template, output_dir, class_dir, base)
 
-		for category in prob.metadata['category']:
-			categories_map[category].append(prob)
+			for category in page.metadata['category']:
+				categories_map[category].append(page)
 
-		for author in prob.metadata['proposer']:
-			authors_map[author].append(prob)
+			for author in page.metadata['proposer']:
+				authors_map[author].append(page)
 
-		def fix_path(fp):
-			"""filepath inside zip"""
-			return fp.replace(problems_path + "/", "").replace("/models", "")
+			def fix_path(fp):
+				"""filepath inside zip"""
+				return fp.replace(problems_path + "/", "").replace("/models", "")
 
-		essences += [(f, fix_path(f)) for f in prob.models if path.splitext(f)[1] == '.essence' ]
+			global essences
+			essences += [(f, fix_path(f)) for f in page.models if path.splitext(f)[1] == '.essence' ]
 
-		if prob.name in creations_times:
-			if creations_times[prob.name].strip():
-				creation = datetime.fromtimestamp(float(creations_times[prob.name]))
-				months_map[(creation.year, creation.month)].append( (creation, prob) )
+			if page.name in creations_times:
+				if creations_times[page.name].strip():
+					creation = datetime.fromtimestamp(float(creations_times[page.name]))
+					months_map[(creation.year, creation.month)].append( (creation, page) )
 
-	except Exception as e:
-		logger.info("Failure in problem %s", prob.name)
-		logger.info("Error: %s", e)
-		raise
+		except Exception as e:
+			logger.info("Failure in page %s", page.name)
+			logger.info("Error: %s", e)
+			raise
+
+generate_pages(probs, "Problems")
+# generate_pages(langs, "Languages")
+
+for prob in probs:
+	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
+	makedirs_exist_ok(old_path)
+	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
+		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
+
 
 logger.debug("authors %s", authors_map.keys())
 
