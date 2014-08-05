@@ -1,0 +1,57 @@
+language Essence 1.3
+
+$ Problem Diagnosis
+$
+$ Problem details available at http://www.csplib.org/Problems/prob042/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+
+given numGates : int(1..)
+
+letting dGates be domain int(1..numGates)
+letting dGatesZero be domain int(0..numGates)
+
+$ each gate maps to a function converting (bool, bool) to bool
+given gateFuncs : function (total) dGates --> (function matrix indexed by [int(1..2)] of bool --> bool)
+
+given gateInpts : function (total) dGates --> matrix indexed by [int(1..2)] of int(-1..numGates)
+
+given finalOutputs : function dGates --> bool
+
+$ false for stuck off, true for stuck on, if there is no mapping for a gate, that gate is not faulty
+find faultyGates : function dGates --> bool
+
+minimising |faultyGates|
+
+such that
+
+    exists gateOutput : function (total) int(-1..numGates) --> bool .
+
+        $ define external inputs
+        gateOutput(-1) = false
+        /\
+        gateOutput(0) = true
+        /\
+
+        $ ensure that all gates either -
+        (forAll gate : dGates .
+            $ meet expected outputs based on their function
+            ( gateOutput(gate) = gateFuncs(gate)([gateOutput(gateInpts(gate)[1]), gateOutput(gateInpts(gate)[2])])
+
+            \/
+
+            $ are broken in the correct way (either stuck on or off)
+            gateOutput(gate) = faultyGates(gate)  )
+        )
+       
+        /\
+
+        $ ensure output equals given output
+
+        (forAll (gateLinkedtoOutput, expectedOutput) in finalOutputs .
+                gateOutput(gateLinkedtoOutput) = expectedOutput
+        )
+

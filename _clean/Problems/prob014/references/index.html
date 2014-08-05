@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>014: Solitaire Battleships</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob014">prob014</a></li>
+
+  <li><a href="/Problems/prob014/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>014: Solitaire Battleships</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob014/">Specification</a></li>
+
+   	<li><a href="/Problems/prob014/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob014/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob014/models">Models</a></li>
+
+   	<li><a href="/Problems/prob014/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob014/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob014/references/prob014-refs.bib">Download bibtex</a>
+</p>
+
+<p>A book (<span> <a class="bibref" data-bibfragment="Gorgon92Battleships" href="/Problems/prob014/references/#Gorgon92Battleships">[Gorgon92Battleships]</a></span> ) of puzzles has been published.</p>
+<p>Fathom It! \cite{FathomIt} is a shareware program for playing and solving these puzzles.
+This gives you
+a program to let you solve puzzles on screen, as well as a rule-based solver.
+The trial version contains 80 puzzles: 10 each in four levels of difficulty
+and two sizes (7x7 and 10x10.)  The full version contains thousands.
+All puzzles distributed can be solved by the rule based solver without
+backtracking.  However puzzles exist that it cannot solve (see the overview
+page).</p>
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="Smith06Constraint" class='bib'>
+    <span class="bibkey">
+        [Smith06Constraint]
+    </span>
+    <br>
+    <span class="authors">
+        B.M. Smith
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.dcs.st-and.ac.uk/~cppod/publications/reports/cppod-20-2006.pdf">Constraint Programming Models for Solitaire Battleships</a>
+    </span>
+
+    <br>
+
+    <span class="venuetype">Technical Report </span>
+    <span class="venue">20-2006, CP Pod</span>, 
+    <span class="date">
+        
+        2006
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Gorgon92Battleships" class='bib'>
+    <span class="bibkey">
+        [Gorgon92Battleships]
+    </span>
+    <br>
+    <span class="authors">
+        Peter Gordon and Mike Shenk
+    </span>
+
+    <br>
+
+    <span class="title">
+        Solitaire Battleships : 108 Challenging Logic Puzzles
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        1999
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="FathomIt" class='bib'>
+    <span class="bibkey">
+        [FathomIt]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        Fathom It!
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://www.mountainvistasoft.com/">howpublished: http://www.mountainvistasoft.com/</a>
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

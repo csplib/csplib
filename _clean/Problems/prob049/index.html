@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>049: Number Partitioning</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob049">prob049</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>049: Number Partitioning</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob049/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob049/results">Results</a></li>
+
+   	<li><a href="/Problems/prob049/references">References</a></li>
+
+   	<li><a href="/Problems/prob049/models">Models</a></li>
+
+   	<li><a href="/Problems/prob049/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob049/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Daniel Diaz
+</p>
+
+<p>This problem consists in finding a partition of numbers $1..N$ into two sets A and B such that:</p>
+<ol>
+<li>A and B have the same cardinality</li>
+<li>sum of numbers in $A$ = sum of numbers in $B$</li>
+<li>sum of squares of numbers in $A$ = sum of squares of numbers in $B$</li>
+</ol>
+<p>There is no solution for $N &lt; 8$.</p>
+<p>Here is an example for$ N = 8$:$ A = (1,4,6,7)$ and $B = (2,3,5,8)$</p>
+<p>Then from $N >= 8$, there is no solution if $N$ is not a multiple of $4$.</p>
+<h3>Generalisation</h3>
+<p>More constraints can thus be added, e.g also impose the equality on the sum of cubes, &hellip;</p>
+<p>Let $C_k$ be the constraint about the power $k$ defined as the equality :</p>
+<p>$\Sigma_{i=1}^{N/2} A_i^k = \Sigma_{i=1}^{N/2} B_i^k$</p>
+<p>Condition (a) corresponds to $k=0$. Condition (b) to $k=1$. Condition (c) to $k=2$.</p>
+<p>This generalized problem can be seen as a conjunction of constraints $C_k$ until a power P $(C_0 /\ C_1 /\ &hellip; /\ C_P)$. The above problem corresponds to $P = 2$.</p>
+<p>Empirically, I played with $P = 0, 1, 2, 3, 4$:</p>
+<p>The sums of powers is known :</p>
+<ul>
+<li>$\Sigma_{i=1}^{N} i^0 = N$</li>
+<li>$\Sigma_{i=1}^{N} i^1 = N * (N+1) / 2$</li>
+<li>$\Sigma_{i=1}^{N} i^2 = N * (N+1) * (2*N + 1) / 6$</li>
+<li>$\Sigma_{i=1}^{N} i^3 = N^2 * (N+1)^2 / 4$</li>
+<li>$\Sigma_{i=1}^{N} i^4 = N * (N+1) * (6*N^3 + 9*N^2 + N - 1) / 30$</li>
+</ul>
+<p>Recall in our case we need the half sums. The problem has no solution if the above sums are not even numbers. For P = 0 this implies N is a multiple of 2 (groups A and B have the same cardinality). For P = 1 (knowing N is multiple of 2 due to P = 0) then N * (N + 1) / 2 is even iff N is multiple of 4.</p>
+<p>Here are the first solutions computed:</p>
+<ul>
+<li>$P = 0$: first solutions found for $N = 2, 4, 6, 8, 10, 12, &hellip;$ (obviously for every multiple of 2)</li>
+<li>$P = 1$: first solutions found for $N = 4, 8, 12, 16, 20, 24, 28, 32$ (then for every multiple of 4 ?)</li>
+<li>$P = 2$: first solutions found for $N = 8, 12, 16, 20, 24, 28, 32, 36$ (then for every multiple of 4 ?)</li>
+<li>$P = 3$: first solutions found for$ N = 16, 24, 32, 40 $(then for every multiple of 8 ?)</li>
+<li>$P = 4$: first solutions found for$ N = 32, 40, 48, 56, 64$ (then forevery multiple of 8 ?)</li>
+</ul>
+<p>From these tests, it seems the smallest N for which a solution exists is $2^{P+1}$. Can this be proved ?</p>
+<p>After that, it seems there are only solutions for N multiple of 2 (P= 0), 4 (P = 1 or 2), 8 (P = 3 or 4). Is this a constant depending on P ?</p>
+<p>Another way to generalize this problem consists in increasing the numbers of groups (for instance consider 3 groups A, B, C).</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

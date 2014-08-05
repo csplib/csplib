@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>049: Number Partitioning</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob049">prob049</a></li>
+
+  <li><a href="/Problems/prob049/models">Models</a></li>
+  <li>set_partition_full.essence</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>049: Number Partitioning</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob049/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob049/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob049/results">Results</a></li>
+
+   	<li><a href="/Problems/prob049/references">References</a></li>
+
+   	<li><a href="/Problems/prob049/models">Models</a></li>
+
+   	<li><a href="/Problems/prob049/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob049/models/set_partition_full.essence">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob049/models/set_partition_full.essence">Download</a>
+<pre class ='brush: essence'>language Essence 1.3
+
+$ Problem Number Partition
+$
+$ Problem details available at http://www.csplib.org/Problems/prob049/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+ 
+given n : int(1..)
+where n%2 = 0
+
+given P : int(0..)
+
+letting dNum be domain int(1..n)
+
+$ find sets
+find setA: set (size n/2) of dNum
+find setB: set (size n/2) of dNum
+ 
+such that
+
+    $ setlist must include all elements in dNum
+    |setA union setB| = n
+,
+    $ cannot share any elements
+    |setA intersect setB| = 0
+,
+    forAll power : int(0..P) .
+        (sum i in setA . i**power) = (sum i in setB . i**power)
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

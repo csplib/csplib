@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>040: A Distribution Problem with Wagner-Whitin Costs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob040">prob040</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>040: A Distribution Problem with Wagner-Whitin Costs</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob040/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob040/results">Results</a></li>
+
+   	<li><a href="/Problems/prob040/references">References</a></li>
+
+   	<li><a href="/Problems/prob040/models">Models</a></li>
+
+   	<li><a href="/Problems/prob040/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob040/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Ian Miguel, Armagan Tarim
+</p>
+
+<p>A basic distribution problem is described as follows.
+Given:
+<UL>
+<LI> A supply chain structure of <em>stocking points</em> divided into
+<em>L</em> <em>levels</em>, such as:
+<pre>
+              |                   Level
+              V
+            +---+
+            | F |                   3
+            +---+
+          <em>/     _
+         /         \
+        V           V
+      +---+       +---+
+      | D |       | E |             2
+      +---+       +---+
+    </em>/     _          _
+   /         \           \
+  V           V           V
++---+       +---+       +---+
+| A |       | B |       | C |       1
++---+       +---+       +---+
+  |           |           |
+  V           V           V
+</pre>
+<LI>A <em>holding cost</em> (<em>c</em>) per unit of inventory at each
+    stocking point, where it is assumed that a parent has lower holding
+    cost than any of its children.
+<LI>A <em>procurement cost</em> (<em>c0</em>) per stocking point
+    (per order, not per unit of inventory received).
+<LI>A number of periods, <em>T</em>.
+<LI>A <em>demand</em> for each leaf (<em>A - C</em>) at each period.
+</UL></p>
+<p>Find an optimal ordering <em>policy</em>: i.e. a decision as to how much
+to order at each stocking point at each time period that minimises cost.</p>
+<p>The Wagner-Whitin form of the problem assumes that the holding costs
+and procurement costs are constant, and that the demands are known for
+the entire planning horizon. Furthermore, the stocking points have no
+maximum capacity and the starting inventory is 0.</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

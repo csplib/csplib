@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>056: Synchronous Optical Networking (SONET) Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob056">prob056</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>056: Synchronous Optical Networking (SONET) Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob056/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob056/results">Results</a></li>
+
+   	<li><a href="/Problems/prob056/references">References</a></li>
+
+   	<li><a href="/Problems/prob056/models">Models</a></li>
+
+   	<li><a href="/Problems/prob056/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob056/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Peter Nightingale
+</p>
+
+<p>In the SONET problem we are given a set of nodes, and for each pair of nodes
+we are given the <em>demand</em> (which is the number of channels required to carry network traffic 
+between the two nodes). The demand may be zero, in which case the two nodes do
+not need to be connected. </p>
+<p>A SONET <em>ring</em> connects a set of nodes. A node is installed on a ring using a piece of equipment
+called an add-drop multiplexer (ADM).  Each node may be installed on more than one
+ring. Network traffic can be transmitted from
+one node to another only if they are both installed on the same ring. 
+Each ring has an upper limit on the number of nodes, and a limit on the number
+of channels. The demand of a pair of nodes may be split between multiple rings. </p>
+<p>The objective is to minimise the total number of ADMs used while satisfying all demands. </p>
+<h2>The Unlimited Traffic Capacity Problem</h2>
+<p>In the unlimited traffic capacity problem, the magnitude of the demands is ignored.
+If a pair of nodes $n_1$ and $n_2$ has a non-zero demand, then there must exist a ring
+connecting $n_1$ and $n_2$. The upper limit on the number of channels per ring 
+has no significance in this simplified problem. The objective function remains
+the same. </p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

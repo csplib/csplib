@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>040: A Distribution Problem with Wagner-Whitin Costs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob040">prob040</a></li>
+
+  <li><a href="/Problems/prob040/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>040: A Distribution Problem with Wagner-Whitin Costs</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob040/">Specification</a></li>
+
+   	<li><a href="/Problems/prob040/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob040/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob040/models">Models</a></li>
+
+   	<li><a href="/Problems/prob040/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob040/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob040/references/prob040-refs.bib">Download bibtex</a>
+</p>
+
+<p>The original paper on the control of single stocking points with
+linear holding and fixed ordering costs, and dynamic deterministic
+demand is due to Wagner and Whitin<span> <a class="bibref" data-bibfragment="wagner1958dynamic" href="/Problems/prob040/references/#wagner1958dynamic">[wagner1958dynamic]</a></span>.</p>
+<p>Clark and Scarf introduce the <em>echelon stock</em> concept and
+give an alternative formulation for the arborescent systems<span> <a class="bibref" data-bibfragment="clark1960optimal" href="/Problems/prob040/references/#clark1960optimal">[clark1960optimal]</a></span>.</p>
+<p>Crowston et al. define the <em>echelon holding cost</em> to replace
+the usual holding costs and hence improve the relevance of the
+Clark-Scarf model<span> <a class="bibref" data-bibfragment="crowston1973economic" href="/Problems/prob040/references/#crowston1973economic">[crowston1973economic]</a></span>.</p>
+<p>Schwarz and Schrage give a proof for serial systems that an
+alternative formulation is possible by means of <em>echelon stock</em> and <em>echelon holding cost</em><span> <a class="bibref" data-bibfragment="schwarz1978note" href="/Problems/prob040/references/#schwarz1978note">[schwarz1978note]</a></span>.</p>
+<p>Tarim and Miguel extend Schwarz and Schrage&rsquo;s proof for serial
+systems to arborescent systems and examine the computational
+efficiency of introducing various implied constraints into MIP
+(mixed-integer programming) and constraint programming/linear
+programming (CP/LP) hybrid models<span> <a class="bibref" data-bibfragment="tarim2004echelon" href="/Problems/prob040/references/#tarim2004echelon">[tarim2004echelon]</a></span></p>
+<p>A literature review and many other aspects of inventory 
+control can be found in<span> <a class="bibref" data-bibfragment="graves1993logistics" href="/Problems/prob040/references/#graves1993logistics">[graves1993logistics]</a></span>:</p>
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="tarim2004echelon" class='bib'>
+    <span class="bibkey">
+        [tarim2004echelon]
+    </span>
+    <br>
+    <span class="authors">
+        S Armagan Tarim and Ian Miguel
+    </span>
+
+    <br>
+
+    <span class="title">
+        Echelon stock formulation of arborescent distribution systems: An application to the Wagner-Whitin problem
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Integration of AI and OR Techniques in Constraint Programming for Combinatorial Optimization Problems</span>, 
+    <span class="date">
+        
+        2004
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="graves1993logistics" class='bib'>
+    <span class="bibkey">
+        [graves1993logistics]
+    </span>
+    <br>
+    <span class="authors">
+        Stephen C Graves, AHG Rinnooy Kan, and Paul Herbert Zipkin
+    </span>
+
+    <br>
+
+    <span class="title">
+        Logistics of production and inventory
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        1993
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="schwarz1978note" class='bib'>
+    <span class="bibkey">
+        [schwarz1978note]
+    </span>
+    <br>
+    <span class="authors">
+        Leroy B Schwarz and Linus Schrage
+    </span>
+
+    <br>
+
+    <span class="title">
+        Note-On Echelon Holding Costs
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Management Science 24(8)</span>, 
+    <span class="date">
+        
+        1978
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="crowston1973economic" class='bib'>
+    <span class="bibkey">
+        [crowston1973economic]
+    </span>
+    <br>
+    <span class="authors">
+        Wallace B Crowston, Michael Wagner, and Jack F Williams
+    </span>
+
+    <br>
+
+    <span class="title">
+        Economic lot size determination in multi-stage assembly systems
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Management Science 19(5)</span>, 
+    <span class="date">
+        
+        1973
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="clark1960optimal" class='bib'>
+    <span class="bibkey">
+        [clark1960optimal]
+    </span>
+    <br>
+    <span class="authors">
+        Andrew J Clark and Herbert Scarf
+    </span>
+
+    <br>
+
+    <span class="title">
+        Optimal policies for a multi-echelon inventory problem
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Management science 6(4)</span>, 
+    <span class="date">
+        
+        1960
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="wagner1958dynamic" class='bib'>
+    <span class="bibkey">
+        [wagner1958dynamic]
+    </span>
+    <br>
+    <span class="authors">
+        Harvey M Wagner and Thomson M Whitin
+    </span>
+
+    <br>
+
+    <span class="title">
+        Dynamic version of the economic lot size model
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Management science 5(1)</span>, 
+    <span class="date">
+        
+        1958
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>055: Equidistant Frequency Permutation Arrays</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob055">prob055</a></li>
+
+  <li><a href="/Problems/prob055/models">Models</a></li>
+  <li>prob055-EFPA.essence</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>055: Equidistant Frequency Permutation Arrays</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob055/">Specification</a></li>
+
+   	<li><a href="/Problems/prob055/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob055/results">Results</a></li>
+
+   	<li><a href="/Problems/prob055/references">References</a></li>
+
+   	<li><a href="/Problems/prob055/models">Models</a></li>
+
+   	<li><a href="/Problems/prob055/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob055/models/prob055-EFPA.essence">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob055/models/prob055-EFPA.essence">Download</a>
+<pre class ='brush: essence'>language ESSENCE 1.3.0
+
+$ Problem Equidistant Frequency Permutation Arrays
+$
+$ Problem details available at http://www.csplib.org/Problems/prob055/
+$
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+given v : int(1..)
+given d : int(1..)
+given q : int(1..)
+given lam : int(1..)
+
+letting dSequnce be domain int(1..q*lam)
+letting dElement be domain int(1..q)
+
+find E : set (size v) of matrix indexed by [dSequnce] of dElement
+
+$ each element in (1..q) must occur lambda times per sequence
+such that
+    forAll m in E .
+        forAll element : dElement .
+            (sum index : dSequnce . toInt(m[index] = element)) = lam
+
+$ each non-identical pair must be hamming distance d apart
+such that
+    forAll seqA, seqB in E .
+        seqA = seqB
+        \/
+        (sum index : dSequnce . toInt(seqA[index] != seqB[index])) = d
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

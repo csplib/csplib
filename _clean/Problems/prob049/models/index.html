@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>049: Number Partitioning</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob049">prob049</a></li>
+
+  <li><a href="/Problems/prob049/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>049: Number Partitioning</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob049/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob049/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob049/results">Results</a></li>
+
+   	<li><a href="/Problems/prob049/references">References</a></li>
+
+  	<li><p>Models</p></li>
+
+   	<li><a href="/Problems/prob049/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob049/models">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<p>The problem can be easily modeled as a CSP problem with 2 sets of N/2 variables (called A_{i} and B_{i}, i in 1..N/2) whose initial domain are the set of integers {1..N}. The variables are constrained as follows:</p>
+<ul>
+<li>all variables are different</li>
+<li>$\Sigma_{i=1}^{N/2} A_i = \Sigma_{i=1}^{N/2} B_i = N * (N+1) / 2 / 2$</li>
+<li>$\Sigma_{i=1}^{N/2} A_i^2 = `Sigma_`{i=1}^{N/2} B_i^2 = N * (N+1) * (2*N+1) / 6 / 2$</li>
+</ul>
+<p>To break symmetries (avoiding permutations of a group, and swapping the two groups) it is better to add these redundant constraints:</p>
+<ul>
+<li>$A_1 &lt; A_2 &lt; &hellip; &lt; A_{N/2}$</li>
+<li>$B_1 &lt; B_2 &lt; &hellip; &lt; B_{N/2}$</li>
+<li>$A_1 = 1$ (the value 1 is always in the first group))</li>
+</ul>
+<p>A good heuristic consists in iteratively placing the biggest missing value (thus in descending order). NB: doing so the &ldquo;all different&rdquo; constraint is not needed (only different values are assigned one by one).</p>
+<p>If only the first solution is wanted then it is further preferable to first try to put this value in the set which has the smallest sum (sum of already placed values). If all solutions are wanted this value will also be tried in the other group so the test on the sums can involve a little overhead.</p>
+
+<table class="tablesorter">
+<thead>
+<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<a href="set_partition.lp4">
+			set_partition.lp4
+		</a>
+	</td>
+	<td>
+		ASP Gringo 4
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition_bp.pl">
+			set_partition_bp.pl
+		</a>
+	</td>
+	<td>
+		B-Prolog
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.co">
+			set_partition.co
+		</a>
+	</td>
+	<td>
+		Comet
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.ecl">
+			set_partition.ecl
+		</a>
+	</td>
+	<td>
+		ECLiPSe CLP
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition_full.essence.html">
+			set_partition_full.essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition_simple.essence.html">
+			set_partition_simple.essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.cpp">
+			set_partition.cpp
+		</a>
+	</td>
+	<td>
+		Gecode
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="SetPartition_jsr331.java">
+			SetPartition_jsr331.java
+		</a>
+	</td>
+	<td>
+		JSR-331
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.mzn.html">
+			set_partition.mzn
+		</a>
+	</td>
+	<td>
+		MiniZinc
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.cs">
+			set_partition.cs
+		</a>
+	</td>
+	<td>
+		or-tools/C#
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition_ortools.py">
+			set_partition_ortools.py
+		</a>
+	</td>
+	<td>
+		or-tools/Python
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="SetPartition_oscar.scala">
+			SetPartition_oscar.scala
+		</a>
+	</td>
+	<td>
+		OscaR
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition.eprime">
+			set_partition.eprime
+		</a>
+	</td>
+	<td>
+		SavileRow
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="set_partition_sicstus.pl">
+			set_partition_sicstus.pl
+		</a>
+	</td>
+	<td>
+		SICStus Prolog
+	</td>
+	<td>
+	
+	</td>
+</tr>
+</tbody>
+</table>
+
+	</div>
+
+
+
+</body>
+
+</html>

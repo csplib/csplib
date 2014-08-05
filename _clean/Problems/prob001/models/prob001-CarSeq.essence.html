@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>001: Car Sequencing</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob001">prob001</a></li>
+
+  <li><a href="/Problems/prob001/models">Models</a></li>
+  <li>prob001-CarSeq.essence</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>001: Car Sequencing</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob001/">Specification</a></li>
+
+   	<li><a href="/Problems/prob001/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob001/results">Results</a></li>
+
+   	<li><a href="/Problems/prob001/references">References</a></li>
+
+   	<li><a href="/Problems/prob001/models">Models</a></li>
+
+   	<li><a href="/Problems/prob001/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob001/models/prob001-CarSeq.essence">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob001/models/prob001-CarSeq.essence">Download</a>
+<pre class ='brush: essence'>language Essence 1.3
+$ prob001.essence: Car Sequencing
+$ Problem details available at http://www.csplib.org/prob/prob001/
+
+given n_cars, n_classes, n_options, n_upperBound : int(1..)
+
+letting Slots  be domain int(1..n_cars),
+        Class  be domain int(1..n_classes),
+        Option be domain int(1..n_options)
+
+$ giving an n_upperBound here lets us use more than one representation for the functions.
+given quantity : function (total) Class  --&gt; int(1..n_upperBound),
+      maxcars  : function (total) Option --&gt; int(1..n_upperBound),
+      blksize  : function (total) Option --&gt; int(1..n_upperBound),
+      usage    : relation of ( Class * Option )
+
+find car : function (total) Slots --&gt; Class
+
+such that
+    forAll c : Class . |preImage(car,c)| = quantity(c),
+    forAll opt : Option .
+        forAll s : int(1..n_cars+1-blksize(opt)) .
+            (sum i : int(s..s+blksize(opt)-1) . toInt(usage(car(i),opt))) &lt;= maxcars(opt)
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

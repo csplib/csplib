@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>031: Rack Configuration Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob031">prob031</a></li>
+
+  <li><a href="/Problems/prob031/data">Data</a></li>
+  <li>instances.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>031: Rack Configuration Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob031/">Specification</a></li>
+
+   	<li><a href="/Problems/prob031/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob031/results">Results</a></li>
+
+   	<li><a href="/Problems/prob031/references">References</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob031/models">Models</a></li>
+
+   	<li><a href="/Problems/prob031/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob031/data/instances.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob031/data/instances.md">Download</a>
+<p>Instances are described by</p>
+<ul>
+<li>nbRackModels: number of rack models</li>
+<li>nbCardTypes: number of card types</li>
+<li>nbRacks: number of racks available</li>
+<li>RackModels: each rack model characterised by the maximal power it can supply, its number of connectors, and its price</li>
+<li>CardTypes: each card type characterised by the power it requires, and a demand designating how many cards of that card type are to be plugged.</li>
+</ul>
+<p>the instances:</p>
+<pre><code>/* Instance 1*/ 
+nbRackModels = 2; 
+nbCardTypes = 4; 
+nbRacks = 5; 
+RackModels = [&lt; 150, 8, 150 &gt;,
+&lt; 200, 16, 200 &gt; ]; 
+CardTypes = [ &lt; 20, 10 &gt;,
+&lt; 40, 4 &gt;,
+&lt; 50, 2 &gt;,
+&lt; 75, 1 &gt; ];
+
+/* Instance 2*/ 
+nbRackModels = 2; 
+nbCardTypes = 4; 
+nbRacks = 10; 
+RackModels = [&lt;150,8,150&gt;,
+&lt;200,16,200&gt; ]; 
+CardTypes = [ &lt; 20, 20 &gt;,
+&lt; 40, 8 &gt;,
+&lt; 50, 4 &gt;,
+&lt; 75, 2 &gt; ];
+
+/* Instance 3 */ 
+nbRackModels = 2; 
+nbCardTypes = 6; 
+nbRacks = 12; 
+RackModels = [&lt;150,8,150&gt;,
+&lt;200,16,200&gt; ]; 
+CardTypes = [ &lt;10, 20&gt;, 
+&lt;20, 10 &gt;,
+&lt;40, 8 &gt;,
+&lt;50, 4 &gt;,
+&lt;75, 2 &gt;,
+&lt;100,1&gt; ];
+
+/* Instance 4 */ 
+nbRackModels = 6; 
+nbCardTypes = 6; 
+nbRacks = 9; 
+RackModels = [&lt;50,2,50&gt;,
+&lt;100,4,100&gt;,
+&lt;150,8,150 &gt;,
+&lt;200,16,200 &gt;,
+&lt;250,32,250&gt;,
+&lt;300,64,300&gt; ]; 
+CardTypes = [ &lt; 20, 10 &gt;,
+&lt; 40, 6 &gt;,
+&lt; 50, 4 &gt;,
+&lt; 75, 2 &gt;,
+&lt;100,2&gt;,
+&lt;150,1&gt;];
+</code></pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

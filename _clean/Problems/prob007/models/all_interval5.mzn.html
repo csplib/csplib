@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>007: All-Interval Series</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob007">prob007</a></li>
+
+  <li><a href="/Problems/prob007/models">Models</a></li>
+  <li>all_interval5.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>007: All-Interval Series</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob007/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob007/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob007/results">Results</a></li>
+
+   	<li><a href="/Problems/prob007/references">References</a></li>
+
+   	<li><a href="/Problems/prob007/models">Models</a></li>
+
+   	<li><a href="/Problems/prob007/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob007/models/all_interval5.mzn">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob007/models/all_interval5.mzn">Download</a>
+<pre >%
+% All interval problem in MiniZinc.
+% 
+% Different approaches inspired by
+% http://www.dis.uniroma1.it/~tmancini/index.php?currItem=research.publications.webappendices.csplib2x.problemDetails&problemid=007
+%
+% Also see
+%   http://www.hakank.org/minizinc/all_interval1.mzn
+%   http://www.hakank.org/minizinc/all_interval2.mzn
+%   http://www.hakank.org/minizinc/all_interval3.mzn
+%   http://www.hakank.org/minizinc/all_interval4.mzn
+%   http://www.hakank.org/minizinc/all_interval5.mzn
+%   http://www.hakank.org/minizinc/all_interval6.mzn
+%
+
+% 
+% Model created by Hakan Kjellerstrand, hakank@gmail.com
+% See also my MiniZinc page: http://www.hakank.org/minizinc
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+int: n= 12;
+set of int: classes = 0..n-1;
+set of int: differ = 1..n-1;
+
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+array[0..n-2] of var differ: differences;
+
+% solve satisfy;
+solve :: int_search(series, occurrence, indomain_min, complete) satisfy;
+
+constraint
+   % C1: Each pitch class occurs exactly once
+   forall(i,j in classes where i != j) (
+     series[i] != series[j]
+   )
+   /\
+   % C2: Differences between neighbouring notes are all different
+   % AUX: Addition of auxiliary predicates
+   % Auxiliary predicate stores the interval between pairs of neighbouring notes
+   forall(i in 0..n-2) (
+      differences[i]=abs(series[i+1] - series[i])
+   )
+   /\
+   forall(i,j in 0..n-2 where i != j) (
+      differences[i] != differences[j]
+   )
+   /\
+   % SBSO: Symmetry-breaking by selective ordering
+   % The first note is less than last one
+   series[0] < series[n-1]
+;
+
+output [
+  show(series)
+];
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

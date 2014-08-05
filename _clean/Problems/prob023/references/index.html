@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>023: Magic Hexagon</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob023">prob023</a></li>
+
+  <li><a href="/Problems/prob023/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>023: Magic Hexagon</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob023/">Specification</a></li>
+
+   	<li><a href="/Problems/prob023/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob023/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob023/models">Models</a></li>
+
+   	<li><a href="/Problems/prob023/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob023/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob023/references/prob023-refs.bib">Download bibtex</a>
+</p>
+
+<p>The magic hexagon was found in 1895 after much trial and error by William Radcliffe<span> <a class="bibref" data-bibfragment="radcliffe" href="/Problems/prob023/references/#radcliffe">[radcliffe]</a></span>.</p>
+<p>In 1963, Charles Trigg<span> <a class="bibref" data-bibfragment="trigg" href="/Problems/prob023/references/#trigg">[trigg]</a></span> proved that it is the only magic hexagon of any size (other than the trivial diameter 1) using a constraint on the sum of any diagonal.</p>
+<p>See the related <a href="/Problems/prob019">magic square and sequence</a> problem entry.</p>
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="radcliffe" class='bib'>
+    <span class="bibkey">
+        [radcliffe]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        William Radcliffe
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://www.johnrausch.com/PuzzleWorld/magichex.htm">howpublished: http://www.johnrausch.com/PuzzleWorld/magichex.htm</a>
+    </span>
+
+</p>
+
+<p id="trigg" class='bib'>
+    <span class="bibkey">
+        [trigg]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        Charles Trigg
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://mathworld.wolfram.com/MagicHexagon.html">howpublished: http://mathworld.wolfram.com/MagicHexagon.html</a>
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

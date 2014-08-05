@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>051: Tank Allocation</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob051">prob051</a></li>
+
+  <li><a href="/Problems/prob051/data">Data</a></li>
+  <li>chemical.xml</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>051: Tank Allocation</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob051/">Specification</a></li>
+
+   	<li><a href="/Problems/prob051/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob051/results">Results</a></li>
+
+   	<li><a href="/Problems/prob051/references">References</a></li>
+
+   	<li><a href="/Problems/prob051/models">Models</a></li>
+
+   	<li><a href="/Problems/prob051/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob051/data/chemical.xml">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob051/data/chemical.xml">Download</a>
+<pre class ='brush: xml'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!--
+ * Authors: Pierre Schaus and Rowan Van Schaeren
+ * Chemical Tanker Problem (real industrial data):
+ * The Objective is to place products (called cargos) into tanks on a chemical tanker (vessel).
+ * - At most one cargo per tank but several tanks can be used to all the volume of one cargo. 
+ * - Some cargo cannot be placed into adjacent tanks (different temperature requirement and security constraints)
+ * - Some cargo cannot be placed into some tanks (all the tanks does not have the required property to accept the cargo)
+ * The objective it to place  all the volumes while satisfying the security constraints and maximizing the total free space (total volume of unused space).
+ * The idea of the objective function is to let more freedom for future cargos and also to decrease the cleaning costs
+ * 
+--&gt;
+&lt;problem&gt;
+&lt;!--list all the cargos (i.e. chemical products with for each of them the volume to place --&gt;
+&lt;cargos nb="20"&gt;
+  &lt;cargo id="1" name="POLI(4+)ISOBUTYLENE" volume="1114"/&gt;
+  &lt;cargo id="2" name="TALLOW" volume="979"/&gt;
+  &lt;cargo id="3" name="TALLOW" volume="1068"/&gt;
+  &lt;cargo id="4" name="ACETONE" volume="1267"/&gt;
+  &lt;cargo id="5" name="DIPROPYLENE GLYCOL" volume="381"/&gt;  
+  &lt;cargo id="6" name="CORN OIL CRUDE DEGUMMD" volume="508"/&gt;
+  &lt;cargo id="7" name="CORN OIL CRUDE DEGUMMD" volume="581"/&gt;
+  &lt;cargo id="8" name="CORN OIL CRUDE DEGUMMD" volume="577"/&gt;
+  &lt;cargo id="9" name="DIGLYCIDYL ETHER OF BISPHENOL" volume="720"/&gt;
+  &lt;cargo id="10" name="MARPOL annex I petroleum oil" volume="1273"/&gt;
+  &lt;cargo id="11" name="Annex I oil" volume="593"/&gt;
+  &lt;cargo id="12" name="Annex I oil" volume="594"/&gt;
+  &lt;cargo id="13" name="ADIPONITRILE" volume="793"/&gt;
+  &lt;cargo id="14" name="EPICHLOROHYDRIN" volume="450"/&gt;
+  &lt;cargo id="15" name="DIPHENYLMETHANE DIISOCYNATE " volume="826"/&gt;
+  &lt;cargo id="16" name="PROPYLENE OXIDE" volume="1491"/&gt;
+  &lt;cargo id="17" name="Glycerol, propoxylated and ethoxylated" volume="1527"/&gt;
+  &lt;cargo id="18" name="BUTANOIC ACID" volume="701"/&gt;
+  &lt;cargo id="19" name="Glycerol/sucrose blend propoxylated and ethoxylated" volume="673"/&gt;
+  &lt;cargo id="20" name="N-METHYL-2-PYRROLIDONE" volume="552"/&gt;
+&lt;/cargos&gt;
+&lt;!--gives the pair of cargos that cannot be placed to adjacent/neighbour tanks --&gt;
+&lt;incompatibles&gt;
+   &lt;incompatible cargo1="5"  cargo2="15"/&gt;
+   &lt;incompatible cargo1="14" cargo2="18"/&gt;
+   &lt;incompatible cargo1="15" cargo2="18"/&gt;
+   &lt;incompatible cargo1="15" cargo2="20"/&gt;
+   &lt;incompatible cargo1="16" cargo2="18"/&gt;
+&lt;/incompatibles&gt;
+&lt;!--list all the tanks with for each of them it's capacity, location on the vessel, the cargo that cannot be placed inside and the adjacent/neighbour tanks --&gt;
+&lt;tanks nb="34"&gt;
+   &lt;tank id="1" capa="680" x="6" y="18" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="2"/&gt;
+         &lt;tank id="3"/&gt;
+      &lt;/neighbours&gt;
+   &lt;/tank&gt;
+   &lt;tank id="2" capa="674" x="0" y="18" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="1"/&gt;
+         &lt;tank id="4"/&gt;
+      &lt;/neighbours&gt;      
+   &lt;/tank&gt;   
+   &lt;tank id="3" capa="949" x="6" y="16" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="1"/&gt;
+         &lt;tank id="4"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;   
+   &lt;tank id="4" capa="949" x="0" y="16" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="2"/&gt;
+         &lt;tank id="3"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="5" capa="316" x="9" y="14" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="6"/&gt;
+         &lt;tank id="9"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="6" capa="420" x="6" y="14" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="5"/&gt;
+         &lt;tank id="7"/&gt;
+         &lt;tank id="10"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="7" capa="431" x="3" y="14" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="6"/&gt;
+         &lt;tank id="8"/&gt;
+         &lt;tank id="11"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="8" capa="316" x="0" y="14" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="7"/&gt;
+         &lt;tank id="12"/&gt;
+      &lt;/neighbours&gt; 
+   &lt;/tank&gt;
+   &lt;tank id="9" capa="382" x="9" y="12" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="5"/&gt;
+         &lt;tank id="10"/&gt;
+         &lt;tank id="13"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="10" capa="451" x="6" y="12" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="6"/&gt;
+         &lt;tank id="9"/&gt;
+         &lt;tank id="11"/&gt;
+         &lt;tank id="14"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="11" capa="464" x="3" y="12" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="7"/&gt;
+         &lt;tank id="10"/&gt;
+         &lt;tank id="12"/&gt;
+         &lt;tank id="15"/&gt;
+      &lt;/neighbours&gt;
+   &lt;/tank&gt;
+   &lt;tank id="12" capa="382" x="0" y="12" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="8"/&gt;
+         &lt;tank id="11"/&gt;
+         &lt;tank id="16"/&gt;
+      &lt;/neighbours&gt; 
+   &lt;/tank&gt;
+   &lt;tank id="13" capa="370" x="9" y="10" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="9"/&gt;
+         &lt;tank id="14"/&gt;
+      &lt;/neighbours&gt; 
+   &lt;/tank&gt;
+   &lt;tank id="14" capa="428" x="6" y="10" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="10"/&gt;
+         &lt;tank id="13"/&gt;
+         &lt;tank id="15"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="15" capa="429" x="3" y="10" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="11"/&gt;
+         &lt;tank id="14"/&gt;
+         &lt;tank id="16"/&gt;
+      &lt;/neighbours&gt; 
+   &lt;/tank&gt;
+   &lt;tank id="16" capa="370" x="0" y="10" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="12"/&gt;
+         &lt;tank id="15"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="17" capa="853" x="9" y="8" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="18"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="18" capa="991" x="6" y="8" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="17"/&gt;
+         &lt;tank id="19"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="19" capa="991" x="3" y="8" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="18"/&gt;
+         &lt;tank id="20"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="20" capa="853" x="0" y="8" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="19"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="21" capa="372" x="9" y="6" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="22"/&gt;
+         &lt;tank id="25"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="22" capa="420" x="6" y="6" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="21"/&gt;
+         &lt;tank id="23"/&gt;
+         &lt;tank id="26"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="23" capa="431" x="3" y="6" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="22"/&gt;
+         &lt;tank id="24"/&gt;
+         &lt;tank id="27"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="24" capa="372" x="0" y="6" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="23"/&gt;
+         &lt;tank id="28"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="25" capa="545" x="9" y="4" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="21"/&gt;
+         &lt;tank id="26"/&gt;
+      &lt;/neighbours&gt;      
+   &lt;/tank&gt;
+   &lt;tank id="26" capa="626" x="6" y="4" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="22"/&gt;
+         &lt;tank id="25"/&gt;
+         &lt;tank id="27"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="27" capa="627" x="3" y="4" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="23"/&gt;
+         &lt;tank id="26"/&gt;
+         &lt;tank id="28"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;
+   &lt;tank id="28" capa="545" x="0" y="4" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="24"/&gt;
+         &lt;tank id="27"/&gt;
+      &lt;/neighbours&gt;        
+   &lt;/tank&gt;
+   &lt;tank id="29" capa="494" x="9" y="2" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="30"/&gt;
+      &lt;/neighbours&gt;        
+   &lt;/tank&gt;
+   &lt;tank id="30" capa="589" x="6" y="2" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="29"/&gt;
+         &lt;tank id="31"/&gt;
+      &lt;/neighbours&gt;        
+   &lt;/tank&gt;
+   &lt;tank id="31" capa="589" x="3" y="2" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="30"/&gt;
+         &lt;tank id="32"/&gt;
+      &lt;/neighbours&gt;        
+   &lt;/tank&gt;
+   &lt;tank id="32" capa="494" x="0" y="2" w="3" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="31"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;    
+   &lt;tank id="33" capa="1017" x="6" y="0" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+         &lt;cargo id="1"/&gt;
+         &lt;cargo id="10"/&gt;
+         &lt;cargo id="13"/&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="34"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt;      
+   &lt;tank id="34" capa="1017" x="0" y="0" w="6" h="2"&gt;
+      &lt;impossiblecargos&gt;
+      &lt;/impossiblecargos&gt;
+      &lt;neighbours&gt;
+         &lt;tank id="33"/&gt;
+      &lt;/neighbours&gt;       
+   &lt;/tank&gt; 
+&lt;/tanks&gt;
+
+&lt;/problem&gt;
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

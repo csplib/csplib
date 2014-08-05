@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>026: Sports Tournament Scheduling</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob026">prob026</a></li>
+
+  <li><a href="/Problems/prob026/results">Results</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>026: Sports Tournament Scheduling</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob026/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob026/data">Data files</a></li>
+
+  	<li><p>Results</p></li>
+
+   	<li><a href="/Problems/prob026/references">References</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob026/models">Models</a></li>
+
+   	<li><a href="/Problems/prob026/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob026/results">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<p>McAloon et al. report being unable to solve the 15 team problem with integer linear programming using CPLEX.</p>
+<p>Regin has developed a <a href="http://www.cs.brown.edu/people/pvh/ppdp99.ps">CP model</a>, for ILOG&rsquo;s OPL tool that can solve up to 30 team problems.</p>
+<p>More recently, he has added a heuristic based on Euler&rsquo;s theorem for Latin squares to solve 40 team problems in approximately 6 hours.</p>
+<p>Hamiez and Hao <a href="http://www.info.univ-angers.fr/pub/hao/papers/ECAI00WS.ps">report</a> solving up to 40 team problems using local search with a tabu restriction.</p>
+<p>A more recent <a href="http://www.info.univ-angers.fr/pub/hao/papers/DAM04.pdf">paper</a> by the same authors in Discrete Applied Mathemetics solves very large problems with $(T-1) mod 3 = 1$ or $2$ where $T$ is the number of teams using a repair based method. </p>
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

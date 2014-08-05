@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>002: Template Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob002">prob002</a></li>
+
+  <li><a href="/Problems/prob002/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>002: Template Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob002/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob002/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob002/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob002/models">Models</a></li>
+
+   	<li><a href="/Problems/prob002/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob002/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob002/references/prob002-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="Proll_1998_ILP_767683_768185" class='bib'>
+    <span class="bibkey">
+        [Proll:1998:ILP:767683.768185]
+    </span>
+    <br>
+    <span class="authors">
+        Les Proll and Barbara Smith
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.1287/ijoc.10.3.265">Integer Linear Programming and Constraint Programming Approaches to a Template Design Problem</a>
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">INFORMS J. on Computing 10(3)</span>, 
+    <span class="date">
+        March
+        1998
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

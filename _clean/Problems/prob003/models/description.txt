@@ -1,0 +1,4 @@
+Quasigroup existence problems have been modelled using either m^2 variables each of domain size m (with v_ij=k iff i*j=k) or m^3 0-1 variables (with v_ijk=True iff i*j=k). I am unaware of any direct comparisons between these two approaches.
+Symmetry breaking is crucial to the efficient solution of these problems. One symmetry breaking constraint often added is that that a*m >= a-1 where m is the order of the quasigroup.
+
+In the model with m^2 variables, the constraint that each element occurs once in every row and column gives 2m all-different constraints, each between m variables. Using a specialized constraint propagation algorithm for this type of constraint can reduce search greatly.

@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>031: Rack Configuration Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob031">prob031</a></li>
+
+  <li><a href="/Problems/prob031/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>031: Rack Configuration Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob031/">Specification</a></li>
+
+   	<li><a href="/Problems/prob031/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob031/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob031/models">Models</a></li>
+
+   	<li><a href="/Problems/prob031/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob031/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob031/references/prob031-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="Ilog_Solver02" class='bib'>
+    <span class="bibkey">
+        [Ilog:Solver02]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        {ILOG} Scheduler 5.1 User's Manual
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        2002
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Kiziltan01symmetrybreaking" class='bib'>
+    <span class="bibkey">
+        [Kiziltan01symmetrybreaking]
+    </span>
+    <br>
+    <span class="authors">
+        Zeynep Kiziltan and Braham Hnich
+    </span>
+
+    <br>
+
+    <span class="title">
+        Symmetry Breaking in a Rack Configuration Problem
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">In Proceedings of the IJCAI-2001 Workshop on Modelling and Solving Problems with Constraints</span>, 
+    <span class="date">
+        
+        2001
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="sabin1999optimization" class='bib'>
+    <span class="bibkey">
+        [sabin1999optimization]
+    </span>
+    <br>
+    <span class="authors">
+        Daniel Sabin, E Freuder, and Kingsbury Hall
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.aaai.org/Papers/Workshops/1999/WS-99-05/WS99-05-015.pdf">Optimization methods for constraint resource problems</a>
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Proceedings of the AAAI'99 Workshop on Configuration, Orlando</span>, 
+    <span class="date">
+        
+        1999
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

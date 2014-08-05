@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>028: Balanced Incomplete Block Designs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob028">prob028</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>028: Balanced Incomplete Block Designs</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob028/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob028/results">Results</a></li>
+
+   	<li><a href="/Problems/prob028/references">References</a></li>
+
+   	<li><a href="/Problems/prob028/models">Models</a></li>
+
+   	<li><a href="/Problems/prob028/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob028/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Steven Prestwich
+</p>
+
+<p>Balanced Incomplete Block Design (BIBD) generation is a standard combinatorial problem from design theory, originally used in the design of statistical experiments but since finding other applications such as cryptography. It is a special case of Block Design, which also includes Latin Square problems.</p>
+<p>BIBD generation is described in most standard textbooks on combinatorics. A BIBD is defined as an arrangement of $v$ distinct objects into $b$ blocks such that each block contains exactly $k$ distinct objects, each object occurs in exactly $r$ different blocks, and every two distinct objects occur together in exactly $\lambda$ blocks. Another way of defining a BIBD is in terms of its incidence matrix, which is a $v$ by $b$ binary matrix with exactly $r$ ones per row, $k$ ones per column, and with a scalar product
+of $\lambda$ between any pair of distinct rows. A BIBD is therefore specified by its parameters $(v,b,r,k,\lambda)$. An example of a solution for $(7,7,3,3,1)$ is:</p>
+<pre><code>0 1 1 0 0 1 0
+1 0 1 0 1 0 0
+0 0 1 1 0 0 1
+1 1 0 0 0 0 1
+0 0 0 0 1 1 1
+1 0 0 1 0 1 0
+0 1 0 1 1 0 0
+</code></pre>
+<p>Lam&rsquo;s problem (prob025) is that of finding a BIBD with parameters $(111,111,11,11,1)$. </p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

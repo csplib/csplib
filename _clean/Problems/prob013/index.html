@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>013: Progressive Party Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob013">prob013</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>013: Progressive Party Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob013/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob013/results">Results</a></li>
+
+   	<li><a href="/Problems/prob013/references">References</a></li>
+
+   	<li><a href="/Problems/prob013/models">Models</a></li>
+
+   	<li><a href="/Problems/prob013/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob013/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Toby Walsh
+</p>
+
+<p>The problem is to timetable a party at a yacht club. Certain boats are to be designated hosts, and the crews of the remaining boats in turn visit the host boats for several successive half-hour periods. The crew of a host boat remains on board to act as hosts while the crew of a guest boat together visits several hosts. Every boat can only host a limited number of guests at a time (its capacity) and crew sizes are different. The table with boat capacities and crew sizes can be found below; there were six time periods. A guest boat cannot not revisit a host and guest crews cannot meet more than once. The problem facing the rally organizer is that of minimizing the number of host boats.</p>
+<table>
+<thead>
+<tr>
+<th>boat number</th>
+<th>capacity</th>
+<th>crew size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>12</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>12</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr>
+<td>8</td>
+<td>10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>12</td>
+<td>10</td>
+<td>3</td>
+</tr>
+<tr>
+<td>13</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr>
+<td>14</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>15</td>
+<td>8</td>
+<td>3</td>
+</tr>
+<tr>
+<td>16</td>
+<td>12</td>
+<td>6</td>
+</tr>
+<tr>
+<td>17</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>18</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>19</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr>
+<td>20</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>21</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr>
+<td>22</td>
+<td>8</td>
+<td>5</td>
+</tr>
+<tr>
+<td>23</td>
+<td>7</td>
+<td>4</td>
+</tr>
+<tr>
+<td>24</td>
+<td>7</td>
+<td>4</td>
+</tr>
+<tr>
+<td>25</td>
+<td>7</td>
+<td>2</td>
+</tr>
+<tr>
+<td>26</td>
+<td>7</td>
+<td>2</td>
+</tr>
+<tr>
+<td>27</td>
+<td>7</td>
+<td>4</td>
+</tr>
+<tr>
+<td>28</td>
+<td>7</td>
+<td>5</td>
+</tr>
+<tr>
+<td>29</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>30</td>
+<td>6</td>
+<td>4</td>
+</tr>
+<tr>
+<td>31</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>32</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>33</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>34</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>35</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>36</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>37</td>
+<td>6</td>
+<td>4</td>
+</tr>
+<tr>
+<td>38</td>
+<td>6</td>
+<td>5</td>
+</tr>
+<tr>
+<td>39</td>
+<td>9</td>
+<td>7</td>
+</tr>
+<tr>
+<td>40</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>41</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>42</td>
+<td>0</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

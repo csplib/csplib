@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>037: Peg Solitaire</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob037">prob037</a></li>
+
+  <li><a href="/Problems/prob037/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>037: Peg Solitaire</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob037/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob037/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob037/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob037/models">Models</a></li>
+
+   	<li><a href="/Problems/prob037/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob037/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob037/references/prob037-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="jefferson03" class='bib'>
+    <span class="bibkey">
+        [jefferson03]
+    </span>
+    <br>
+    <span class="authors">
+        Christopher Jefferson, Angela Miguel, Ian Miguel, and S Armagan Tarim
+    </span>
+
+    <br>
+
+    <span class="title">
+        Modelling and solving English peg solitaire
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Proceedings of the Fifth International Workshop on Integration of AI and OR Techniques in Constraint Programming for Combinatorial Optimization Problems</span>, 
+    <span class="date">
+        
+        2003
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="moore2001one" class='bib'>
+    <span class="bibkey">
+        [moore2001one]
+    </span>
+    <br>
+    <span class="authors">
+        Cristopher Moore and David Eppstein
+    </span>
+
+    <br>
+
+    <span class="title">
+        One-dimensional peg solitaire, and duotaire
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">More games of no chance</span>, 
+    <span class="date">
+        
+        2001
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="beasley92" class='bib'>
+    <span class="bibkey">
+        [beasley92]
+    </span>
+    <br>
+    <span class="authors">
+        John D Beasley
+    </span>
+
+    <br>
+
+    <span class="title">
+        The ins and outs of peg solitaire
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        1992
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="uehara1990generalized" class='bib'>
+    <span class="bibkey">
+        [uehara1990generalized]
+    </span>
+    <br>
+    <span class="authors">
+        Ryuhei Uehara and Shigeki Iwata
+    </span>
+
+    <br>
+
+    <span class="title">
+        Generalized Hi-Q is NP-complete
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">IEICE TRANSACTIONS (1976-1990) 73(2)</span>, 
+    <span class="date">
+        
+        1990
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="berlekamp" class='bib'>
+    <span class="bibkey">
+        [berlekamp]
+    </span>
+    <br>
+    <span class="authors">
+        R. K. Guy E. R. Berlekamp
+    </span>
+
+    <br>
+
+    <span class="title">
+        Winning Ways for your mathematical plays Vol.2: Games in Particular
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        1982
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="applet" class='bib'>
+    <span class="bibkey">
+        [applet]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.mazeworks.com/peggy/">Peg Solitaire Applet</a>
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="sol" class='bib'>
+    <span class="bibkey">
+        [sol]
+    </span>
+    <br>
+    <span class="authors">
+        George Bell
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.geocities.com/gibell.geo/pegsolitaire/index.html">George's Peg Solitaire Page</a>
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

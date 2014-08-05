@@ -65,8 +65,8 @@ class Problem(object):
 		return self.specification is not None
 
 
-def write_problem(prob, apply_template, output_dir, class_dir, base):
-	spec = apply_template("problem.html", problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
+def write_problem(prob, apply_template, output_dir, class_dir, base_template, parts, base):
+	spec = apply_template(base_template, problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
 	makedirs_exist_ok(prob.prob_dir)
 
 	def write(data, name):
@@ -91,22 +91,21 @@ def write_problem(prob, apply_template, output_dir, class_dir, base):
 				continue
 
 		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
-									raw_htmls=raw_htmls, **prob.prob_meta)
+									raw_htmls=raw_htmls, base_template=base_template, **prob.prob_meta)
 
 		write(template, part_name + "/index.html")
 
-	problem_part("results", lambda x: str.lower(x['name']))
-	problem_part("data", lambda x: str.lower(x['name']))
-	problem_part("models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])] )
+	for p in parts:
+		problem_part(p[0], p[1])
 
 	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html",
-		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, **prob.prob_meta)
+		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, base_template=base_template, **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
 	write(refs, "references/index.html")
 
 	# Cite a problem
 	# pprint(prob_meta)
-	cite = apply_template("problem_cite.html", **prob.prob_meta)
+	cite = apply_template("problem_cite.html", base_template=base_template, **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
@@ -169,10 +168,10 @@ def process_problem(prob, apply_template, output_dir, class_dir, base):
 
 		part_metadata.sort(key = metadata_sorter)
 		prob.parts[part_name] = part_metadata
-		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
-									raw_htmls=raw_htmls, **prob.prob_meta)
+		# template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
+		# 							raw_htmls=raw_htmls, **prob.prob_meta)
 
-		write(template, part_name + "/index.html")
+		# write(template, part_name + "/index.html")
 
 	problem_part("results", lambda x: str.lower(x['name']))
 	problem_part("data", lambda x: str.lower(x['name']))

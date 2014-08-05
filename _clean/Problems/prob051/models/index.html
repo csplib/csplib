@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>051: Tank Allocation</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob051">prob051</a></li>
+
+  <li><a href="/Problems/prob051/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>051: Tank Allocation</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob051/">Specification</a></li>
+
+   	<li><a href="/Problems/prob051/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob051/results">Results</a></li>
+
+   	<li><a href="/Problems/prob051/references">References</a></li>
+
+  	<li><p>Models</p></li>
+
+   	<li><a href="/Problems/prob051/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob051/models">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<p>The model in [1] introduces two families of variables:</p>
+<ol>
+<li>One variable $X[t]$ for each tank t representing the product type to be placed inside that tank. The initial domain is $0&hellip;P$ (some tanks might be impossible for some products), 0 represents a dummy product meaning that no product is assigned to the tank $t$ (in this case $X[t]=0$).</li>
+<li>One load variable L[p] for each of the product $0..P$ to be loaded on the vessel. This variable represents how much tank volume is available/assigned to each product. The initial lower bound on this variable$ L[p]$ is the quantity of product p to be loaded. This guarantees enough space is available to accommodate this product p $(L[0] >= 0)$.</li>
+</ol>
+<p>These two sets of variables are linked with a bin-packing constraint$(X,caps,L)$ where $c$ is the vector of capacities for each tank. This constraint enforces $L[p]$ = $sum_{t in tanks}$ ($X[t]=p)*capa[t] \forall p$</p>
+<p>Some table constraints can be added on some pairs of neighbouring tank variables $x[i],x[j]$ to avoid incompatible products to be located next to each other.</p>
+<p>The objective is to maximise the empty volume i.e. variable $L[0]$.</p>
+<p>[1] Pierre Schaus, Jean-Charles R&eacute;gin, Rowan Van Schaeren, Wout Dullaert, Birger Raa: Cardinality Reasoning for Bin-Packing Constraint: Application to a Tank Allocation Problem. CP 2012: 815-822</p>
+
+<table class="tablesorter">
+<thead>
+<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<a href="TankAlloc-051.essence.html">
+			TankAlloc-051.essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+</tbody>
+</table>
+
+	</div>
+
+
+
+</body>
+
+</html>

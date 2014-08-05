@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>003: Quasigroup Existence</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob003">prob003</a></li>
+
+  <li><a href="/Problems/prob003/results">Results</a></li>
+  <li>results.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>003: Quasigroup Existence</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob003/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob003/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob003/results">Results</a></li>
+
+   	<li><a href="/Problems/prob003/references">References</a></li>
+
+   	<li><a href="/Problems/prob003/models">Models</a></li>
+
+   	<li><a href="/Problems/prob003/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob003/results/results.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob003/results/results.md">Download</a>
+<p>Results</p>
+<p>These problems have been a major success story for automated reasoning and constraint satisfaction. Various open problems of interest to mathematicians have been solved using a variety of different computer programs including Slaney&rsquo;s constraint solver FINDER, Zhang&rsquo;s Davis-Putnam procedure SATO, Stickel&rsquo;s LDPP procedure, and the MGTP model generation program. Open problems solved include:</p>
+<pre><code>QG1  existence of idempotent QG1.12
+QG2  existence of idempotent QG2.12, QG2.14-15, non-existence of idempotent QG2.10
+QG3  existence of idempotent QG3.12
+QG4  existence of idempotent QG4.12
+QG5  non-existence of QG5.10, QG5.14, and of idempotent QG5.9-10 and QG5.12-16
+QG6  existence of QG6.9 and QG6.17, non-existence of QG6.7, QG6.10-11, QG6.14-15
+QG7  non-existence of QG7.7-8, QG7.10-12 and QG7.14-16
+</code></pre>
+
+<p>Problems that remain open include:</p>
+<p>QG5  QG5.18, QG5.26, QG5.30, QG5.38, QG5.42, QG5.158,
+and many of the idempotent cases starting at QG5.18
+QG6  QG6.20-21, QG6.24, QG6.41, QG6.44, QG6.48, QG6.53, QG6.60, QG6.69,
+QG6.77, QG6.93, QG6.96, QG6.101, QG6.161, QG6.164, QG6.173
+QG7  QG7.33</p>
+<p>For idempotent problems, the following table summarizes some of these results where e=exists, n=no such quasigroup, and ?=open (some entries left blank as status not known to problem proposer).</p>
+<pre><code>order    5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
+QG1  e   n   e   e   e   e   e   e   e   e   e   e   e   e   e   e
+QG2  e   n   e   e   e   n   e   e   e   e   e   e   e   e   e   e
+QG3  n   n   n   e   e   n   n   e   e   n   n   e   e   n   n   e
+QG4  e   n   n   n   e   n   n   e   e   n   n   e   e   n   n   e
+QG5  e   n   e   e   n   n   e   n   n   n   n   n   e   ?   e   ?
+QG6  n   n   n   e   e   n   n   n   e   n   n   e   e   n   n   ?
+QG7  e   n   n   n   e   n   n   n   e   n   n  
+</code></pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

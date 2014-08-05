@@ -54,7 +54,7 @@ def get_content_and_metadata(filepath, store_dir):
 				del b['Type']
 			else:
 				b['type'] = [ext[1:]]
-			
+
 		return (a, b, None)
 	elif (ext == '.html'):
 		return (read_file(filepath), None, None)
@@ -75,7 +75,7 @@ def get_content_and_metadata(filepath, store_dir):
 		else:
 			meta['type'] = [ext[1:]]
 
-	stype = meta['type'][0].lower()	
+	stype = meta['type'][0].lower()
 	if stype in source_mapping:
 		stype = source_mapping[stype]
 	logger.debug("stype:%s ext:%s filepath:%s", stype, ext, filepath)

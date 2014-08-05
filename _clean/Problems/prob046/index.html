@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>046: Meeting Scheduling</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob046">prob046</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>046: Meeting Scheduling</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob046/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob046/results">Results</a></li>
+
+   	<li><a href="/Problems/prob046/references">References</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob046/models">Models</a></li>
+
+   	<li><a href="/Problems/prob046/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob046/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Uri Shapen, Roie Zivan
+</p>
+
+<pre><code>      Amnon Meisels
+</code></pre>
+<p>Category: Distributed CSP,
+          Scheduling and related problems</p>
+<p>Meeting scheduling is a well-known, recurrent and easily described problem.
+The meeting scheduling problem (MSP) will be described below as a centralistic
+constraints satisfaction problem (CSP).</p>
+<p>However, one of its most interesting features is the fact that it is a
+Distributed CSP. Informally, a set of agents want to meet and they search for
+a feasible meeting time that satisfies the private constraints of each of the
+agents and in addition satisfies arrival-time constraints
+(among different meetings of the same agent).</p>
+<p><em>The general definition of the MSP family is as follows:</em></p>
+<ul>
+<li>A group $S$ of $m$ agents</li>
+<li>A set $T$ of $n$ meetings</li>
+<li>The duration of each meeting $m_i$ is $\rm{duration}_i$</li>
+<li>Each meeting $m_i$ is associated with a set $s_i$ of agents in $S$, that attend it</li>
+<li>Consequently, each agent has a set of meetings that it must attend</li>
+<li>Each meeting is associated with a location</li>
+<li>The scheduled time-slots for meetings in $T$ must enable the participating
+agents to travel among their meetings</li>
+</ul>
+<p>The table below presents an example of a MSP, including the traveling time
+in time-units (say, hours) between different meeting locations.</p>
+<table>
+<thead>
+<tr>
+<th>Meeting</th>
+<th>Location</th>
+<th>Attending agents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$m_1$</td>
+<td>$L_1$</td>
+<td>$A_1, A_3$</td>
+</tr>
+<tr>
+<td>$m_2$</td>
+<td>$L_2$</td>
+<td>$A_2, A_3, A_4$</td>
+</tr>
+<tr>
+<td>$m_3$</td>
+<td>$L_3$</td>
+<td>$A_1, A_4$</td>
+</tr>
+<tr>
+<td>$m_4$</td>
+<td>$L_4$</td>
+<td>$A_1, A_2$</td>
+</tr>
+</tbody>
+</table>
+<p>The distances (in time-slots) between the meetings are described by the
+following:</p>
+<p><CENTER>
+<IMG SRC="./assets/Distances.jpg" ALIGN=bottom
+      WIDTH=350 HEIGHT=300>
+</CENTER></p>
+<p><em>The meeting scheduling problem as described above can be naturally
+represented as a constraints satisfaction problem (CSP) in the following way:</em></p>
+<ul>
+<li>A set of variables $T$ - $m_1, m_2,\ldots ,m_n$ - the meetings to be scheduled</li>
+<li>Domains of values $D$ - all weekly time-slots</li>
+<li>A set of constraints $C$ - for every pair of meetings $m_i,$m_j$ there is an
+arrival-time constraint, if there is an agent that participates in both
+meetings. Private meetings are equivalent to unary constraints that remove
+values from domains of some meetings. Since all agents have the same
+arrival-times between any two locations, there is only one type of
+arrival-time binary constraint.</li>
+</ul>
+<p>The arrival-time constraint - given two time-slots $t_i, t_j$ there is a conflict
+if </p>
+<p>$$|\rm{time}(t_i)-\rm{time}(t_j)|- \rm{duration}_i &lt; \rm{TravellingTime}(\rm{location}(m_i),
+\rm{location}(m_i))$$</p>
+<p>Simplifying assumptions:</p>
+<ul>
+<li>All agents have the same size of weekly calendar - $M$ time-slots</li>
+<li>All Meetings have the same duration and it&rsquo;s 1 time-slot.</li>
+<li>Each agent attends the same number of meetings</li>
+</ul>
+<p>The Density of the CSP network depends on the number of meetings ($m$), 
+the number of agents ($n$) and the number of meetings per agent ($k$).
+The Tightness of a constraint depends on the domain size of the meetings 
+and the locations of the two constrained meetings. The Density and Tightness
+can be calculated in the following way:</p>
+<p>Density $(p_1)$ - the ratio of the total number of edges to the maximal
+number of possible edges. </p>
+<p>$$p_1 = \rm{edges in the network}/(m*(m - 1)/2)$$</p>
+<p>Tightness $(p_2)$ - the ratio between the total number of eliminated time
+slots to the number of total tuples ($D^2$). Therefore $p_2$ is defined as  </p>
+<p>$$p_2 = (D*(2*s + 1) - s^2)/(D*D)$$</p>
+<p>where $s$ is the travelling time between the meeting locations.</p>
+<p>A Representation of a Meeting Scheduling Problem as CSP is described in 
+Figure 2:</p>
+<p><CENTER>
+<IMG SRC="./assets/MSPasCSP.jpg" ALIGN=bottom
+      WIDTH=550 HEIGHT=300>
+</CENTER></p>
+<p>The meeting scheduling problem is naturally described as a Distributed CSP.
+The representation of the MSP as DisCSP is based on the distributed nature 
+of the problem. The MSP is a distributed negotiation problem between different
+users. Therefore, the agents are associated with the users and not with the
+meetings. The meetings are the variables that must be assigned time slots and
+they are duplicated within all agents that attend the same meeting.</p>
+<p><em>The MSP can be represented as DisCSP in the following way:</em></p>
+<ul>
+<li>Agents - the Group $S$ of agents</li>
+<li>For each Agent $s_i$ in $S$ there is a variable $x_{ij}$, for every 
+meeting $m_j$ that $s_i$ attends.</li>
+<li>Each agent $s_i$ includes arrival-time constraint between every pair of its
+local variables $x_{ij}, x_{ik}$.</li>
+<li>For every pair of agents $s_i, s_j$ that attend meeting $m_k$ there is an
+equality inter-agent constraint between the variables $x_{ik}, x_{jk}$,
+corresponding to the meeting $m_k$.</li>
+</ul>
+<p>A Representation of a Meeting Scheduling Problem as DisCSP is described in
+Figure 3.</p>
+<p><CENTER>
+<IMG SRC="./assets/MSPasDisCSP.jpg" ALIGN=bottom
+      WIDTH=350 HEIGHT=300>
+</CENTER></p>
+<p><em>Random Meeting Scheduling Problem (RMSP) specification:</em></p>
+<p>The RMSP can be parameterized in many ways. Parameters can be the number of meetings,
+locations, number of agents, etc. </p>
+<p>Let us first denote the set of all parameters:</p>
+<ul>
+<li>number of meetings - $m$</li>
+<li>number of agents - $n$</li>
+<li>number of meetings per agent - $k$</li>
+<li>distances between locations of meetings - in units of time slots</li>
+<li>domain size - number of time-slots - $l$ </li>
+</ul>
+<p>The meetings are the set of $m$ variables of the constraints network, each
+representing a meeting at a specific location. The domains of values are the
+time-slots $l$. An edge between any pair of variables represents an agent 
+that participates in both meetings. The density of the constraints network is
+a function of the number of edges in the network. The number of edges in the
+network depends on the number of agents and the distribution of meetings
+that each agent attends. </p>
+<p>If each agent participates in $k$ meetings, we generate the resulting CSP
+as follows: </p>
+<p>For each of the $n$ agents a clique of $k$ variables (meetings) is selected 
+randomly, such that not all of the edges of the clique are already in the
+network. All the edges of the generated clique are added to the CSP network,
+representing  the arrival-time constraints between the meetings of each agent. 
+The arrival-time between each two meetings is also randomly generated. Note,
+that an agent $A_i$ adds an arrival-constraint between meetings $m_j, m_k$
+only if there is no other agent that attends both meetings. Two agents or
+more that participate in $m_j, m_k$ define only one arrival-constraint. 
+The distance between locations of meetings randomly generated according to
+the given range (between the minimal meeting distance and the maximal one).</p>
+<p>Below is an example of a randomly generated Meeting Scheduling Problem:</p>
+<ul>
+<li>NumberOfMeetings    = 5</li>
+<li>NumberOfAgents = 3</li>
+<li>NumberOfMeetingPerAgent = 3</li>
+<li>MinDisTimeBetweenMeetings = 1</li>
+<li>MaxDisTimeBetweenMeetings = 3</li>
+<li>DomainSize           = 6</li>
+</ul>
+<p>Meetings are $m_1, m_2, m_3, m_4, m_5$</p>
+<p>Agents are $a_1, a_2, a_3$</p>
+<p>Agents&rsquo; Meetings:</p>
+<p>Agent (0): $m_1, m_3, m_5$<br />
+Agent (1): $m_1, m_2, m_3$<br />
+Agent (2): $m_2, m_3, m_4$</p>
+<p>Distances between Meeting Locations:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1:</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2:</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3:</td>
+<td>2</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4:</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5:</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

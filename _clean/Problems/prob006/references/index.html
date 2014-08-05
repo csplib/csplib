@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>006: Golomb rulers</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob006">prob006</a></li>
+
+  <li><a href="/Problems/prob006/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>006: Golomb rulers</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob006/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob006/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob006/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob006/models">Models</a></li>
+
+   	<li><a href="/Problems/prob006/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob006/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob006/references/prob006-refs.bib">Download bibtex</a>
+</p>
+
+<p>Golomb rulers have been featured twice in the Computer Recreations
+column of Scientific American, which did much to popularize them.
+The most recent feature, and a nice introduction to the problems
+and their applications, can be found at<span> <a class="bibref" data-bibfragment="DewdeyGolomb85" href="/Problems/prob006/references/#DewdeyGolomb85">[DewdeyGolomb85]</a><a class="bibref" data-bibfragment="DewdeyGolomb86" href="/Problems/prob006/references/#DewdeyGolomb86">[DewdeyGolomb86]</a></span>.</p>
+<p>Many additional references can be found at the following sites
+<span> <a class="bibref" data-bibfragment="RankinGolomb" href="/Problems/prob006/references/#RankinGolomb">[RankinGolomb]</a><a class="bibref" data-bibfragment="ShearerGolomb" href="/Problems/prob006/references/#ShearerGolomb">[ShearerGolomb]</a><a class="bibref" data-bibfragment="OptimalGolomb" href="/Problems/prob006/references/#OptimalGolomb">[OptimalGolomb]</a></span></p>
+<p>Descriptions of various generalizations (like Golomb rectangles) and additional
+bibliography can be found at<span> <a class="bibref" data-bibfragment="ShearerCombinatorial" href="/Problems/prob006/references/#ShearerCombinatorial">[ShearerCombinatorial]</a></span></p>
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="DewdeyGolomb86" class='bib'>
+    <span class="bibkey">
+        [DewdeyGolomb86]
+    </span>
+    <br>
+    <span class="authors">
+        A. K. Dewdney
+    </span>
+
+    <br>
+
+    <span class="title">
+        Computer Recreations
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Scientific American</span>, 
+    <span class="date">
+        March
+        1986
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="DewdeyGolomb85" class='bib'>
+    <span class="bibkey">
+        [DewdeyGolomb85]
+    </span>
+    <br>
+    <span class="authors">
+        A. K. Dewdney
+    </span>
+
+    <br>
+
+    <span class="title">
+        Computer Recreations
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Scientific American</span>, 
+    <span class="date">
+        December
+        1985
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="RankinGolomb" class='bib'>
+    <span class="bibkey">
+        [RankinGolomb]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        W. Rankin's Golomb ruler page
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://www.ee.duke.edu/~wrankin/golomb/golomb.html">howpublished: http://www.ee.duke.edu/~wrankin/golomb/golomb.html</a>
+    </span>
+
+</p>
+
+<p id="ShearerGolomb" class='bib'>
+    <span class="bibkey">
+        [ShearerGolomb]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        James B. Shearer's Golomb ruler page
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://www.research.ibm.com/people/s/shearer/grule.html">howpublished: http://www.research.ibm.com/people/s/shearer/grule.html</a>
+    </span>
+
+</p>
+
+<p id="OptimalGolomb" class='bib'>
+    <span class="bibkey">
+        [OptimalGolomb]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        The optimal Golomb rulers page
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://members.aol.com/golomb20/">howpublished: http://members.aol.com/golomb20/</a>
+    </span>
+
+</p>
+
+<p id="ShearerCombinatorial" class='bib'>
+    <span class="bibkey">
+        [ShearerCombinatorial]
+    </span>
+    <br>
+    <span class="authors">
+        
+    </span>
+
+    <br>
+
+    <span class="title">
+        James B. Shearer's combinatorial computing page
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        
+    </span>
+
+    <span class="links">
+        <a href="http://www.research.ibm.com/people/s/shearer/comcomp.html">howpublished: http://www.research.ibm.com/people/s/shearer/comcomp.html</a>
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

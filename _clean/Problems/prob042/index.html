@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>042: diagnosis</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob042">prob042</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>042: diagnosis</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob042/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob042/results">Results</a></li>
+
+   	<li><a href="/Problems/prob042/references">References</a></li>
+
+   	<li><a href="/Problems/prob042/models">Models</a></li>
+
+   	<li><a href="/Problems/prob042/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob042/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Francisco Azevedo
+</p>
+
+<p>Model-based diagnosis can be seen as taking as input a partially 
+parameterized structural description of a system and a set of observations about 
+that system. Its output is a set of assumptions which, together with the 
+structural description, logically imply the observations, or that are consistent 
+with the observations.</p>
+
+<p>Diagnosis is usually applied to combinational digital circuits, seen as 
+black-boxes where there is a set of controllable input bits but only a set of 
+primary outputs is visible.</p>
+
+<p>The problem is to find the set <i>S</i> of all (minimal) internal faults that 
+explain an incorrect output vector <i>F</i> (different than the modelled, predicted, 
+output vector <i>N</i>), given some input vector <i>I</i>.</p>
+
+<p>The possible faults consider the usual <i>stuck-at </i>fault model, where faulty 
+circuit gates can be either <i>stuck-at-0</i> or <i>stuck-at-1</i>, respectively outputting 
+value 0 or 1 independently of the input.<br>
+<br>
+In the example full-adder circuit below, the single faults that explain the 
+incorrect output (instead of the expected &lt;00&gt;) are <i>Gate1 stuck-at-1</i> or 
+<i>Gate3 
+stuck-at-1</i>.</p>
+
+<p><TT></p>
+<p><center>
+<img alt="figure" src="assets/diagnosis.gif" />
+</center></p>
+<p><br>
+</TT>
+For <i>I</i> = &lt;000&gt; and <i>F</i> = &lt;10&gt; (<i>S</i>=1,<i>C</i>=0), the diagnosis result is thus 
+<i>S</i> = {{<i>Gate1</i>/1},{<i>Gate3</i>/1}} (with <i>Gate</i>/1 meaning <i>Gate stuck-at-1</i>). 
+Each element of <i>S</i> is an internal malfunction (a set of faults) that is an 
+explanation for the incorrect output.</p>
+
+<p>The diagnosis problem becomes more complex when the minimal internal 
+malfunction is not a single fault, but rather a set of faulty gates (double 
+faults, triple faults, and so on), with complexity increasing with the 
+cardinality of such set. We may also want to explicitly find (e.g.) double 
+faults instead of single faults to make a problem harder.</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

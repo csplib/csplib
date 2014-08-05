@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>030: Balanced Academic Curriculum Problem (BACP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob030">prob030</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>030: Balanced Academic Curriculum Problem (BACP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob030/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob030/results">Results</a></li>
+
+   	<li><a href="/Problems/prob030/references">References</a></li>
+
+   	<li><a href="/Problems/prob030/models">Models</a></li>
+
+   	<li><a href="/Problems/prob030/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob030/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Brahim Hnich, Zeynep Kiziltan, Toby Walsh
+</p>
+
+<p>The BACP is to design a balanced academic curriculum by assigning periods to courses in a way that the academic load of each period is balanced, i.e., as similar as possible . The curriculum must obey the following administrative and academic regulations: </p>
+<ul>
+<li>Academic curriculum: an academic curriculum is defined by a set of courses and a set of prerequisite relationships among them. </li>
+<li>Number of periods: courses must be assigned within a maximum number of academic periods. </li>
+<li>Academic load: each course has associated a number of credits or units that represent the academic effort required to successfully follow it. </li>
+<li>Prerequisites: some courses can have other courses as prerequisites. </li>
+<li>Minimum academic load: a minimum number of academic credits per period is required to consider a student as full time. </li>
+<li>Maximum academic load: a maximum number of academic credits per period is allowed in order to avoid overload. </li>
+<li>Minimum number of courses: a minimum number of courses per period is required to consider a student as full time. </li>
+<li>Maximum number of courses: a maximum number of courses per period is allowed in order to avoid overload. </li>
+</ul>
+<p>The goal is to assign a period to every course in a way that the minimum and maximum academic load for each period, the minimum and maximum number of courses for each period, and the prerequisite relationships are satisfied. An optimal balanced curriculum minimises the maximum academic load for all periods.</p>
+<p>Note that we could consider other types of balance criterion, such as minimising an expression on the deviation from the mean load per period. This is explored in Monette et al</p>
+<p><strong>The Generalised Balanced Academic Curriculum Problem</strong></p>
+<p>Marco Chiarandini, Luca Di Gaspero, Stefano Gualandi, and Andrea Schaerf have proposed a more challenging <a href="http://www.diegm.uniud.it/satt/projects/bacp/">generalised version</a> of the problem. </p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

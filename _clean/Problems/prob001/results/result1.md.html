@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>001: Car Sequencing</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob001">prob001</a></li>
+
+  <li><a href="/Problems/prob001/results">Results</a></li>
+  <li>result1.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>001: Car Sequencing</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob001/">Specification</a></li>
+
+   	<li><a href="/Problems/prob001/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob001/results">Results</a></li>
+
+   	<li><a href="/Problems/prob001/references">References</a></li>
+
+   	<li><a href="/Problems/prob001/models">Models</a></li>
+
+   	<li><a href="/Problems/prob001/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob001/results/result1.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<a href="/Problems/prob001/results/result1.md">Download</a>
+<ul>
+<li>The first set of instances contains satisfiable and infeasible instances:<ul>
+<li>Instance <code>4/72</code>: satisfiable (Regin, Puget, 1997)</li>
+<li>Instance <code>6/76</code>: infeasible (Regin, Puget, 1997), upper bound of 6 constraint violations (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>10/93</code>: infeasible (Regin, Puget, 1997), upper bound of 3 constraint violations (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>16/81</code>: satisfiable (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>19/71</code>: infeasible, lower bound of 2 constraint violations (Gent, 1998), upper bound of 2 constraint violations (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>21/90</code>: infeasible (Estellon, Gardi, Nouioua, 2005) upper bound of 2 constraint violations (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>36/92</code>: infeasible (Boivin, Gravel, Gagnne, 2004), upper bound of 2 constraint violations (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>41/66</code>: satisfiable (Gottlieb, Puchta, Solnon, 2003)</li>
+<li>Instance <code>26/82</code>: satisfiable (Gottlieb, Puchta, Solnon, 2003)</li>
+</ul>
+</li>
+<li>The second set contains only satisfiable instances. It is composed of seven groups, each containing 10 instances of the same utilization percentage:<ul>
+<li>Instances <code>60-01</code>,&hellip;,<code>60-10</code> have utilization percentage 60.</li>
+<li>Instances <code>65-01</code>,&hellip;,<code>65-10</code> have utilization percentage 65.</li>
+<li>Instances <code>70-01</code>,&hellip;,<code>70-10</code> have utilization percentage 70.</li>
+<li>Instances <code>75-01</code>,&hellip;,<code>75-10</code> have utilization percentage 75.</li>
+<li>Instances <code>80-01</code>,&hellip;,<code>80-10</code> have utilization percentage 80.</li>
+<li>Instances <code>85-01</code>,&hellip;,<code>85-10</code> have utilization percentage 85.</li>
+<li>Instances <code>90-01</code>,&hellip;,<code>90-10</code> have utilization percentage 90.</li>
+</ul>
+</li>
+</ul>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+    ['essence','eprime','param','solution', '/js/shBrushEssence.js'],
+    ['js','javascript','/syntax_highlighter/shBrushJScript.js'],
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'],
+
+    ['java'   , '/syntax_highlighter/shBrushJava.js']   ,
+    ['cs'     , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy' , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['pl'     , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['php'    , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['rb'     , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['py'     , '/syntax_highlighter/shBrushPython.js'] ,
+    ['xml'    , '/syntax_highlighter/shBrushXml.js']    ,
+    ['scala'  , '/syntax_highlighter/shBrushScala.js']
+	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</body>
+
+</html>

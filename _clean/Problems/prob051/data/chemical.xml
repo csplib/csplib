@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Authors: Pierre Schaus and Rowan Van Schaeren
+ * Chemical Tanker Problem (real industrial data):
+ * The Objective is to place products (called cargos) into tanks on a chemical tanker (vessel).
+ * - At most one cargo per tank but several tanks can be used to all the volume of one cargo. 
+ * - Some cargo cannot be placed into adjacent tanks (different temperature requirement and security constraints)
+ * - Some cargo cannot be placed into some tanks (all the tanks does not have the required property to accept the cargo)
+ * The objective it to place  all the volumes while satisfying the security constraints and maximizing the total free space (total volume of unused space).
+ * The idea of the objective function is to let more freedom for future cargos and also to decrease the cleaning costs
+ * 
+-->
+<problem>
+<!--list all the cargos (i.e. chemical products with for each of them the volume to place -->
+<cargos nb="20">
+  <cargo id="1" name="POLI(4+)ISOBUTYLENE" volume="1114"/>
+  <cargo id="2" name="TALLOW" volume="979"/>
+  <cargo id="3" name="TALLOW" volume="1068"/>
+  <cargo id="4" name="ACETONE" volume="1267"/>
+  <cargo id="5" name="DIPROPYLENE GLYCOL" volume="381"/>  
+  <cargo id="6" name="CORN OIL CRUDE DEGUMMD" volume="508"/>
+  <cargo id="7" name="CORN OIL CRUDE DEGUMMD" volume="581"/>
+  <cargo id="8" name="CORN OIL CRUDE DEGUMMD" volume="577"/>
+  <cargo id="9" name="DIGLYCIDYL ETHER OF BISPHENOL" volume="720"/>
+  <cargo id="10" name="MARPOL annex I petroleum oil" volume="1273"/>
+  <cargo id="11" name="Annex I oil" volume="593"/>
+  <cargo id="12" name="Annex I oil" volume="594"/>
+  <cargo id="13" name="ADIPONITRILE" volume="793"/>
+  <cargo id="14" name="EPICHLOROHYDRIN" volume="450"/>
+  <cargo id="15" name="DIPHENYLMETHANE DIISOCYNATE " volume="826"/>
+  <cargo id="16" name="PROPYLENE OXIDE" volume="1491"/>
+  <cargo id="17" name="Glycerol, propoxylated and ethoxylated" volume="1527"/>
+  <cargo id="18" name="BUTANOIC ACID" volume="701"/>
+  <cargo id="19" name="Glycerol/sucrose blend propoxylated and ethoxylated" volume="673"/>
+  <cargo id="20" name="N-METHYL-2-PYRROLIDONE" volume="552"/>
+</cargos>
+<!--gives the pair of cargos that cannot be placed to adjacent/neighbour tanks -->
+<incompatibles>
+   <incompatible cargo1="5"  cargo2="15"/>
+   <incompatible cargo1="14" cargo2="18"/>
+   <incompatible cargo1="15" cargo2="18"/>
+   <incompatible cargo1="15" cargo2="20"/>
+   <incompatible cargo1="16" cargo2="18"/>
+</incompatibles>
+<!--list all the tanks with for each of them it's capacity, location on the vessel, the cargo that cannot be placed inside and the adjacent/neighbour tanks -->
+<tanks nb="34">
+   <tank id="1" capa="680" x="6" y="18" w="6" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="2"/>
+         <tank id="3"/>
+      </neighbours>
+   </tank>
+   <tank id="2" capa="674" x="0" y="18" w="6" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="1"/>
+         <tank id="4"/>
+      </neighbours>      
+   </tank>   
+   <tank id="3" capa="949" x="6" y="16" w="6" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="1"/>
+         <tank id="4"/>
+      </neighbours>       
+   </tank>   
+   <tank id="4" capa="949" x="0" y="16" w="6" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="2"/>
+         <tank id="3"/>
+      </neighbours>       
+   </tank>
+   <tank id="5" capa="316" x="9" y="14" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="6"/>
+         <tank id="9"/>
+      </neighbours>       
+   </tank>
+   <tank id="6" capa="420" x="6" y="14" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="5"/>
+         <tank id="7"/>
+         <tank id="10"/>
+      </neighbours>       
+   </tank>
+   <tank id="7" capa="431" x="3" y="14" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="6"/>
+         <tank id="8"/>
+         <tank id="11"/>
+      </neighbours>       
+   </tank>
+   <tank id="8" capa="316" x="0" y="14" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="7"/>
+         <tank id="12"/>
+      </neighbours> 
+   </tank>
+   <tank id="9" capa="382" x="9" y="12" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="5"/>
+         <tank id="10"/>
+         <tank id="13"/>
+      </neighbours>       
+   </tank>
+   <tank id="10" capa="451" x="6" y="12" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="6"/>
+         <tank id="9"/>
+         <tank id="11"/>
+         <tank id="14"/>
+      </neighbours>       
+   </tank>
+   <tank id="11" capa="464" x="3" y="12" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="7"/>
+         <tank id="10"/>
+         <tank id="12"/>
+         <tank id="15"/>
+      </neighbours>
+   </tank>
+   <tank id="12" capa="382" x="0" y="12" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="8"/>
+         <tank id="11"/>
+         <tank id="16"/>
+      </neighbours> 
+   </tank>
+   <tank id="13" capa="370" x="9" y="10" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="9"/>
+         <tank id="14"/>
+      </neighbours> 
+   </tank>
+   <tank id="14" capa="428" x="6" y="10" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="10"/>
+         <tank id="13"/>
+         <tank id="15"/>
+      </neighbours>       
+   </tank>
+   <tank id="15" capa="429" x="3" y="10" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="11"/>
+         <tank id="14"/>
+         <tank id="16"/>
+      </neighbours> 
+   </tank>
+   <tank id="16" capa="370" x="0" y="10" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="12"/>
+         <tank id="15"/>
+      </neighbours>       
+   </tank>
+   <tank id="17" capa="853" x="9" y="8" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="18"/>
+      </neighbours>       
+   </tank>
+   <tank id="18" capa="991" x="6" y="8" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="17"/>
+         <tank id="19"/>
+      </neighbours>       
+   </tank>
+   <tank id="19" capa="991" x="3" y="8" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="18"/>
+         <tank id="20"/>
+      </neighbours>       
+   </tank>
+   <tank id="20" capa="853" x="0" y="8" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="19"/>
+      </neighbours>       
+   </tank>
+   <tank id="21" capa="372" x="9" y="6" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="22"/>
+         <tank id="25"/>
+      </neighbours>       
+   </tank>
+   <tank id="22" capa="420" x="6" y="6" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="21"/>
+         <tank id="23"/>
+         <tank id="26"/>
+      </neighbours>       
+   </tank>
+   <tank id="23" capa="431" x="3" y="6" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="22"/>
+         <tank id="24"/>
+         <tank id="27"/>
+      </neighbours>       
+   </tank>
+   <tank id="24" capa="372" x="0" y="6" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="23"/>
+         <tank id="28"/>
+      </neighbours>       
+   </tank>
+   <tank id="25" capa="545" x="9" y="4" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="21"/>
+         <tank id="26"/>
+      </neighbours>      
+   </tank>
+   <tank id="26" capa="626" x="6" y="4" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="22"/>
+         <tank id="25"/>
+         <tank id="27"/>
+      </neighbours>       
+   </tank>
+   <tank id="27" capa="627" x="3" y="4" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="23"/>
+         <tank id="26"/>
+         <tank id="28"/>
+      </neighbours>       
+   </tank>
+   <tank id="28" capa="545" x="0" y="4" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="24"/>
+         <tank id="27"/>
+      </neighbours>        
+   </tank>
+   <tank id="29" capa="494" x="9" y="2" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="30"/>
+      </neighbours>        
+   </tank>
+   <tank id="30" capa="589" x="6" y="2" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="29"/>
+         <tank id="31"/>
+      </neighbours>        
+   </tank>
+   <tank id="31" capa="589" x="3" y="2" w="3" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="30"/>
+         <tank id="32"/>
+      </neighbours>        
+   </tank>
+   <tank id="32" capa="494" x="0" y="2" w="3" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="31"/>
+      </neighbours>       
+   </tank>    
+   <tank id="33" capa="1017" x="6" y="0" w="6" h="2">
+      <impossiblecargos>
+         <cargo id="1"/>
+         <cargo id="10"/>
+         <cargo id="13"/>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="34"/>
+      </neighbours>       
+   </tank>      
+   <tank id="34" capa="1017" x="0" y="0" w="6" h="2">
+      <impossiblecargos>
+      </impossiblecargos>
+      <neighbours>
+         <tank id="33"/>
+      </neighbours>       
+   </tank> 
+</tanks>
+
+</problem>

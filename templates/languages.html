@@ -1,0 +1,21 @@
+{% set title = "List of Languages" %}
+{% extends "wrapper.html" %}
+
+{% block breadcrumb %}
+  {{ super() }}
+  <li><a href="{{prefix_path}}/Languages">Languages</a></li>
+{% endblock %}
+
+
+{% block mainContent %}
+
+{% for prob in problems %}
+<p>
+	<a href="{{ prob.metadata['id'] | join('') }}">
+		{{ prob.metadata['id'] | join('') }}
+	</a>:
+	{{ prob.metadata['title'] | join('') }}
+</p>
+{% endfor %}
+
+{% endblock %}

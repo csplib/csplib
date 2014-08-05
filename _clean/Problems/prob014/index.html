@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>014: Solitaire Battleships</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob014">prob014</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>014: Solitaire Battleships</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob014/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob014/results">Results</a></li>
+
+   	<li><a href="/Problems/prob014/references">References</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob014/models">Models</a></li>
+
+   	<li><a href="/Problems/prob014/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob014/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Ian Gent
+</p>
+
+<p>The Battleships puzzle is occasionally published in Games Magazine (US), e.g. in the August 1998 issue where it is credited to Mark Gottlieb. It is loosely based on the two person pencil and paper game. I quote the puzzle description in the magazine:</p>
+<p>This fleet consists of one battleship (four grid squares in length), two cruisers (each three grid squares long), three three destroyers (each two squares long) and four submarines (one square each). The ships may be oriented horizontally or vertically, and no two ships will occupy adjacent grid squares, not even diagonally. The digits along the right side of and below the grid indicate the number of grid squares in the corresponding rows and columns that are occupied by vessels.</p>
+<p>In each of the puzzles, one or more `shots&rsquo; have been taken to start you off. These may show water (indicated by wavy lines), a complete submarine (a circle), or the middle (a square), or the end (a rounded-off square) of a longer vessel.</p>
+<p>Here is an example problem, the first from that issue of the magazine:</p>
+<pre>
+  -------------------
+0|                   |
+2|                   |
+3|                   |
+1|                   |
+2|                   |
+4|                   |
+2|                   |
+1|o                  |
+2|                   |
+3|                   |
+ --------------------
+  1 3 3 1 5 1 2 4 0 0
+</pre>
+
+<p>The &ldquo;o&rdquo; in the grid indicates a submarine must occupy that square.
+Published puzzles all have a grid of 10x10 and the ships as described above. Of course there is no reason that these properties cannot be varied.</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

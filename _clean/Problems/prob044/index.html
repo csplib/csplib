@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>044: Steiner triple systems</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob044">prob044</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>044: Steiner triple systems</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+   	<li><a href="/Problems/prob044/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob044/results">Results</a></li>
+
+   	<li><a href="/Problems/prob044/references">References</a></li>
+
+   	<li><a href="/Problems/prob044/models">Models</a></li>
+
+   	<li><a href="/Problems/prob044/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob044/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Francisco Azevedo
+</p>
+
+<p>The ternary Steiner problem of order n consists of finding a set of $n.(n-1)/6$ triples of distinct integer elements in $\{1,\dots,n\}$ such that any two triples have at most one common element. It is a hypergraph problem coming from combinatorial mathematics<span> <a class="bibref" data-bibfragment="luneburg1989tools" href="/Problems/prob044/references/#luneburg1989tools">[luneburg1989tools]</a></span> where n modulo 6 has to be equal to 1 or 3 <span> <a class="bibref" data-bibfragment="lindner2011topics" href="/Problems/prob044/references/#lindner2011topics">[lindner2011topics]</a></span>. One possible solution for $n=7$ is {{1, 2, 3}, {1, 4, 5}, {1, 6, 7}, {2, 4, 6}, {2, 5, 7}, {3, 4, 7}, {3, 5, 6}}. The solution contains $7*(7-1)/6 = 7$ triples.</p>
+<p>This is a particular case of the more general <a href="http://www.win.tue.nl/~aeb/drg/graphs/S.html">Steiner system</a>.</p>
+<p>More generally still, you may refer to Balanced Incomplete Block Designs (BIBD: prob028). In fact, a Steiner Triple System with n elements is a BIBD$(n, n.(n-1)/6, (n-1)/2, 3, 1)$</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+
+  <li><a href="/Problems/prob024/results">Results</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob024/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+  	<li><p>Results</p></li>
+
+   	<li><a href="/Problems/prob024/references">References</a></li>
+
+   	<li><a href="/Problems/prob024/models">Models</a></li>
+
+   	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/results">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<p>The problem can be modelled with a CSP variable associated with the occurrence of each number, and its value being its position in the sequence. Alternatively, we can consider a dual model in which a CSP variable is associated with each position in the sequence, and its value being the number assigned to this position. We can also have construct a representation of the problem with both the primal and dual models, and channelling constraints between the two.</p>
+<p>L(2,3) has the unique solution up to reversal of 312132. This was supposedly found by Langford&rsquo;s child. L(2,4) also has an unique solution up to reversal, 41312432 found by Langford. L(2,n) only has solutions if n=4k or 4k-1. L(2,19) has 256,814,891,280 solutions, and it took <a href="http://www.lclark.edu/~miller/langford/groth-L19.html">two months</a> of computing in 1999 to count them. The number of solutions for L(2,20) is not known.</p>
+<p>L(3,n) is insoluble for n less than 9. L(3,9) has 3 solutions, whilst L(3,10) has 5 solutions. L(3,n) is insoluble for n between 11 and 16 inclusive. L(3,17), L(3,18) and L(3,19) have 13,440, 54,947 and 249,280 solutions respectively, whilst L(3,20) has no solutions.</p>
+<p>John Edward Miller&rsquo;s <a href="http://www.lclark.edu/~miller/langford.html">web pages</a> on Langford&rsquo;s problem including a large table of results (about half way down the long page), as well as notes about when and by whom they were proved.</p>
+<p>The number of solutions to Langford&rsquo;s problem is sequence <a href="http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=014552">A014552</a> in the <a href="http://www.research.att.com/~njas/sequences/Seis.html">On-Line Encyclopedia of Integer Sequences</a>. The (lexicographically ordered) solutions are <a href="http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=050998">A050998</a>.</p>
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

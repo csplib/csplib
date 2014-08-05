@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>035: Molnar's Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob035">prob035</a></li>
+
+  <li><a href="/Problems/prob035/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>035: Molnar's Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob035/">Specification</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob035/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob035/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob035/models">Models</a></li>
+
+   	<li><a href="/Problems/prob035/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob035/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob035/references/prob035-refs.bib">Download bibtex</a>
+</p>
+
+<p>The problem was originally posed by Molnar in<span> <a class="bibref" data-bibfragment="molnar1974matrix" href="/Problems/prob035/references/#molnar1974matrix">[molnar1974matrix]</a></span>.</p>
+<p>Various authors followed up this article with both single solutions and
+parametric families of solutions:</p>
+<ul>
+<li>American Mathematical Monthly, 82, pages 999-1000, 1975.</li>
+<li>American Mathematical Monthly, 84, page 809, 1977.</li>
+<li>American Mathematical Monthly, 94, page 962, 1987.</li>
+</ul>
+<p>Guy presents an overview and discusses variants of the problem<span> <a class="bibref" data-bibfragment="guy2004unsolved" href="/Problems/prob035/references/#guy2004unsolved">[guy2004unsolved]</a></span>.</p>
+<p>A CSP model is presented in<span> <a class="bibref" data-bibfragment="frisch2003constraints" href="/Problems/prob035/references/#frisch2003constraints">[frisch2003constraints]</a></span></p>
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="guy2004unsolved" class='bib'>
+    <span class="bibkey">
+        [guy2004unsolved]
+    </span>
+    <br>
+    <span class="authors">
+        Richard Guy
+    </span>
+
+    <br>
+
+    <span class="title">
+        Unsolved problems in number theory
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        2004
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="frisch2003constraints" class='bib'>
+    <span class="bibkey">
+        [frisch2003constraints]
+    </span>
+    <br>
+    <span class="authors">
+        Alan M Frisch, Chris Jefferson, and Ian Miguel
+    </span>
+
+    <br>
+
+    <span class="title">
+        Constraints for breaking more row and column symmetries
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Principles and Practice of Constraint Programming–CP 2003</span>, 
+    <span class="date">
+        
+        2003
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="molnar1974matrix" class='bib'>
+    <span class="bibkey">
+        [molnar1974matrix]
+    </span>
+    <br>
+    <span class="authors">
+        EA Molnar
+    </span>
+
+    <br>
+
+    <span class="title">
+        A matrix problem
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">American Mathematical Monthly</span>, 
+    <span class="date">
+        
+        1974
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

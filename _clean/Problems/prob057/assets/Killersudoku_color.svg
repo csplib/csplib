@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="408px" height="408px" viewBox="0 0 408 408" xml:space="preserve">
+<g id="Layer_3">
+	<rect x="1.5" y="1.5" fill="#FFFD98" width="89.999" height="45"/>
+	<rect x="91.499" y="1.5" fill="#CFE799" width="135.001" height="45"/>
+	<rect x="1.5" y="46.5" fill="#CBE8FA" width="89.999" height="90"/>
+	<rect x="91.499" y="46.5" fill="#F8CFDF" width="90.001" height="45"/>
+	<polyline fill="#FFFD98" points="91.499,91.5 181.5,91.5 181.5,181.5 136.5,181.5 136.5,136.5 91.499,136.5 91.499,91.5 	"/>
+	<polygon fill="#CBE8FA" points="226.5,136.5 226.5,91.5 271.5,91.5 271.5,1.5 226.5,1.5 226.5,46.5 181.5,46.5 181.5,136.5 	"/>
+	<polygon fill="#CFE799" points="181.5,406.5 181.5,361.5 226.5,361.5 226.5,271.5 181.5,271.5 181.5,316.5 136.5,316.5 
+		136.5,406.5 	"/>
+	<rect x="271.5" y="1.5" fill="#CFE799" width="45" height="90"/>
+	<rect x="361.5" y="1.5" fill="#CFE799" width="45" height="180"/>
+	<rect x="316.5" y="271.5" fill="#CFE799" width="90" height="90"/>
+	<rect x="46.5" y="316.5" fill="#CFE799" width="44.999" height="90"/>
+	<rect x="1.5" y="136.5" fill="#FFFD98" width="45" height="90"/>
+	<rect x="181.5" y="361.5" fill="#FFFD98" width="135" height="45"/>
+	<rect x="361.5" y="181.5" fill="#FFFD98" width="45" height="90"/>
+	<rect x="226.5" y="91.5" fill="#CFE799" width="45" height="135"/>
+	<rect x="316.5" y="1.5" fill="#FFFD98" width="45" height="90"/>
+	<rect x="46.5" y="136.5" fill="#F8CFDF" width="90" height="45"/>
+	<rect x="181.5" y="136.5" fill="#F8CFDF" width="45" height="135"/>
+	<rect x="226.5" y="316.5" fill="#F8CFDF" width="90" height="45"/>
+	<rect x="91.499" y="316.5" fill="#F8CFDF" width="45.001" height="90"/>
+	<rect x="1.5" y="226.5" fill="#CBE8FA" width="45" height="180"/>
+	<rect x="136.5" y="181.5" fill="#CBE8FA" width="45" height="135"/>
+	<rect x="271.5" y="226.5" fill="#CBE8FA" width="90" height="45"/>
+	<rect x="316.5" y="361.5" fill="#CBE8FA" width="90" height="45"/>
+	<polygon fill="#CFE799" points="46.5,181.5 136.5,181.5 136.5,226.5 91.499,226.499 91.499,271.499 46.5,271.5 	"/>
+	<polygon fill="#FFFD98" points="136.5,226.5 136.5,316.5 46.5,316.5 46.5,271.5 91.499,271.499 91.499,226.499 	"/>
+	<polygon fill="#F8CFDF" points="316.5,136.5 361.5,136.5 361.5,226.5 271.5,226.5 271.5,181.5 316.5,181.5 	"/>
+	<polygon fill="#FFFD98" points="316.5,271.5 316.5,316.5 226.5,316.5 226.5,226.5 271.5,226.5 271.5,271.5 	"/>
+	<polygon fill="#CBE8FA" points="361.5,91.5 361.5,136.5 316.5,136.5 316.5,181.5 271.5,181.5 271.5,91.5 	"/>
+</g>
+<g id="Layer_5">
+</g>
+<g id="Layer_2">
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="1.5" y1="406.5" x2="406.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="361.5" x2="406.5" y2="361.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="316.5" x2="406.5" y2="316.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="1.5" y1="271.5" x2="406.5" y2="271.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="226.5" x2="406.5" y2="226.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="181.5" x2="406.5" y2="181.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="1.5" y1="136.124" x2="406.5" y2="136.124"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="91.5" x2="406.5" y2="91.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="1.5" y1="46.5" x2="406.5" y2="46.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="1.5" y1="1.5" x2="406.5" y2="1.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="1.5" y1="1.5" x2="1.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="46.5" y1="1.5" x2="46.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="91.499" y1="1.5" x2="91.499" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="136.5" y1="1.5" x2="136.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="181.5" y1="1.5" x2="181.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="226.5" y1="406.5" x2="226.5" y2="1.5"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="271.5" y1="1.5" x2="271.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="316.5" y1="1.5" x2="316.5" y2="406.5"/>
+	<line fill="none" stroke="#050401" stroke-width="1.125" stroke-linecap="round" x1="361.5" y1="1.124" x2="361.5" y2="406.124"/>
+	<line fill="none" stroke="#050401" stroke-width="3" stroke-linecap="round" x1="406.5" y1="1.5" x2="406.5" y2="406.5"/>
+</g>
+<g id="Layer_4">
+	<text transform="matrix(1 0 0 1 4.4995 15.75)" fill="#050301" font-family="'mono'" font-size="12">3</text>
+	<text transform="matrix(1 0 0 1 94.4995 15.75)" fill="#050301" font-family="'mono'" font-size="12">15</text>
+	<text transform="matrix(1 0 0 1 229.5 15.75)" fill="#050301" font-family="'mono'" font-size="12">22</text>
+	<text transform="matrix(1 0 0 1 274.5 15.75)" fill="#050301" font-family="'mono'" font-size="12">4</text>
+	<text transform="matrix(1 0 0 1 319.5 15.75)" fill="#050301" font-family="'mono'" font-size="12">16</text>
+	<text transform="matrix(1 0 0 1 364.5 15.75)" fill="#050301" font-family="'mono'" font-size="12">15</text>
+	<text transform="matrix(1 0 0 1 4.4995 60.75)" fill="#050301" font-family="'mono'" font-size="12">25</text>
+	<text transform="matrix(1 0 0 1 94.4995 60.75)" fill="#050301" font-family="'mono'" font-size="12">17</text>
+	<text transform="matrix(1 0 0 1 94.4995 105.75)" fill="#050301" font-family="'mono'" font-size="12">9</text>
+	<text transform="matrix(1 0 0 1 229.5 105.75)" fill="#050301" font-family="'mono'" font-size="12">8</text>
+	<text transform="matrix(1 0 0 1 274.5 105.75)" fill="#050301" font-family="'mono'" font-size="12">20</text>
+	<text transform="matrix(1 0 0 1 4.4995 150.75)" fill="#050301" font-family="'mono'" font-size="12">6</text>
+	<text transform="matrix(1 0 0 1 49.4995 150.75)" fill="#050301" font-family="'mono'" font-size="12">14</text>
+	<text transform="matrix(1 0 0 1 184.499 150.75)" fill="#050301" font-family="'mono'" font-size="12">17</text>
+	<text transform="matrix(1 0 0 1 319.5 150.75)" fill="#050301" font-family="'mono'" font-size="12">17</text>
+	<text transform="matrix(1 0 0 1 49.4995 195.75)" fill="#050301" font-family="'mono'" font-size="12">13</text>
+	<text transform="matrix(1 0 0 1 139.4995 195.75)" fill="#050301" font-family="'mono'" font-size="12">20</text>
+	<text transform="matrix(1 0 0 1 364.5 195.75)" fill="#050301" font-family="'mono'" font-size="12">12</text>
+	<text transform="matrix(1 0 0 1 4.4995 240.75)" fill="#050301" font-family="'mono'" font-size="12">27</text>
+	<text transform="matrix(1 0 0 1 94.4995 240.75)" fill="#050301" font-family="'mono'" font-size="12">6</text>
+	<text transform="matrix(1 0 0 1 229.5 240.75)" fill="#050301" font-family="'mono'" font-size="12">20</text>
+	<text transform="matrix(1 0 0 1 274.5 240.75)" fill="#050301" font-family="'mono'" font-size="12">6</text>
+	<text transform="matrix(1 0 0 1 184.4995 285.75)" fill="#050301" font-family="'mono'" font-size="12">10</text>
+	<text transform="matrix(1 0 0 1 319.5 285.75)" fill="#050301" font-family="'mono'" font-size="12">14</text>
+	<text transform="matrix(1 0 0 1 49.4995 330.75)" fill="#050301" font-family="'mono'" font-size="12">8</text>
+	<text transform="matrix(1 0 0 1 94.4995 330.75)" fill="#050301" font-family="'mono'" font-size="12">16</text>
+	<text transform="matrix(1 0 0 1 229.5 330.75)" fill="#050301" font-family="'mono'" font-size="12">15</text>
+	<text transform="matrix(1 0 0 1 184.4995 375.75)" fill="#050301" font-family="'mono'" font-size="12">13</text>
+	<text transform="matrix(1 0 0 1 319.5 375.75)" fill="#050301" font-family="'mono'" font-size="12">17</text>
+</g>
+</svg>

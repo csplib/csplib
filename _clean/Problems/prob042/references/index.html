@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>042: diagnosis</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob042">prob042</a></li>
+
+  <li><a href="/Problems/prob042/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>042: diagnosis</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob042/">Specification</a></li>
+
+   	<li><a href="/Problems/prob042/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob042/results">Results</a></li>
+
+  	<li><p>References</p></li>
+
+   	<li><a href="/Problems/prob042/models">Models</a></li>
+
+   	<li><a href="/Problems/prob042/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob042/references.html">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob042/references/prob042-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue { font-style: italic; }
+    .title { font-weight: bold; }
+    .bibkey{
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="alferes2004deductive" class='bib'>
+    <span class="bibkey">
+        [alferes2004deductive]
+    </span>
+    <br>
+    <span class="authors">
+        José Júlio Alferes, Francisco Azevedo, Pedro Barahona, Carlos Viegas Damásio, and Terrance Swift
+    </span>
+
+    <br>
+
+    <span class="title">
+        Deductive diagnosis of digital circuits
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Artificial Intelligence Applications and Innovations</span>, 
+    <span class="date">
+        
+        2004
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="frohlich1998drum" class='bib'>
+    <span class="bibkey">
+        [frohlich1998drum]
+    </span>
+    <br>
+    <span class="authors">
+        Peter Fröhlich
+    </span>
+
+    <br>
+
+    <span class="title">
+        DRUM-II: Efficient Model Based Diagnosis of Technical Systems
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+    <span class="date">
+        
+        1998
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="lucas1997symbolic" class='bib'>
+    <span class="bibkey">
+        [lucas1997symbolic]
+    </span>
+    <br>
+    <span class="authors">
+        Peter Lucas
+    </span>
+
+    <br>
+
+    <span class="title">
+        Symbolic diagnosis and its formalisation
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">The Knowledge Engineering Review 12(02)</span>, 
+    <span class="date">
+        
+        1997
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="de1987diagnosing" class='bib'>
+    <span class="bibkey">
+        [de1987diagnosing]
+    </span>
+    <br>
+    <span class="authors">
+        Johan De Kleer and Brian C Williams
+    </span>
+
+    <br>
+
+    <span class="title">
+        Diagnosing multiple faults
+    </span>
+
+    <br>
+
+    <span class="venuetype"></span>
+    <span class="venue">Artificial intelligence 32(1)</span>, 
+    <span class="date">
+        
+        1987
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</body>
+
+</html>

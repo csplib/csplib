@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>007: All-Interval Series</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob007">prob007</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>007: All-Interval Series</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob007/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob007/results">Results</a></li>
+
+   	<li><a href="/Problems/prob007/references">References</a></li>
+
+   	<li><a href="/Problems/prob007/models">Models</a></li>
+
+   	<li><a href="/Problems/prob007/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob007/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Holger Hoos
+</p>
+
+<p>Given the twelve standard pitch-classes (c, c#, d, &hellip;), represented by numbers 0,1,&hellip;,11, find a series in which each pitch-class occurs exactly once and in which the musical intervals between neighbouring notes cover the full set of intervals from the minor second (1 semitone) to the major seventh (11 semitones). That is, for each of the intervals, there is a pair of neigbhouring pitch-classes in the series, between which this interval appears. </p>
+<p>The problem of finding such a series can be easily formulated as an instance of a more general arithmetic problem on $\mathbb Z_n$, the set of integer residues modulo $n$. Given $n \in \mathbb N$, find a vector $s = (s_1, &hellip;, s_n)$, such that </p>
+<ol>
+<li>$s$ is a permutation of $\mathbb Z_n = {0,1,&hellip;,n-1}$; and </li>
+<li>the interval vector $v = (|s_2-s_1|, |s_3-s_2|, &hellip; |s_n-s_{n-1}|)$ is a permutation of $ \mathbb Z_n \setminus \{0\} = \{1,2,&hellip;,n-1\}$. </li>
+</ol>
+<p>A vector $v$ satisfying these conditions is called an all-interval series of size $n$; the problem of finding such a series is the all-interval series problem of size $n$. We may also be interested in finding all possible series of a given size. </p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

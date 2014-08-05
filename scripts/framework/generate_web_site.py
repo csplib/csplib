@@ -125,7 +125,7 @@ except IOError:
 	creations_times={}
 
 
-def generate_pages(pages, class_dir):
+def generate_pages(pages, class_dir, template, parts):
 	# Creates the output for the problems
 	for page in sorted(pages):
 		try:
@@ -134,7 +134,7 @@ def generate_pages(pages, class_dir):
 			logger.debug(page)
 			logger.debug("")
 			problem.process_problem(page, apply_template, output_dir, class_dir, base)
-			problem.write_problem(page, apply_template, output_dir, class_dir, base)
+			problem.write_problem(page, apply_template, output_dir, class_dir, template, parts, base)
 
 			for category in page.metadata['category']:
 				categories_map[category].append(page)
@@ -159,8 +159,14 @@ def generate_pages(pages, class_dir):
 			logger.info("Error: %s", e)
 			raise
 
-generate_pages(probs, "Problems")
-# generate_pages(langs, "Languages")
+generate_pages(probs, "Problems", "problem.html",
+  [ ["results", lambda x: str.lower(x['name'])],
+    ["data", lambda x: str.lower(x['name'])],
+    ["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]])
+
+generate_pages(langs, "Languages", "language.html",
+  [ ["data", lambda x: str.lower(x['name'])],
+    ["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]])
 
 for prob in probs:
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
@@ -183,6 +189,11 @@ with open(index_path, "w", encoding='utf-8') as f:
 
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
+with open(probs_path, "w", encoding='utf-8') as f:
+	f.write(res)
+
+probs_path = path.join(output_dir, "Languages/index.html")
+res = apply_template("languages.html", problems=sorted(langs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 

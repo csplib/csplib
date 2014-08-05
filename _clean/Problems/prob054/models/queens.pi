@@ -1,0 +1,149 @@
+/*
+
+  N-Queens problem in Picat.
+
+
+  Model created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my Picat page: http://www.hakank.org/picat/
+
+*/
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+import util.
+import cp.
+
+main => go.
+
+%
+% Note that $Q[I] is needed here.
+%
+queens3(N, Q) =>
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different(Q),
+    all_different([$Q[I]-I : I in 1..N]),
+    all_different([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+queens3(N) =>
+    queens3_all(N, Solutions),
+    % writeln(Solutions),
+    writeln(len=Solutions.length).
+
+% generate all solutions via solve_all (don't work right now)
+queens3_all(N, Solutions) =>
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different(Q),
+    all_different([$Q[I]-I : I in 1..N]),
+    all_different([$Q[I]+I : I in 1..N]),
+    % This yield "Unknown procedure solve/2".
+    Solutions = solve_all([ff],Q).
+    % This works:
+    % Solutions = findall(Q, $solve($Q)).
+
+
+% Using all_distinct instead
+queens3b(N, Q) =>
+    Q=new_list(N),
+    Q :: 1..N,
+    all_distinct(Q),
+    all_distinct([$Q[I]-I : I in 1..N]),
+    all_distinct([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+    
+% alternative approaches
+queens4(N, Q) =>
+   Q = new_list(N),
+   Q :: 1..N,
+   foreach(A in [-1,0,1])
+      all_different([$Q[I]+I*A : I in 1..N])
+   end,
+   solve([ff],Q).
+
+% Decomposition of alldifferent
+all_different_me(L) =>
+   Len = length(L),
+   foreach(I in 1..Len, J in I+1..Len) L[I] #!= L[J] end.
+
+% Using all_different_me (my decomposition)
+queens5(N, Q) =>
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different_me(Q),
+    all_different_me([$Q[I]-I : I in 1..N]),
+    all_different_me([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+go => 
+   queens3(8,Q),
+   writeln(Q),
+   N2 = 12, 
+   queens3_all(8, Solutions),
+   % writeln(Solutions),
+   Len=Solutions.length,
+   writef("N:%w %w solutions.\n%w\n", N2, Len, Solutions).
+  
+
+go2 => 
+    foreach(N in 2..14) 
+       statistics(backtracks, Backtracks),
+       statistics(runtime, [_, _Runtime1]),
+       queens3_all(N, Solutions),
+       Len=Solutions.length,
+       statistics(backtracks, Backtracks2),
+       B = Backtracks2 - Backtracks,
+       Backtracks := Backtracks2,
+       statistics(runtime, [_, Runtime2]),
+       writef("N:%3d %10d solutions (%d backtracks, %d millis)\n", N, Len, B, Runtime2)
+    end.
+
+%
+% Times per Picat v 0.1-beta 10:
+%   queens3 :  6.7s (2 backtracks)
+%   queens3b: 10.83s (0 backtracks)
+%   queens4 : 4.25s (2 backtracks)
+%   queens5 : 6.86s (2 backtracks)
+%
+go3 => 
+    Ps = [queens3=1000, queens3b=1000, queens4=1000,queens5=1000],
+    foreach(P=N in Ps) 
+       printf("%w(%d)\n", P, N),
+       time2(once(call(P,N,Q))),
+       writeln(Q),
+       nl
+    end.
+
+% Using permutations/1. Very slow.
+go4 => 
+    N = 8,
+    C = 0,
+    foreach(P in permutations(1..N))
+       if check4(P) then 
+           % writeln(P), 
+           C := C +1 
+       end
+    end,
+    writeln(sols=C),
+    nl.
+
+go5 =>
+    N=100,
+    queens3(N,Q),
+    writeln(Q),
+    nl.
+
+go6 =>
+    N = 10000,
+    println("timing queens4(10000,Q)"),
+    time2(queens4(N,_Q)),
+    nl.
+
+check4(P) =>
+   N = length(P),
+   foreach(I in 1..N, J in I+1..N) 
+      P[I]-I != P[J]-J,
+      P[I]+I != P[J]+J
+   end.

@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>042: diagnosis</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob042">prob042</a></li>
+
+  <li><a href="/Problems/prob042/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>042: diagnosis</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob042/">Specification</a></li>
+
+   	<li><a href="/Problems/prob042/data">Data files</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob042/results">Results</a></li>
+
+   	<li><a href="/Problems/prob042/references">References</a></li>
+
+  	<li><p>Models</p></li>
+
+   	<li><a href="/Problems/prob042/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob042/models">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<h3>A problem instance</h3>
+<p>The <em>c6288</em> digital circuit from the ISCAS-85 set of benchmarks is a 16-bit multiplier, which can be seen as a grid-like pattern of 240 half and full adders (as in Figure below) consisting of 2406 logical gates in all.</p>
+<p><center>
+    <img alt="instance figure" src="../assets/c6288.gif" />
+</center></p>
+<p>High-level model of c6288 Multiplier Circuit and full adder module (images obtained from  http://www.eecs.umich.edu/~jhayes/iscas/).</p>
+<p><em>C6288</em> is of special interest in that it has traditionally proven difficult to  diagnosis system.</p>
+<p>This diagnosis problem uses input vector  <code>01001000000100010001000110100000</code>, corresponding to the multiplication of <code>34834</code> by <code>1416</code>, returning <code>49324944</code>, represented in binary by (least significant bit  first) <code>00001001110001010000111101000000</code>. From this correct output, a bit at a  time is flipped, obtaining <code>32</code> incorrect output vectors. For each such incorrect output vector, the goal is to find the set of all single faults that explain it.</p>
+<p>Additionally, as a harder problem, the goal is extended to find the set of all  double faults that explain it.</p>
+<p>Circuit description (taken from http://www.eecs.umich.edu/~jhayes/iscas/ ) can be seen <a href="../assets/c6288.txt">here</a>.</p>
+<p>The problem is also described in: &ldquo;Jos&eacute; J&uacute;lio Alferes, Francisco Azevedo, Pedro Barahona, Carlos V. Damasio and  Terrance Swift, <em>Deductive Diagnosis of Digital Circuits</em>, in First IFIP  Conference on Artificial Intelligence Applications and Innovations (AIAI&lsquo;2004),  Kluwer Academic Press, pages 155-165, 2004.&rdquo; where some results are presented.</p>
+
+<table class="tablesorter">
+<thead>
+<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<a href="diagnosis-full.zip">
+			diagnosis-full.zip
+		</a>
+	</td>
+	<td>
+		.zip - Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="diagnosis-single.essence.html">
+			diagnosis-single.essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+</tbody>
+</table>
+
+	</div>
+
+
+
+</body>
+
+</html>

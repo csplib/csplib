@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>040: A Distribution Problem with Wagner-Whitin Costs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob040">prob040</a></li>
+
+  <li><a href="/Problems/prob040/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>040: A Distribution Problem with Wagner-Whitin Costs</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+   	<li><a href="/Problems/prob040/">Specification</a></li>
+
+   	<li><a href="/Problems/prob040/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob040/results">Results</a></li>
+
+   	<li><a href="/Problems/prob040/references">References</a></li>
+
+  	<li><p>Models</p></li>
+
+   	<li><a href="/Problems/prob040/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob040/models">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+	<p>A variable, <em>X_ijt</em>, can be used to represent the amount
+ordered for stocking point <em>i</em> in level <em>j</em> at period
+<em>t</em>. The lower bound of each <em>X_ijt</em> is 0. A
+conservative upper bound on <em>X_ijt</em> is found simply by summing
+the demands at all leaves under this stocking point from now until the
+end of the planning horizon. This is equivalent to assuming that all
+necessary stock for the remaining periods will be ordered immediately.</p>
+<P>
+Orders for period <em>t</em> are assumed to be made (and fulfilled,
+there is a 0 lead time assumption) before period <em>t</em>
+begins. Inventory levels for period <em>t</em> refer to the end of
+period <em>t</em>. There are two common methods of representing the
+inventory remaining after each period, as discussed below.
+
+<!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%>
+<H4>Inventory in the Conventional Model</H4>
+
+In the conventional model, a variable, <em>I_ijt</em>, is used to
+represent the amount of stock held at stocking point <em>i</em> in
+level <em>j</em> after period <em>t</em>.
+
+<P>
+The objective can now be expressed:
+<UL>
+<LI><TT>Minimise</TT>:
+    <TT>sum</TT>_{<em>t</em>=1..<em>T</em>}
+    <TT>sum</TT>_{<em>j</em>=1..<em>L</em>}
+    <TT>sum</TT>_{<em>i</em>=1..<em>N_j</em>}
+    (<em>c_ij I_ijt</em> + 
+     <em>c0_ij</em> (<em>X_ijt</em> > 0))
+</UL>
+
+where <em>N_j</em> denotes the number of nodes in level <em>j</em>.
+Note that the objective as expressed above involves the reification of
+(<em>X_ijt</em> > 0). This expression can be bound to an explicit 0/1
+variable (<em>&delta;_ijt</em>, the approach commonly adopted in
+the MIP model of this problem) and the <em>&delta;</em> variables
+used for branching.
+
+<P>
+Further constraints govern how inventory is supplied between stocking
+points:
+<UL>
+<LI><em>I_ijt</em> = <em>I_ij(t-1)</em> + <em>X_ijt</em> -
+    <TT>sum</TT>_{<em>m</em> in <em>W(i,j,j-1)</em>}
+    (<em>X_mt</em>)
+</UL>
+where <em>W(i,j,j-1)</em> denotes the children of the <em>i</em>th
+stocking point in level <em>j</em>. In short, the above expression
+specifies that the closing inventory for <em>I_ijt</em> is the closing
+inventory for the same stocking point in the previous period, plus the
+amount ordered, minus the amount supplied.
+
+<H4>Inventory in the Echelon Model</H4>
+
+An alternative model views the supply-chain structure in <em>echelons</em>.
+An echelon is a stocking point and all of its descendants, as follows:
+<pre>
+Ech6*****************************  Level
+*                  |            *
+*                  V            *
+*                +---+          *
+*                | F |          *    3
+*                +---+          * 
+*            ___/     \___      *
+*           /             \     *
+*Ech4******V********** Ech5V*****
+**       +---+       * * +---+ **
+**       | D |       * * | E | **    2
+**       +---+       * * +---+ **
+**     _/     \_     * *   |   **
+**    /         \    * *   |   **
+**   V           V   * *   V   **
+**Ech1***     Ech2**** *Ech3*****
+***+---+*     *+---+** **+---+***
+***| A |*     *| B |** **| C |***    1
+***+---+*     *+---+** **+---+***
+*****|***********|**** ****|*****
+     V           V         V
+</pre>
+A variable, <em>E_ijt</em>, represents the amount of stock held at the
+end of period <em>t</em> in the echelon whose highest node is the
+<em>i</em>th node in level <em>j</em>. The conventional holding cost
+per unit of inventory is replaced by an <em>echelon holding cost</em>,
+<em>e_ij</em>, defined as follows:
+<UL>
+<LI><em>e_ij</em> = <em>c_ij</em> - <em>c_iW(i,j,j+1)</em>
+</UL>
+where <em>W(i,j,j+1)</em>denotes the parent of the <em>i</em>th stocking 
+point in level <em>j</em>.
+Recall the assumption that a parent always has a smaller holding cost
+than any of its children. Hence, <em>e_ij</em> can be thought of as the
+incremental cost of holding a unit of inventory at stocking point
+<em>ij</em> instead of its parent.
+
+<P>
+The objective can now be expressed:
+<UL>
+<LI><TT>Minimise</TT>:
+    <TT>sum</TT>_{<em>t</em>=1..<em>T</em>}
+    <TT>sum</TT>_{<em>j</em>=1..<em>L</em>}
+    <TT>sum</TT>_{<em>i</em>=1..<em>N_j</em>}
+    (<em>e_ij E_ijt</em> + 
+     <em>c0_ij</em> (<em>X_ijt</em> > 0))
+</UL>
+The constraints governing how inventory is supplied between stocking
+points are as follows:
+<UL>
+<LI><em>E_ijt</em> = <em>E_ij(t-1)</em> + <em>X_ijt</em> -
+    <TT>sum</TT>_{<em>m</em> in <em>V(i,j)</em>}
+    (<em>d_mt</em>)
+</UL>
+where <em>V(i, j)</em> denotes the leaves descended from stocking
+point <em>i</em> in level <em>j</em>, and <em>d_i1t</em> is the
+demand at leaf <em>i</em> in period <em>t</em>. That is, inventory
+held in an echelon at the end of period <em>t</em> is the inventory
+in the same echelon in the previous period plus the inventory ordered
+minus the demand at the leaves associated with that echelon.
+
+<P>
+One further set of constraints relate an echelon whose highest
+stocking point is stocking point <em>i</em> in level <em>j</em> and
+the echelons whose highest stocking points are the children of
+stocking point <em>ij</em>:
+<UL>
+<LI><em>E_ijt</em> >= <TT>sum</TT>_{<em>m</em> in 
+    <em>W(i,j,j-1)</em>} (<em>E_mt</em>)
+</UL>
+where again <em>W(i,j,j-1)</em> denotes the children of the
+<em>i</em>th stocking point in level <em>j</em>.
+
+<!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%>
+<H4>Implied Constraints</H4>
+
+A variety of implied constraints can be used to improve these basic
+models.
+
+<UL>
+<LI> In an optimal solution, clearly the inventory for every stocking
+     point at the end of the last period must be 0. In both models,
+     therefore, the inventory variables for the last period can be
+     pre-set.
+
+<LI> In an optimal solution, if a node in a higher level places an
+order, at least one of its children must also.  This can be seen by
+considering that if no children make an order, the higher node incurs
+a holding cost that can be removed by delaying the order until a
+subsequent period when at least one child does place an order.
+
+<LI> An upper bound can be derived for the inventory variables in the
+conventional formulation by considering that it is only worth holding
+stock at a node if it is cheaper than ordering it at the next period.
+That is:
+ <UL>
+ <LI><em>I_ijt c_ij <= c0_ij + I_ijt c_W(i,j,j+1)</em>
+ </UL>
+which simplifies to:
+ <UL>
+ <LI><em>I_ijt <= (c0_ij)/(c_ij-c_W(i,j,j+1))</em>
+ </UL>
+This can easily be applied to the echelon model by substituting
+in the equality:
+ <UL>
+ <LI> <em>I_ijt = E_ijt</em> - <TT>sum</TT>_{<em>m</em> in <em>G(i,j)</em>}
+      (<em>I_mt</em>)
+ </UL>
+where <em>G(i,j)</em> is the set of all descendents of stocking point
+<em>i</em> in level <em>j</em>
+
+<LI> Similarly, an upper bound can be derived for
+the order variables at the leaf nodes. The principle is the same:
+it is only worth ordering stock not absorbed by demand at the
+current period if it is cheaper than waiting and ordering in a
+subsequent period. Consider first a bound based on deferring an
+order into the next period:
+ <UL>
+ <LI><EM>(X_i1t-d_i1t)c_i1 <= c0_i1+c_m(X_i1t-d_i1t)</EM>
+ </UL>
+which can be re-arranged:
+ <UL>
+ <LI><EM>X_i1t <= d_i1t + (c0_i1)/(c_i1-c_m)</EM>
+ </UL>
+This can be generalised to consider deferring an order into 
+any of the following periods up to the planning horizon:
+ <UL>
+ <LI><EM>X_i1t <=</EM> <TT>min</TT>_{<EM>t&rsquo; = t .. T</EM>} 
+     <TT>sum</TT>_{<EM>i=t..t&rsquo;</EM>} (<EM>d_i1t</EM>) +
+     (<EM>c0_i1</EM>)/((<EM>t&rsquo;-t+1</EM>)(<EM>c_i1-c_m</EM>))
+ </UL>
+
+<LI> In an optimal solution, an order is only made at a node when the
+inventory is 0. This can be seen by considering that if an order is
+made at a node with some stock at period <EM>t</EM>, the cost incurred
+by holding that stock from period <EM>t-1</EM> to <EM>t</EM> can be
+removed by increasing the size of the order at period <EM>t</EM>.
+
+<LI> The domains of the order (<EM>X</EM>) variables can be reduced
+by exploiting the fact that, in an optimal solution, the sizes of all
+orders made are composed from the demands of the children of the
+associated node for a continuous stretch of time from between the
+current period to the end of the planning horizon. It is therefore
+possible to enumerate the domain elements for each <EM>X</EM> variable,
+replacing the simple upper/lower bounds representation. The time
+complexity of this process is exponential in the number of leaves
+beneath the order node in question, but can usefully be applied when
+the number of leaves is small.
+</UL>
+
+<H4>Code</H4>
+
+A basic Ilog Solver 5.x program to solve the Wagner-Whitin problem can be found below:
+
+<table class="tablesorter">
+<thead>
+<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<a href="Wag-40.essence.html">
+			Wag-40.essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="WagCP.zip">
+			WagCP.zip
+		</a>
+	</td>
+	<td>
+		zip
+	</td>
+	<td>
+	
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="WagHybrid.zip">
+			WagHybrid.zip
+		</a>
+	</td>
+	<td>
+		zip
+	</td>
+	<td>
+	
+	</td>
+</tr>
+</tbody>
+</table>
+
+	</div>
+
+
+
+</body>
+
+</html>

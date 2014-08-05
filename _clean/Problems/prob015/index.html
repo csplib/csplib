@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>015: Schur's Lemma</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob015">prob015</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>015: Schur's Lemma</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob015/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob015/results">Results</a></li>
+
+   	<li><a href="/Problems/prob015/references">References</a></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob015/models">Models</a></li>
+
+   	<li><a href="/Problems/prob015/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob015/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Toby Walsh
+</p>
+
+<p>The problem is to put $n$ balls labelled ${1,&hellip;,n}$ into 3 boxes so that for any triple of balls $(x,y,z)$ with $x+y=z$, not all are in the same box. This has a solution iff $n &lt; 14$.
+The problem can be formulated as an 0-1 problem using the variables, $M_{ij}$ for $i \in {1,&hellip;,n}, j \in {1,2,3}$ with $M_{ij}$ true iff ball $i$ is in box $j$. The constraints are that a ball must be in exactly one box, $M_{i1} + M_{i2} + M_{i3} = 1$ for all $i \in {1,&hellip;,n}$. And for each $x+y=z$ and $j \in {1,2,3}$, not $(M_{xj} \wedge M_{yj} \wedge M_{zj}$). This converts to, $(1-M_{xj}) + (1-M_{yj}) + (1-M_{zj}) \geq 1$ or, $M_{xj} + M_{yj} + M_{zj} \leq 2$.</p>
+<p>One natural generalization is to consider partitioning into $k$ boxes (for $k&gt;3$).</p>
+<p>Ramsey numbers are closely related, and are described in
+<A HREF="../prob017/">prob017</A>.</p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>

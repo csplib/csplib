@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<nav id="navigation">
+<ul>
+  	<li><p>Specification</p></li>
+
+  	 	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+   	<li><a href="/Problems/prob024/results">Results</a></li>
+
+   	<li><a href="/Problems/prob024/references">References</a></li>
+
+   	<li><a href="/Problems/prob024/models">Models</a></li>
+
+   	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+ 	<li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/specification.md">Edit Page</a></li>
+</ul>
+</nav>
+
+
+
+		</div>
+
+
+
+<p class='proposed'>
+Proposed by Toby Walsh
+</p>
+
+<p>Consider two sets of the numbers from 1 to 4. The problem is to arrange  the eight numbers in the two sets into a single sequence in which the two 1&rsquo;s appear one number apart, the two 2&rsquo;s appear two numbers apart, the two 3&rsquo;s appear three numbers apart, and the two 4&rsquo;s appear four numbers apart.</p>
+<p>The problem generalizes to the L(k,n) problem, which is to arrange k sets of numbers 1 to n, so that each appearance of the number m is m numbers on from the last. For example, the L(3,9) problem is to arrange 3 sets of the numbers 1 to 9 so that the first two 1&rsquo;s and the second two 1&rsquo;s appear one number apart, the first two 2&rsquo;s and the second two 2&rsquo;s appear two numbers apart, etc.</p>
+<p>A graphical representation of L(2,4), with black=1, red=2, blue=3 and yellow=4 is given below.</p>
+<p><img alt="" src="assets/langford.gif" /></p>
+
+
+	</div>
+
+
+
+</body>
+
+</html>
