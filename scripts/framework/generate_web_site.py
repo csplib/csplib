@@ -28,7 +28,7 @@ from datetime import datetime
 from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
-from problem import Problem
+from problem import Problem, PageType
 from util import create_zip_file, makedirs_exist_ok
 
 logger = logging.getLogger(__name__)
@@ -101,14 +101,14 @@ def apply_template(template_name, **kwargs):
 dir_util.copy_tree(path.join(base, "web"), output_dir)
 
 
-def create_problem(name, path):
-	prob = Problem(name, path)
+def create_problem(name, path, pagetype):
+	prob = Problem(name, path, pagetype)
 	prob.find_files()
 	return prob
 
 # Init problems, and peform some validation
-probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
-langs = [p for p in [create_problem(p, languages_path) for p in langs_names] if p.is_vaild()]
+probs = [p for p in [create_problem(p, problems_path, PageType.PROBLEM) for p in probs_names] if p.is_vaild()]
+langs = [p for p in [create_problem(p, languages_path, PageType.LANGUAGE) for p in langs_names] if p.is_vaild()]
 
 essences = []
 categories_map = defaultdict(list)

@@ -12,13 +12,32 @@ from util import convert_markdown, makedirs_exist_ok, get_content_and_metadata
 
 logger = logging.getLogger(__name__)
 
+class PageType:
+	PROBLEM = {
+		'class_dir': 'Problems',
+		'base_template': 'problem.html',
+		'parts':[
+			["results", lambda x: str.lower(x['name'])],
+			["data", lambda x: str.lower(x['name'])],
+			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
+		'title': lambda metadata : " ".join(metadata['shortid']) + ": " + " ".join(metadata['title'])
+	}
+	LANGUAGE = {
+		'class_dir': 'Languages',
+		'base_template': 'languages.html',
+		'parts':[
+			["data", lambda x: str.lower(x['name'])],
+			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
+		'title': lambda metadata : " ".join(metadata['title'])
+	}
 
 class Problem(object):
 	"""Hold all the problem's data"""
-	def __init__(self, name, prefix):
+	def __init__(self, name, prefix, pagetype):
 		super(Problem, self).__init__()
 		self.name = name
 		self.prefix = prefix
+		self.pagetype = pagetype
 
 		self.data = []
 		self.models = []
@@ -127,7 +146,7 @@ def process_problem(prob, apply_template, output_dir, class_dir, base):
 	metadata['shortid'] = [prob.name[4:]]
 	prob.metadata = metadata
 
-	title = " ".join(metadata['shortid']) + ": " + " ".join(metadata['title'])
+	title = prob.pagetype['title'](metadata)
 	prob.prob_meta = {"title": title, "prob_base": class_dir + "/" + prob.name, "prob_name": prob.name, "prob": prob}
 
 	#todo: remove?
