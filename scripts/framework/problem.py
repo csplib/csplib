@@ -23,6 +23,7 @@ class Problem(object):
 		self.data = []
 		self.models = []
 		self.results = []
+		self.parts = dict()
 		self.specification = None
 		self.metadata = {}
 		self.base_path = path.join(self.prefix, self.name)
@@ -64,10 +65,65 @@ class Problem(object):
 		return self.specification is not None
 
 
+def write_problem(prob, apply_template, output_dir, base):
+	spec = apply_template("problem.html", problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
+	makedirs_exist_ok(prob.prob_dir)
+
+	def write(data, name):
+		with open(path.join(prob.prob_dir, name), "w", encoding='utf-8') as f:
+			f.write(data)
+
+	write(spec, "index.html")
+
+	def problem_part(part_name, metadata_sorter):
+		raw_htmls = []
+		for part in getattr(prob, part_name):
+			fp = path.join(prob.prob_meta['prob_base'], part_name)
+
+			if (part.endswith('.inline.html')):
+				with open(part, encoding='utf-8') as f:
+					raw_html = f.read()
+				raw_htmls.append(raw_html.strip())
+				continue
+			elif (part.endswith('.inline.md')):
+				(html, _) = convert_markdown(part)
+				raw_htmls.append(html.strip())
+				continue
+
+		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
+									raw_htmls=raw_htmls, **prob.prob_meta)
+
+		write(template, part_name + "/index.html")
+
+	problem_part("results", lambda x: str.lower(x['name']))
+	problem_part("data", lambda x: str.lower(x['name']))
+	problem_part("models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])] )
+
+	# end
+
+	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html",
+		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, **prob.prob_meta)
+	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
+	write(refs, "references/index.html")
+
+	# Cite a problem
+	# pprint(prob_meta)
+	cite = apply_template("problem_cite.html", **prob.prob_meta)
+	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
+	write(cite, "cite/index.html")
+
+	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
+	makedirs_exist_ok(old_path)
+	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
+		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
+
+
 def process_problem(prob, apply_template, output_dir, base):
 	"Creates the problem's html"
 
 	(content, metadata) = convert_markdown(prob.specification)
+	prob.content = content
+
 	if not "category" in metadata:
 		metadata['category'] = ['Unclassified']
 	else:
@@ -79,37 +135,26 @@ def process_problem(prob, apply_template, output_dir, base):
 	prob.metadata = metadata
 
 	title = " ".join(metadata['id']) + ": " + " ".join(metadata['title'])
-	prob_meta = {"title": title, "prob_base": "Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
+	prob.prob_meta = {"title": title, "prob_base": "Problems/" + prob.name, "prob_name": prob.name, "prob": prob}
 
-	spec = apply_template("problem.html", problemContent=content, type="specification", rel_path='specification.md', **prob_meta)
-	prob_dir = path.join(output_dir, "Problems/{0}".format(prob.name))
-	makedirs_exist_ok(prob_dir)
-
+	#todo: remove?
+	prob.prob_dir = path.join(output_dir, "Problems/{0}".format(prob.name))
 	def write(data, name):
-		with open(path.join(prob_dir, name), "w", encoding='utf-8') as f:
+		with open(path.join(prob.prob_dir, name), "w", encoding='utf-8') as f:
 			f.write(data)
 
-	write(spec, "index.html")
 
 	def problem_part(part_name, metadata_sorter):
 		part_metadata = []
-		part_dir = prob_dir + "/" + part_name + "/"
+		part_dir = prob.prob_dir + "/" + part_name + "/"
 		makedirs_exist_ok(part_dir)
 
 		raw_htmls = []
 		for part in getattr(prob, part_name):
-			fp = path.join(prob_meta['prob_base'], part_name)
+			fp = path.join(prob.prob_meta['prob_base'], part_name)
 
-			if (part.endswith('.inline.html')):
-				with open(part, encoding='utf-8'    ) as f:
-					raw_html = f.read()
-				raw_htmls.append(raw_html.strip())
+			if (part.endswith('.inline.html')) or (part.endswith('.inline.md')):
 				continue
-			elif (part.endswith('.inline.md')):
-				(html, _) = convert_markdown(part)
-				raw_htmls.append(html.strip())
-				continue
-
 
 			(content, metadata, url) = get_content_and_metadata(part, fp)
 			logger.debug( (part, metadata, content[0:5]))
@@ -118,7 +163,7 @@ def process_problem(prob, apply_template, output_dir, base):
 				filename = name + ".html"
 				res = apply_template("file.html", problemContent=content,
 					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name),
-					**prob_meta)
+					**prob.prob_meta)
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))
 			else:
@@ -129,8 +174,9 @@ def process_problem(prob, apply_template, output_dir, base):
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
 		part_metadata.sort(key = metadata_sorter)
-		template = apply_template(part_name + ".html", metadata=part_metadata, rel_path=part_name,
-									raw_htmls=raw_htmls, **prob_meta)
+		prob.parts[part_name] = part_metadata
+		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
+									raw_htmls=raw_htmls, **prob.prob_meta)
 
 		write(template, part_name + "/index.html")
 
@@ -142,38 +188,21 @@ def process_problem(prob, apply_template, output_dir, base):
 	# Copying assets bindly
 	prob_dir_in = path.join(base, "Problems/{0}".format(prob.name))
 	assets_in = path.join(prob_dir_in, "assets")
-	assets_out = path.join(prob_dir, "assets")
+	assets_out = path.join(prob.prob_dir, "assets")
 
 	if path.exists(assets_in):
 		logger.debug("Copying assets from %s to %s", assets_in, assets_out )
 		dir_util.copy_tree(assets_in, assets_out)
 
 
-	has_bibtex=None
-	bib_html=""
-	ref_notes_html=""
+	prob.has_bibtex=None
+	prob.bib_html=""
+	prob.ref_notes_html=""
 	if prob.bib:
-		makedirs_exist_ok(path.join(prob_dir, "references"))
-		file_util.copy_file(prob.bib.bibfile, path.join(prob_dir, "references",  prob.name +"-refs.bib"))
-		has_bibtex = True
-		bib_html = prob.bib.to_html(apply_template)
+		makedirs_exist_ok(path.join(prob.prob_dir, "references"))
+		file_util.copy_file(prob.bib.bibfile, path.join(prob.prob_dir, "references",  prob.name +"-refs.bib"))
+		prob.has_bibtex = True
+		prob.bib_html = prob.bib.to_html(apply_template)
 
 	if prob.ref_notes:
-		(ref_notes_html, _) = convert_markdown(prob.ref_notes)
-
-	refs = apply_template("references.html", references=bib_html, rel_path="references.html",
-		has_bibtex=has_bibtex, notes=ref_notes_html, **prob_meta)
-	makedirs_exist_ok(path.join(prob_dir, "references"))
-	write(refs, "references/index.html")
-
-	# Cite a problem
-	# pprint(prob_meta)
-	cite = apply_template("problem_cite.html", **prob_meta)
-	makedirs_exist_ok(path.join(prob_dir, "cite"))
-	write(cite, "cite/index.html")
-
-
-	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
-	makedirs_exist_ok(old_path)
-	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
-		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
+		(prob.ref_notes_html, _) = convert_markdown(prob.ref_notes)

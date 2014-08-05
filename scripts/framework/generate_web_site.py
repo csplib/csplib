@@ -130,6 +130,8 @@ for prob in sorted(probs):
 		logger.debug(prob)
 		logger.debug("")
 		problem.process_problem(prob, apply_template, output_dir, base)
+		problem.write_problem(prob, apply_template, output_dir, base)
+
 		for category in prob.metadata['category']:
 			categories_map[category].append(prob)
 
@@ -187,4 +189,3 @@ with open(probs_path, "w", encoding='utf-8') as f:
 
 # Other data
 create_zip_file(path.join(output_dir, "essences.zip"), essences)
-
