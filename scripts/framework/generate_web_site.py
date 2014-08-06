@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 import sys
+import json
 
 from copy import deepcopy
 
@@ -180,9 +181,9 @@ def model_uses_language(model, language):
 		if type in language.metadata['title']:
 			return True
 		# Now try to match the file extension
-		for ext in language.metadata['extensions']:
+		for ext in json.loads("".join(language.metadata['extensions'])):
 			if type == ext:
-				mode['meta']['type'] = language.metadata['Title']
+				model['meta']['type'] = language.metadata['title']
 				return True
 	return False
 
@@ -201,11 +202,6 @@ for p in probs:
 					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
 					l.parts['models'].append(clone)
 					break
-	print("---\n",p,"\n---\n")
-
-for l in langs:
-	print("---\n",l,"\n---\n")
-
 
 write_pages(probs)
 write_pages(langs)
