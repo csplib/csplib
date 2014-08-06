@@ -1,8 +1,0 @@
-The format for the data file is as follows: 
-
-<UL>
-<LI>&lt;no sizes&gt; &lt;sizes&gt;
-<LI>&lt;no colours&gt;
-<LI>&lt;no orders&gt;
-<LI>&lt;order size order colour&gt;*
-</UL>
