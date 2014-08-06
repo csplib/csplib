@@ -22,6 +22,7 @@ import os, os.path as path
 import jinja2_exts
 import bibtex
 import problem
+import language
 
 from collections import defaultdict
 from datetime import datetime
@@ -29,6 +30,7 @@ from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
 from problem import Problem
+from language import Language
 from util import create_zip_file
 
 logger = logging.getLogger(__name__)
@@ -78,6 +80,11 @@ logger.info("Output:%s", output_dir)
 problems_path = path.join(base, "Problems")
 probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
 
+# languages paths
+language_path = path.join(base, "Programs_and_Languages")
+lang_names = set(f for f in os.listdir(language_path) if path.isdir(path.join(language_path, f)))
+
+
 # If args are given, only build the specifed problems
 if args.only_probs:
 	to_build = set(args.only_probs)
@@ -105,6 +112,15 @@ def create_problem(name, path):
 
 # Init problems, and peform some validation
 probs = [p for p in [create_problem(p, problems_path) for p in probs_names] if p.is_vaild()]
+
+
+def create_language(name, path):
+	prob = Language(name, path)
+	prob.find_files()
+	return prob
+
+# Init problems, and peform some validation
+langs = [p for p in [create_language(p, language_path) for p in lang_names] if p.is_vaild()]
 
 
 essences = []
@@ -146,7 +162,6 @@ for prob in sorted(probs):
 			if creations_times[prob.name].strip():
 				creation = datetime.fromtimestamp(float(creations_times[prob.name]))
 				months_map[(creation.year, creation.month)].append( (creation, prob) )
-
 	except Exception as e:
 		logger.info("Failure in problem %s", prob.name)
 		logger.info("Error: %s", e)
@@ -154,19 +169,31 @@ for prob in sorted(probs):
 
 logger.debug("authors %s", authors_map.keys())
 
+# Creates the output for the languages
+for lang in sorted(langs):
+	try:
+		logger.debug("")
+		logger.debug("Processing lang %s", lang.name)
+		logger.debug(lang)
+		logger.debug("")
+		language.process_language(lang, apply_template, output_dir, base)
+
+	except Exception as e:
+		logger.info("Failure in language %s", lang.name)
+		logger.info("Error: %s", e)
+		raise
 
 
 # Other standalone pages
 
-index_path = path.join(output_dir, "index.html")
-res = apply_template("index.html",
-	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
-with open(index_path, "w", encoding='utf-8') as f:
-	f.write(res)
-
 probs_path = path.join(output_dir, "Problems/index.html")
 res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w", encoding='utf-8') as f:
+	f.write(res)
+1
+langs_path = path.join(output_dir, "Languages/index.html")
+res = apply_template("languages.html", languages=sorted(langs, key=lambda x: x.metadata["id"]))
+with open(langs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 probs_path = path.join(output_dir, "Problems/categories.html")
@@ -182,6 +209,12 @@ with open(probs_path, "w", encoding='utf-8') as f:
 probs_path = path.join(output_dir, "updates.html")
 res = apply_template("updates.html", mapping=months_map)
 with open(probs_path, "w", encoding='utf-8') as f:
+	f.write(res)
+
+index_path = path.join(output_dir, "index.html")
+res = apply_template("index.html",
+	num_problems=len(probs), num_categories=len(categories_map), num_authors=len(authors_map))
+with open(index_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 
