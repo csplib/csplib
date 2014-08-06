@@ -1,4 +1,5 @@
 Title: Essence
+Shortname: Essence
 Extensions: [essence]
 
 

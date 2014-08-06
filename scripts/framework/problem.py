@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class PageType:
 	PROBLEM = {
+		'type': 'Problem',
 		'class_dir': 'Problems',
 		'base_template': 'problem.html',
 		'parts':[
@@ -23,6 +24,7 @@ class PageType:
 		'title': lambda metadata : " ".join(metadata['shortid']) + ": " + " ".join(metadata['title'])
 	}
 	LANGUAGE = {
+		'type': 'Language',
 		'class_dir': 'Languages',
 		'base_template': 'language.html',
 		'parts':[
