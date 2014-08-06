@@ -87,7 +87,7 @@ class Problem(object):
 
 
 def write_problem(prob, apply_template, output_dir, base):
-	spec = apply_template(prob.pagetype['base_template'], problemContent=prob.content, type="specification", rel_path='specification.md', **prob.prob_meta)
+	spec = apply_template(prob.pagetype['base_template'], problemContent=prob.content, type="specification", rel_path='specification.md', prob=prob, **prob.prob_meta)
 	makedirs_exist_ok(prob.prob_dir)
 
 	def write(data, name):
@@ -111,7 +111,7 @@ def write_problem(prob, apply_template, output_dir, base):
 				raw_htmls.append(html.strip())
 				continue
 
-		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name,
+		template = apply_template(part_name + ".html", metadata=prob.parts[part_name], rel_path=part_name, prob=prob,
 									raw_htmls=raw_htmls, base_template=prob.pagetype['base_template'], **prob.prob_meta)
 
 		write(template, part_name + "/index.html")
@@ -119,14 +119,14 @@ def write_problem(prob, apply_template, output_dir, base):
 	for p in prob.pagetype['parts']:
 		problem_part(p[0], p[1])
 
-	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html",
+	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html", prob=prob,
 		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, base_template=prob.pagetype['base_template'], **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
 	write(refs, "references/index.html")
 
 	# Cite a problem
 	# pprint(prob_meta)
-	cite = apply_template("problem_cite.html", base_template=prob.pagetype['base_template'], **prob.prob_meta)
+	cite = apply_template("problem_cite.html", base_template=prob.pagetype['base_template'], prob=prob, **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
@@ -149,7 +149,7 @@ def process_problem(prob, apply_template, output_dir, base):
 	prob.metadata = metadata
 
 	title = prob.pagetype['title'](metadata)
-	prob.prob_meta = {"title": title, "prob_base": prob.pagetype['class_dir'] + "/" + prob.name, "prob_name": prob.name, "prob": prob}
+	prob.prob_meta = {"title": title, "prob_base": prob.pagetype['class_dir'] + "/" + prob.name, "prob_name": prob.name}
 
 	#todo: remove?
 	prob.prob_dir = path.join(output_dir, prob.pagetype['class_dir'] +"/{0}".format(prob.name))
@@ -176,7 +176,7 @@ def process_problem(prob, apply_template, output_dir, base):
 				name = path.basename(part)
 				filename = name + ".html"
 				res = apply_template("file.html", problemContent=content,
-					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name),
+					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name), prob=prob,
 					**prob.prob_meta)
 				write(res, part_name + "/" + filename)
 				file_util.copy_file(part, path.join(part_dir, name))

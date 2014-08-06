@@ -134,7 +134,6 @@ def generate_pages(pages):
 			logger.debug(page)
 			logger.debug("")
 			problem.process_problem(page, apply_template, output_dir, base)
-			problem.write_problem(page, apply_template, output_dir, base)
 
 			for category in page.metadata.get('category', []):
 				categories_map[category].append(page)
@@ -159,9 +158,27 @@ def generate_pages(pages):
 			logger.info("Error: %s", e)
 			raise
 
-generate_pages(probs)
+def write_pages(pages):
+	for page in sorted(pages):
+		try:
+			logger.debug("")
+			logger.debug("Writing page %s", page.name)
+			logger.debug(page)
+			logger.debug("")
+			problem.write_problem(page, apply_template, output_dir, base)
 
+		except Exception as e:
+			logger.info("Failure in page %s", page.name)
+			logger.info("Error: %s", e)
+			raise
+generate_pages(probs)
 generate_pages(langs)
+
+#for p in probs:
+#	print(p)
+
+write_pages(probs)
+write_pages(langs)
 
 for prob in probs:
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
