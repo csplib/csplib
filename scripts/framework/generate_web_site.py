@@ -177,8 +177,13 @@ def write_pages(pages):
 # Detects if a particular model uses a given language (given as a Problem)
 def model_uses_language(model, language):
 	for type in model['meta']['type']:
-		if type == language.prob_meta['prob_name']:
+		if type in language.metadata['title']:
 			return True
+		# Now try to match the file extension
+		for ext in language.metadata['extensions']:
+			if type == ext:
+				mode['meta']['type'] = language.metadata['Title']
+				return True
 	return False
 
 
@@ -186,16 +191,20 @@ generate_pages(probs)
 generate_pages(langs)
 
 for p in probs:
-	for model in p.parts['models']:
-		for l in langs:
-			if model_uses_language(model, l):
-				model['meta']['type_link'] = l.prob_meta['prob_base']
-				clone = deepcopy(model)
-				clone['meta']['problem'] = l.prob_meta['title']
-				clone['meta']['problem_link'] = l.prob_meta['prob_base']
-				l.parts['models'].append(clone)
-				break
-	# print("---\n",p,"\n---\n")
+	for pages in ['models','data']:
+		for model in p.parts[pages]:
+			for l in langs:
+				if model_uses_language(model, l):
+					model['meta']['type_link'] = "../../../"+l.prob_meta['prob_base']
+					clone = deepcopy(model)
+					clone['meta']['type'] = [p.prob_meta['title']]
+					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
+					l.parts['models'].append(clone)
+					break
+	print("---\n",p,"\n---\n")
+
+for l in langs:
+	print("---\n",l,"\n---\n")
 
 
 write_pages(probs)

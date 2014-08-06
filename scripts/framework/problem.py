@@ -21,7 +21,8 @@ class PageType:
 			["results", lambda x: str.lower(x['name'])],
 			["data", lambda x: str.lower(x['name'])],
 			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
-		'title': lambda metadata : " ".join(metadata['shortid']) + ": " + " ".join(metadata['title'])
+		'title': lambda metadata : " ".join(metadata['shortid']) + ": " + " ".join(metadata['title']),
+		'model_table_headers': [ 'File', 'Type', 'Notes' ]
 	}
 	LANGUAGE = {
 		'type': 'Language',
@@ -30,7 +31,8 @@ class PageType:
 		'parts':[
 			["data", lambda x: str.lower(x['name'])],
 			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
-		'title': lambda metadata : " ".join(metadata['title'])
+		'title': lambda metadata : " ".join(metadata['title']),
+		'model_table_headers': [ 'File', 'Problem', 'Notes' ]
 	}
 
 class Problem(object):
@@ -97,6 +99,7 @@ def write_problem(prob, apply_template, output_dir, base):
 	write(spec, "index.html")
 
 	def problem_part(part_name, metadata_sorter):
+		prob.parts[part_name].sort(key = metadata_sorter)
 		raw_htmls = []
 		for part in getattr(prob, part_name):
 			fp = path.join(prob.prob_meta['prob_base'], part_name)
@@ -187,7 +190,6 @@ def process_problem(prob, apply_template, output_dir, base):
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
-		part_metadata.sort(key = metadata_sorter)
 		prob.parts[part_name] = part_metadata
 
 	for p in prob.pagetype['parts']:

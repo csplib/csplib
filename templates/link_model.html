@@ -1,6 +1,6 @@
 <table class="tablesorter">
 <thead>
-<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+<tr> {% for label in prob.pagetype.model_table_headers %} <th>{{label}}</th> {% endfor %} </tr>
 </thead>
 <tbody>
 {% for data in metadata %}
