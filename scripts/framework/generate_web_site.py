@@ -4,7 +4,6 @@
 
 from __future__ import print_function
 import sys
-import json
 
 from copy import deepcopy
 
@@ -181,7 +180,7 @@ def model_uses_language(model, language):
 		if type in language.metadata['title']:
 			return True
 		# Now try to match the file extension
-		for ext in json.loads("".join(language.metadata['extensions'])):
+		for ext in language.metadata['extensions']:
 			if type == ext:
 				model['meta']['type'] = language.metadata['title']
 				return True

@@ -1,5 +1,5 @@
 Title: Minion Input Language
-Extensions: ["minion"]
+Extensions: minion
 
 Minion Input Language is the language accepted by the Minion constraint solver. It is a flat format, similar in design to FlatZinc.
 
