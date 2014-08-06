@@ -5,6 +5,8 @@
 from __future__ import print_function
 import sys
 
+from copy import deepcopy
+
 if sys.version_info[0] == 2:
 	if sys.version_info[1] < 6:
 		print('Only python 2.6+ supported', file=sys.stderr)
@@ -171,11 +173,30 @@ def write_pages(pages):
 			logger.info("Failure in page %s", page.name)
 			logger.info("Error: %s", e)
 			raise
+
+# Detects if a particular model uses a given language (given as a Problem)
+def model_uses_language(model, language):
+	for type in model['meta']['type']:
+		if type == language.prob_meta['prob_name']:
+			return True
+	return False
+
+
 generate_pages(probs)
 generate_pages(langs)
 
-#for p in probs:
-#	print(p)
+for p in probs:
+	for model in p.parts['models']:
+		for l in langs:
+			if model_uses_language(model, l):
+				model['meta']['type_link'] = l.prob_meta['prob_base']
+				clone = deepcopy(model)
+				clone['meta']['problem'] = l.prob_meta['title']
+				clone['meta']['problem_link'] = l.prob_meta['prob_base']
+				l.parts['models'].append(clone)
+				break
+	# print("---\n",p,"\n---\n")
+
 
 write_pages(probs)
 write_pages(langs)

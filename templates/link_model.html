@@ -11,7 +11,13 @@
 		</a>
 	</td>
 	<td>
+		{% if data['meta']['type_link'] %}
+		<a href="{{data['meta']['type_link']}}">
+		{% endif %}
 		{{data['meta']['type'] | join(', ')}}
+		{% if data['meta']['type_link'] %}
+		</a>
+		{% endif %}
 	</td>
 	<td>
 	{{data['meta']['title'] | join(' ')
