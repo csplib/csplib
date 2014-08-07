@@ -1,6 +1,6 @@
 <table class="tablesorter">
 <thead>
-<tr> <th>File</th> <th>Type</th> <th>Notes</th> </tr>
+<tr> {% for label in prob.pagetype.model_table_headers %} <th>{{label}}</th> {% endfor %} </tr>
 </thead>
 <tbody>
 {% for data in metadata %}
@@ -11,7 +11,13 @@
 		</a>
 	</td>
 	<td>
+		{% if data['meta']['type_link'] %}
+		<a href="{{data['meta']['type_link']}}">
+		{% endif %}
 		{{data['meta']['type'] | join(', ')}}
+		{% if data['meta']['type_link'] %}
+		</a>
+		{% endif %}
 	</td>
 	<td>
 	{{data['meta']['title'] | join(' ')
