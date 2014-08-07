@@ -2,9 +2,10 @@ Title: Essence
 Extensions: essence
 
 
-ESSENCE is a language we are developing; it allows a combinatorial (optimisation) problem to be sepcified at a level of abstraction above that at which modelling decisions are made. Version 1.1.0 of the language is now fully defined.
+ESSENCE is a high-level constraint specification language; it allows a combinatorial (optimisation) problem to be sepcified at a level of abstraction above that at which modelling decisions are made. Version 1.1.0 of the language is now fully defined.
 
-There is one available implementation of ESSENCE:
+The most notable feature of ESSENCE is the support for high-level nested types, for example a 'set (size 3) of partitions of int(1..20)'.
 
-* [http://ozgur.host.cs.st-andrews.ac.uk/conjure/](CONJURE)
-	CONJURE is a complete implementation of the ESSENCE language, which maps ESSENCE to ESSENCE'.
+There has been one publicly available implementation of ESSENCE:
+
+* [http://ozgur.host.cs.st-andrews.ac.uk/conjure/](CONJURE) is a complete implementation of the ESSENCE language, which maps ESSENCE to ESSENCE'. CONJURE is described in cite{akgunPhDThesis}
