@@ -15,7 +15,10 @@ if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]];
   git config --global user.name "csplib-robot"
 
   #using token clone gh-pages branch
+  set +x
+  echo 'git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null'
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null
+  set -x
 
   #go into diractory and copy data we're interested in to that directory
   cd gh-pages
@@ -33,6 +36,7 @@ fi
 
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; then
+    export CSPLIB_ROBOT_TOKEN=22366dc4d9bc7d089d70526417e1ac4c69f96dcc
 
     # Only upload a PR which only edited the Problems or Languages pages
     if ( ! git diff --name-only --find-renames HEAD~1 | grep -qv 'Problems' | grep -qv 'Languages' ); then
@@ -48,7 +52,10 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             git config --global user.name "csplib-robot"
 
             #using token clone gh-pages branch
-            git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null
+            set +x
+            echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null'
+            git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null
+            set -x
 
             #go into diractory and copy data we're interested in to that directory
             cd gh-pages
