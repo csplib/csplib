@@ -197,7 +197,7 @@ for p in probs:
 				if model_uses_language(model, l):
 					model['meta']['type_link'] = "../../../"+l.prob_meta['prob_base']
 					clone = deepcopy(model)
-					clone['filename'] = "../../../" + p.prob_meta['prob_base'] + "/models/" + clone['filename']
+					clone['filename'] = "../../../" + p.prob_meta['prob_base'] + "/" + pages + "/" + clone['filename']
 					clone['meta']['type'] = [p.prob_meta['title']]
 					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
 					l.parts[pages].append(clone)
