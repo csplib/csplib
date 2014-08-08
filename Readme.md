@@ -74,4 +74,4 @@ where `probs` is a comma separated list e.g
 Development builds
 ------------------
 
-Development builds of every branch is located at http://csplib.github.io/csplib-builds/
+Development builds of every branch and pull requests are located at http://csplib.github.io/csplib-builds/
