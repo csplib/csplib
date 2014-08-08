@@ -8,11 +8,11 @@ This problem arises from a colour printing firm which produces a variety of prod
 The following example is based on data from an order for cartons for different varieties of dry cat-food.
 
 Variation 	|	 Order Quantity
--------  	|   --------------
+------- 	|   --------------
 Liver	 	|	 250,000
 Rabbit	 	|	 255,000
 Tuna	 	|	 260,000
-Chicken Twin|	 500,000
+Chicken Twin |	 500,000
 Pilchard Twin|	 500,000
 Chicken		|	 800,000
 Pilchard	|  1,100,000
