@@ -2,6 +2,7 @@
 
 if ( python3 -c 'import sys; sys.exit((sys.version_info[0] == 3 and sys.version_info[1] >=3 ))' ); then
 	echo "Python 3.3+ is required"
+	exit 1
 fi
 
 
