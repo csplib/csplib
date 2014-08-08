@@ -14,7 +14,7 @@ The format of the data files is as follows:
 
 This is the example given in (Dincbas et al., ECAI88):
 
-<pre>
+```
 10 5 6
 1 2 1 2 1
 2 3 3 5 5
@@ -24,7 +24,7 @@ This is the example given in (Dincbas et al., ECAI88):
 3 2 0 1 0 1 0 
 4 2 1 0 1 0 0 
 5 2 1 1 0 0 0 
-</pre>
+```
 
 A valid sequence for this set of cars is:
 
