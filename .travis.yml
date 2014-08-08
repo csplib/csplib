@@ -12,6 +12,6 @@ notifications:
     on_failure: always
 env:
   global:
-    secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
-
+  - secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
+  - secure: OeeK7/if0ndwZ42IjO8A4+KaIkZu9knjn21SmeR53UmGor20zNRcNkw1oI835P1wrkTIQv+ip6BFuTlcOnMJOTD13sRq9QuHLynKIw4HciYYkaj0a72TWefc8z/W8BbLexHjNtZ+ypnQNrL4i20im7Cblszx7v1tkd3C/iiSQ4g=
 after_success: ./scripts/support/upload_to_csplib-builds.sh
