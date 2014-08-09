@@ -36,7 +36,8 @@ fi
 
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; then
-    export CSPLIB_ROBOT_TOKEN=22366dc4d9bc7d089d70526417e1ac4c69f96dcc
+    # This token can only push to csplib-PR-builds
+    export CSPLIB_ROBOT_TOKEN=c924c9149eeed0c238ba3076b838e5b85daa5918
 
     # Only upload a PR which only edited the Problems or Languages pages
     if ( ! git diff --name-only --find-renames HEAD~1 | grep -qv 'Problems' | grep -qv 'Languages' ); then
@@ -53,8 +54,8 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
 
             #using token clone gh-pages branch
             set +x
-            echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null'
-            git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-builds.git  gh-pages > /dev/null
+            echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null'
+            git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null
             set -x
 
             #go into diractory and copy data we're interested in to that directory
@@ -66,7 +67,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             #add, commit and push files
             git add -f .
             git commit -m "Travis build $TRAVIS_BUILD_NUMBER PR csplib/#$TRAVIS_PULL_REQUEST Commit csplib/csplib@$TRAVIS_COMMIT Python $TRAVIS_PYTHON_VERSION Commit Range $TRAVIS_COMMIT_RANGE branch $TRAVIS_BRANCH"
-            # git push -fq origin gh-pages > /dev/null
+            git push -fq origin gh-pages > /dev/null
 
             echo -e "<<Finished>>\n"
 
