@@ -137,11 +137,12 @@ def generate_pages(pages):
 			logger.debug("")
 			problem.process_problem(page, apply_template, output_dir, base)
 
-			for category in page.metadata.get('category', []):
-				categories_map[category].append(page)
+			if page.pagetype['type'] == 'Problem':
+				for category in page.metadata.get('category', []):
+					categories_map[category].append(page)
 
-			for author in page.metadata.get('proposer', []):
-				authors_map[author].append(page)
+				for author in page.metadata.get('proposer', []):
+					authors_map[author].append(page)
 
 			def fix_path(fp):
 				"""filepath inside zip"""
