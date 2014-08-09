@@ -38,10 +38,10 @@ logger = logging.getLogger(__name__)
 
 # Option parser
 parser = argparse.ArgumentParser(description='Builds csplib')
-parser.add_argument("only_probs", nargs='*', metavar='Problems', help='Optional, Build only the specifed problems')
+parser.add_argument("only", nargs='*', metavar='Prob/Lang', help='Optional, Build only the specified problems/languages')
 parser.add_argument("--debug",  action='store_true', help='Print debug output')
-parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, useful for github pages')
-parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for github pages')
+parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, useful for Github pages')
+parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for Github pages')
 args = parser.parse_args()
 
 # set up logging
@@ -84,9 +84,10 @@ languages_path = path.join(base, "Languages")
 langs_names = set(f for f in os.listdir(languages_path) if path.isdir(path.join(languages_path, f)))
 
 # If args are given, only build the specifed problems
-if args.only_probs:
-	to_build = set(args.only_probs)
+if args.only:
+	to_build = set(args.only)
 	probs_names = probs_names & to_build
+	langs_names = langs_names & to_build
 
 # Setup up templates
 template_env = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True, lstrip_blocks=True)

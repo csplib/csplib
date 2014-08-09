@@ -1,7 +1,5 @@
-
-
 build: ./scripts/env creation_dates
-	# activate virtual python Environment
+	# activate virtual python environment
 	. ./scripts/env/bin/activate && \
 	./scripts/framework/generate_web_site.py
 	# built website
@@ -13,6 +11,7 @@ creation_dates:
 ./scripts/env:
 	# create virtual python Environment
 	./scripts/support/setup.sh
+
 serve:
 	# open localhost:8000 in your browser
 	# Crtl-C to finish
@@ -24,19 +23,21 @@ build_for_gh_pages: ./scripts/env
 	# built website
 
 
+
+
 # Build specific problems and serve locally
 .PHONY: only
 only: ./scripts/env creation_dates only_build serve
 
-# to use a comma in $(subst you need to put it in a varible
+# to use a comma in $(subst you need to put it in a variable
 comma :=,
 only_build:
 	. ./scripts/env/bin/activate && \
-	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${probs})
+	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${build})
 
 debug: 
 	. ./scripts/env/bin/activate && \
-	ipython --pdb ./scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${probs})
+	ipython --pdb ./scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${build})
 
 clean:
 	rm -rf _deploy
