@@ -14,7 +14,7 @@ if not gh:
 
 issue_num=os.getenv('TRAVIS_PULL_REQUEST')
 place="PR-{}".format(issue_num)
-text="Build preview located at http://csplib.github.io/csplib-builds"
+text="Build preview located at http://csplib.github.io/csplib-PR-builds"
 
 pr = gh.issue('csplib', 'csplib', issue_num)
 already_added = any( i for i in pr.iter_comments() 
