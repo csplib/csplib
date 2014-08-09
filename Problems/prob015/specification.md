@@ -1,6 +1,6 @@
 Title:    Schur's Lemma
 Proposer: Toby Walsh
-Category:
+Category: Testing
 
 
 The problem is to put $n$ balls labelled ${1,...,n}$ into 3 boxes so that for any triple of balls $(x,y,z)$ with $x+y=z$, not all are in the same box. This has a solution iff $n < 14$.
