@@ -48,7 +48,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             cp -R _deploy $HOME/_deploy
 
             #go to home and setup git
-            cd $HOME
+            pushd $HOME
             git config --global user.email "admin@csplib.org"
             git config --global user.name "csplib-robot"
 
@@ -59,7 +59,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             set -x
 
             #go into diractory and copy data we're interested in to that directory
-            cd gh-pages
+            pushd gh-pages
             cp -Rf $HOME/_deploy/* .
 
             ./create_index_page.sh
@@ -70,6 +70,14 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             git push -fq origin gh-pages > /dev/null
 
             echo -e "<<Finished>>\n"
+            
+            popd
+            popd
+            if [[ " $(openssl sha1 ./scripts/support/add_preview_link_to_pr.py) " == " SHA1(./scripts/support/add_preview_link_to_pr.py)= 6cd35a32201e0abff5e9a9013ae4bb64ad598f0e " ]]; then
+                  ./scripts/support/add_preview_link_to_pr.py
+            else
+                echo "./scripts/support/add_preview_link_to_pr.py has been edited" 
+            fi
 
         fi
     fi
