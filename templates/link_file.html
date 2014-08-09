@@ -1,15 +1,34 @@
+<table class="tablesorter">
+<thead>
+<tr> {% for label in prob.pagetype.model_table_headers %} <th>{{label}}</th> {% endfor %} </tr>
+</thead>
+<tbody>
 {% for data in metadata %}
-<p> 
-	<a href="{{ data['filename'] }}">
-		{{data['name']}}
-	</a> 
-	{{data['meta']['title'] | join(' ') 
-	 | replace(' results/' ,' ' + prob_base + '/results/') 
+<tr>
+	<td>
+		<a href="{{ data['filename'] }}">
+			{{data['name']}}
+		</a>
+	</td>
+	<td>
+		{% if data['meta']['type_link'] %}
+		<a href="{{data['meta']['type_link']}}">
+		{% endif %}
+		{{data['meta']['type'] | join(', ')}}
+		{% if data['meta']['type_link'] %}
+		</a>
+		{% endif %}
+	</td>
+	<td>
+	{{data['meta']['title'] | join(' ')
 	 | replace(' data/' ,' ' + prob_base + '/data/') 
 	 | replace(' models/' ,' ' + prob_base + '/models/') 
 	 | replace(' references/' ,' ' + prob_base + '/references/') 
 	 | replace(' assets/' ,' ' + prob_base + '/assets/') 
 	 | replace(' models/' ,' ' + prob_base + '/models/') 
 	 | urlize2 }}
-</p>
+	</td>
+</tr>
 {% endfor %}
+</tbody>
+</table>

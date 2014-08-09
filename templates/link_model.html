@@ -21,7 +21,11 @@
 	</td>
 	<td>
 	{{data['meta']['title'] | join(' ')
-	 | replace(' models/' ,' ' + prob_base + '/models/')
+	 | replace(' data/' ,' ' + prob_base + '/data/') 
+	 | replace(' models/' ,' ' + prob_base + '/models/') 
+	 | replace(' references/' ,' ' + prob_base + '/references/') 
+	 | replace(' assets/' ,' ' + prob_base + '/assets/') 
+	 | replace(' models/' ,' ' + prob_base + '/models/') 
 	 | urlize2 }}
 	</td>
 </tr>
