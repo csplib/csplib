@@ -2,8 +2,8 @@
 Title:    Balanced Incomplete Block Designs
 Proposer: Steven Prestwich
 Category:
-	- Design and configuration
-	- Combinatorial mathematics
+    - Design and configuration
+    - Combinatorial mathematics
 ---
 
 Balanced Incomplete Block Design (BIBD) generation is a standard combinatorial problem from design theory, originally used in the design of statistical experiments but since finding other applications such as cryptography. It is a special case of Block Design, which also includes Latin Square problems.

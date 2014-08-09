@@ -1,11 +1,11 @@
 ---
 Title:    Minimum Energy Broadcast (MEB)
 Proposer: 
-	- David A. Burke
-	- Kenneth N. Brown
+    - David A. Burke
+    - Kenneth N. Brown
 Category: 
-	- Bin packing
-	- Partitioning and related problems
+    - Bin packing
+    - Partitioning and related problems
 ---
 
 

@@ -2,8 +2,8 @@
 Title:    Tank Allocation
 Proposer: Pierre Schaus
 Category: 
-	- Bin packing
-	- Partitioning and related problems
+    - Bin packing
+    - Partitioning and related problems
 ---
           
 

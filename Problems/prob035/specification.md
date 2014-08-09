@@ -1,9 +1,9 @@
 ---
 Title:    "Molnar's Problem"
 Proposer: 
-	- Alan Frisch
-	- Chris Jefferson
-	- Ian Miguel
+    - Alan Frisch
+    - Chris Jefferson
+    - Ian Miguel
 Category: Combinatorial mathematics
 ---
 

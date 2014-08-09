@@ -1,8 +1,8 @@
 ---
 Title:    Diamond-free Degree Sequences
 Proposer: 
-	- Alice Miller
-	- Patrick Prosser
+    - Alice Miller
+    - Patrick Prosser
 Category: Combinatorial mathematics
 ---
 

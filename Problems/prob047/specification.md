@@ -1,10 +1,10 @@
 ---
 Title:    Supply Chain Coordinations
 Proposer: 
-	- David A. Burke
-	- Kenneth N. Brown
-	- Mustafa Dogru
-	- Ben Lowe
+    - David A. Burke
+    - Kenneth N. Brown
+    - Mustafa Dogru
+    - Ben Lowe
 Category: 
 ---
 

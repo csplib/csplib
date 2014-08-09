@@ -2,8 +2,8 @@
 Title:    Prime queen attacking problem
 Proposer: Christian Bessiere
 Category: 
-	- Combinatorial mathematics
-	- Games and puzzles
+    - Combinatorial mathematics
+    - Games and puzzles
 ---
 
 

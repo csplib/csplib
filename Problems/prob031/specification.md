@@ -1,8 +1,8 @@
 ---
 Title:    Rack Configuration Problem
 Proposer: 
-	- Zeynep Kiziltan
-	- Brahim Hnich
+    - Zeynep Kiziltan
+    - Brahim Hnich
 Category: Design and configuration
 ---
 

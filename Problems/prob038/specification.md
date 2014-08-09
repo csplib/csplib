@@ -2,8 +2,8 @@
 Title:    Steel Mill Slab Design
 Proposer: Ian Miguel
 Category: 
-	- Design and configuration
-	- Bin packing
+    - Design and configuration
+    - Bin packing
 ---
 
 <h3>Specification - Type 1</h3>

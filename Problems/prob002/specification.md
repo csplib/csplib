@@ -2,8 +2,8 @@
 Title:    Template Design
 Proposer: Barbara Smith 
 Category: 
-	- Bin packing
-	- Partitioning and related problems
+    - Bin packing
+    - Partitioning and related problems
 ---
 
 

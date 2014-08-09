@@ -1,12 +1,12 @@
 ---
 Title:    Fixed Length Error Correcting Codes
 Proposer: 
-	- Alan Frisch
-	- Chris Jefferson
-	- Ian Miguel
+    - Alan Frisch
+    - Chris Jefferson
+    - Ian Miguel
 Category: 
-	- Design and configuration
-	- Combinatorial mathematics
+    - Design and configuration
+    - Combinatorial mathematics
 ---
 
 A fixed length error correcting code C of length n over an alphabet F

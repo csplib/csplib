@@ -1,10 +1,10 @@
 ---
 Title:    Peg Solitaire
 Proposer:
-	- Chris Jefferson
-	- Angela Miguel
-	- Ian Miguel
-	- Armagan Tarmin
+    - Chris Jefferson
+    - Angela Miguel
+    - Ian Miguel
+    - Armagan Tarmin
 Category: Games and puzzles
 ---
 

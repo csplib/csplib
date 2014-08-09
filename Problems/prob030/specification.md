@@ -1,9 +1,9 @@
 ---
 Title:    Balanced Academic Curriculum Problem (BACP)
 Proposer: 
-	- Brahim Hnich
-	- Zeynep Kiziltan
-	- Toby Walsh
+    - Brahim Hnich
+    - Zeynep Kiziltan
+    - Toby Walsh
 Category: Scheduling and related problems
 ---
 

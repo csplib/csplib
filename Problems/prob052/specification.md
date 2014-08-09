@@ -1,10 +1,10 @@
 ---
 Title:    Extremal Graphs with Small Girth
 Proposer: 
-	- Michael Codish
-	- Alice Miller
-	- Patrick Prosser
-	- Peter Stuckey
+    - Michael Codish
+    - Alice Miller
+    - Patrick Prosser
+    - Peter Stuckey
 Category: Combinatorial mathematics
 ---
 

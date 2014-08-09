@@ -1,13 +1,13 @@
 ---
 Title:    The n-Fractions Puzzle
 Proposer: 
-	- Alan Frisch
-	- Christopher Jefferson
-	- Ian Miguel
-	- Toby Walsh
+    - Alan Frisch
+    - Christopher Jefferson
+    - Ian Miguel
+    - Toby Walsh
 Category: 
-	- Combinatorial mathematics
-	- Games and puzzles
+    - Combinatorial mathematics
+    - Games and puzzles
 ---
 
 
