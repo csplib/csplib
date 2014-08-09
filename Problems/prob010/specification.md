@@ -1,6 +1,8 @@
+---
 Title:    Social Golfer Problem
 Proposer: Warwick Harvey
 Category:
+---
 
 
 The coordinator of a local golf club has come to you with the following problem. In her club, there are 32 social golfers, each of whom play golf once a week, and always in groups of 4. She would like you to come up with a schedule of play for these golfers, to last as many weeks as possible, such that no golfer plays in the same group as any other golfer on more than one occasion.

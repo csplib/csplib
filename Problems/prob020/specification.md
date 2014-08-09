@@ -1,6 +1,8 @@
+---
 Title:    Darts Tournament
 Proposer: Toby Walsh
 Category: Scheduling and related problems
+---
 
  
 Dart competitions in pubs often have prizes for the first, second, third and fourth best throwers. What is the order of play for a darts tournament involving n throwers that: 

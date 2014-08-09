@@ -1,4 +1,6 @@
+---
 Title: best known results on data/data.html instances
+---
 
   * The first set of instances contains satisfiable and infeasible instances:
     * Instance `4/72`: satisfiable (Regin, Puget, 1997)

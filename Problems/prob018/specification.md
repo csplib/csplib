@@ -1,6 +1,8 @@
+---
 Title:    Water Bucket Problem 
 Proposer: Toby Walsh
 Category: Bin packing
+---
           Partitioning and related problems
 
 

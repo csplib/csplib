@@ -1,6 +1,8 @@
+---
 Title:    N-Queens
 Proposer: Bilal Syed Hussain
 Category: Games and puzzles
+---
 
 Can $n$ queens (of the same colour) be placed on a $n\times n$ chessboard so that none of the  queens can attack each other?
 

@@ -1,6 +1,8 @@
+---
 Title: Equidistant Frequency Permutation Arrays
 Proposer: Peter Nightingale
 Category: Combinatorial mathematics
+---
 
 Informally, the problem is to find a set (optionally of maximal size) of codewords, such
 that any pair of codewords are Hamming distance $d$ apart. Each codeword (which may

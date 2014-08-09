@@ -1,6 +1,8 @@
+---
 Title:    Solitaire Battleships
 Proposer: Ian Gent 
 Category:
+---
 
 
 The Battleships puzzle is occasionally published in Games Magazine (US), e.g. in the August 1998 issue where it is credited to Mark Gottlieb. It is loosely based on the two person pencil and paper game. I quote the puzzle description in the magazine:

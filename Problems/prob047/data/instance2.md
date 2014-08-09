@@ -1,4 +1,6 @@
-title: (4 agents, 2 tiers)
+---
+Title: (4 agents, 2 tiers)
+---
 
 #### Note on instance description
 

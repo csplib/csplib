@@ -1,6 +1,8 @@
+---
 Title:    Ramsey Numbers
 Proposer: Toby Walsh
 Category:
+---
 
 
 The Ramsey number R(k,l) is the smallest number such that every graph with this or more nodes either contains a clique of size k or an independent set of size l. Ramsey proved that such such a number exists for every (k,l) pair, but computing it has proven to be extremely difficult.

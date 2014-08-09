@@ -1,7 +1,10 @@
+---
 Title:    Diamond-free Degree Sequences
-Proposer: Alice Miller
-          Patrick Prosser
+Proposer: 
+	- Alice Miller
+	- Patrick Prosser
 Category: Combinatorial mathematics
+---
 
 Given a simple undirected graph $G = (V,E)$, where $V$ is the set of vertices and $E$ the set of undirected edges, the edge {$u,v$} is in $E$ if and only if vertex u is adjacent to vertex $v  \in G$. The graph is simple in that there are no loop edges, i.e. we have no edges of the form {$v,v$}. Each vertex $v \in V$ has a degree dv i.e. the number of edges incident on that vertex. Consequently a graph has a degree sequence $d1,...,dn$, where $d_i >= d_{i+1}$. A diamond is a set of four vertices in $V$ such that there are at least five edges between those vertices. Conversely, a graph is diamond-free if it has no diamond as an induced subgraph, i.e. for every set of four vertices the number of edges between those vertices is at most four.
 

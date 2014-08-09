@@ -1,6 +1,8 @@
+---
 Title:    The Covering Array Problem
 Proposer: Evgeny Selensky
 Category: Combinatorial mathematics
+---
 
 
 The covering array problem is formulated as follows.

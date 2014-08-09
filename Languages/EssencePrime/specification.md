@@ -1,6 +1,9 @@
-Title: Essence'
-Extensions: eprime
-            SavileRow
+---
+Title: "Essence'"
+Extensions: 
+	- eprime
+	- SavileRow
+---
 
 
 ESSENCE' is a constraint specification language. The language was originally designed as a subset of [ESSENCE](../Essence), but now has language features which are not in ESSENCE, such as matrix comprehension.

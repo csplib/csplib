@@ -1,6 +1,8 @@
+---
 Title: Killer Sudoku
 Proposer: Peter Nightingale
 Category: Games and puzzles
+---
 
 Killer Sudoku is a puzzle played on a $\\{9\times 9\\}$ grid containing 81 cells. 
 The cells are filled in with numbers from the set $\\{1\ldots 9\\}$.

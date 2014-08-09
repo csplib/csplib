@@ -1,6 +1,8 @@
+---
 Title:    differential diagnosis
 Proposer: Francisco Azevedo
 Category: 
+---
 
 When the output of some system does not correspond to its expected behaviour for  a given input, one is faced with the problem of diagnosis. We are particularly  concerned with digital circuits where only the circuits input and output may be  observed.
 

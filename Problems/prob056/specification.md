@@ -1,6 +1,8 @@
+---
 Title: Synchronous Optical Networking (SONET) Problem
 Proposer: Peter Nightingale
 Category: Network design
+---
 
 In the SONET problem we are given a set of nodes, and for each pair of nodes
 we are given the *demand* (which is the number of channels required to carry network traffic 

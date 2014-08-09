@@ -1,6 +1,8 @@
+---
 Title:    Crossfigures
 Proposer: Toby Walsh
 Category: Games and puzzles
+---
 
 Crossfigures are the numerical equivalent of crosswords. You have a grid and some clues with numerical answers to place on this grid. Clues come in several different forms for example: 
 

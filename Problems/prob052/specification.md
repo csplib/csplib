@@ -1,9 +1,12 @@
+---
 Title:    Extremal Graphs with Small Girth
-Proposer: Michael Codish
-          Alice Miller
-          Patrick Prosser
-          Peter Stuckey
+Proposer: 
+	- Michael Codish
+	- Alice Miller
+	- Patrick Prosser
+	- Peter Stuckey
 Category: Combinatorial mathematics
+---
 
 
 Given a simple undirected graph $G = (V,E)$, where $V$ is the set of vertices and $E$ the set of undirected edges, the edge {$u,v$} is in $E$ if and only if vertex $u$ is adjacent to vertex $v$ in $G$. The graph is simple in that there are no loop edges, i.e. we have no edges of the form {$v,v$}.

@@ -1,8 +1,11 @@
+---
 Title:    Balanced Academic Curriculum Problem (BACP)
-Proposer: Brahim Hnich
-          Zeynep Kiziltan
-          Toby Walsh
+Proposer: 
+	- Brahim Hnich
+	- Zeynep Kiziltan
+	- Toby Walsh
 Category: Scheduling and related problems
+---
 
 
 The BACP is to design a balanced academic curriculum by assigning periods to courses in a way that the academic load of each period is balanced, i.e., as similar as possible . The curriculum must obey the following administrative and academic regulations: 

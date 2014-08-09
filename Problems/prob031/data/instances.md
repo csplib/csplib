@@ -1,4 +1,6 @@
+---
 Title: Instances for rack Configuration
+---
 
 Instances are described by
 

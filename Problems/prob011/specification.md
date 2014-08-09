@@ -1,6 +1,8 @@
+---
 Title:    ACC Basketball Schedule
 Proposer: Toby Walsh
 Category:
+---
 
 
 The problem is finding a timetable for the 1997/98 Atlantic Coast Conference (ACC) in basketball. It was first tackled by Nemhauser and Trick.

@@ -1,6 +1,8 @@
+---
 Title:    Mystery Shopper
 Proposer: Jim Ho Man Lee
 Category: Scheduling and related problems
+---
 
 A well-known cosmetic company wants to evaluate the performance of her saleladies, who station at the company's counters at various department stores in different geographical locations. For this purpose, the company has hired some secret agents to disguise as shoppers to visit the salesladies. The visits must be scheduled in such a way that each saleslady must be visited by shoppers of different varieties and that the visits should be spaced out roughly evenly. Also, shoppers should visit salesladies in different geographic locations. The exact constraints, which ensure the statistical soundness of the project, follow.
 

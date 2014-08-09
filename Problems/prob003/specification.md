@@ -1,6 +1,8 @@
+---
 Title:    Quasigroup Existence
 Proposer: Toby Walsh 
 Category: Combinatorial mathematics
+---
 
 
 An order m quasigroup is a Latin square of size m. That is, a m by m multiplication table in which each element occurs once in every row and column. For example,

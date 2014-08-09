@@ -1,6 +1,8 @@
+---
 Title:    Magic Hexagon
 Proposer: Toby Walsh
 Category: Design and configuration
+---
           Combinatorial mathematics
           Games and puzzles
 

@@ -1,7 +1,10 @@
+---
 Title:    Prime queen attacking problem
 Proposer: Christian Bessiere
-Category: Combinatorial mathematics
-          Games and puzzles
+Category: 
+	- Combinatorial mathematics
+	- Games and puzzles
+---
 
 
 This problem, posed first by G.L. Honaker, is to put a queen and the $n^2$ numbers $1,...,n^2$, on a $n \times n$ chessboard so that:

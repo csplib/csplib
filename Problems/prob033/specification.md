@@ -1,7 +1,11 @@
+---
 Title:    Word Design for DNA Computing on Surfaces
 Proposer: Marc van Dongen
-Category: Bioinformatics
-          Combinatorial mathematics
+Category: 
+	- Bioinformatics
+	- Combinatorial mathematics
+---
+
 
 This problem has its roots in Bioinformatics and Coding Theory.
 

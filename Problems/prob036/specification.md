@@ -1,9 +1,13 @@
+---
 Title:    Fixed Length Error Correcting Codes
-Proposer: Alan Frisch
-          Chris Jefferson
-          Ian Miguel
-Category: Design and configuration
-          Combinatorial mathematics
+Proposer: 
+	- Alan Frisch
+	- Chris Jefferson
+	- Ian Miguel
+Category: 
+	- Design and configuration
+	- Combinatorial mathematics
+---
 
 A fixed length error correcting code C of length n over an alphabet F
 is a set of strings from F<sup>n</sup>. Given two strings from F<sup>n</sup>

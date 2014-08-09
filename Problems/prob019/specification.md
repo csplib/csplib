@@ -1,6 +1,8 @@
+---
 Title:    Magic Squares and Sequences
 Proposer: Toby Walsh
 Category: Combinatorial mathematics
+---
 
 
 An order n magic square is a n by n matrix containing the numbers $1$ to $n^2$, with each row, column and main diagonal equal the same sum. As well as finding magic squares, we are interested in the number of a given size that exist.

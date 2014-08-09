@@ -1,6 +1,8 @@
+---
 Title:    Alien Tiles Problem
 Proposer: Ian Gent
 Category: Games and puzzles
+---
 
  The Alien Tiles puzzle is available for play over the internet at [www.alientiles.com](http://www.alientiles.com). We addressed the combinatorial problem of finding the most difficult puzzle, in a certain sense.
 

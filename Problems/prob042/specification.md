@@ -1,6 +1,8 @@
+---
 Title:    diagnosis
 Proposer: Francisco Azevedo
 Category: 
+---
 
 
 <p>Model-based diagnosis can be seen as taking as input a partially 

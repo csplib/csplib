@@ -1,9 +1,13 @@
+---
 Title: Meeting Scheduling   
-Proposer: Uri Shapen
-          Roie Zivan
-		  Amnon Meisels
-Category: Distributed CSP,
-          Scheduling and related problems
+Proposer: 
+	- Uri Shapen
+	- Roie Zivan
+	- Amnon Meisels
+Category: 
+	- Distributed CSP
+	- Scheduling and related problems
+---
 
 Meeting scheduling is a well-known, recurrent and easily described problem.
 The meeting scheduling problem (MSP) will be described below as a centralistic

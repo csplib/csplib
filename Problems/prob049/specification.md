@@ -1,6 +1,8 @@
+---
 Title:    Number Partitioning
 Proposer: Daniel Diaz
 Category: Combinatorial mathematics
+---
 
 
 This problem consists in finding a partition of numbers $1..N$ into two sets A and B such that:

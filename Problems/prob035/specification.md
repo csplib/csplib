@@ -1,8 +1,11 @@
-Title:    Molnar's Problem
-Proposer: Alan Frisch
-          Chris Jefferson
-          Ian Miguel
+---
+Title:    "Molnar's Problem"
+Proposer: 
+	- Alan Frisch
+	- Chris Jefferson
+	- Ian Miguel
 Category: Combinatorial mathematics
+---
 
 Molnar originally posed the following problem to construct two <em>k</em> x 
 <em>k</em> matrices such that:

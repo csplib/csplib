@@ -1,6 +1,8 @@
+---
 Title:    Perfect Square Placement
 Proposer: Helmut Simonis
 Category: Combinatorial mathematics
+---
 
 
 The perfect square placement problem (also called the squared square problem) is 
