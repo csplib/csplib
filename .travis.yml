@@ -3,7 +3,7 @@ python:
 - '3.3'
 - '3.4'
 install:
-- ./scripts/support/setup.sh
+- ./scripts/support/setup.sh && pip install github3.py
 script:
 - make build_for_gh_pages
 notifications:
