@@ -6,3 +6,5 @@ MiniZinc is a medium-level constraint modelling language. It is high-level enoug
 MiniZinc can target a large range of target solvers, which accept their own variant of the FlatZinc modelling language.
 
 MiniZinc can be downloaded from [the MiniZinc website](http://www.minizinc.org).
+
+
