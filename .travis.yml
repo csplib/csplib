@@ -13,4 +13,5 @@ notifications:
 env:
   global:
   - secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
-after_success: [ " $(openssl ./scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./scripts/support/upload_to_csplib-builds.sh)= 8cc74d39421b9a1af848289919a5a5cf1ea5a13d " ] && ./scripts/support/upload_to_csplib-builds.sh
+after_success: > 
+    [[ " $(openssl sha1 ./scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./scripts/support/upload_to_csplib-builds.sh)= 47dd597db02e04775f801e9cd31371915f568594 " ]] && ./scripts/support/upload_to_csplib-builds.sh
