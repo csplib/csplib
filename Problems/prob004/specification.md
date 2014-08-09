@@ -29,7 +29,7 @@ Outlet 6	| 2
 Outlet 7	| 1
 Outlet 8	| 1
 Outlet 9	| 1
-*Outlet 10	| 2
+*Outlet 10| 2
 Outlet 11	| 2
 Outlet 12	| 2
 Outlet 13	| 1
