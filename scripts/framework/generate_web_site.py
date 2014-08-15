@@ -211,8 +211,9 @@ write_pages(langs)
 for prob in probs:
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
 	makedirs_exist_ok(old_path)
-	with open(path.join(old_path, "index.html"), "w", encoding='utf-8') as f:
-		f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
+	for fp in ["index.html","spec.html"]:
+		with open(path.join(old_path, fp), "w", encoding='utf-8') as f:
+			f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
 
 logger.debug("authors %s", authors_map.keys())
