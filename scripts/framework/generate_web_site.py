@@ -100,10 +100,6 @@ def apply_template(template_name, **kwargs):
 	return template.render(kwargs, prefix_path=prefix_path)
 
 
-# Copy every file in web to the output directory
-dir_util.copy_tree(path.join(base, "web"), output_dir)
-
-
 def create_problem(name, path, pagetype):
 	prob = Problem(name, path, pagetype)
 	prob.find_files()
@@ -126,6 +122,11 @@ try:
 except IOError:
 	logger.warning("no creation times, updates pages will be empty")
 	creations_times={}
+
+# Copy every file in web to the output directory
+dir_util.copy_tree(path.join(base, "web"), output_dir)
+for fp in ['Readme.txt', 'test_syntax_autoload.html', 'problems_creation_dates.txt']:
+	os.remove(path.join(output_dir,fp))
 
 
 def generate_pages(pages):
