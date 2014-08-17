@@ -126,7 +126,8 @@ except IOError:
 # Copy every file in web to the output directory
 dir_util.copy_tree(path.join(base, "web"), output_dir)
 for fp in ['Readme.txt', 'test_syntax_autoload.html', 'problems_creation_dates.txt']:
-	os.remove(path.join(output_dir,fp))
+	if os.path.exists(fp):
+		os.remove(path.join(output_dir,fp))
 
 
 def generate_pages(pages):
