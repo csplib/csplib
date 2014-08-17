@@ -109,7 +109,6 @@ def create_problem(name, path, pagetype):
 probs = [p for p in [create_problem(p, problems_path, PageType.PROBLEM) for p in probs_names] if p.is_vaild()]
 langs = [p for p in [create_problem(p, languages_path, PageType.LANGUAGE) for p in langs_names] if p.is_vaild()]
 
-essences = []
 categories_map = defaultdict(list)
 authors_map = defaultdict(list)
 months_map = defaultdict(list)
@@ -146,13 +145,6 @@ def generate_pages(pages):
 
 				for author in page.metadata.get('proposer', []):
 					authors_map[author].append(page)
-
-			def fix_path(fp):
-				"""filepath inside zip"""
-				return fp.replace(problems_path + "/", "").replace("/models", "")
-
-			global essences
-			essences += [(f, fix_path(f)) for f in page.models if path.splitext(f)[1] == '.essence' ]
 
 			if page.name in creations_times:
 				if creations_times[page.name].strip():
@@ -208,8 +200,12 @@ for p in probs:
 					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
 					l.parts[pages].append(clone)
 					
-					src_dst=( path.join(p.prob_meta['prob_base'], pages,  model['filename']), 
-							  path.join(l.name, p.name, model['filename']) )
+					if pages == 'models':
+						dirpart =  os.path.splitext(model['name'])[0]
+					else:
+						dirpart = 'data'
+					src_dst=( path.join(p.prob_meta['prob_base'], pages,  model['name']), 
+							  path.join(l.name, p.name,dirpart, model['name']) )
 					lang_files[l.name].append(src_dst)
 					break
 
@@ -262,8 +258,6 @@ with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
 
-# Other data
-# create_zip_file(path.join(output_dir, "essences.zip"), essences)
+# Create zip files
 for k,files in lang_files.items():
 	create_zip_file(path.join(output_dir, "Languages", k, k + ".zip"),files)
-
