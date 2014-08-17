@@ -126,7 +126,7 @@ except IOError:
 # Copy every file in web to the output directory
 dir_util.copy_tree(path.join(base, "web"), output_dir)
 for fp in ['Readme.txt', 'test_syntax_autoload.html', 'problems_creation_dates.txt']:
-	if os.path.exists(fp):
+	if os.path.exists(path.join(output_dir,fp)):
 		os.remove(path.join(output_dir,fp))
 
 
@@ -194,6 +194,8 @@ def model_uses_language(model, language):
 generate_pages(probs)
 generate_pages(langs)
 
+lang_files = defaultdict(list)
+
 for p in probs:
 	for pages in ['models','data']:
 		for model in p.parts[pages]:
@@ -205,6 +207,10 @@ for p in probs:
 					clone['meta']['type'] = [p.prob_meta['title']]
 					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
 					l.parts[pages].append(clone)
+					
+					src_dst=( path.join(p.prob_meta['prob_base'], pages,  model['filename']), 
+							  path.join(l.name, p.name, model['filename']) )
+					lang_files[l.name].append(src_dst)
 					break
 
 write_pages(probs)
@@ -257,4 +263,7 @@ with open(probs_path, "w", encoding='utf-8') as f:
 
 
 # Other data
-create_zip_file(path.join(output_dir, "essences.zip"), essences)
+# create_zip_file(path.join(output_dir, "essences.zip"), essences)
+for k,files in lang_files.items():
+	create_zip_file(path.join(output_dir, "Languages", k, k + ".zip"),files)
+
