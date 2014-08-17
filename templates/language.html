@@ -47,4 +47,9 @@ Proposed by {{prob.metadata['proposer'] | join(', ') }}
 
 {{problemContent.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base)}}
 
+{% if prob.__dict__['parts']['models'] %}
+
+All the {{prob_name}} models can be downloaded as a  <a href ="{{prefix_path}}/{{prob_base}}/{{prob.name}}.zip"> zip file </a>
+{% endif %}
+
 {% endblock %}
