@@ -122,7 +122,7 @@ def write_problem(prob, apply_template, output_dir, base):
 	for p in prob.pagetype['parts']:
 		problem_part(p[0], p[1])
 
-	refs = apply_template("references.html", references=prob.bib_html, rel_path="references.html", prob=prob,
+	refs = apply_template("references.html", references=prob.bib_html, rel_path="references", prob=prob,
 		has_bibtex=prob.has_bibtex, notes=prob.ref_notes_html, base_template=prob.pagetype['base_template'], **prob.prob_meta)
 	makedirs_exist_ok(path.join(prob.prob_dir, "references"))
 	write(refs, "references/index.html")
