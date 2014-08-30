@@ -32,9 +32,10 @@ The specification needs a `Title`, `Proposer` and `Category` in the following fo
 
     Title:    Magic Hexagon
     Proposer: Toby Walsh
-    Category: Design and configuration
-              Combinatorial mathematics
-              Games and puzzles
+    Category: 
+        - Design and configuration
+        - Combinatorial mathematics
+        - Games and puzzles
 
 If the `Proposer` or `Category` has multiple values, they are put on
 a new indent line as shown above
@@ -52,7 +53,9 @@ as binary or human readable, please submit a bug report!
 You can describe a file `file.txt` in a file `file.txt.metadata`.
 This file should contain the following then a new line:
 
+    ---
     Title: This describes the data file
+    ---
 
 
 You can finally use files with the extension `.inline.html` or
