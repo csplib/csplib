@@ -1,9 +1,11 @@
 ---
 Title:    Water Bucket Problem 
 Proposer: Toby Walsh
-Category: Bin packing
+Category: 
+    - Bin packing
+    - Partitioning and related problems
 ---
-          Partitioning and related problems
+          
 
 
 Given the promise of SAT and CSP techniques for solving "classical" planning problems, I decided to propose this puzzle.
