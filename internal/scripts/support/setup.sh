@@ -12,7 +12,7 @@ if [ ! -d "internal/scripts/env" ]; then
 	if ( python3 -c 'import sys; sys.exit((sys.version_info[0] == 3 and sys.version_info[1] ==3 ))' ); then
 		python3 -m venv internal/scripts/env
 	else
-		./internal/scripts/support/pyvenvex.py scripts/env
+		./internal/scripts/support/pyvenvex.py internal/scripts/env
 	fi
 fi
 
