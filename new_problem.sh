@@ -34,9 +34,13 @@ touch "$prob_dir/assets/.gitkeep"
 
 
 touch "$prob_dir/specification.md"
+
+echo "---" >> "$prob_dir/specification.md"
 echo "Title:    " >> "$prob_dir/specification.md"
 echo "Proposer: " >> "$prob_dir/specification.md"
 echo "Category: " >> "$prob_dir/specification.md"
+echo "---" >> "$prob_dir/specification.md"
+
 echo "" >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
 
