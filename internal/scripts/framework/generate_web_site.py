@@ -60,8 +60,8 @@ prog_name = path.dirname(sys.argv[0])
 abs_prog_dir = path.abspath(prog_name)
 
 # Paths
-base = path.dirname(path.dirname(abs_prog_dir)) + "/"
-templates_dir = path.join(base, "templates")
+base = path.dirname(path.dirname(path.dirname(abs_prog_dir))) + "/"
+templates_dir = path.join(base, "internal/templates")
 
 if args.prefix_path:
 	prefix_path=args.prefix_path
@@ -123,7 +123,7 @@ except IOError:
 	creations_times={}
 
 # Copy every file in web to the output directory
-dir_util.copy_tree(path.join(base, "web"), output_dir)
+dir_util.copy_tree(path.join(base, "internal/web"), output_dir)
 for fp in ['Readme.txt', 'test_syntax_autoload.html', 'problems_creation_dates.txt']:
 	if os.path.exists(path.join(output_dir,fp)):
 		os.remove(path.join(output_dir,fp))

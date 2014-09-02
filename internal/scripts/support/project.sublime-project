@@ -3,12 +3,12 @@
 	[
 		{
 			"follow_symlinks": true,
-			"path": "../../",
+			"path": "../../../",
 			"folder_exclude_patterns": [
 				"_deploy",
-				"scripts/env",
-				"scripts/framework/__pycache",
-				"web/bootstrap"
+				"internal/scripts/env",
+				"internal/scripts/framework/__pycache",
+				"internal/web/bootstrap"
 			],
 			"file_exclude_patterns":
 			[

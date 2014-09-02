@@ -73,10 +73,10 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             
             popd
             popd
-            if [[ " $(openssl sha1 ./scripts/support/add_preview_link_to_pr.py) " == " SHA1(./scripts/support/add_preview_link_to_pr.py)= b12a6be410a73a439b973578710ed341368ae922 " ]]; then
-                  ./scripts/support/add_preview_link_to_pr.py
+            if [[ " $(openssl sha1 ./internal/scripts/support/add_preview_link_to_pr.py) " == " SHA1(./internal/scripts/support/add_preview_link_to_pr.py)= b12a6be410a73a439b973578710ed341368ae922 " ]]; then
+                  ./internal/scripts/support/add_preview_link_to_pr.py
             else
-                echo "./scripts/support/add_preview_link_to_pr.py has been edited" 
+                echo "./internal/scripts/support/add_preview_link_to_pr.py has been edited" 
             fi
 
         fi

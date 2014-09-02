@@ -6,21 +6,21 @@ if ( python3 -c 'import sys; sys.exit((sys.version_info[0] == 3 and sys.version_
 fi
 
 
-if [ ! -d "scripts/env" ]; then
+if [ ! -d "internal/scripts/env" ]; then
 
 	# if using python3.4 pip is already installed
 	if ( python3 -c 'import sys; sys.exit((sys.version_info[0] == 3 and sys.version_info[1] ==3 ))' ); then
-		python3 -m venv scripts/env
+		python3 -m venv internal/scripts/env
 	else
-		./scripts/support/pyvenvex.py scripts/env
+		./internal/scripts/support/pyvenvex.py scripts/env
 	fi
 fi
 
-. ./scripts/env/bin/activate
+. ./internal/scripts/env/bin/activate
 printf "pip @ "
 which pip
 
-pip install -r  scripts/support/packages.txt
+pip install -r  internal/scripts/support/packages.txt
 
 # guess-language-spirit is required by mdx_smartypants and hosted at https://bitbucket.org/spirit/guess_language/downloads
 # pip 1.5+ does not like this and requires extra flags

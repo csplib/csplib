@@ -1,16 +1,16 @@
-build: ./scripts/env creation_dates
+build: ./internal/scripts/env creation_dates
 	# activate virtual python environment
-	. ./scripts/env/bin/activate && \
-	./scripts/framework/generate_web_site.py
+	. ./internal/scripts/env/bin/activate && \
+	./internal/scripts/framework/generate_web_site.py
 	# built website
 
 .PHONY: creation_dates
 creation_dates:
-	./scripts/support/problem_creation_dates.sh
+	./internal/scripts/support/problem_creation_dates.sh
 
-./scripts/env:
+./internal/scripts/env:
 	# create virtual python Environment
-	./scripts/support/setup.sh
+	./internal/scripts/support/setup.sh
 
 serve:
 	# open localhost:8000 in your browser
@@ -18,8 +18,8 @@ serve:
 	cd _deploy && python3 -m http.server
 
 
-build_for_gh_pages: ./scripts/env
-	./scripts/support/build_for_gh_pages.sh
+build_for_gh_pages: ./internal/scripts/env
+	./internal/scripts/support/build_for_gh_pages.sh
 	# built website
 
 
@@ -27,18 +27,18 @@ build_for_gh_pages: ./scripts/env
 
 # Build specific problems and serve locally
 .PHONY: only
-only: ./scripts/env creation_dates only_build serve
+only: ./internal/scripts/env creation_dates only_build serve
 
 # to use a comma in $(subst you need to put it in a variable
 comma :=,
 only_build:
-	. ./scripts/env/bin/activate && \
-	./scripts/framework/generate_web_site.py $(subst ${comma}, ,${build})
+	. ./internal/scripts/env/bin/activate && \
+	./internal/scripts/framework/generate_web_site.py $(subst ${comma}, ,${build})
 
 debug: 
-	. ./scripts/env/bin/activate && \
-	ipython --pdb ./scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${build})
+	. ./internal/scripts/env/bin/activate && \
+	ipython --pdb ./internal/scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${build})
 
 clean:
 	rm -rf _deploy
-	rm -rf scripts/env
+	rm -rf internal/scripts/env

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-. ./scripts/env/bin/activate
+. ./internal/scripts/env/bin/activate
 set -x
 
 if [[ -n "$TRAVIS_PULL_REQUEST" && "$TRAVIS_PULL_REQUEST" != "false" ]]; then
@@ -11,8 +11,8 @@ else
     prefix_path="/csplib-builds/$prefix"
 fi
 
-./scripts/support/problem_creation_dates.sh "_deploy/${prefix}"
-./scripts/framework/generate_web_site.py \
+./internal/scripts/support/problem_creation_dates.sh "_deploy/${prefix}"
+./internal/scripts/framework/generate_web_site.py \
 	--prefix_path "${prefix_path}" \
 	--output_suffix "${prefix}"
 
