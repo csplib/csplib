@@ -3,7 +3,7 @@ python:
 - '3.3'
 - '3.4'
 install:
-- ./scripts/support/setup.sh && pip install github3.py
+- ./internal/scripts/support/setup.sh && pip install github3.py
 script:
 - make build_for_gh_pages
 notifications:
@@ -14,4 +14,4 @@ env:
   global:
   - secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
 after_success: > 
-    [[ " $(openssl sha1 ./scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./scripts/support/upload_to_csplib-builds.sh)= 0ee75e1efb0aade5da8e54d1b4db24de78aab3e3 " ]] && ./scripts/support/upload_to_csplib-builds.sh
+    [[ " $(openssl sha1 ./internal/scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./internal/scripts/support/upload_to_csplib-builds.sh)= ad829a2e75ce51c2d0555441eb8a8999ac0a78d2 " ]] && ./internal/scripts/support/upload_to_csplib-builds.sh
