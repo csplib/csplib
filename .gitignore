@@ -2,6 +2,7 @@ deploy/
 _deploy/
 env/
 scripts/env/
+internal/scripts/env/
 
 # Created by http://gitignore.io
 
