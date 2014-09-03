@@ -1,2 +1,2 @@
 include             = "{$include,.travis.yml}"
-exclude             = "{$exclude,internal/scripts/env,web/bootstrap,_deploy,*.aux,*.gitkeep}"
+exclude             = "{$exclude,internal/scripts/env,internal/web/bootstrap,_deploy,*.aux,*.gitkeep}"
