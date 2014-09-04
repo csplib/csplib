@@ -14,4 +14,4 @@ env:
   global:
   - secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
 after_success: > 
-    [[ " $(openssl sha1 ./internal/scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./internal/scripts/support/upload_to_csplib-builds.sh)= ad829a2e75ce51c2d0555441eb8a8999ac0a78d2 " ]] && ./internal/scripts/support/upload_to_csplib-builds.sh
+    [[ " $(openssl sha1 ./internal/scripts/support/upload_to_csplib-builds.sh) " == " SHA1(./internal/scripts/support/upload_to_csplib-builds.sh)= 76136594849b9e34d17ecfef7a7bed803f296bee " ]] && ./internal/scripts/support/upload_to_csplib-builds.sh

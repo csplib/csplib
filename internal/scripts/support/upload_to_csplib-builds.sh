@@ -54,8 +54,9 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
 
             #using token clone gh-pages branch
             set +x
-            echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null'
-            git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null
+            # echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null'
+            # git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null
+            ./internal/scripts/support/csplib-private clone
             set -x
 
             #go into diractory and copy data we're interested in to that directory
