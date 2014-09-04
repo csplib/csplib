@@ -3,6 +3,9 @@
 set -o nounset
 set -x
 
+Dir="$( cd "$( dirname "$0" )" && pwd )";
+
+
 if [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; then
   echo -e "Starting to update gh-pages\n"
 
@@ -37,7 +40,14 @@ fi
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; then
     # This token can only push to csplib-PR-builds
-    export CSPLIB_ROBOT_TOKEN=c924c9149eeed0c238ba3076b838e5b85daa5918
+    # export CSPLIB_ROBOT_TOKEN=c924c9149eeed0c238ba3076b838e5b85daa5918
+
+
+    if  [[ " $(openssl sha1 ./internal/scripts/support/csplib-private) " != " SHA1(./internal/scripts/support/csplib-private)= 07ea0740096627f92b1d2bdd2d00bf94405a2674" ]]; then
+        echo "./internal/scripts/support/csplib-private.py has been edited" 
+        exit 4
+    fi
+
 
     # Only upload a PR which only edited the Problems or Languages pages
     if ( ! git diff --name-only --find-renames HEAD~1 | grep -qv 'Problems' | grep -qv 'Languages' ); then
@@ -56,7 +66,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             set +x
             # echo 'git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null'
             # git clone --quiet --branch=gh-pages https://${CSPLIB_ROBOT_TOKEN}@github.com/csplib/csplib-PR-builds.git  gh-pages > /dev/null
-            ./internal/scripts/support/csplib-private clone
+            ${Dir}/csplib-private clone
             set -x
 
             #go into diractory and copy data we're interested in to that directory
@@ -75,7 +85,9 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             popd
             popd
             if [[ " $(openssl sha1 ./internal/scripts/support/add_preview_link_to_pr.py) " == " SHA1(./internal/scripts/support/add_preview_link_to_pr.py)= b12a6be410a73a439b973578710ed341368ae922 " ]]; then
-                  ./internal/scripts/support/add_preview_link_to_pr.py
+                # ./internal/scripts/support/add_preview_link_to_pr.py
+                export PATH=${Dir}:$PATH
+                ${Dir}/csplib-private pr
             else
                 echo "./internal/scripts/support/add_preview_link_to_pr.py has been edited" 
             fi
