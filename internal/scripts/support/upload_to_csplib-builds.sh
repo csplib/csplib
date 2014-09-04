@@ -43,8 +43,8 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
     # export CSPLIB_ROBOT_TOKEN=c924c9149eeed0c238ba3076b838e5b85daa5918
 
 
-    if  [[ " $(openssl sha1 ./internal/scripts/support/csplib-private) " != " SHA1(./internal/scripts/support/csplib-private)= 07ea0740096627f92b1d2bdd2d00bf94405a2674" ]]; then
-        echo "./internal/scripts/support/csplib-private.py has been edited" 
+    if  [[ " $(openssl sha1 ./internal/scripts/support/csplib-private) " != " SHA1(./internal/scripts/support/csplib-private)= 07ea0740096627f92b1d2bdd2d00bf94405a2674 " ]]; then
+        echo "./internal/scripts/support/csplib-private has been edited" 
         exit 4
     fi
 
