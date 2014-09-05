@@ -65,3 +65,8 @@ table thead tr th { background-color:#bbc0ff; }
 .proposed{
     font-size: 1.15em;
 }
+
+#footer {
+  border-top:1px solid #000000;
+  padding:3px
+}
