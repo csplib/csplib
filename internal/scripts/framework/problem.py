@@ -30,7 +30,8 @@ class PageType:
 		'base_template': 'language.html',
 		'parts':[
 			["data", lambda x: str.lower(x['name'])],
-			["models", lambda x: [str.lower(y) for y in x['meta'].get('type',[''])]]],
+			["models", lambda x: [ [str.lower(y) for y in x['meta'].get('type_link',[''])],
+                                   [str.lower(y) for y in x['meta'].get('type',[''])] ]]],
 		'title': lambda metadata : " ".join(metadata['title']),
 		'model_table_headers': [ 'File', 'Problem', 'Notes' ]
 	}
