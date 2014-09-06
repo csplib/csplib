@@ -16,9 +16,10 @@ source_types = set(['cc', 'c', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
 				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml'])
 
 text_formats = set(['txt', 'minizinc', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet',
-					'chip', 'mzn', 'pi', 'pl', 'co'])
+					'chip', 'mzn', 'pi', 'pl', 'co', 'comet'])
 text_formats |= source_types
 
+binary_formats = set(['ps', 'pdf'])
 archive_formats = set(['zip', 'tar', 'tar.gz', 'rar', '7z', 'xz', 'sit', 'sitx',
 	 					'iso', 'bz2', 'lz', 'gz', 'lzma', 'lzo', 'z', 'Z', 'ace',
 						'jar', 'pea', 'tarz', 'tar.bz2', 'tbz2', 'tlz', 'xar',
@@ -81,7 +82,7 @@ def get_content_and_metadata(filepath, store_dir):
 	logger.debug("stype:%s ext:%s filepath:%s", stype, ext, filepath)
 	# This if is necessary because Essence files stored in a zip will have
 	# stype=Essence, ext[1:]=zip
-	if stype in text_formats and ext[1:] not in archive_formats:
+	if ext[1:] not in archive_formats and ext[1:] not in binary_formats:
 		css_class = ""
 		txt = read_file(filepath)
 		if stype in source_types:
