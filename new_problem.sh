@@ -36,13 +36,15 @@ touch "$prob_dir/assets/.gitkeep"
 touch "$prob_dir/specification.md"
 
 echo "---" >> "$prob_dir/specification.md"
-echo "Title:    " >> "$prob_dir/specification.md"
-echo "Proposer: " >> "$prob_dir/specification.md"
-echo "Category: " >> "$prob_dir/specification.md"
+echo "Title:    Problem" >> "$prob_dir/specification.md"
+echo "Proposer: Person" >> "$prob_dir/specification.md"
+echo "Category: Stuff" >> "$prob_dir/specification.md"
 echo "---" >> "$prob_dir/specification.md"
 
 echo "" >> "$prob_dir/specification.md"
 echo "" >> "$prob_dir/specification.md"
+
+echo "Problem description" >> "$prob_dir/specification.md"
 
 mkdir "$prob_dir/references"
 touch "$prob_dir/references/.gitkeep"
