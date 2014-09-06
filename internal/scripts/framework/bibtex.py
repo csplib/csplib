@@ -106,7 +106,7 @@ def _andlist(ss, sep=', ', seplast=', and ', septwo=' and '):
 
 
 def _author_list(authors):
-    return _andlist(list(map(_author_fmt, authors)))
+    return _andlist(list(map(_author_fmt, authors))).replace("{","").replace("}","")
 
 
 def _venue_type(entry):
@@ -158,6 +158,9 @@ def _title(entry):
 
     # remove {} useful in TeX, not in html
     # title = re.sub("[{}]", "", title)
+    # If there are '$', there is maths, and we will not try to remove {}
+    if '$' not in title:
+        title = re.sub('(?<!\\\)[{}]',"",title)
     return title
 
 
