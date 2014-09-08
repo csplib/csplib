@@ -26,14 +26,18 @@ echo Cannot find python...
 echo Please run the following yourself:
 echo pip install -r scripts/support/packages.txt
 echo pip install --allow-external guess-language-spirit --allow-unverified guess-language-spirit mdx_smartypants==1.5.1 --pre
-echo python scripts/framework/generate_web_site.py
+echo python internal/scripts/framework/generate_web_site.py
 exit 1
 
 :pyfound
 
 echo Installing packages (this may take up to 5 minutes first time)
-%pipcmd% install -q -r scripts/support/packages.txt
+%pipcmd% install -q -r internal/scripts/support/packages.txt
 %pipcmd% install -q --allow-external guess-language-spirit --allow-unverified guess-language-spirit mdx_smartypants==1.5.1 --pre
 echo Building csplib website
-%pycmd% scripts/framework/generate_web_site.py
+%pycmd% internal/scripts/framework/generate_web_site.py
 echo Website in _deploy directory
+echo To view the website locally run:
+echo   cd _deploy
+echo   %pycmd% -m http.server
+echo Then open your webbrowser to localhost:8000
