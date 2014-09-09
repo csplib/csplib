@@ -14,6 +14,7 @@ fi
 ./internal/scripts/support/problem_creation_dates.sh "_deploy/${prefix}"
 ./internal/scripts/framework/generate_web_site.py \
 	--prefix_path "${prefix_path}" \
-	--output_suffix "${prefix}"
+	--output_suffix "${prefix}" \
+	--no_index
 
 set +x

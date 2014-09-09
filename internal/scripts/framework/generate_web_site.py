@@ -42,7 +42,7 @@ parser.add_argument("only", nargs='*', metavar='Prob/Lang', help='Optional, Buil
 parser.add_argument("--debug",  action='store_true', help='Print debug output')
 parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, useful for Github pages')
 parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for Github pages')
-parser.add_argument("--no_index", help='Add <meta name="robots" content="noindex"> to each page')
+parser.add_argument("--no_index",  action='store_true', help='Add <meta name="robots" content="noindex"> to each page')
 args = parser.parse_args()
 
 # set up logging
