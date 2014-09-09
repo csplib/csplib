@@ -42,6 +42,7 @@ parser.add_argument("only", nargs='*', metavar='Prob/Lang', help='Optional, Buil
 parser.add_argument("--debug",  action='store_true', help='Print debug output')
 parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, useful for Github pages')
 parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for Github pages')
+parser.add_argument("--no_index", help='Add <meta name="robots" content="noindex"> to each page')
 args = parser.parse_args()
 
 # set up logging
@@ -54,6 +55,11 @@ else:
 
 logging.basicConfig(format=logger_format, level=logger_level)
 logger.info("args %s", args)
+
+if args.no_index:
+	meta_index='<meta name="robots" content="noindex">'
+else:
+	meta_index=''
 
 # Where we are
 prog_name = path.dirname(sys.argv[0])
@@ -97,7 +103,7 @@ bibtex.add_filters(template_env)
 
 def apply_template(template_name, **kwargs):
 	template = template_env.get_template(template_name)
-	return template.render(kwargs, prefix_path=prefix_path)
+	return template.render(kwargs, prefix_path=prefix_path,meta_index=meta_index)
 
 
 def create_problem(name, path, pagetype):
