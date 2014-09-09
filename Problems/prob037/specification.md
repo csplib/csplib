@@ -45,4 +45,8 @@ The French version of the game has four extra holes:
      OOOOO
       OOO
 
+The French version of solitaire cannot be solved starting from a single hole in the middle, and ending
+with a single peg in the middle without adding one extra peg during solving (the player can decide
+when, and where, to add this extra peg).
+
 Other board types, such as the Solitaire Triangle, also exist. 
