@@ -10,7 +10,17 @@ if [ ! -d "internal/scripts/env" ]; then
 
 	# if using python3.4 pip is already installed
 	if ( python3 -c 'import sys; sys.exit((sys.version_info[0] == 3 and sys.version_info[1] ==3 ))' ); then
-		python3 -m venv internal/scripts/env
+
+
+		# Ubuntu 14.04, decided to disable ensurepip
+		# https://github.com/csplib/csplib/issues/24
+		if (python3 -Im ensurepip); then
+			python3 -m venv internal/scripts/env
+		else
+			echo "ensurepip did not work, installing pip manually..."
+			./internal/scripts/support/pyvenvex.py internal/scripts/env
+		fi
+
 	else
 		./internal/scripts/support/pyvenvex.py internal/scripts/env
 	fi
