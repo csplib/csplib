@@ -16,17 +16,6 @@
 
 % Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
-% 8 Solutions:
-% [7, 2, 4, 5, 8, 9, 1, 3, 6]
-% [7, 2, 4, 5, 8, 9, 1, 6, 3]
-% [7, 2, 4, 5, 9, 8, 1, 3, 6]
-% [7, 2, 4, 5, 9, 8, 1, 6, 3]
-% [7, 4, 2, 5, 8, 9, 1, 3, 6]
-% [7, 4, 2, 5, 8, 9, 1, 6, 3]
-% [7, 4, 2, 5, 9, 8, 1, 3, 6]
-% [7, 4, 2, 5, 9, 8, 1, 6, 3]
-
-
 
 include "globals.mzn"; 
 
@@ -52,9 +41,9 @@ solve :: int_search(Vars ++ [D1,D2,D3], first_fail, indomain_min, complete) sati
 
 constraint
    all_different(Vars) /\
-   D1 = B*C /\
-   D2 = E*F /\
-   D3 = H*I /\
+   D1 = 10*B+C /\
+   D2 = 10*E+F /\
+   D3 = 10*H+I /\
    A*D2*D3 + D*D1*D3 + G*D1*D2 = D1*D2*D3 /\
    % break the symmetry
    A*D2 >= D*D1 /\
