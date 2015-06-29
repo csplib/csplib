@@ -12,7 +12,7 @@ Discrete Lot Sizing and Scheduling Problem (DLSP) is a production planning probl
 costs, changeover costs, stocking costs, etc.), such that machine capacity restrictions are not violated, and demand for all products is satisfied. The planning horizon is
 discrete and finite. 
 
-The variant described here is the one used for experiments in [The StockingCost Constraint](http://becool.info.ucl.ac.be/pub/papers/cp2014_stocking_0.pdf).
+The variant described here is the one used for experiments in <A HREF="data/stockingCostConstraint.pdf">The StockingCost Constraint</A>.
 
 It is a multi-item, single machine problem with capacity of production limited to one per period. 
 There are storage costs and sequence-dependent changeover costs, respecting the triangle inequality. 
