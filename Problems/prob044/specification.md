@@ -1,7 +1,7 @@
 ---
 Title:    Steiner triple systems
 Proposer: Francisco Azevedo
-Category:
+Category: Combinatorial mathematics
 ---
 
 

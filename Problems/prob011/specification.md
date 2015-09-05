@@ -1,7 +1,7 @@
 ---
 Title:    ACC Basketball Schedule
 Proposer: Toby Walsh
-Category:
+Category: Scheduling and related problems
 ---
 
 

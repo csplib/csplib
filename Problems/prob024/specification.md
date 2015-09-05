@@ -1,7 +1,7 @@
 ---
 Title:    Langford's number problem
 Proposer: Toby Walsh
-Category: 
+Category: Combinatorial mathematics
 ---
 
 
