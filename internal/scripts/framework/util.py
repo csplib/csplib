@@ -11,12 +11,13 @@ logger = logging.getLogger(__name__)
 
 markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
 
-source_types = set(['cc', 'c', 'comet', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
-				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js', 'minizinc',
+source_types = set(['cc', 'c', 'comet', 'co', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
+				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js', 'minizinc', 'mzn',
 				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml'])
 
 text_formats = set(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet',
-					'chip', 'mzn', 'pi', 'pl', 'co'])
+					'chip', 'pi', 'pl'])
+
 text_formats |= source_types
 
 binary_formats = set(['ps', 'pdf'])

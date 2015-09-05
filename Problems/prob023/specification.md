@@ -6,7 +6,7 @@ Category: Design and configuration
           Combinatorial mathematics
           Games and puzzles
 
-A magic hexagon consists of the number 1 to 19 arranged in a hexagonal pattern:
+A magic hexagon consists of the numbers 1 to 19 arranged in a hexagonal pattern:
 
 <center><pre>
 A,B,C
