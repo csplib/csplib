@@ -13,7 +13,7 @@
 <h2> New problems </h2>
 
 {% for year_months, probs in mapping | dictsort | reverse %}
-    <h3 class='smaller'>{{year_months | formatted_time_for_updates}}</h2>
+    <h3>{{year_months | formatted_time_for_updates}}</h3>
 
 	{% for (creation, prob) in probs %}
 		<p>
