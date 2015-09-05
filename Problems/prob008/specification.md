@@ -10,4 +10,4 @@ Supply vessels transport containers from site to site. The deck area is rectangu
 
 The vessel loading decision problem is to determine whether a given set of containers can be positioned on a given deck, without overlapping, and without violating any of the separation constraints. The problem can be modelled as packing of a set of rectangles into a larger rectangle, subject to constraints.
 
-In practice, the layout may be further constrained by the physical loading sequence. Containers are manoeuvred into position from the south east corner. Each successive container in the loading sequence must be positioned so that it abuts part of another container or a deck wall both to the north and to the west.
+In practice, the layout may be further constrained by the physical loading sequence. Containers are manoeuvred into position from the south east corner. Each successive container in the loading sequence must be positioned so that it touches part of another container or a deck wall both to the north and to the west.
