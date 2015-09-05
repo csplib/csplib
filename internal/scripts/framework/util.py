@@ -9,7 +9,8 @@ import zipfile
 import logging
 logger = logging.getLogger(__name__)
 
-markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables', 'smartypants(entities=named)', 'cite_bibtex']
+markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
+                 'smartypants(entities=named)', 'cite_bibtex', 'prob_link']
 
 source_types = set(['cc', 'c', 'comet', 'co', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
 				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js', 'minizinc', 'mzn',
