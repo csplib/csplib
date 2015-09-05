@@ -180,7 +180,10 @@ def _main_url(entry):
         if f in entry.fields:
             return entry.fields[f]
     if 'doi' in entry.fields:
-        return 'http://dx.doi.org/' + entry.fields['doi']
+        if entry.fields['doi'][:4] != "http":
+            return 'http://dx.doi.org/' + entry.fields['doi']
+        else:
+            return entry.fields['doi']
     return None
 
 
