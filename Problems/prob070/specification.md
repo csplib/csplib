@@ -12,7 +12,7 @@ The performance of a wireless local area network (WLAN) depends on the channel a
 ### Distributed COP Formulation
 
 In a cooperative distributed channel assignment problem (DCA), APs need to be configured in order to reduce the overall interference between simultaneous transmissions on neighboring channels. In a distributed COP based approach each AP is represented by an agent, which controls a decision variable modeling a choice for the AP channel. The signal-to-interference-and-noise ratio (SINR) perceived by an AP is modeled as a cost function, as the overall concurrent transmissions occurring in the same channel and in partially overlapped adjacent channels. The constraint graph $G=(V,E)$ of the problem defines the interfering neighbors, where $V$ represents the APs, and $E$ describes the set of interfering APs.  
-<!--These can be computed using the receive signal strength indicator (RSSI) cite{monteiro:12a}.-->
+<!--These can be computed using the receive signal strength indicator (RSSI) cite{monteiro:12}.-->
 The goal is to find an assignment of channels to APs that minimizes the sum of the interferences experienced in the WLAN, at the APs.
 
 *The general definition of the DCA problem is as follows:*
@@ -39,7 +39,7 @@ The goal is to find an assignment of channels to APs that minimizes the sum of t
 | $11$ | $0$        | $0$        | $0$          | $0$          | $0$          | $0.0002$ | $0.0008$ | $0.0054$ | $0.0375$ | $0.2714$ | $0.7272$ | $1$            |
 
 
-The above Table illustrates the normalized values of the spectrum overlapping factors. Detailed information on how these values are derived can be found in cite{monteiro:12a}.
+The above Table illustrates the normalized values of the spectrum overlapping factors. Detailed information on how these values are derived can be found in cite{monteiro:12}.
 <!--
 | Channel Spacing | Overlapping Factor |
 | :-----: | :------: | 
