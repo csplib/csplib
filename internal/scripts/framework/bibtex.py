@@ -149,6 +149,12 @@ def _venue(entry):
     else:
         # venue = 'Unknown venue (type={})'.format(entry.type)
         venue =""
+
+    if 'pages' in f:
+        if venue != "":
+            venue = venue + ', '
+        venue = venue + f['pages']
+
     return venue
 
 def _publisher(entry):
