@@ -4,6 +4,7 @@ Proposer:
     - David A. Burke
     - Kenneth N. Brown
 Category: 
+    - Distributed CSP/COP
     - Bin packing
     - Partitioning and related problems
 ---
@@ -17,9 +18,9 @@ An ad hoc network is a collection of wireless devices that form a network withou
 
 Several approaches (both centralised and distributed) have been proposed for solving this problem. See the references page of this benchmark for more information. As there is no central controller and in a large network centralising the entire problem may be infeasible, Distributed Constraint Optimisation (DisCOP) is one appropriate way to model and solve the problem, and it is this approach that will be described in this specification.
 
-### DisCOP Formulation
+### Distributed COP Formulation
 
-To formulate the problem as a DisCOP, we have an agent, *a<sub>i</sub>*, representing each device in the network. The neighbours of *a<sub>i</sub>* include all agents that *a<sub>i</sub>* can communicate with when broadcasting at its maximum power level.
+To formulate the problem as a Distributed COP, we have an agent, *a<sub>i</sub>*, representing each device in the network. The neighbours of *a<sub>i</sub>* include all agents that *a<sub>i</sub>* can communicate with when broadcasting at its maximum power level.
 
 **Relationship variables:** For each neighbour *a<sub>j</sub>*, *a<sub>i</sub>* has a public variable, taking one of 3 values, indicating the relationship between the two devices in the current solution (broadcast tree):
 
