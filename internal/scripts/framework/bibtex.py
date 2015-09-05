@@ -27,6 +27,8 @@ def add_filters(template_env):
     template_env.filters['main_url'] = _main_url
     template_env.filters['extra_urls'] = _extra_urls
     template_env.filters['monthname'] = _month_name
+    template_env.filters['publisher'] = _publisher
+
 
 
 class Bib(object):
@@ -149,6 +151,14 @@ def _venue(entry):
         venue =""
     return venue
 
+def _publisher(entry):
+    if entry.type == 'book':
+        try:
+            return entry.fields['publisher']
+        except KeyError:
+            return ""
+    else:
+        return ""
 
 def _title(entry):
     if entry.type == 'inbook':

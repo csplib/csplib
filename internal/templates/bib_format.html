@@ -1,7 +1,8 @@
 <style>
-    .venue { font-style: italic; }
-    .title { font-weight: bold; }
-    .bibkey{
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
         text-align:center;
         font-size: 70%;
     }
@@ -29,8 +30,14 @@
 
     <br>
 
+	{% if entry|publisher  %}
+    <span class="publisher">{{ entry|publisher -}}</span>
+	<br>
+	{% endif %}
+
     <span class="venuetype">{{ entry|venue_type -}}</span>
     <span class="venue">{{ entry|venue -}}</span>{% if entry|venue  %}, {% endif %}
+
 
     <span class="date">
         {{ entry.fields['month'] }}
