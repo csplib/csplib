@@ -1,7 +1,7 @@
 ---
-Title:    Social Golfer Problem
+Title:    Social Golfers Problem
 Proposer: Warwick Harvey
-Category:
+Category: Scheduling and related problems
 ---
 
 
