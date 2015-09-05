@@ -6,4 +6,4 @@ The smallest anti-magic square is 3 by 3. [Constructions](http://www.uwinnipeg.c
 
 Eliminating symmetry would appear to be very important in these problems, especially when counting solutions or proving none exits.
 
-Results on MagicSquareCompletionInstances.zip can be found in (Pesant et al. 2012).
+Results on MagicSquareCompletionInstances.zip can be found in cite{PesantQZ12}.
