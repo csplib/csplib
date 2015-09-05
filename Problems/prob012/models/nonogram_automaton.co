@@ -139,7 +139,7 @@ int col_rules[1..cols, 1..col_rule_len] =
 
 
 // data files should be imported from the "data" parent directory, for example
-// include "../data/nonogram_p200.co";
+// include "../data/nonogram_p200";
 
 // Nonogram problem from Wikipedia, soccer player
 // http://en.wikipedia.org/wiki/Nonogram
