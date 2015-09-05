@@ -1,7 +1,7 @@
 ---
 Title:    Schur's Lemma
 Proposer: Toby Walsh
-Category:
+Category: Combinatorial mathematics
 ---
 
 

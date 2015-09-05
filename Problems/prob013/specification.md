@@ -1,7 +1,7 @@
 ---
 Title:    Progressive Party Problem
-Proposer: Toby Walsh 
-Category:
+Proposer: Toby Walsh
+Category: Scheduling and related problems
 ---
 
 
