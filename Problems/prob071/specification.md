@@ -5,7 +5,7 @@ Proposer:
     - Cemalettin Ozturk
     - Luis Quesada
     - Barry O'Sullivan
-Category: Network Design
+Category: Network design
 ---
 
 ### Overview
