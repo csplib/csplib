@@ -30,8 +30,8 @@
             { regex: new RegExp(this.getKeywords(comet_constants), 'gmi'), css: 'keyword' },
             { regex: new RegExp(this.getKeywords(comet_other),    'gmi'),  css: 'keyword' },
             //{ regex: new RegExp(this.getKeywords(operators), 'gmi'), css: 'color1' },
-            { regex: /\/\*([^\*][\s\S]*)?\*\//gm,				           css: 'comments' },
-            { regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' }
+            { regex: /\/\*([\s\S]*?)\*\//g,                                css: 'comments'},
+            { regex: SyntaxHighlighter.regexLib.doubleQuotedString,        css: 'string' },
         ]};
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
