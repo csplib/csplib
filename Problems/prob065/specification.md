@@ -1,6 +1,8 @@
 ---
 Title: Optimal Financial Portfolio Design
-Proposer: Pierre Flener and Jean-Noël Monette
+Proposer: 
+ - Pierre Flener
+ - Jean-Noël Monette
 Category: Design and configuration
 ---
 
