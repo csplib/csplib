@@ -1,0 +1,6 @@
+Instances are given as plain text files. The first line represents an integer 
+denoting the number of nodes (n). The second line corresponds to the bound on the path lengths.
+The third line is an integer denoting the minimum degree of each node.
+The latter line is followed by n lines representing the corresponding 
+distance matrix among the nodes. Entry (i,j) in this matrix represents the distance from node i 
+to node j.
