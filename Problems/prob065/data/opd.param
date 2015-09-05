@@ -1,7 +1,7 @@
 language Essence 1.3
 
-letting b be 11
-letting v be 22
+letting b be 22
+letting v be 11
 letting r be 10
 
 $ opt is 4
