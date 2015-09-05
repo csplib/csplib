@@ -17,7 +17,7 @@ Quasigroup existence problems determine the existence or non-existence of quasig
 
 QG1.m problems are order m quasigroups for which if $a\*b=c$  $a\*b=c\*d$ and $a \*321 b = c \*321 d$ then $a=c$ and $b=d$.
 
-QG2.m problems are order m quasigroups for which if a\*b=c\*d and a \*312 b = c \*312 d then a=c and b=d.
+QG2.m problems are order m quasigroups for which if $a\*b=c\*d$ and $a \*312 b = c \*312 d$ then $a=c$ and $b=d$.
 
 QG3.m problems are order m quasigroups for which $(a\*b)\*(b\*a) = a$.
 
