@@ -8,7 +8,7 @@ The TTPPV was introduced by [MeloUR09] and consists of finding an optimal compac
 
 Here is a feasible solution for 8 teams, with each row describing the schedule for an individual team and giving its travel distance: 
 ```
-  1    7   @4   @5   @6    2   @3       team travel distance: 14
+  1    7   @4   @5   @6    2   @3  	team travel distance: 14
  @0    5    7   @6   @4    3   @2  	team travel distance: 12
  @3    4    6    7   @5   @0    1  	team travel distance: 10
   2    6    5   @4   @7   @1    0  	team travel distance: 8
