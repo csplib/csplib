@@ -11,4 +11,5 @@ An example solution is shown below:
 
 ![example problem data and solution](assets/schedule.png)
 
-The description of the Industrial Modelling Challenge is given [here](assets/description.pdf).
+The description of the Industrial Modelling Challenge is given [here](assets/description.pdf). The document describes the initial data format which is given in Prolog syntax.
+

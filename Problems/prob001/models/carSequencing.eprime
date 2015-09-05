@@ -1,0 +1,39 @@
+language ESSENCE' 1.0
+
+
+given numcars : int(1..)
+
+given numclasses : int(1..)
+given numoptions : int(1..)
+
+given optMax : matrix indexed by [ int(1..numoptions) ] of int(0..)
+given windowSize : matrix indexed by [ int(1..numoptions) ] of int(0..)
+
+
+given optionsRequired : matrix indexed by [ int(1..numclasses), int(1..numoptions) ] of bool 
+
+given numberPerClass : matrix indexed by [ int(1..numclasses) ] of int(1..)
+
+
+$ Decision variables
+
+find seq: matrix indexed by [ int(1..numcars) ] of int(1..numclasses)
+
+such that
+
+forAll option : int(1..numoptions) . 
+    forAll windowStart : int(1..numcars-windowSize[option]+1) . 
+        (sum pos : int(windowStart..windowStart+windowSize[option]-1) . 
+            seq[pos] in toSet([ class | class : int(1..numclasses), optionsRequired[class, option]]) 
+        )<=optMax[option],
+
+forAll option : int(1..numoptions) . 
+    (sum pos : int(1..numcars) . 
+        seq[pos] in toSet([ class | class : int(1..numclasses), optionsRequired[class, option]]) 
+    )=
+    (
+        sum class : int(1..numclasses) . optionsRequired[class, option]*numberPerClass[class]
+    ),
+
+gcc(seq, [ i | i : int(1..numclasses)], numberPerClass)
+

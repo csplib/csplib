@@ -23,15 +23,15 @@
             { regex: /\/\/(.*)$/gm,                                           css: 'comments' },
             { regex: new RegExp(this.getKeywords(comet_operator), 'gm'),   css: 'functions' },
             { regex: new RegExp(this.getKeywords(comet_control), 'gmi'),   css: 'keyword' },
-            { regex: new RegExp(this.getKeywords(comet_type),    'gmi'),   css: 'color1 bold' },
-            { regex: new RegExp(this.getKeywords(comet_class),   'gmi'),   css: 'color1 bold' },
+            { regex: new RegExp(this.getKeywords(comet_type),    'gmi'),   css: 'keyword' },
+            { regex: new RegExp(this.getKeywords(comet_class),   'gmi'),   css: 'keyword' },
             { regex: new RegExp(this.getKeywords(comet_structure), 'gmi'), css: 'keyword' },
             { regex: new RegExp(this.getKeywords(comet_selectors), 'gmi'), css: 'keyword' },
             { regex: new RegExp(this.getKeywords(comet_constants), 'gmi'), css: 'keyword' },
             { regex: new RegExp(this.getKeywords(comet_other),    'gmi'),  css: 'keyword' },
             //{ regex: new RegExp(this.getKeywords(operators), 'gmi'), css: 'color1' },
-            { regex: /\/\*([^\*][\s\S]*)?\*\//gm,				           css: 'comments' },
-            { regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' }
+            { regex: /\/\*([\s\S]*?)\*\//g,                                css: 'comments'},
+            { regex: SyntaxHighlighter.regexLib.doubleQuotedString,        css: 'string' },
         ]};
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();

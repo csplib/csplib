@@ -19,7 +19,7 @@
             { regex: new RegExp(this.getKeywords(funcs), 'gm'),      css: 'functions' },
             { regex: new RegExp(this.getKeywords(keywords), 'gmi'),  css: 'keyword' },
             //{ regex: new RegExp(this.getKeywords(operators), 'gmi'), css: 'keyword' },
-            { regex: /\/\*([^\*][\s\S]*)?\*\//gm,                    css: 'comments' },
+            { regex: /\/\*([\s\S]*?)\*\//g,                    css: 'comments' },
             { regex: SyntaxHighlighter.regexLib.doubleQuotedString,  css: 'string' }
         ]};
 
