@@ -10,50 +10,54 @@
 % This MiniZinc model was created by Hakan Kjellerstrand, hakank@bonetmail.com
 % See also my MiniZinc page: http://www.hakank.org/minizinc
 %
+% Model modified to match CSPLib data format by Chris Mears.
+%
 % Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 %
 % include "globals.mzn"; 
-int: nbCars;
-int: nbOptions;
-int: nbSlots;
-set of int: Cars = 1..nbCars;
-set of int: Options = 1..nbOptions;
-set of int: Slots = 1..nbSlots;
+int: numclasses;
+int: numoptions;
+int: numcars;
+set of int: Classes = 1..numclasses;
+set of int: Options = 1..numoptions;
+set of int: Slots = 1..numcars;
 
-array[Cars] of int: demand;
+array[Classes] of int: numberPerClass;
 
-array[Options,Cars] of int: option;
-array[Options, 1..2] of int: capacity;
+array[Classes,Options] of int: optionsRequired;
+array[Options] of int: windowSize;
+array[Options] of int: optMax;
 
-array[Options] of int: optionDemand = [sum(j in Cars) (demand[j] * option[i,j]) | i in Options];
+array[Options] of int: optionNumberPerClass = [sum(j in Classes) (numberPerClass[j] * optionsRequired[j,i]) | i in Options];
 
 % decision variables
 
-array[Slots] of var Cars: slot;
+array[Slots] of var Classes: slot;
 array[Options, Slots] of var 0..1: setup;
 
 
-var int: z = sum(s in Cars) (s*slot[s]);
+var int: z = sum(s in Classes) (s*slot[s]);
 
-solve minimize z;
-% solve satisfy;
+% solve minimize z;
+solve :: int_search(slot, input_order, indomain_min, complete)
+  satisfy;
 
 constraint
-  forall(c in Cars ) (
-    sum(s in Slots ) (bool2int(slot[s] = c)) = demand[c]
+  forall(c in Classes ) (
+    sum(s in Slots ) (bool2int(slot[s] = c)) = numberPerClass[c]
   )
   /\
-  forall(o in Options, s in 1..nbSlots - capacity[o,2] + 1) (
-    sum(j in s..s + capacity[o,2]- 1) (setup[o,j]) <= capacity[o,1]
+  forall(o in Options, s in 1..numcars - windowSize[o] + 1) (
+    sum(j in s..s + windowSize[o]- 1) (setup[o,j]) <= optMax[o]
   )
   /\
   forall(o in Options, s in Slots ) (
-    setup[o,s] = option[o,slot[s]]
+    setup[o,s] = optionsRequired[slot[s],o]
   )
   /\
-  forall(o in Options, i in 1..optionDemand[o]) (
-    sum(s in 1..(nbSlots - i * capacity[o,2])) (setup[o,s]) >=
-           (optionDemand[o] - i * capacity[o,1])
+  forall(o in Options, i in 1..optionNumberPerClass[o]) (
+    sum(s in 1..(numcars - i * windowSize[o])) (setup[o,s]) >=
+           (optionNumberPerClass[o] - i * optMax[o])
   )
 ;
 
@@ -70,32 +74,3 @@ output [
     show(setup[i,j])
   | i in Options, j in Slots
 ];
-
-
-%
-% data
-%
-
-% From OPL, car dat (smallest instance)
-nbCars = 6;
-nbOptions = 5;
-nbSlots = 10;
-demand = [1, 1, 2, 2, 2, 2];
-option =
-  array2d(Options,Cars, 
-    [
-        1, 0, 0, 0, 1, 1,
-        0, 0, 1, 1, 0, 1,
-        1, 0, 0, 0, 1, 0,
-        1, 1, 0, 1, 0, 0,
-        0, 0, 1, 0, 0, 0
-    ]);
-capacity = 
-  array2d(Options, 1..2,
-   [
-        1,2,
-        2,3,
-        1,3,
-        2,5,
-        1,5
-    ]);
