@@ -1,6 +1,8 @@
 ---
 Title:    Production Line Sequencing
-Proposer: Özgür Akgün, Zeynep Kiziltan
+Proposer:
+	- Özgür Akgün
+	- Zeynep Kiziltan
 ---
 
 A problem description from the paper cite{bergen2001constraint} is the following:
