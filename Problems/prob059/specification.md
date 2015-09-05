@@ -1,6 +1,11 @@
 ---
 Title:    Energy-Cost Aware Scheduling
-Proposer: Helmut Simonis, Barry O’Sullivan, Deepak Mehta, Barry Hurley, Milan De Cauwer
+Proposer:
+	- Helmut Simonis
+	- Barry O’Sullivan
+	- Deepak Mehta
+	- Barry Hurley
+	- Milan De Cauwer
 Category: Scheduling and related problems
 ---
 
