@@ -13,7 +13,7 @@
         var datatypes = 'matrix tuple set mset partition int bool enum false true'
         var extras    = 'total injective bijective surjective maxOccur minOccur minSize size numParts partSize complete maxSize regular maxNumParts maxPartSize minNumParts minPartSize '
         var funcs     = 'defined preImage parts max min range toSet toMSet toRelation toInt allDiff atleast atmost gcc alldifferent_except table';
-        var keywords  = 'dim maximising minimising forAll exists sum be by domain in find from function given image indexed intersect freq lambda letting of partial quantifier relation representation subset subsetEq such supset supsetEq that together new type union where branching on';
+        var keywords  = 'dim maximising minimising forAll exists sum be by domain in find from function given image indexed intersect freq letting of partial quantifier relation representation subset subsetEq such supset supsetEq that together new type union where branching on';
         var operators = 'all and any between cross in join like not null or outer some';
 
         this.regexList = [
