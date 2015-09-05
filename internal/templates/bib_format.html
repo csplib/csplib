@@ -50,6 +50,14 @@
     {% endfor %}
     </span>
 
+    {% set note = entry|note %}
+    {% if note %}
+    <br>
+    <span class="note">
+      Note:
+      {{ note }}
+    </span>
+    {% endif %}
 </p>
 
 {% endfor %}
