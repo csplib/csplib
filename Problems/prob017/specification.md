@@ -1,7 +1,7 @@
 ---
 Title:    Ramsey Numbers
 Proposer: Toby Walsh
-Category:
+Category: Combinatorial mathematics
 ---
 
 

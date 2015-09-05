@@ -1,7 +1,7 @@
 ---
 Title:    Solitaire Battleships
 Proposer: Ian Gent 
-Category:
+Category: Games and puzzles
 ---
 
 
