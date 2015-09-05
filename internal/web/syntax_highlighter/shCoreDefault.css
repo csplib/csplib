@@ -288,7 +288,7 @@
   color: #008200 !important;
 }
 .syntaxhighlighter .string, .syntaxhighlighter .string a {
-  color: blue !important;
+  color: #dd4814 !important;
 }
 .syntaxhighlighter .keyword {
   color: #006699 !important;
@@ -303,7 +303,7 @@
   color: #009900 !important;
 }
 .syntaxhighlighter .functions {
-  color: #ff1493 !important;
+  color: #701030 !important;
 }
 .syntaxhighlighter .constants {
   color: #0066cc !important;
