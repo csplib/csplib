@@ -20,7 +20,7 @@ In chess a queen attacks other squares on the same row, column, or either diagon
 
 A simple arithmetical observation may be helpful in modelling. Suppose a queen is represented by an ordered pair (α,β), the value α represents the queen’s column, and β its row on the chessboard. Then two queens do not attack each other iff they have different values of *all* of α, β, α-β, and α+β. It may not be intuitively obvious that chessboard diagonals correspond to sums and differences, but consider moving one square along the two orthogonal diagonals: in one direction the sum of the coordinates does not change, while in the other direction the difference does not change.
 
-The problem is extremely well studied in the mathematical literature. An outstanding survey is available cite{Bell20091}.
+The problem is extremely well studied in the mathematical literature. An outstanding survey from 2009 is by Bell & Stevens cite{Bell20091}.
 
 Complexity
 ==========
@@ -28,4 +28,6 @@ Complexity
 Some care has to be taken when using the $n$-queens problem as a benchmark.  Here are some points to bear in mind:
 
 * The $n$-queens problem is solvable for $n=1$ and $n \qeq 4$. So the decision problem is solvable in constant time. 
-* On the other hand no 
+* A solution to the $n$-queens problem for any $n \not = 2,3$ was given in 1874 by Pauls and can be found in Bell & Stevens' survey  cite{Bell20091}. It can be constructed in time $O(n)$ (assuming arithemetical operations on size $n$ are $O(1)$.) 
+* Note that the parameter $n$ for $n$-queens only needs $\log(n)$ bits to specify, so actually $O(n)$ is exponential in the input size. I.e. it's not trivial to provide a witness of poly size in the input. 
+* While the decision problem is easy, counting the number of solutions for given $n$ is not. Indeed Bell & Stevens cite{Bell20091} report that there is no closed form expression for it and that it is "beyond #P-Complete", citing cite{Hsiang200487}.
