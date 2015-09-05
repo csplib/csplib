@@ -1,0 +1,33 @@
+language Essence 1.3
+
+$ Optimal Financial Portfolio Design
+$
+$ Problem details available at http://www.csplib.org/Problems/prob065/
+$
+$ Essence model by Jean-Noël Monette
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+given v,b,r: int(1..) 
+where r <= v
+
+letting Nums be domain int(1..v)
+
+letting rv be r*v
+letting rvmodb be rv % b
+letting floorrv be rv / b
+letting ceilrv be rv / b + toInt(rv % b != 0)
+letting num be (ceilrv*ceilrv*rvmodb+floorrv*floorrv*(b-rvmodb)-rv)
+letting denom be v*(v-1)
+letting lb_lambda be num / denom + toInt( num % denom !=0)
+
+
+find opd : set (size b) of set (size r) of Nums
+
+find lambda : int(lb_lambda..v)
+
+minimising lambda
+
+such that
+    forAll {i, j} subsetEq opd .
+        |i intersect j| <= lambda
