@@ -24,7 +24,7 @@
         ]};
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
-    Brush.aliases   = ['minizinc'];
+    Brush.aliases   = ['minizinc','mzn'];
 
     SyntaxHighlighter.brushes.MiniZinc = Brush;
 
