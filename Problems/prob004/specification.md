@@ -6,7 +6,7 @@ Category: Scheduling and related problems
 
 A well-known cosmetic company wants to evaluate the performance of her saleladies, who station at the company's counters at various department stores in different geographical locations. For this purpose, the company has hired some secret agents to disguise as shoppers to visit the salesladies. The visits must be scheduled in such a way that each saleslady must be visited by shoppers of different varieties and that the visits should be spaced out roughly evenly. Also, shoppers should visit salesladies in different geographic locations. The exact constraints, which ensure the statistical soundness of the project, follow.
 
-1. There are totally 19 outlets to be visited. They are located in 4 geographical regions: 5 outlets in Area 1 (outlet 1-5), 5 outlets in Area 2 (outlet 6-10), 5 outlets in Area 3 (outlet 11-15), and 4 outlets in Area 4 (outlet 16-19).
+1. There are a total of 19 outlets to be visited. They are located in 4 geographical regions: 5 outlets in Area 1 (outlet 1-5), 5 outlets in Area 2 (outlet 6-10), 5 outlets in Area 3 (outlet 11-15), and 4 outlets in Area 4 (outlet 16-19).
 
 2. There will be 1 to 4 salesladies in each outlet. Each saleslady will be visited by 4 different shoppers. The frequency of visits to a particular outlet will be the number of salesladies times 4. There are totally 35 salesladies working in all outlets everyday. Therefore, the total number of visits is 140.
 
