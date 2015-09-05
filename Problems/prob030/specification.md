@@ -26,4 +26,4 @@ Note that we could consider other types of balance criterion, such as minimising
 
 **The Generalised Balanced Academic Curriculum Problem**
 
-Marco Chiarandini, Luca Di Gaspero, Stefano Gualandi, and Andrea Schaerf have proposed a more challenging <a href="http://www.diegm.uniud.it/satt/projects/bacp/">generalised version</a> of the problem. 
+Marco Chiarandini, Luca Di Gaspero, Stefano Gualandi, and Andrea Schaerf have proposed a more challenging <a href="http://www.csplib.org/Problems/prob064">generalised version</a> of the problem. 
