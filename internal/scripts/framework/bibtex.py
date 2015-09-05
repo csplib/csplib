@@ -169,6 +169,8 @@ def _main_url(entry):
     for f in urlfields:
         if f in entry.fields:
             return entry.fields[f]
+    if 'doi' in entry.fields:
+        return 'http://dx.doi.org/' + entry.fields['doi']
     return None
 
 
