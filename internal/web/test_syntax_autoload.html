@@ -16,6 +16,19 @@ function helloSyntaxHighlighter()
 }
 </pre>
 
+<pre class="brush: essenceprime;">
+language ESSENCE' 1.0
+
+
+given numcars : int(1..)
+
+given numclasses : int(1..)
+given numoptions : int(1..)
+
+given optMax : matrix indexed by [ int(1..numoptions) ] of int(0..)
+given windowSize : matrix indexed by [ int(1..numoptions) ] of int(0..)
+</pre>
+
 <script type="text/javascript" src="syntax_highlighter/shCore.js"></script>
 <script type="text/javascript" src="syntax_highlighter/shAutoloader.js" ></script>
 <script type="text/javascript">
@@ -25,7 +38,8 @@ function helloSyntaxHighlighter()
     ['css','syntax_highlighter/shBrushCss.js'],
     ['xml','syntax_highlighter/shBrushXml.js'],
     ['sql','syntax_highlighter/shBrushSql.js'],
-    ['php','syntax_highlighter/shBrushPhp.js']
+    ['php','syntax_highlighter/shBrushPhp.js'],
+    ['essenceprime','js/shBrushEssencePrime.js']
     );
     SyntaxHighlighter.all();
 </script>
