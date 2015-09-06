@@ -14,7 +14,7 @@ markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
 
 source_types = set(['cc', 'c', 'comet', 'co', 'java', 'cpp', 'cs', 'eprime', 'erl', 'essence',
 				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js', 'minizinc', 'mzn',
-				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml'])
+				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml', 'essenceprime'])
 
 text_formats = set(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'ecl', 'egenet',
 					'chip', 'pi', 'pl'])
