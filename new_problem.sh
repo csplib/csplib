@@ -9,15 +9,13 @@ if [ $# -eq 0 ]; then
 
 	for cur in $(ls -1 Problems/ | egrep -o 'prob[0-9]+' | sort -n | sed -e 's/prob*//' | sed 's/^0*//'); do
 		if ((  cur != prev + 1 )); then
-			cur="$((prev +1))"
+			cur="${prev}"
 			break
 		fi
 		prev="${cur}"
 	done
 
-	if (( cur == 0 )); then
-		cur=1
-	fi
+	(( cur++ ))
 
 	echo "Run the following to use the next available number:"
 	printf "  $0 prob%03d " "${cur}"
