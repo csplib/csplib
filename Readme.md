@@ -59,7 +59,7 @@ References are stored in the `references` directory. The file `references.bib` s
 in standard BibTeX format. Any text in the file `notes.inline.md` will be listed at the top of the references page.
 
 A problem can be referenced using its id, [prob058] will be shown hyperlinked as [prob058:Discrete Lot Sizing Problem].
-
+{prob058} will shown hyperlinked as Discrete Lot Sizing Problem
 
 ## Models, data and results directories
 

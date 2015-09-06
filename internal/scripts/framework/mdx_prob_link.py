@@ -4,7 +4,7 @@
 import markdown
 import re
 
-PROB_LINK_RE = r'\[(prob\d+)\]',
+PROB_LINK_RE = r'([\[{])(prob\d+)[}\]]',
 # PROB_DATA is shared with generate_web_site
 PROB_DATA = {}
 
@@ -12,14 +12,17 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
 		base = markdown.util.etree.Element('span')
 		base.text=' '
-		ref = m.group(2)
+		ref = m.group(3)
 		url = '~~PREFIX_PATH~~/Problems/' + ref
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
 
 		try:
-			val =  "[{}:{}]".format(ref, PROB_DATA[ref]['title'])
+			if m.group(2) == '{':
+				val =  "{}".format(PROB_DATA[ref]['title'])
+			else:
+				val =  "[{}:{}]".format(ref, PROB_DATA[ref]['title'])
 		except KeyError:
 			val =  "[{}]".format(ref)
 
