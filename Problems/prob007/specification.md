@@ -13,5 +13,5 @@ The problem of finding such a series can be easily formulated as an instance of 
  
 A vector $v$ satisfying these conditions is called an all-interval series of size $n$; the problem of finding such a series is the all-interval series problem of size $n$. We may also be interested in finding all possible series of a given size. 
 
-The All-Interval Series is a special case of the [Graceful Graphs Problem](/Problems/prob053) in which the graph is a line. 
+The All-Interval Series is a special case of the {prob053} in which the graph is a line. 
 
