@@ -1,7 +1,7 @@
 % 
 % Quasigroup problem in MiniZinc.
 % 
-% This model is a translation of the ESSENCE' model quasiGroup3NonIdempotent.eprime
+% This model is a translation of the EssencePrime model quasiGroup3NonIdempotent.eprime
 % from the Minion Translator examples. 
 % """
 % The quasiGroup existence problem (CSP lib problem 3)

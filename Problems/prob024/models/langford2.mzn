@@ -1,6 +1,6 @@
 % Langford's number problem in MiniZinc.
 %
-% This model is based on the ESSENCE' model in the Minion Translator examples:
+% This model is based on the EssencePrime model in the Minion Translator examples:
 %
 % http://www.cs.st-andrews.ac.uk/~andrea/examples/langford/langford.eprime
 % """
