@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 import sys
+import util
 
 from copy import deepcopy
 
@@ -24,6 +25,7 @@ import os, os.path as path
 import jinja2_exts
 import bibtex
 import problem
+import mdx_prob_link
 
 from collections import defaultdict
 from datetime import datetime
@@ -115,6 +117,8 @@ def create_problem(name, path, pagetype):
 probs = [p for p in [create_problem(p, problems_path, PageType.PROBLEM) for p in probs_names] if p.is_vaild()]
 langs = [p for p in [create_problem(p, languages_path, PageType.LANGUAGE) for p in langs_names] if p.is_vaild()]
 
+prog_name
+
 categories_map = defaultdict(list)
 authors_map = defaultdict(list)
 months_map = defaultdict(list)
@@ -189,8 +193,23 @@ def model_uses_language(model, language):
 	return False
 
 
+# PROB_DATA is shared with mdx_prob_link
+PROB_DATA = {}
+# We need the title to for referencing problems, so we preprocess the specification
+for prob in probs:
+	try:
+		(_,meta) = util.convert_markdown(prob.specification)
+		PROB_DATA[prob.name] = dict(title=meta['title'][0])
+	except Exception as e:
+		logger.info("Failure in page %s", page.name)
+		logger.info("Error: %s", e)
+		raise
+
+mdx_prob_link.PROB_DATA=PROB_DATA
+
 generate_pages(probs)
 generate_pages(langs)
+
 
 lang_files = defaultdict(list)
 
@@ -205,12 +224,12 @@ for p in probs:
 					clone['meta']['type'] = [p.prob_meta['title']]
 					clone['meta']['type_link'] = "../../../"+p.prob_meta['prob_base']
 					l.parts[pages].append(clone)
-					
+
 					if pages == 'models':
 						dirpart =  os.path.splitext(model['name'])[0]
 					else:
 						dirpart = 'data'
-					src_dst=( path.join(p.prob_meta['prob_base'], pages,  model['name']), 
+					src_dst=( path.join(p.prob_meta['prob_base'], pages,  model['name']),
 							  path.join(l.name, p.name,dirpart, model['name']) )
 					lang_files[l.name].append(src_dst)
 					break
