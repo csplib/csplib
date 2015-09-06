@@ -5,3 +5,5 @@ Many examples of magic squares can be found [online](http://www.pse.che.tohoku.a
 The smallest anti-magic square is 3 by 3. [Constructions](http://www.uwinnipeg.ca/~jcormie/construct.html) exist for building anti-magic squares of larger sizes, but these do not give all possible squares.
 
 Eliminating symmetry would appear to be very important in these problems, especially when counting solutions or proving none exits.
+
+Results on MagicSquareCompletionInstances.zip can be found in cite{PesantQZ12}.

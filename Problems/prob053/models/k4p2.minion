@@ -1,0 +1,144 @@
+MINION 3
+# CSETopLevel_number = 0
+# CSETopLevel_eliminated_expressions = 0
+# CSETopLevel_total_size = 0
+# CSE_active_number = 0
+# CSE_active_eliminated_expressions = 0
+# CSE_active_total_size = 0
+**VARIABLES**
+DISCRETE nodes_00000 #
+{0..16}
+DISCRETE nodes_00001 #
+{0..16}
+DISCRETE nodes_00002 #
+{0..16}
+DISCRETE nodes_00003 #
+{0..16}
+DISCRETE nodes_00004 #
+{0..16}
+DISCRETE nodes_00005 #
+{0..16}
+DISCRETE nodes_00006 #
+{0..16}
+DISCRETE nodes_00007 #
+{0..16}
+DISCRETE edges_00000 #
+{1..16}
+DISCRETE edges_00001 #
+{1..16}
+DISCRETE edges_00002 #
+{1..16}
+DISCRETE edges_00003 #
+{1..16}
+DISCRETE edges_00004 #
+{1..16}
+DISCRETE edges_00005 #
+{1..16}
+DISCRETE edges_00006 #
+{1..16}
+DISCRETE edges_00007 #
+{1..16}
+DISCRETE edges_00008 #
+{1..16}
+DISCRETE edges_00009 #
+{1..16}
+DISCRETE edges_00010 #
+{1..16}
+DISCRETE edges_00011 #
+{1..16}
+DISCRETE edges_00012 #
+{1..16}
+DISCRETE edges_00013 #
+{1..16}
+DISCRETE edges_00014 #
+{1..16}
+DISCRETE edges_00015 #
+{1..16}
+DISCRETE aux48 #(nodes_00000-1*nodes_00001)
+{-16..16}
+DISCRETE aux50 #(nodes_00000-1*nodes_00002)
+{-16..16}
+DISCRETE aux52 #(nodes_00000-1*nodes_00003)
+{-16..16}
+DISCRETE aux54 #(nodes_00001-1*nodes_00002)
+{-16..16}
+DISCRETE aux56 #(nodes_00001-1*nodes_00003)
+{-16..16}
+DISCRETE aux58 #(nodes_00002-1*nodes_00003)
+{-16..16}
+DISCRETE aux60 #(nodes_00004-1*nodes_00005)
+{-16..16}
+DISCRETE aux62 #(nodes_00004-1*nodes_00006)
+{-16..16}
+DISCRETE aux64 #(nodes_00004-1*nodes_00007)
+{-16..16}
+DISCRETE aux66 #(nodes_00005-1*nodes_00006)
+{-16..16}
+DISCRETE aux68 #(nodes_00005-1*nodes_00007)
+{-16..16}
+DISCRETE aux70 #(nodes_00006-1*nodes_00007)
+{-16..16}
+DISCRETE aux72 #(nodes_00000-1*nodes_00004)
+{-16..16}
+DISCRETE aux74 #(nodes_00001-1*nodes_00005)
+{-16..16}
+DISCRETE aux76 #(nodes_00002-1*nodes_00006)
+{-16..16}
+DISCRETE aux78 #(nodes_00003-1*nodes_00007)
+{-16..16}
+**SEARCH**
+PRINT[[nodes_00000],[nodes_00001],[nodes_00002],[nodes_00003],[nodes_00004],[nodes_00005],[nodes_00006],[nodes_00007],[edges_00000],[edges_00001],[edges_00002],[edges_00003],[edges_00004],[edges_00005],[edges_00006],[edges_00007],[edges_00008],[edges_00009],[edges_00010],[edges_00011],[edges_00012],[edges_00013],[edges_00014],[edges_00015]]
+VARORDER STATIC [nodes_00000, nodes_00001, nodes_00002, nodes_00003, nodes_00004, nodes_00005, nodes_00006, nodes_00007, edges_00000, edges_00001, edges_00002, edges_00003, edges_00004, edges_00005, edges_00006, edges_00007, edges_00008, edges_00009, edges_00010, edges_00011, edges_00012, edges_00013, edges_00014, edges_00015]
+VARORDER AUX [nodes_00000,nodes_00001,nodes_00002,nodes_00003,nodes_00004,nodes_00005,nodes_00006,nodes_00007,edges_00000,edges_00001,edges_00002,edges_00003,edges_00004,edges_00005,edges_00006,edges_00007,edges_00008,edges_00009,edges_00010,edges_00011,edges_00012,edges_00013,edges_00014,edges_00015,aux48,aux50,aux52,aux54,aux56,aux58,aux60,aux62,aux64,aux66,aux68,aux70,aux72,aux74,aux76,aux78]
+**CONSTRAINTS**
+abs(edges_00000, aux48)
+abs(edges_00001, aux50)
+abs(edges_00002, aux52)
+abs(edges_00003, aux54)
+abs(edges_00004, aux56)
+abs(edges_00005, aux58)
+abs(edges_00006, aux60)
+abs(edges_00007, aux62)
+abs(edges_00008, aux64)
+abs(edges_00009, aux66)
+abs(edges_00010, aux68)
+abs(edges_00011, aux70)
+abs(edges_00012, aux72)
+abs(edges_00013, aux74)
+abs(edges_00014, aux76)
+abs(edges_00015, aux78)
+gacalldiff([edges_00000, edges_00001, edges_00002, edges_00003, edges_00004, edges_00005, edges_00006, edges_00007, edges_00008, edges_00009, edges_00010, edges_00011, edges_00012, edges_00013, edges_00014, edges_00015])
+gacalldiff([nodes_00000, nodes_00001, nodes_00002, nodes_00003, nodes_00004, nodes_00005, nodes_00006, nodes_00007])
+weightedsumleq([1,-1],[nodes_00000,nodes_00001],aux48)
+weightedsumgeq([1,-1],[nodes_00000,nodes_00001],aux48)
+weightedsumleq([1,-1],[nodes_00000,nodes_00002],aux50)
+weightedsumgeq([1,-1],[nodes_00000,nodes_00002],aux50)
+weightedsumleq([1,-1],[nodes_00000,nodes_00003],aux52)
+weightedsumgeq([1,-1],[nodes_00000,nodes_00003],aux52)
+weightedsumleq([1,-1],[nodes_00001,nodes_00002],aux54)
+weightedsumgeq([1,-1],[nodes_00001,nodes_00002],aux54)
+weightedsumleq([1,-1],[nodes_00001,nodes_00003],aux56)
+weightedsumgeq([1,-1],[nodes_00001,nodes_00003],aux56)
+weightedsumleq([1,-1],[nodes_00002,nodes_00003],aux58)
+weightedsumgeq([1,-1],[nodes_00002,nodes_00003],aux58)
+weightedsumleq([1,-1],[nodes_00004,nodes_00005],aux60)
+weightedsumgeq([1,-1],[nodes_00004,nodes_00005],aux60)
+weightedsumleq([1,-1],[nodes_00004,nodes_00006],aux62)
+weightedsumgeq([1,-1],[nodes_00004,nodes_00006],aux62)
+weightedsumleq([1,-1],[nodes_00004,nodes_00007],aux64)
+weightedsumgeq([1,-1],[nodes_00004,nodes_00007],aux64)
+weightedsumleq([1,-1],[nodes_00005,nodes_00006],aux66)
+weightedsumgeq([1,-1],[nodes_00005,nodes_00006],aux66)
+weightedsumleq([1,-1],[nodes_00005,nodes_00007],aux68)
+weightedsumgeq([1,-1],[nodes_00005,nodes_00007],aux68)
+weightedsumleq([1,-1],[nodes_00006,nodes_00007],aux70)
+weightedsumgeq([1,-1],[nodes_00006,nodes_00007],aux70)
+weightedsumleq([1,-1],[nodes_00000,nodes_00004],aux72)
+weightedsumgeq([1,-1],[nodes_00000,nodes_00004],aux72)
+weightedsumleq([1,-1],[nodes_00001,nodes_00005],aux74)
+weightedsumgeq([1,-1],[nodes_00001,nodes_00005],aux74)
+weightedsumleq([1,-1],[nodes_00002,nodes_00006],aux76)
+weightedsumgeq([1,-1],[nodes_00002,nodes_00006],aux76)
+weightedsumleq([1,-1],[nodes_00003,nodes_00007],aux78)
+weightedsumgeq([1,-1],[nodes_00003,nodes_00007],aux78)
+**EOF**

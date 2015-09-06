@@ -44,7 +44,7 @@
 </p>
 {% endif %}
 
-{{notes.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
+{{notes.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base).replace("~~PREFIX_PATH~~", prefix_path) }}
 
 {{references}}
 

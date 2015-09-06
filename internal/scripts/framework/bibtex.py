@@ -27,7 +27,8 @@ def add_filters(template_env):
     template_env.filters['main_url'] = _main_url
     template_env.filters['extra_urls'] = _extra_urls
     template_env.filters['monthname'] = _month_name
-
+    template_env.filters['publisher'] = _publisher
+    template_env.filters['note']      = _note
 
 class Bib(object):
     def __init__(self, bibfile):
@@ -147,8 +148,22 @@ def _venue(entry):
     else:
         # venue = 'Unknown venue (type={})'.format(entry.type)
         venue =""
+
+    if 'pages' in f:
+        if venue != "":
+            venue = venue + ', '
+        venue = venue + f['pages']
+
     return venue
 
+def _publisher(entry):
+    if entry.type == 'book':
+        try:
+            return entry.fields['publisher']
+        except KeyError:
+            return ""
+    else:
+        return ""
 
 def _title(entry):
     if entry.type == 'inbook':
@@ -169,6 +184,11 @@ def _main_url(entry):
     for f in urlfields:
         if f in entry.fields:
             return entry.fields[f]
+    if 'doi' in entry.fields:
+        if entry.fields['doi'][:4] != "http":
+            return 'http://dx.doi.org/' + entry.fields['doi']
+        else:
+            return entry.fields['doi']
     return None
 
 
@@ -189,6 +209,11 @@ def _extra_urls(entry):
         urls[urltype] = url
     return urls
 
+def _note(entry):
+    if 'note' in entry.fields and entry.fields['note'] != "":
+        return entry.fields['note']
+    else:
+        return None
 
 def _month_match(mon):
     if re.match('^[0-9]+$', mon):
