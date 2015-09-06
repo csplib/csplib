@@ -27,7 +27,7 @@
     };
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
-    Brush.aliases   = ['essence','eprime', 'param'];
+    Brush.aliases   = ['essence', 'param'];
 
     SyntaxHighlighter.brushes.Essence = Brush;
 
