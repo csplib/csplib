@@ -17,4 +17,4 @@ graphs whose status is known.
 </figure>
 </center>
 
-The All-Interval Series [Prob007](/Problems/prob007) is a special case of a graceful graph where the graph is a line.
+The All-Interval Series {prob007} is a special case of a graceful graph where the graph is a line.
