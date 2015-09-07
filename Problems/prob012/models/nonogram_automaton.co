@@ -136,8 +136,10 @@ int col_rules[1..cols, 1..col_rule_len] =
 //   #fail    = 794
 //   #propag  = 693993
 //   comet -q nonogram_automaton.co  1,82s user 0,10s system 99% cpu 1,936 total
-include "nonogram_p200";
 
+
+// data files should be imported from the "data" parent directory, for example
+// include "../data/nonogram_p200";
 
 // Nonogram problem from Wikipedia, soccer player
 // http://en.wikipedia.org/wiki/Nonogram

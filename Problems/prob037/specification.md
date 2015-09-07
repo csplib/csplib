@@ -4,7 +4,7 @@ Proposer:
     - Chris Jefferson
     - Angela Miguel
     - Ian Miguel
-    - Armagan Tarmin
+    - Armagan Tarim
 Category: Games and puzzles
 ---
 

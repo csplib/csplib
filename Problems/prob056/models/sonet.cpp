@@ -3,7 +3,7 @@
   SONET problem in Gecode.
 
 
-  Translation of the ESSENCE' model in the Minion Translator examples:
+  Translation of the EssencePrime model in the Minion Translator examples:
   http://www.cs.st-andrews.ac.uk/~andrea/examples/sonet/sonet_problem.eprime
   """
   The SONET problem is a network design problem: set up a network between
@@ -118,7 +118,7 @@ public:
     for(int client1 = 0; client1 < n; client1++) {
       for(int client2 = client1 + 1; client2 < n; client2++) {
         if(demand[client1*n+client2] == 1) {
-          // ESSENCE' code:
+          // EssencePrime code:
           //   exists ring : int(1..r) .
           //      rings[ring,client1] + rings[ring, client2] >= 2)
 
