@@ -16,3 +16,5 @@ graphs whose status is known.
   <figcaption>A graceful labelling of $K_4$ </figcaption>
 </figure>
 </center>
+
+{prob007} is a special case of a graceful graph where the graph is a line.
