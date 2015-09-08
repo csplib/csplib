@@ -2,7 +2,7 @@
 
   SONET problem in Picat.
 
-  From the ESSENCE' model in the Minion Translator examples:
+  From the EssencePrime model in the Minion Translator examples:
   http://www.cs.st-andrews.ac.uk/~andrea/examples/sonet/sonet_problem.eprime
   """
   The SONET problem is a network design problem: set up a network between

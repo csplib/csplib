@@ -1,5 +1,6 @@
 ---
 Title:    All-Interval Series
+Category: Combinatorial mathematics
 Proposer: Holger Hoos
 ---
 
@@ -11,4 +12,6 @@ The problem of finding such a series can be easily formulated as an instance of 
  2. the interval vector $v = (|s_2-s_1|, |s_3-s_2|, ... |s_n-s_{n-1}|)$ is a permutation of $ \mathbb Z_n \setminus \\{0\\} = \\{1,2,...,n-1\\}$. 
  
 A vector $v$ satisfying these conditions is called an all-interval series of size $n$; the problem of finding such a series is the all-interval series problem of size $n$. We may also be interested in finding all possible series of a given size. 
+
+The All-Interval Series is a special case of the {prob053} in which the graph is a line. 
 

@@ -40,29 +40,34 @@ The specification needs to start with a `Title`, `Proposer` and `Category` in th
     ---
     Title:    Magic Hexagon
     Proposer: Toby Walsh
-    Category: 
+    Category:
         - Design and configuration
         - Combinatorial mathematics
         - Games and puzzles
     ---
-    
+
 If the `Proposer` or `Category` have multiple values, they are put on
 a new line as shown above.
 
-The rest of the specification is written in [markdown](https://help.github.com/articles/github-flavored-markdown). References from the [references](#references) section can be cited using the notation `cite{bibref}`.
+The rest of the specification is written in [markdown](https://help.github.com/articles/github-flavored-markdown).
+ References from the [references](#references) section can be cited using the notation `cite{bibref}`.
+
 
 ## References
 
 References are stored in the `references` directory. The file `references.bib` should contain references
-in standard bibtex format. Any text in the file `notes.inline.md` will be listed at the top of the references page.
+in standard BibTeX format. Any text in the file `notes.inline.md` will be listed at the top of the references page.
+
+A problem can be referenced using its id, [prob058] will be shown hyperlinked as [prob058:Discrete Lot Sizing Problem].
+{prob058} will shown hyperlinked as Discrete Lot Sizing Problem
 
 ## Models, data and results directories
 
 Each of these directories are handled in the same way.
 
-Files can be added to these directories by simply placing the file in the appropriate directory. Human readable files are displayed in place, binary files
-are given a download link. If any file is incorrectly identified
-as binary or human readable, please submit a bug report!
+Files can be added to these directories by simply placing the file in the appropriate directory.
+Human readable files are displayed in place, binary files are given a download link.
+If any file is incorrectly identified as binary or human readable, please submit a bug report!
 
 You can describe a file `file.txt` in a file `file.txt.metadata`. This can
 contain a `Title`, and a `Type`. The file should be formatted as follows:

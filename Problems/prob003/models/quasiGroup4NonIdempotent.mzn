@@ -1,7 +1,7 @@
 % 
 % Quasigroup problem 4 NonIdempotent in MiniZinc.
 % 
-% This model is a translation of the ESSENCE' model quasiGroup4NonIdempotent.eprime
+% This model is a translation of the EssencePrime model quasiGroup4NonIdempotent.eprime
 % from the Minion Translator examples. 
 % """
 %

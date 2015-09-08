@@ -3,14 +3,23 @@
 set -o nounset
 
 if [ $# -eq 0 ]; then
-	echo "$0 new_problem_name"
-	echo "Creates a template for a new problem"
-	highest=`ls -1 Problems/ | egrep 'prob[0-9]+' | sort -n | tail -n 1 | sed -e 's/prob*//' | sed 's/^0*//'`
-	if [ $highest -lt 0 ]; then
-		highest=0
-	fi
-	(( highest++ ))
-	printf "e.g $0 prob%03d for the next(highest) free problem number\n" $highest
+	echo "Creates a template for a new problem."
+	prev=0
+	cur=0
+
+	for cur in $(ls -1 Problems/ | egrep -o 'prob[0-9]+' | sort -n | sed -e 's/prob*//' | sed 's/^0*//'); do
+		if ((  cur != prev + 1 )); then
+			cur="${prev}"
+			break
+		fi
+		prev="${cur}"
+	done
+
+	(( cur++ ))
+
+	echo "Run the following to use the next available number:"
+	printf "  $0 prob%03d " "${cur}"
+
 	exit 0
 fi
 
@@ -57,4 +66,3 @@ echo ""
 
 echo "Optionally add references (BibTeX format) in $prob_dir/references.bib"
 echo "See ./Problems/prob001 or ./Problems/prob002 for an example"
-

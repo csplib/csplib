@@ -1,7 +1,7 @@
 %
 % The SONET problem in MiniZinc.
 % 
-% Translation of the ESSENCE' model in the Minion Translator examples:
+% Translation of the EssencePrime model in the Minion Translator examples:
 % http://www.cs.st-andrews.ac.uk/~andrea/examples/sonet/sonet_problem.eprime
 % """
 % The SONET problem is a network design problem: set up a network between
