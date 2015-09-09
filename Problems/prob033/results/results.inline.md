@@ -26,11 +26,11 @@
   have managed to find the solution of size <IT>112</IT>
   listed at the end of this page
   with an implementation of an optimisation CSP in
-   <A HREF="http://www.icparc.ic.ac.uk/eclipse">ECL<SUP><IT>i</IT></SUP>PS<SUP><IT>e</IT></SUP></A>.
+   <A HREF="http://eclipseclp.org">ECL<SUP><IT>i</IT></SUP>PS<SUP><IT>e</IT></SUP></A>.
  The solution was not easy to find in two ways.
  The first reason is that the CSP formulation is too large
   and that it is impossible to find a solution within reasonable time
-  (at least with <A HREF="http://www.icparc.ic.ac.uk/eclipse">ECL<SUP><IT>i</IT></SUP>PS<SUP><IT>e</IT></SUP></A>) and
+  (at least with <A HREF="http://eclipseclp.org">ECL<SUP><IT>i</IT></SUP>PS<SUP><IT>e</IT></SUP></A>) and
   without a linear programming tool.
  To overcome this problem I combined the greedy and optimisation approach.
  The second reason is that the problem (at least with my formulation)
