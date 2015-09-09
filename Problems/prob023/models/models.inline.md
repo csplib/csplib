@@ -1,6 +1,6 @@
 Various code is available online for finding magic hexagons:
 
-* some [ECLIPSE code](http://www.icparc.ic.ac.uk/eclipse/examples/k_puzzle.pl.txt)
+* some [ECLiPSe code](http://eclipseclp.org/examples/k_puzzle.pl.txt)
 
 * some [LPA code](http://perso.wanadoo.fr/colin.barker/lpa/hexagon.htm)
 
