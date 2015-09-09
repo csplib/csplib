@@ -26,4 +26,4 @@ $v$	|  $b$	|  $r$	| lb($\lambda$)
 19	|  19	|   9	|      4
 10	|  37	|  14	|      5
 
-$^*$ For the instance $\langle 15,21,7 \rangle$, the best known solution has $\lambda = 3$ and it is unkown whether there exists a solution that matches the computed lower bound of 2.
+$^*$ For the instance $\langle 15,21,7 \rangle$, the best known solution has $\lambda = 3$ and it is unkown whether there exists a solution that matches the computed lower bound of 2 (note that not much effort has been put into answering this question).
