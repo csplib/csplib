@@ -55,110 +55,57 @@
   Model created by Hakan Kjellerstrand, hakank@gmail.com
   See also my ECLiPSe page: http://www.hakank.org/eclipse/
 
+  Model simplified by Joachim Schimpf
+
 */
 
 % Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
 :-lib(ic).
-:-lib(matrix_util).
-:-lib(listut).
-%:-lib(ic_global).
-%:-lib(ic_search).
-%:-lib(branch_and_bound).
-%:-lib(propia).
-
+:-lib(ic_global).
+:-import alldifferent/1 from ic_global.
 
 
 go :- 
         problem(1,Hints),
         killer_sudoku(Hints,X,Backtracks),
-        ( foreach(Row,X)
-        do
-          write(Row),nl
+        ( foreacharg(Row,X) do
+          writeln(Row)
         ),
         nl,
-        writeln(backtracks:Backtracks),
-        nl.
+        writeln(backtracks:Backtracks).
+
 
 killer_sudoku(Problem,X,Backtracks) :-
         
-        matrix(X,[9,9]),
+        dim(X,[9,9]),
+        X :: 1..9,
 
-        term_variables(X, Vars), % flattening for domain and labeling
-        Vars :: 1..9,
-
-        % The hints
-        % (This was just copied from
-        %  http://www.hakank.org/sicstus/kakuro.pl )
-        ( foreach([Sum|List],Problem),
-          param(X) do 
-              ( foreach([R,C],List),
-                fromto(XLine,Out,In,[]),
-                param(X) do
-                    matrix_element(X,R,C,XRC),
-                    XRC #> 0,
-                    Out = [XRC|In]
-              ),
-              sum(XLine)#=Sum,
-              alldifferent(XLine)
-        ),
-        
-
-        % These standard Sudoku constraints are 
-        % from http://www.hakank.org/sicstus/sudoku.pl
-
-        % rows
-        ( foreach(Row, X)
-        do
-          alldifferent(Row)
-        ),
-        
-        % columns
-        transpose(X,Columns),
-        ( foreach(Column, Columns)
-        do
-          alldifferent(Column)
+        % rows and columns
+        ( for(I,1,9), param(X) do
+          alldifferent(X[I,1..9]),
+          alldifferent(X[1..9,I])
         ),
 
-        % cells
-        ( for(I, 0, 2), param(Vars) do
-              ( for(J, 0, 2), 
-                param(I,Vars) do
-                    ( for(R, I*3,I*3+2), 
-                      fromto(RR, OutR, InR, []),
-                      param(J,Vars) do
-                          ( for(C, J*3,J*3+2), 
-                            fromto(CC, OutC, InC, []),
-                            param(R,Vars) do
-                                X is 1+R*9+C,
-                                nth1(X, Vars, El),
-                                OutC = [El|InC]
-                          ),
-                          OutR = [CC|InR]
-                    ),
-                    term_variables(RR,V),
-                    alldifferent(V)
-              )
+        % 3x3 squares
+        ( multifor([I,J],1,9,3), param(X) do
+            ( multifor([K,L],0,2), foreach(Field,SubSquare), param(X,I,J) do
+                Field is X[I+K,J+L]
+            ),
+            alldifferent(SubSquare)
         ),
 
+        % cages and sum hints
+        ( foreach([Sum|Indices],Problem), param(X) do 
+            ( foreach(Index,Indices), foreach(Field,Cage), param(X) do
+                subscript(X, Index, Field)
+            ),
+            sum(Cage)#=Sum,
+            alldifferent(Cage)
+        ),
+
+        array_flat(2, X, Vars),
         search(Vars,0,first_fail,indomain_min,complete,[backtrack(Backtracks)]).
-
-
-
-
-matrix_element(X, I, J, Val) :-
-        nth1(I, X, Row),
-        nth1(J, Row, Val).
-
-
-% Suggested by Mats Carlsson
-matrix(_, []) :- !.
-matrix(L, [Dim|Dims]) :-
-        length(L, Dim),
-        (   foreach(X,L),
-            param(Dims)
-        do  matrix(X, Dims)
-        ).
 
 
 
