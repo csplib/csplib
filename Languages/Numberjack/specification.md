@@ -1,6 +1,6 @@
 ---
 Title: Numberjack
-Extensions: py
+Extensions:
 ---
 
 Numberjack is a modelling platform written in Python for constraint programming
