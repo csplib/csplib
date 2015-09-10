@@ -33,7 +33,7 @@ from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
 from problem import Problem, PageType
-from util import create_zip_file, makedirs_exist_ok
+from util import create_zip_file, makedirs_exist_ok, source_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -206,6 +206,13 @@ for prob in probs:
 		raise
 
 mdx_prob_link.PROB_DATA=PROB_DATA
+
+# Fill in extension -> filetype mappings
+for lang in langs:
+    (_,meta) = util.convert_markdown(lang.specification)
+    if 'extensions' in meta:
+        for ext in meta['extensions']:
+            util.source_mapping[ext] = meta['title'][0].lower()
 
 generate_pages(probs)
 generate_pages(langs)
