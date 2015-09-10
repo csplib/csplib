@@ -1,5 +1,5 @@
 ---
-Title:    Low autocorrelation binary sequences
+Title:    Low Autocorrelation Binary Sequences
 Proposer: Toby Walsh
 Category: Combinatorial mathematics
 ---
