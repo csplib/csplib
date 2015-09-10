@@ -111,3 +111,5 @@ An overview of the architecture used to build csplib can be found at [internal/r
 # Development builds
 
 Development builds of every branch and pull requests are located at http://csplib.github.io/csplib-builds/
+
+The master (main) branch has a vanity url as well for convenience:  http://git.io/csplib
