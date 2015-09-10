@@ -29,10 +29,17 @@ archive_formats = set(['zip', 'tar', 'tar.gz', 'rar', '7z', 'xz', 'sit', 'sitx',
 						'jar', 'pea', 'tarz', 'tar.bz2', 'tbz2', 'tlz', 'xar',
 						'zipx', 'zz', 'zpaq'])
 
-# Mapping file type which are actually source files (all lowercase)
-source_mapping = {
-	"ilog solver": 'cpp'
+# Mapping file extensions to an language using the data from the language pages.
+# There should no need to edit this
+source_mapping = {}
+
+# When an language uses the syntax of another language
+# Only input the lowercase versions
+language_mapping = {
+	"ilog solver": 'cpp',
+	"numberjack": 'py'
 }
+
 
 def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
@@ -81,9 +88,15 @@ def get_content_and_metadata(filepath, store_dir):
 			meta['type'] = [ext[1:]]
 
 	stype = meta['type'][0].lower()
+	# File extension -> language
 	if stype in source_mapping:
 		stype = source_mapping[stype]
+	# language -> language
+	if stype in language_mapping:
+		stype = language_mapping[stype]
+
 	logger.debug("stype:%s ext:%s filepath:%s", stype, ext, filepath)
+
 	# This if is necessary because Essence files stored in a zip will have
 	# stype=Essence, ext[1:]=zip
 	if ext[1:] not in archive_formats and ext[1:] not in binary_formats:
