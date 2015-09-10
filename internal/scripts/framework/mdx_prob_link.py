@@ -22,7 +22,7 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 			if m.group(2) == '{':
 				val =  "{}".format(PROB_DATA[ref]['title'])
 			else:
-				val =  "[{}:{}]".format(ref, PROB_DATA[ref]['title'])
+				val =  "[{}]".format(ref)
 		except KeyError:
 			val =  "[{}]".format(ref)
 
