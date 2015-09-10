@@ -61,6 +61,8 @@ in standard BibTeX format. Any text in the file `notes.inline.md` will be listed
 A problem can be referenced using its id, [prob058] will be shown hyperlinked as [prob058].
 {prob058} will shown hyperlinked as Discrete Lot Sizing Problem
 
+Languages can also be referenced e.g. [Minion]
+
 ## Models, data and results directories
 
 Each of these directories are handled in the same way.

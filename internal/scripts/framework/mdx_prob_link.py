@@ -4,7 +4,7 @@
 import markdown
 import re
 
-PROB_LINK_RE = r'([\[{])(prob\d+)[}\]]',
+PROB_LINK_RE = r'([\[{])(\w+)[}\]]',
 # PROB_DATA is shared with generate_web_site
 PROB_DATA = {}
 
@@ -13,19 +13,27 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 		base = markdown.util.etree.Element('span')
 		base.text=' '
 		ref = m.group(3)
-		url = '~~PREFIX_PATH~~/Problems/' + ref
-
-		el = markdown.util.etree.Element("a")
-		el.set('href', url)
 
 		try:
 			if m.group(2) == '{':
 				val =  "{}".format(PROB_DATA[ref]['title'])
 			else:
 				val =  "[{}]".format(ref)
-		except KeyError:
-			val =  "[{}]".format(ref)
+			if PROB_DATA[ref]['is_language'] == True:
+				kind = "Languages"
+			else:
+				kind = "Problems"
 
+		except KeyError:
+			# val =  "[{}]".format(ref)
+			# kind =  'Problems'
+			return None
+
+
+		url = '~~PREFIX_PATH~~/{}/{}'.format(kind,ref)
+
+		el = markdown.util.etree.Element("a")
+		el.set('href', url)
 
 		el.text= markdown.util.AtomicString(val)
 		base.append(el)

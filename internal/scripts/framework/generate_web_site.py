@@ -200,13 +200,12 @@ PROB_DATA = {}
 for prob in probs:
 	try:
 		(_,meta) = util.convert_markdown(prob.specification)
-		PROB_DATA[prob.name] = dict(title=meta['title'][0])
+		PROB_DATA[prob.name] = dict(title=meta['title'][0],is_language=False)
 	except Exception as e:
 		logger.info("Failure in page %s", page.name)
 		logger.info("Error: %s", e)
 		raise
 
-mdx_prob_link.PROB_DATA=PROB_DATA
 
 logger.debug("Before source_types:%s", pformat(util.source_types))
 logger.debug("Before source_mapping:%s", pformat(util.source_mapping))
@@ -217,6 +216,7 @@ logger.debug("Before source_mapping:%s", pformat(util.source_mapping))
 for lang in langs:
 	(_,meta) = util.convert_markdown(lang.specification)
 	util.source_types.add(meta['title'][0].lower())
+	PROB_DATA[lang.name] = dict(title=meta['title'][0],is_language=True)
 	if 'extensions' in meta:
 		util.source_types.update(meta['extensions'])
 		for ext in meta['extensions']:
@@ -224,6 +224,9 @@ for lang in langs:
 
 logger.debug("After source_types:%s", pformat(util.source_types))
 logger.debug("After source_mapping:%s", pformat(util.source_mapping))
+
+logger.debug("PROB_DATA %s", pformat(PROB_DATA))
+mdx_prob_link.PROB_DATA=PROB_DATA
 
 generate_pages(probs)
 generate_pages(langs)
