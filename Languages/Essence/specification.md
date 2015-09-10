@@ -1,6 +1,9 @@
 ---
 Title: Essence
-Extensions: essence
+Extensions:
+	- essence
+	- param
+	- solution
 ---
 
 ESSENCE is a high-level constraint specification language; it allows a combinatorial (optimisation) problem to be specified at a level of abstraction above that at which modelling decisions are made. Version 1.1.0 of the language is now fully defined.

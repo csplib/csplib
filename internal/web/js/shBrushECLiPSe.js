@@ -27,7 +27,8 @@
     };
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
-    Brush.aliases   = ['eclipse', 'ecl'];
+    // Should be the same name as the Title from specification.md of the langauge page converted to lower case.
+    Brush.aliases   = ['eclipse'];
 
     SyntaxHighlighter.brushes.ECLiPSe = Brush;
 

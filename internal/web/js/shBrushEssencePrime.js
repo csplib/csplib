@@ -27,7 +27,8 @@
     };
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
-    Brush.aliases   = ['essenceprime', "essence'", 'eprime'];
+    // Should be the same name as the Title from specification.md of the langauge pages converted to lower case.
+    Brush.aliases   = ['essenceprime'];
 
     SyntaxHighlighter.brushes.EssencePrime = Brush;
 

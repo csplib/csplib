@@ -35,6 +35,7 @@
         ]};
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
+    // Should be the same name as the Title from specification.md of the langauge page converted to lower case.
     Brush.aliases   = ['comet'];
 
     SyntaxHighlighter.brushes.Comet = Brush;

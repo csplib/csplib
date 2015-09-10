@@ -24,7 +24,8 @@
         ]};
 
     Brush.prototype = new SyntaxHighlighter.Highlighter();
-    Brush.aliases   = ['minizinc','mzn'];
+    // Should be the same name as the Title from specification.md of the langauge page converted to lower case.
+    Brush.aliases   = ['minizinc'];
 
     SyntaxHighlighter.brushes.MiniZinc = Brush;
 
