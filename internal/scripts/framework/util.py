@@ -12,15 +12,17 @@ logger = logging.getLogger(__name__)
 markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
                  'smartypants(entities=named)', 'cite_bibtex', 'prob_link']
 
-source_types = set(['cc', 'c', 'comet', 'co', 'java', 'cpp', 'cs', 'eclipse', 'ecl', 'eprime', 'erl', 'essence',
-				'groovy', 'h', 'hh', 'hpp', 'hrl', 'javascript', 'js', 'minizinc', 'mzn',
-				'param', 'php', 'pl', 'py', 'rb', 'scala', 'solution', 'xml', 'essenceprime', 'comet'])
+#  File extensions listed in language pages should not be added,
+#  since they are added automatically.
+source_types = set(['cc', 'c', 'java', 'cpp', 'cs', 'erl', 'groovy', 'h', 'hh', 'hpp',
+                    'hrl', 'js', 'php', 'pl', 'py', 'rb', 'scala', 'xml'])
 
-text_formats = set(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'egenet',
-					'chip', 'pi', 'pl'])
+# File formats that should be display inline
+text_formats = set(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'egenet','chip'])
 
 text_formats |= source_types
 
+# Format that should not be displayed inline
 binary_formats = set(['ps', 'pdf'])
 archive_formats = set(['zip', 'tar', 'tar.gz', 'rar', '7z', 'xz', 'sit', 'sitx',
 	 					'iso', 'bz2', 'lz', 'gz', 'lzma', 'lzo', 'z', 'Z', 'ace',

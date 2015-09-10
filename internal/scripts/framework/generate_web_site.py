@@ -34,6 +34,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from problem import Problem, PageType
 from util import create_zip_file, makedirs_exist_ok, source_mapping
+from pprint import pformat
 
 logger = logging.getLogger(__name__)
 
@@ -207,12 +208,22 @@ for prob in probs:
 
 mdx_prob_link.PROB_DATA=PROB_DATA
 
+logger.debug("Before source_types:%s", pformat(util.source_types))
+logger.debug("Before source_mapping:%s", pformat(util.source_mapping))
+
+
 # Fill in extension -> filetype mappings
+# Also update the source_types to allow syntax highligting
 for lang in langs:
-    (_,meta) = util.convert_markdown(lang.specification)
-    if 'extensions' in meta:
-        for ext in meta['extensions']:
-            util.source_mapping[ext] = meta['title'][0].lower()
+	(_,meta) = util.convert_markdown(lang.specification)
+	util.source_types.add(meta['title'][0].lower())
+	if 'extensions' in meta:
+		util.source_types.update(meta['extensions'])
+		for ext in meta['extensions']:
+			util.source_mapping[ext] = meta['title'][0].lower()
+
+logger.debug("After source_types:%s", pformat(util.source_types))
+logger.debug("After source_mapping:%s", pformat(util.source_mapping))
 
 generate_pages(probs)
 generate_pages(langs)
