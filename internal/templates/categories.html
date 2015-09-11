@@ -12,14 +12,26 @@
 {% for name, probs in categories | dictsort %}
     <h2 class='smaller'>{{name}}</h2>
 
-	{% for prob in probs | sort(case_sensitive=False, attribute='name') %}
-		<p>
-			<a href="{{ prob.metadata['id'] | join ('')}}">
+	<table class='tablesorter'>
+	<thead>
+		<tr>  <th>Id</th> <th>Title</th>  </tr>
+	</thead>
+	<tbody>
+	{% for prob in probs | sort(case_sensitive=False, attribute='meta_title') %}
+	<tr>
+		<td>
+			<a href="{{ prob.metadata['id'] | join('') }}">
 				{{ prob.metadata['id'] | join('') }}
-			</a>:
+			</a>
+		</td>
+		<td>
 			{{ prob.metadata['title'] | join('') }}
-		</p>
+		</td>
+	</tr>
 	{% endfor %}
+	</tbody>
+	</table>
+
 
 {% endfor %}
 

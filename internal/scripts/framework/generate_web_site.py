@@ -205,6 +205,8 @@ for prob in probs:
 		logger.info("Failure in page %s", page.name)
 		logger.info("Error: %s", e)
 		raise
+	# Only for categories,html
+	prob.meta_title = meta['title'][0]
 
 
 logger.debug("Before source_types:%s", pformat(util.source_types))
