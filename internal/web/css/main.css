@@ -3,32 +3,32 @@
   display: block;
   height: 35px;
 }
- 
-#navigation ul { 
-	list-style: none; 
-	padding: 0px 7px; 
-}
- 
-#navigation ul li { 
-	display: inline; float: left; 
+
+#navigation ul {
+	list-style: none;
+	padding: 0px 7px;
 }
 
-#navigation ul li a, #navigation ul li p{ 
-  display: block; 
-  padding: 0 8px; 
+#navigation ul li {
+	display: inline; float: left;
+}
+
+#navigation ul li a, #navigation ul li p{
+  display: block;
+  padding: 0 8px;
   font-size: 1.1em;
   text-decoration: none;
-  line-height: 35px; 
-  font-weight: bold; 
+  line-height: 35px;
+  font-weight: bold;
   margin-right: 6px;
 }
 
 .no-files{
-    color: #ff0000; 
+    color: #ff0000;
 }
 
-#navigation ul li a:hover { 
-	color: #a8d6e7; 
+#navigation ul li a:hover {
+	color: #a8d6e7;
 }
 
 /* Headers */
@@ -40,25 +40,6 @@ h2.smaller{
     font-size: 1.5em;
 }
 
-/* Tables*/
-table {
-  box-shadow: 2px 2px 2px #888888;
-  border:1px solid #000000;
-  margin: 10px;
-}
-
-
-table tr:nth-child(odd){ background-color:#eee4ff; }
-table tr:nth-child(even){ background-color:#ffffff; }
-
-table td, table th{
-  vertical-align:middle;
-  border:1px solid #000000;
-  border-width:1px;
-  padding:3px;
-}
-
-table thead tr th { background-color:#bbc0ff; }
 
 
 /* problem metadata */
@@ -69,4 +50,88 @@ table thead tr th { background-color:#bbc0ff; }
 #footer {
   border-top:1px solid #000000;
   padding:3px
+}
+
+
+.tables {
+  margin-bottom: 20px;
+}
+
+.tables thead > tr > th,
+.tables tbody > tr > th,
+.tables tfoot > tr > th,
+.tables thead > tr > td,
+.tables tbody > tr > td,
+.tables tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+.tables thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+
+.tables caption + thead tr:first-child th,
+.tables colgroup + thead tr:first-child th,
+.tables thead:first-child tr:first-child th,
+.tables caption + thead tr:first-child td,
+.tables colgroup + thead tr:first-child td,
+.tables thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.tables tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.tables .table {
+  background-color: #ffffff;
+}
+
+/* Table CSS
+ * Only row borders
+ * No column borders by default
+ * Few colours
+ * More spacing
+ */
+
+table {
+  margin-bottom: 20px;
+}
+
+table thead > tr > th,
+table tbody > tr > th,
+table tfoot > tr > th,
+table thead > tr > td,
+table tbody > tr > td,
+table tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+table thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+
+table caption + thead tr:first-child th,
+table colgroup + thead tr:first-child th,
+table thead:first-child tr:first-child th,
+table caption + thead tr:first-child td,
+table colgroup + thead tr:first-child td,
+table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+table tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+table .table {
+  background-color: #ffffff;
 }

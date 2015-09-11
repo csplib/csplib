@@ -9,13 +9,24 @@
 
 {% block mainContent %}
 
+<table class='tablesorter'>
+<thead>
+	<tr>  <th>Id</th> <th>Title</th>  </tr>
+</thead>
+<tbody>
 {% for prob in problems %}
-<p>
-	<a href="{{ prob.metadata['id'] | join('') }}">
-		{{ prob.metadata['id'] | join('') }}
-	</a>:
-	{{ prob.metadata['title'] | join('') }}
-</p>
+<tr>
+	<td>
+		<a href="{{ prob.metadata['id'] | join('') }}">
+			{{ prob.metadata['id'] | join('') }}
+		</a>
+	</td>
+	<td>
+		{{ prob.metadata['title'] | join('') }}
+	</td>
+</tr>
 {% endfor %}
+</tbody>
+</table>
 
 {% endblock %}
