@@ -1,9 +1,10 @@
 ---
 Title:    Lam's Problem
 Proposer: Toby Walsh
-Category: Combinatorial mathematics
+Category: 
+    - Combinatorial mathematics
+    - Games and puzzles
 ---
-          Games and puzzles
 
 Consider a 111 by 111 binary matrix. The goal is to put 11 zeros in
 each row in such a way that each column has 11 zeros, and each pair of
