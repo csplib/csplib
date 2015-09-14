@@ -2,7 +2,7 @@
 % Data for bus driver scheduling (CSPLib problem 22).
 %
 % This is the problem r2 from
-% http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob022/index.htm
+% http://www.csplib.org/Problems/prob022
 % 
 % It is used in the the MiniZinc model
 % http://www.hakank.org/minizinc/bus_scheduling_csplib.mzn
