@@ -1,6 +1,6 @@
 language Essence 1.3
 $ prob036.essence: Fixed Length Error Correcting Codes
-$ Problem details available at http://www.csplib.org/prob/prob036/
+$ Problem details available at http://www.csplib.org/Problems/prob036/
 
 given Character new type enum  ,
       maxDist       : int(1..) ,        $ maxDist is the maximum distance between two characters

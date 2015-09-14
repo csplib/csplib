@@ -1,6 +1,6 @@
 language Essence 1.3
 $ prob032.essence: Maximum Density Still Life
-$ Problem details available at http://www.csplib.org/prob/prob032/
+$ Problem details available at http://www.csplib.org/Problems/prob032/
 
 $ n: the side length of the board
 given n : int(1..)

@@ -13,7 +13,7 @@
 % For example, for k=4, a solution would be 41312432
 % """
 % 
-% Also see: http://www.csplib.org/prob/prob024/
+% Also see: http://www.csplib.org/Problems/prob024/
 %
 % However, I added a better representation were we see the numbers in their
 % proper positions: the solution array.

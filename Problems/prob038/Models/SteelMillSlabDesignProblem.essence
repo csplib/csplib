@@ -1,6 +1,6 @@
 language ESSENCE 1.2.0
 $ prob038.essence: Steel Mill Slab Design Problem
-$ Problem details available at http://www.csplib.org/prob/prob038/
+$ Problem details available at http://www.csplib.org/Problems/prob038/
 $ 07 September 2007
 
 given n_colours, n_orders, col_per_slab, n_orderSize : int(1..)

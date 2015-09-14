@@ -1,6 +1,6 @@
 language Essence 1.3
 $ prob013.essence: Progressive Party Problem
-$ Problem details available at http://www.csplib.org/prob/prob013/
+$ Problem details available at http://www.csplib.org/Problems/prob013/
 
 given n_boats, n_periods : int(1..)
 

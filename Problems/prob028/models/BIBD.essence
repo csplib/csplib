@@ -1,6 +1,6 @@
 language Essence 1.3
 $ prob028.essence: Balanced Incomplete Block Design
-$ Problem details available at http://www.csplib.org/prob/prob028/
+$ Problem details available at http://www.csplib.org/Problems/prob028/
 
 given v, b, r, k, lambda : int(1..20)
 

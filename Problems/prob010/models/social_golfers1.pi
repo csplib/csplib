@@ -3,7 +3,7 @@
   Social golfer problem in Picat.
 
   CSPLib problem 10:
-  http://www.csplib.org/prob/prob010/index.html
+  http://www.csplib.org/Problems/prob010/index.html
   """
   The coordinator of a local golf club has come to you with the following 
   problem. In her club, there are 32 social golfers, each of whom play golf 
