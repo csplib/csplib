@@ -1,0 +1,21 @@
+language Essence 1.3
+$ prob036.essence: Fixed Length Error Correcting Codes
+$ Problem details available at http://www.csplib.org/Problems/prob036/
+
+given Character new type enum  ,
+      maxDist       : int(1..) ,        $ maxDist is the maximum distance between two characters
+      codeWordLength : int(1..),
+      numOfCodeWords : int(1..)
+
+letting Index be domain int(1..codeWordLength),
+        String be domain function (total) Index --> Character
+
+given dist : function (Character, Character) --> int(0..maxDist),
+      minDist : int(0..maxDist * codeWordLength)
+
+find c : set (size numOfCodeWords) of String
+
+such that
+    forAll s1, s2 in c
+        , s1 != s2
+        . (sum i : Index . dist((s1(i),s2(i)))) >= minDist

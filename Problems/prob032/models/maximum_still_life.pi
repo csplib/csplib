@@ -2,7 +2,7 @@
 
   Maximum density still life in Picat.
 
-  CSPLib 032: http://www.csplib.org/prob/prob032
+  CSPLib 032: http://www.csplib.org/Problems/prob032
 
   This model (or rather my earlier MiniZinc and Comet models) was 
   inspired by the OPL model from

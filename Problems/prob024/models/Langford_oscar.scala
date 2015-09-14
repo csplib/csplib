@@ -25,7 +25,7 @@ import scala.math._
   Langford's number problem in Oscar.
 
   Langford's number problem (CSP lib problem 24)
-  http://www.csplib.org/prob/prob024/
+  http://www.csplib.org/Problems/prob024/
   """
   Arrange 2 sets of positive integers 1..k to a sequence,
   such that, following the first occurence of an integer i, 

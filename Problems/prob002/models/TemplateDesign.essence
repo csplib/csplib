@@ -1,0 +1,28 @@
+language ESSENCE 1.3.0
+$ prob002.essence: Template Design
+$ Problem details available at http://www.csplib.org/Problems/prob002/
+$ 05 September 2007 revised 20 March 2012 by AMF; 
+$ 21 April 13 completely rewritten by AMF
+$
+
+given       n_templates:  int(1..),            $ Number of printing templates
+            n_slots:      int(1..),            $ Number of slots per template
+            n_variations: int(1..)             $ Number of variations to be printed
+           
+letting variations be domain int(1..n_variations)  $ Name the variations 1..n.
+                                               $ Alternatively, variations could be named
+                                               $   by a "given" enumerated type
+
+given demand: function variations --> int      $ Specifies the minimum number of copies of
+                                               $    each variation that MUST be printed
+
+letting templates be new type of size n_templates        $ these are the templates
+
+find design: function (total) (templates,variations) --> int (0..n_slots)  $ This tells us how many times 
+                                                         $   each variation appears on each template
+find printings: function (total) templates --> int (0..max(range(demand)))                  $ This tells us how many times each
+                                                         $   template is to be printed           
+
+such that forAll v:variations. (sum t:templates. design((t,v))) >= demand(v)    $ demand must be met
+
+minimising sum t:templates. printings(t)                 $ minimise the total number of printings 
