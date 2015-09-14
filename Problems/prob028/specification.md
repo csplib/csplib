@@ -19,4 +19,4 @@ of $\lambda$ between any pair of distinct rows. A BIBD is therefore specified by
     1 0 0 1 0 1 0
     0 1 0 1 1 0 0 
 
-Lam's problem (prob025) is that of finding a BIBD with parameters $(111,111,11,11,1)$. 
+Lam's problem [prob025] is that of finding a BIBD with parameters $(111,111,11,11,1)$. 
