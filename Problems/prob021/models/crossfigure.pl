@@ -31,7 +31,7 @@
 /*
 
   This model was inspired by the ECLiPSe model written by Warwick Harvey:
-  http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob021/code.html
+  http://www.csplib.org/Problems/prob021/models
  
  
   Data from 
