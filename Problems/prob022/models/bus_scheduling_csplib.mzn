@@ -4,7 +4,7 @@
 % http://www.csplib.org/Problems/prob022
 % 
 % From 
-% http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob022/spec.html
+% http://www.csplib.org/Problems/prob022
 % """
 % Specification
 % Bus driver scheduling can be formulated as a set paritioning problem. 
