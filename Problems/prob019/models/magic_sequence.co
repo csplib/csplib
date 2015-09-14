@@ -3,7 +3,7 @@
   Magic sequence in Comet.
 
   From CSPLib problem 19:
-  http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob019/spec.html
+  http://www.csplib.org/Problems/prob019
   """
   A magic sequence of length n is a sequence of integers x0 . . xn-1 between 
   0 and n-1, such that for all i in 0 to n-1, the number i occurs exactly 
