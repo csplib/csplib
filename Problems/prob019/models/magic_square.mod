@@ -4,7 +4,7 @@
 
   See 
    - http://en.wikipedia.org/wiki/Magic_square
-   - http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob019/index.html
+   - http://www.csplib.org/Problems/prob019
 
   Model created by Hakan Kjellerstrand, hakank@gmail.com
   See also my AMPL page: http://www.hakank.org/ampl/

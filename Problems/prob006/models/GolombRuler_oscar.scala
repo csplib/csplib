@@ -27,7 +27,7 @@ import Array._
   Golomb Golomb ruler in Oscar.
 
   CSPLib problem 6
-  http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob006/index.html
+  http://www.csplib.org/Problems/prob006
   """
   These problems are said to have many practical applications including 
   sensor placements for x-ray crystallography and radio astronomy. A 

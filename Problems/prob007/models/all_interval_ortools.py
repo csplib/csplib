@@ -17,7 +17,7 @@
   All interval problem in Google CP Solver.
 
   CSPLib problem number 7
-  http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob007/index.html
+  http://www.csplib.org/Problems/prob007
   '''
   Given the twelve standard pitch-classes (c, c , d, ...), represented by
   numbers 0,1,...,11, find a series in which each pitch-class occurs exactly

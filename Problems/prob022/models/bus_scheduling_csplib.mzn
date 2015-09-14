@@ -1,7 +1,7 @@
 % 
 % Bus driver scheduling problem (prob022 in CSPLib) in MiniZinc.
 % 
-% http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob022/index.html
+% http://www.csplib.org/Problems/prob022
 % 
 % From 
 % http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob022/spec.html

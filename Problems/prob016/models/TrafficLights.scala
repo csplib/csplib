@@ -25,7 +25,7 @@ import scala.math._
   Traffic lights problem (CSPLib #16) in Oscar.
 
   CSPLib problem 16
-  http://www.cs.st-andrews.ac.uk/~ianm/CSPLib/prob/prob016/index.html
+  http://www.csplib.org/Problems/prob016
   """
   Specification:
   Consider a four way traffic junction with eight traffic lights. Four of the traffic
