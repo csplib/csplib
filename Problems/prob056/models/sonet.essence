@@ -1,5 +1,5 @@
 language Essence 1.2.0
-$ prob129.essence: SONET Configuration
+$ prob056.essence: SONET Configuration
 $
 $ A SONET communication network comprises a number of rings, each joining a
 $ a number of nodes. A node is installed on a ring using an add-drop multiplexer
