@@ -12,4 +12,4 @@ The most notable feature of ESSENCE is the support for high-level nested types, 
 
 There has been one publicly available implementation of ESSENCE:
 
-* [CONJURE](http://ozgur.host.cs.st-andrews.ac.uk/conjure/) is a complete implementation of the ESSENCE language, which maps ESSENCE to EssencePrime. CONJURE is described in cite{akgunPhDThesis}
+* [CONJURE](http://ozgur.host.cs.st-andrews.ac.uk/conjure/) is a complete implementation of the ESSENCE language, which maps ESSENCE to EssencePrime. CONJURE is described in cite{AkgunThesis}
