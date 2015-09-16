@@ -10,6 +10,10 @@ from pprint import pformat
 
 from util import convert_markdown, makedirs_exist_ok, get_content_and_metadata
 
+import json
+from copy import deepcopy
+
+
 logger = logging.getLogger(__name__)
 
 class PageType:
@@ -134,6 +138,24 @@ def write_problem(prob, apply_template, output_dir, base):
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
+	meta_to_write = create_json_metadata(prob)
+	write( json.dumps(meta_to_write, sort_keys=True, indent=2), "../{0}.json".format(prob.name) )
+
+def create_json_metadata(prob):
+	meta = deepcopy(prob.metadata)
+	meta['id'] = meta['id'][0]
+	meta['title'] = meta['title'][0]
+
+	if prob.pagetype == PageType.PROBLEM:
+		num_str = meta['shortid'][0]
+		meta['number'] = int(num_str)
+	elif prob.pagetype == PageType.LANGUAGE:
+		if meta['extensions'] == [None]:
+			meta['extensions'] = []
+
+	del meta['shortid']
+
+	return meta
 
 def process_problem(prob, apply_template, output_dir, base):
 	"Creates the problem's html"
