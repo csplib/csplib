@@ -157,6 +157,11 @@ def create_json_metadata(prob):
 
 	return meta
 
+def write_json_for_overview(objs,fp):
+	mapping = {obj.name : create_json_metadata(obj) for obj in objs }
+	return json.dump(mapping, open(fp,"w"), sort_keys=True, indent=2),
+
+
 def process_problem(prob, apply_template, output_dir, base):
 	"Creates the problem's html"
 

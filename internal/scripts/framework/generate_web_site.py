@@ -32,7 +32,7 @@ from datetime import datetime
 from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
 
-from problem import Problem, PageType
+from problem import Problem, PageType, write_json_for_overview
 from util import create_zip_file, makedirs_exist_ok, source_mapping
 from pprint import pformat
 
@@ -271,7 +271,6 @@ for prob in probs:
 logger.debug("authors %s", authors_map.keys())
 
 
-
 # Other standalone pages
 
 index_path = path.join(output_dir, "index.html")
@@ -285,10 +284,14 @@ res = apply_template("problems.html", problems=sorted(probs, key=lambda x: x.met
 with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
 
+write_json_for_overview(probs, path.join(output_dir, "Problems.json"))
+
 probs_path = path.join(output_dir, "Languages/index.html")
 res = apply_template("languages.html", problems=sorted(langs, key=lambda x: x.metadata["id"]))
 with open(probs_path, "w", encoding='utf-8') as f:
 	f.write(res)
+
+write_json_for_overview(langs, path.join(output_dir, "Languages.json"))
 
 probs_path = path.join(output_dir, "Problems/categories.html")
 res = apply_template("categories.html", categories=categories_map)
