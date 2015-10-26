@@ -2,6 +2,7 @@ language: python
 python:
 - '3.3'
 - '3.4'
+- '3.5'
 install:
 - ./internal/scripts/support/setup.sh && pip install github3.py
 script:
