@@ -13,7 +13,7 @@ creation_dates:
 	./internal/scripts/support/setup.sh
 
 serve:
-	# open localhost:8000 in your browser
+	# open http://localhost:8000 in your browser
 	# Crtl-C to finish
 	cd _deploy && python3 -m http.server
 
@@ -35,7 +35,7 @@ only_build:
 	. ./internal/scripts/env/bin/activate && \
 	./internal/scripts/framework/generate_web_site.py $(subst ${comma}, ,${build})
 
-debug: 
+debug:
 	. ./internal/scripts/env/bin/activate && \
 	ipython --pdb ./internal/scripts/framework/generate_web_site.py -- --debug $(subst ${comma}, ,${build})
 

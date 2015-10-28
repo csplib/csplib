@@ -11,7 +11,7 @@
 <!-- macro to Not made a link if on the page the link links to -->
 {% macro make_nav_item(text, link, page_type) -%}
 {% if type == page_type %}
-	<li><p>{{ text }}</p></li>
+ 	<li><a href="" class='current-item'>{{ text }}</a></li>
 {% elif prob.__dict__[link] == [] %}
  	<li><a class='no-files' href="{{prefix_path}}/{{prob_base}}/{{ link }}">{{ text }}</a></li>
 {% else %}
@@ -20,20 +20,23 @@
 {%- endmacro %}
 
 
-<nav id="navigation">
-<ul>
-  {{ make_nav_item("Specification", "",                "specification") }}
-  {{ make_nav_item("Data files",    "data",            "data") }}
-  {{ make_nav_item("Results",       "results",         "results") }}
-  {{ make_nav_item("References",    "references",      "references") }}
-  {{ make_nav_item("Models",        "models",          "models") }}
-  {{ make_nav_item("Cite",          "cite",            "cite") }}
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+    {{ make_nav_item("Specification", "",                "specification") }}
+    {{ make_nav_item("Data files",    "data",            "data") }}
+    {{ make_nav_item("Results",       "results",         "results") }}
+    {{ make_nav_item("References",    "references",      "references") }}
+    {{ make_nav_item("Models",        "models",          "models") }}
+    {{ make_nav_item("Cite",          "cite",            "cite") }}
   {% if type not in ["cite"] %}
     <li style="float:right"><a href="{{repo_url}}/{{prob_base}}/{{rel_path}}">Edit Page</a></li>
   {% endif %}
-</ul>
-</nav>
-
+  </ul>
+  </nav>
+</div>
+</header>
 
 
 {% endblock %}

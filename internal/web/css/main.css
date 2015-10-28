@@ -1,35 +1,74 @@
-/* top navigation */
-#navigation {
-  display: block;
-  height: 35px;
-}
-
-#navigation ul {
-	list-style: none;
-	padding: 0px 7px;
-}
-
-#navigation ul li {
-	display: inline; float: left;
-}
-
-#navigation ul li a, #navigation ul li p{
-  display: block;
-  padding: 0 8px;
-  font-size: 1.1em;
-  text-decoration: none;
-  line-height: 35px;
+/* css for the nav*/
+.nav {
+   width: 100%;
+ }
+.nav ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
   font-weight: bold;
-  margin-right: 6px;
+}
+.nav ul li {
+  display: inline-block;
+}
+.nav ul li a {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.nav ul li a:hover {
+  color: #a8d6e7;
+}
+
+/* using an `a` instead of a `p` to make moblie css easier */
+.nav ul li a.current-item:hover,
+.nav ul li a.current-item  {
+  color: #000000;
+  pointer-events: none;
+  cursor: default;
 }
 
 .no-files{
-    color: #ff0000;
+  color: #ff0000;
 }
 
-#navigation ul li a:hover {
-	color: #a8d6e7;
+/* css for the nav on moblie*/
+@media (max-width:41.500em) {
+  .nav-header .nav-container {
+    width: 100%;
+  }
+  .nav ul {
+    width: 100%;
+    font-weight: normal;
+    text-align: center;
+  }
+  .nav ul li {
+    width: 50%;
+    float: left;
+  }
+
+  .nav ul li:first-of-type a {
+    border-top: 1px solid #ccc;
+  }
+
+  .nav ul li:nth-of-type(2) a {
+    border-top: 1px solid #ccc;
+  }
+
+  .nav ul li:nth-of-type(odd) a {
+    border-left: 1px solid #ccc;
+  }
+
+  .nav ul li a {
+    padding: 8px 0px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    display: block;
+  }
+
 }
+
 
 /* Headers */
 div.page-header{
