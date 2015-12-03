@@ -50,6 +50,9 @@ def convert_markdown(page_path):
 	else:
 		return (page, dict())
 
+def convert_markdown_fragment(text):
+	md = markdown.Markdown(extensions=markdown_exts)
+	return md.convert(text)
 
 def read_file(filepath):
 	with open(filepath, "r") as f:

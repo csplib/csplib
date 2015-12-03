@@ -8,12 +8,12 @@ from datetime import date
 
 from jinja2._compat import text_type
 from markupsafe import escape
-
+from util import convert_markdown_fragment
 
 def init_exts(template_env):
 	template_env.filters['urlize2'] = urlize2
 	template_env.filters['formatted_time_for_updates'] = formatted_time_for_updates
-
+	template_env.filters['to_markdown'] = convert_markdown_fragment
 
 def formatted_time_for_updates(year_month):
 	d = date(*year_month, day=1)
