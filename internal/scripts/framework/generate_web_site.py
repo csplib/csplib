@@ -202,7 +202,7 @@ for prob in probs:
 		(_,meta) = util.convert_markdown(prob.specification)
 		PROB_DATA[prob.name] = dict(title=meta['title'][0],is_language=False)
 	except Exception as e:
-		logger.info("Failure in page %s", page.name)
+		logger.info("Failure in page %s", prob.name)
 		logger.info("Error: %s", e)
 		raise
 	# Only for categories,html
