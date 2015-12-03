@@ -6,6 +6,7 @@ import re
 
 
 # from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+# Seem to slow doing building
 LINK_RE = r"""
 (?xi)
 \b
@@ -57,7 +58,7 @@ class AutoLink(markdown.inlinepatterns.Pattern):
 		a = markdown.util.etree.Element('a')
 
 		href = m.group(2)
-		if not re.match('^(ftp|https?)://', href, flags=re.IGNORECASE | re.VERBOSE):
+		if not re.match('^(ftp|https?)://', href, flags=re.IGNORECASE):
 			href = 'http://%s' % href
 		a.set('href', self.unescape(href))
 
