@@ -26,6 +26,7 @@ import jinja2_exts
 import bibtex
 import problem
 import mdx_prob_link
+import mdx_rel_link
 
 from collections import defaultdict
 from datetime import datetime
@@ -47,6 +48,13 @@ parser.add_argument("--prefix_path", help='The prefix to prepend to all urls, us
 parser.add_argument("--output_suffix", help='The suffix to append the output_dir, useful for Github pages')
 parser.add_argument("--no_index",  action='store_true', help='Add <meta name="robots" content="noindex"> to each page')
 args = parser.parse_args()
+
+if args.prefix_path:
+	mdx_rel_link.PREFIX_PATH = args.prefix_path
+	mdx_prob_link.PREFIX_PATH = args.prefix_path
+else:
+	mdx_rel_link.PREFIX_PATH = ""
+	mdx_prob_link.PREFIX_PATH = ""
 
 # set up logging
 if args.debug:
