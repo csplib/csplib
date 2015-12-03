@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
-                 'smartypants(entities=named)', 'cite_bibtex', 'prob_link', 'auto_link']
+                 'smartypants(entities=named)', 'cite_bibtex', 'prob_link', 'auto_link', 'rel_link']
 
 #  File extensions listed in language pages should not be added,
 #  since they are added automatically.
