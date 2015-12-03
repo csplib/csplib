@@ -68,8 +68,9 @@ def urlize2(text, trim_url_limit=None, nofollow=False):
                     middle.endswith('.net') or
                     middle.endswith('.com') or
                     middle.endswith('.ac.uk') or
+                    middle.endswith('.co.uk') or
                     middle.endswith('.edu') or
-					middle.endswith('.co.uk')
+                    middle.endswith('.io')
                 )):
                 middle = '<a href="http://%s"%s>%s</a>' % (middle,
                     nofollow_attr, trim_url(middle))
