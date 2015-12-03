@@ -6,7 +6,7 @@ import re
 
 
 REL_RE = r"""(?x)
- (/(Problems/|Languages/|authors.html|updates.html)[-0-9_a-z/A-Z]*)([.,!?;: ]|$)
+ (/(Problems|Languages|authors.html|updates.html)[-0-9_a-z/A-Z]*)([.,!?;: ]|$)
 """
 
 # prefix_path is shared with generate_web_site
