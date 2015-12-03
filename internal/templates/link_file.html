@@ -22,12 +22,12 @@
 		</td>
 		<td>
 		{{data['meta']['title'] | join(' ')
-		 | replace(' data/' ,' ' + prob_base + '/data/')
-		 | replace(' models/' ,' ' + prob_base + '/models/')
-		 | replace(' references/' ,' ' + prob_base + '/references/')
-		 | replace(' assets/' ,' ' + prob_base + '/assets/')
-		 | replace(' models/' ,' ' + prob_base + '/models/')
-		 |  urlize2  | to_markdown | safe | replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
+		 | replace(' data/' ,      ' /' + prob_base + '/data/')
+		 | replace(' models/' ,    ' /' + prob_base + '/models/')
+		 | replace(' references/', ' /' + prob_base + '/references/')
+		 | replace(' assets/' ,    ' /' + prob_base + '/assets/')
+		 | replace(' models/' ,    ' /' + prob_base + '/models/')
+		 | to_markdown | safe | replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
 		</td>
 	</tr>
 	{% endfor %}

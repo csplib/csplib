@@ -45,7 +45,7 @@ Proposed by {{prob.metadata['proposer'] | join(', ') }}
 </p>
 {% endif %}
 
-{{problemContent.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base).replace("~~PREFIX_PATH~~", prefix_path)}}
+{{problemContent.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
 
 {% if prob.__dict__['parts']['models'] %}
 

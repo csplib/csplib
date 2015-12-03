@@ -14,7 +14,7 @@
 {% block mainContent %}
 
 <a href="{{prefix_path}}/{{prob_base}}/{{part}}/{{name}}">Download</a>
-{{problemContent.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base).replace("~~PREFIX_PATH~~", prefix_path)}}
+{{problemContent.replace("~~PROB_BASE~~", prefix_path + "/" + prob_base) }}
 
 {% endblock %}
 

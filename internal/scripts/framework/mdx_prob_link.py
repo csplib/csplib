@@ -7,6 +7,8 @@ import re
 PROB_LINK_RE = r'([\[{])(\w+)[}\]]',
 # PROB_DATA is shared with generate_web_site
 PROB_DATA = {}
+# prefix_path is shared with generate_web_site
+PREFIX_PATH = None
 
 class ProbLink(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
@@ -30,7 +32,7 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 			return None
 
 
-		url = '~~PREFIX_PATH~~/{}/{}'.format(kind,ref)
+		url = '{}/{}/{}'.format(PREFIX_PATH,kind,ref)
 
 		el = markdown.util.etree.Element("a")
 		el.set('href', url)
