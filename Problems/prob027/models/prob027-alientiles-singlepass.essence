@@ -31,7 +31,7 @@ such that
         $ ensure not same (for each tile, check if sum of clicks effecting it %colours same as other clickmatrix)
         exists x,y : dGridSize .
 
-            ((sum index : dGrid . clickMatrix[index][y] + clickMatrix[x][index]) - clickMatrix[x][y]) % colours
+            ((sum index : dGridSize . clickMatrix[index][y] + clickMatrix[x][index]) - clickMatrix[x][y]) % colours
             !=
-            ((sum index : dGrid . simplerClickMatrix[index][y] + simplerClickMatrix[x][index]) - simplerClickMatrix[x][y]) % colours
+            ((sum index : dGridSize . simplerClickMatrix[index][y] + simplerClickMatrix[x][index]) - simplerClickMatrix[x][y]) % colours
 
