@@ -138,6 +138,9 @@ def write_problem(prob, apply_template, output_dir, base):
 	makedirs_exist_ok(path.join(prob.prob_dir, "cite"))
 	write(cite, "cite/index.html")
 
+	cite_bib = apply_template("problem_cite.bib", base_template=prob.pagetype['base_template'], prob=prob, **prob.prob_meta)
+	write(cite_bib, "../{0}.bib".format(prob.nam))
+
 	meta_to_write = create_json_metadata(prob)
 	write( json.dumps(meta_to_write, sort_keys=True, indent=2), "../{0}.json".format(prob.name) )
 

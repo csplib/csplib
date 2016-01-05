@@ -17,13 +17,7 @@ To cite this CSPLib problem, please use the following bibtex entry.
 </p>
 
 <pre>
-@misc{csplib:{{prob_name}},
-title        = {{ "{" }}{CSPLib} {{prob.pagetype.type}} {{prob.pagetype.title(prob.metadata)}}{{ "}" }},
-author       = {{ "{" }}{{prob.metadata['proposer'] | join(' and ')}}{{ "}" }},
-editor       = {Jefferson, Christopher and Miguel, Ian and Hnich, Brahim and Walsh, Toby and Gent, Ian P.},
-booktitle    = {{ "{" }}{CSPLib}: A problem library for constraints{{ "}" }},
-howpublished = {\url{http://www.csplib.org{{prefix_path}}/{{prob_base}}{{ "}}" }}
-}
+{% include "problem_cite.bib" %}
 </pre>
 
 To cite CSPLib as a whole, please use the following bibtex entry:
