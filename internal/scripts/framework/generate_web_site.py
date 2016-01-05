@@ -268,16 +268,23 @@ for p in probs:
 write_pages(probs)
 write_pages(langs)
 
-for prob in probs:
+# Make problems/cite.bib  with bibtex for citing each problem
+cites=[apply_template("cite.bib")]
+
+for prob in sorted(probs):
 	old_path = path.join(output_dir, "prob/{0}".format(prob.name))
 	makedirs_exist_ok(old_path)
 	for fp in ["index.html","spec.html"]:
 		with open(path.join(old_path, fp), "w", encoding='utf-8') as f:
 			f.write(apply_template("redirect.html", url="/Problems/%s" % prob.name))
 
+	cites.append(apply_template("problem_cite.bib", base_template=prob.pagetype['base_template'], prob=prob, **prob.prob_meta))
 
 logger.debug("authors %s", authors_map.keys())
 
+prob_cite_path = path.join(output_dir, "Problems/cite.bib")
+with open(prob_cite_path, "w", encoding='utf-8') as f:
+	f.write("\n\n".join(cites))
 
 # Other standalone pages
 
