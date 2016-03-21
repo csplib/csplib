@@ -43,7 +43,7 @@ find stock : matrix indexed by [dNodes, dAllPeriods] of int(0..maxStock)
 
 $ minimising the cost
 $ holding*stock per period per node plus proc if any orders were placed per period per node
-minimising (sum t : dPeriods . (sum i : dNodes . (holdingCost[i] * stock[i][t] + procCost[i] * (orders[i][t] > 0))))
+minimising (sum t : dPeriods . (sum i : dNodes . (holdingCost[i] * stock[i][t] + procCost[i] * toInt(orders[i][t] > 0))))
 
 
 such that
