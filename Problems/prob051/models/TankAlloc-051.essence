@@ -42,13 +42,13 @@ $ a tank can contain one cargo type or it can be empty (cargo 0)
 find allocation : matrix indexed by [dTanks] of dAllCargos
 
 $ maximising number of empty tanks
-maximising (sum tank : dTanks . (allocation[tank] = 0))
+maximising (sum tank : dTanks . toInt(allocation[tank] = 0))
 
 such that
 
     $ volumeToShip of cargo X <= amount of cargo X included in allocation
     forAll cargo : dCargos .
-        (sum tank : dTanks . capacities[tank] * (allocation[tank] = cargo) ) >= volumeToShip[cargo]
+        (sum tank : dTanks . capacities[tank] * toInt(allocation[tank] = cargo) ) >= volumeToShip[cargo]
 
 such that
 
