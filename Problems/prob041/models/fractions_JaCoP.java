@@ -38,7 +38,7 @@ import org.jacop.search.PrintOutListener;
 import org.jacop.search.Search;
 import org.jacop.search.SelectChoicePoint;
 
-public class Three_fractions_solver {      
+public class fractions_JaCoP {      
     public static void main (String[] args) { 
         Store store = new Store();  // define FD store 
         
