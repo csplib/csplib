@@ -3,14 +3,14 @@ $ prob038.essence: Steel Mill Slab Design Problem
 $ Problem details available at http://www.csplib.org/Problems/prob038/
 $ 07 September 2007
 
-given n_colours, n_orders, col_per_slab, n_orderSize : int(1..)
+given n_colours, n_orders, col_per_slab : int(1..)
 given nbSizes : int(1..)
 letting sizes be domain int(1..nbSizes)
 
 letting Colour be domain int(1..n_colours),
         Order be domain int(1..n_orders)
 
-given ordSize : function (total) Order --> int(1..n_orderSize),
+given ordSize : function (total) Order --> int(1..),
       ordCol : function (total) Order --> Colour
 
 find cut : function set of Order --> sizes
