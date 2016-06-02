@@ -1,5 +1,5 @@
 ---
-Title: best known results on data/data.html instances
+Title: best known results for instances in [data/data.html](../data/data.txt.html)
 ---
 
   * The first set of instances contains satisfiable and infeasible instances:
