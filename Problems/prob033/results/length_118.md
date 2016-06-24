@@ -1,5 +1,5 @@
 ---
-Title: A solution of size 118 found using  BDD/SAT methods by [Vitaly Lagoon](mailto:lagoon@cadence.com>).
+Title: A solution of size 118 found using  BDD/SAT methods by [Vitaly Lagoon](mailto:lagoon@cadence.com).
 ---
 
 <TABLE>
