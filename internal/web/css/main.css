@@ -34,7 +34,7 @@
 }
 
 /* css for the nav on moblie*/
-@media (max-width:41.500em) {
+@media (max-width:45.320em) {
   .nav-header .nav-container {
     width: 100%;
   }
