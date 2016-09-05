@@ -282,7 +282,7 @@ for prob in sorted(probs):
 
 logger.debug("authors %s", authors_map.keys())
 
-prob_cite_path = path.join(output_dir, "Problems/cite.bib")
+prob_cite_path = path.join(output_dir, "Problems.bib")
 with open(prob_cite_path, "w", encoding='utf-8') as f:
 	f.write("\n\n".join(cites))
 

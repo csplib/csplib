@@ -1,29 +1,31 @@
 /* css for the nav*/
-.nav {
+.nav, .nav2 {
    width: 100%;
  }
-.nav ul {
+.nav ul, .nav2 ul {
   list-style: none;
   padding: 0px;
   margin: 0px;
   font-weight: bold;
 }
-.nav ul li {
+.nav ul li, .nav2 ul li {
   display: inline-block;
 }
-.nav ul li a {
+.nav ul li a, .nav2 ul li a {
   display: block;
   padding: 10px 14px;
   text-decoration: none;
 }
 
-.nav ul li a:hover {
+.nav ul li a:hover, .nav2 ul li a:hover  {
   color: #a8d6e7;
 }
 
 /* using an `a` instead of a `p` to make moblie css easier */
 .nav ul li a.current-item:hover,
-.nav ul li a.current-item  {
+.nav ul li a.current-item,
+.nav2 ul li a.current-item:hover,
+.nav2 ul li a.current-item  {
   color: #000000;
   pointer-events: none;
   cursor: default;
@@ -34,7 +36,7 @@
 }
 
 /* css for the nav on moblie*/
-@media (max-width:41.500em) {
+@media (max-width:45.320em) {
   .nav-header .nav-container {
     width: 100%;
   }
