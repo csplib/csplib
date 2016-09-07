@@ -5,7 +5,7 @@
  *  - The program at the end provides a Window to inspect the solution (+ mouse-wheel zoom)
  *  
  *  Arguments: <Problem instance, integer:[0,203]> <Complete Search, boolean>
- *  e.g. $java -classpath commons-lang3-*.jar;jacop-4.4.0.jar Solver 179 true
+ *  e.g. $java -classpath .;commons-lang3-*.jar;jacop-4.4.0.jar Solver 179 true
  *  
  *  Author: Theophilus Mouratides (github.com/thmour/)
  *  Date: 7-September-2016
