@@ -9,6 +9,7 @@
  *  
  *  Author: Theophilus Mouratides (github.com/thmour/)
  *  Date: 7-September-2016
+ *  License: MIT
  * 
  */
 
