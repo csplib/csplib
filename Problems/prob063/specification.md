@@ -11,5 +11,6 @@ of items then these two bids are compatible with each other, and we might accept
 to accept compatible bids such that 
 we maximise the sum of the values of those bids (i.e. make most money).
 
-There's a nice wiki on this problem here https://en.wikipedia.org/wiki/Combinatorial_auction
-and there is a set of problem instances here http://www.dcs.gla.ac.uk/~pat/maxWeightClique/WDPinstance/ 
+There's a nice [wiki on this problem](https://en.wikipedia.org/wiki/Combinatorial_auction)
+and there is a set of problem instances in the Data files section.
+
