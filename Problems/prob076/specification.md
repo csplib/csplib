@@ -25,3 +25,6 @@ However, there is no construction method for all $n$ and it is, e.g., unknown wh
 The problem description was taken from cite{kadioglu2009dialectic} with small adaptations.
 
 Here is a website which contains some more information on the problem: http://datagenetics.com/blog/february22013
+
+Helmut Simonis has slides on Costas Arrays here: http://4c.ucc.ie/~hsimonis/ELearning/costas/slides.pdf
+
