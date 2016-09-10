@@ -80,6 +80,7 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
 
             popd
             popd
+            export PATH=${Dir}:$PATH
             ${Dir}/csplib-private pr
         fi
     fi
