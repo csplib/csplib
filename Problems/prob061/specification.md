@@ -17,5 +17,9 @@ The problem is usually stated as an optimisation problem where the makespan (i.e
 
 An extension of the basic RCPSP is the *multi-mode* variant where activities may have multiple *modes*. The mode dictates the duration and resource demands of the activity. In this variant, the schedule must give the mode of each activity as well as its starting time. 
 
-The PSPLIB repository has a set of benchmark instances of both ordinary and multi-mode RCPSP \cite{psplib-paper}.
+# Non-Renewable Resources
+
+Another extension concerns *non-renewable resources*. Each non-renewable resource has a capacity for the entire schedule. An example would be a financial budget that applies to the entire project. Modes of activities must be chosen to avoid exceeding the capacity of each of the non-renewable resources.
+
+The <a href="http://www.om-db.wi.tum.de/psplib/">PSPLIB repository</a> has a set of benchmark instances of various types of RCPSP cite{psplib-paper}. 
 
