@@ -1,8 +1,8 @@
 ---
 Title:    Resource-Constrained Project Scheduling Problem (RCPSP)
 Proposer: 
-* Peter Nightingale
-* Emir Demirović
+ - Peter Nightingale
+ - Emir Demirović
 Category: Scheduling and related problems
 ---
 
