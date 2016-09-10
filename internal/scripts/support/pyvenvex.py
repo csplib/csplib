@@ -10,12 +10,12 @@ from threading import Thread
 from urllib.parse import urlparse
 from urllib.request import urlretrieve
 import venv
- 
+
 class ExtendedEnvBuilder(venv.EnvBuilder):
     """
     This builder installs setuptools and pip so that you can pip or
     easy_install other packages into the created environment.
- 
+
     :param nodist: If True, setuptools and pip are not installed into the
                    created environment.
     :param nopip: If True, pip is not installed into the created
@@ -30,23 +30,23 @@ class ExtendedEnvBuilder(venv.EnvBuilder):
                      itself, and 'stdout' and 'stderr', which are obtained
                      by reading lines from the output streams of a subprocess
                      which is used to install the app.
- 
+
                      If a callable is not specified, default progress
                      information is output to sys.stderr.
     """
- 
+
     def __init__(self, *args, **kwargs):
         self.nodist = kwargs.pop('nodist', False)
         self.nopip = kwargs.pop('nopip', False)
         self.progress = kwargs.pop('progress', None)
         self.verbose = kwargs.pop('verbose', False)
         super().__init__(*args, **kwargs)
- 
+
     def post_setup(self, context):
         """
         Set up any packages which need to be pre-installed into the
         environment being created.
- 
+
         :param context: The information for the environment creation request
                         being processed.
         """
@@ -56,7 +56,7 @@ class ExtendedEnvBuilder(venv.EnvBuilder):
         # Can't install pip without setuptools
         if not self.nopip and not self.nodist:
             self.install_pip(context)
- 
+
     def reader(self, stream, context):
         """
         Read lines from a subprocess' output stream and either pass to a progress
@@ -76,7 +76,7 @@ class ExtendedEnvBuilder(venv.EnvBuilder):
                     sys.stderr.write(s.decode('utf-8'))
                 sys.stderr.flush()
         stream.close()
- 
+
     def install_script(self, context, name, url):
         _, _, path, _, _, _ = urlparse(url)
         fn = os.path.split(path)[-1]
@@ -110,11 +110,11 @@ class ExtendedEnvBuilder(venv.EnvBuilder):
             sys.stderr.write('done.\n')
         # Clean up - no longer needed
         os.unlink(distpath)
- 
+
     def install_setuptools(self, context):
         """
         Install setuptools in the environment.
- 
+
         :param context: The information for the environment creation request
                         being processed.
         """
@@ -126,17 +126,17 @@ class ExtendedEnvBuilder(venv.EnvBuilder):
         for f in files:
             f = os.path.join(context.bin_path, f)
             os.unlink(f)
- 
+
     def install_pip(self, context):
         """
         Install pip in the environment.
- 
+
         :param context: The information for the environment creation request
                         being processed.
         """
-        url = 'https://raw.github.com/pypa/pip/master/contrib/get-pip.py'
+        url = 'https://bootstrap.pypa.io/get-pip.py'
         self.install_script(context, 'pip', url)
- 
+
 def main(args=None):
     compatible = True
     if sys.version_info < (3, 3):
@@ -148,7 +148,7 @@ def main(args=None):
                          'Python 3.3 or later')
     else:
         import argparse
- 
+
         parser = argparse.ArgumentParser(prog=__name__,
                                          description='Creates virtual Python '
                                                      'environments in one or '
@@ -203,7 +203,7 @@ def main(args=None):
                                        verbose=options.verbose)
         for d in options.dirs:
             builder.create(d)
- 
+
 if __name__ == '__main__':
     rc = 1
     try:
