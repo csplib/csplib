@@ -25,7 +25,7 @@ number of companies have expressed interest in participating, there are currentl
 Each student from set $S$ can express a preference to interview with each
 company, with values ranging from 1 (very interested) to 5 (not at all interested).
 We provide a comma separated text file that shows the answers that have been
-collected through a Google Forms document (test.csv).
+collected through a Google Forms document (`test.csv`).
 Each student should have three interviews during the conference, with different companies. The companies have expressed limits on how many interviews
 they want to perform during the conference.
 We want to find an assignment of students to companies that stays within
@@ -46,7 +46,7 @@ The capacities for the companies are given in Table 1.
 
 
 |Nr | Company | Capacity |
-|--|--|--|
+|---|---|---:|
 |1 |AIMMS |5|
 |2 |SAS |5|
 |3 |Keelvar |3|
@@ -65,7 +65,7 @@ The capacities for the companies are given in Table 1.
 
 #Updated Problem (Day 2)
 More students are signing up to the process, there is now an updated
-file test2.csv with a larger number of participating students.
+file `test2.csv` with a larger number of participating students.
 
 In the data yesterday there were some students that had only negative
 preferences (5,...,5). This made it impossible to optimize the second
@@ -106,7 +106,7 @@ $u_{j}$ so that they are satisfied. The data for the companies is
 given in Table 2.
 
 |Nr |Company | Disappointment Cost | Min Assignment|Max Assignment |
-|--|--|--|--|--|
+|---|---|---:|---:|---:|
 |1 |AIMMS | 10 |5 | 10|
 |2 | SAS | 10 | 5 |10|
 |3 |Keelvar | 10 | 3 |6|
@@ -136,7 +136,7 @@ conference organizers are worried that nobody will attend the talks of
 the conference. 
 
 |              | Mon | Tue | Wed | Thu | Fri |
-|--|--|--|--|--|--|
+|---|---:|---:|---:|---:|---:|
 |AM Early | 1 | 5 | 9 | 13 | 17 |
 |AM Late | 2 | 6 | 10 | 14 | 18 |
 |PM Early | 3 | 7 | 11 | 15 | 19 |
@@ -180,7 +180,7 @@ in parallel, but increases the rental fee.
 ## Data Format
 
 The time slots for the students are given in a new file
-slots.csv, which on each line, lists the possible five time slots
+`slots.csv`, which on each line, lists the possible five time slots
 for each student.
 
 ```
@@ -193,7 +193,7 @@ The cost of attendance for each company is given is
 Table 4, which is otherwise unchanged.
 
 |Nr |Company | DisappointmentCost |Min Assignment | Max Assignment |Attendance Cost|
-|--|--|--|--|--|--|
+|---|---|---:|---:|---:|---:|
 |1 |AIMMS | 10 |5 | 10 | 20|
 |2 | SAS | 10 | 5 |10 | 20|
 |3 |Keelvar | 10 | 3 |6 | 10|
@@ -216,19 +216,19 @@ Success! People have heard about your assignment tool, and want to use
 it for their next conference. You can be proud of your modelling
 skills! There is only a small problem: This is for a major conference,
 with 15 companies participating, and up to 400 students that should be
-assigned. The corresponding preference file is testNNN.csv, the slot
-data are given in slotsNNN.csv,
-and the company data are in a file companyNNN.csv.
+assigned. The corresponding preference file is `testNNN.csv`, the slot
+data are given in `slotsNNN.csv`,
+and the company data are in a file `companyNNN.csv`.
 
-The file companyNNN.csv contains the company specific data in
+The file `companyNNN.csv` contains the company specific data in
 a .csv file. We've added a field to tell how many interviews the
 company can perform in parallel in each session. The data from
-yesterday are in the file company.csv shown in Table 5. The disappointment value
+yesterday are in the file `company.csv` shown in Table 5. The disappointment value
 is not used.
 
 
 |Company|Disappointment|Lower|Upper|DailyRate|Parallel|
-|--|--|--|--|--|--|
+|---|---:|---:|---:|---:|---:|
 |AIMMS|10|5|10|20|2|
 |SAS|10|5|10|20|2|
 |Keelvar|10|3|6|10|2|
