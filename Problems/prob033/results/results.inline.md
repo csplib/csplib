@@ -38,3 +38,11 @@
 
 Here then is the solution of [size 112](length_112.md.html)
 
+
+Mike Codish reports a new solution with 128 words.
+This was included in Dan C Tuplan's PhD thesis (cite{tulpan2006effective}).
+
+M. Codish, M. Frank, and V. Lagoon also found a solution with 128 words using a SAT solver and a clustering technique. This work was presented at ModRef 2016 workshop cite{codishWordDesign}.
+
+The solution file provided by Mike Codish can be found [here](length_128.md.html)
+
