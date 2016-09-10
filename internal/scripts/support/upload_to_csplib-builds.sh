@@ -39,15 +39,11 @@ fi
 
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; then
-    # This token can only push to csplib-PR-builds
-    # export CSPLIB_ROBOT_TOKEN=c924c9149eeed0c238ba3076b838e5b85daa5918
-
 
     if  [[ " $(openssl sha1 ./internal/scripts/support/csplib-private) " != " SHA1(./internal/scripts/support/csplib-private)= cca9684ad1a96887361979e8f9edf09289408244 " ]]; then
-        echo "./internal/scripts/support/csplib-private has been edited" 
+        echo "./internal/scripts/support/csplib-private has been edited"
         exit 4
     fi
-
 
     # Only upload a PR which only edited the Problems or Languages pages
     if ( ! git diff --name-only --find-renames HEAD~1 | grep -qv 'Problems' | grep -qv 'Languages' ); then
@@ -81,17 +77,10 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]]; t
             git push -fq origin gh-pages > /dev/null
 
             echo -e "<<Finished>>\n"
-            
-            popd
-            popd
-            if [[ " $(openssl sha1 ./internal/scripts/support/add_preview_link_to_pr.py) " == " SHA1(./internal/scripts/support/add_preview_link_to_pr.py)= b12a6be410a73a439b973578710ed341368ae922 " ]]; then
-                # ./internal/scripts/support/add_preview_link_to_pr.py
-                export PATH=${Dir}:$PATH
-                ${Dir}/csplib-private pr
-            else
-                echo "./internal/scripts/support/add_preview_link_to_pr.py has been edited" 
-            fi
 
+            popd
+            popd
+            ${Dir}/csplib-private pr
         fi
     fi
 
