@@ -9,4 +9,4 @@ The ternary Steiner problem of order n consists of finding a set of $n.(n-1)/6$ 
 
 This is a particular case of the more general [Steiner system](http://www.win.tue.nl/~aeb/drg/graphs/S.html).
 
-More generally still, you may refer to Balanced Incomplete Block Designs (BIBD: prob028). In fact, a Steiner Triple System with n elements is a BIBD$(n, n.(n-1)/6, (n-1)/2, 3, 1)$
+More generally still, you may refer to Balanced Incomplete Block Designs {prob028}. In fact, a Steiner Triple System with n elements is a BIBD$(n, n.(n-1)/6, (n-1)/2, 3, 1)$

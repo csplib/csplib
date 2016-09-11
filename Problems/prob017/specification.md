@@ -12,5 +12,4 @@ A related problem (which is often called the Ramsey problem) is to colour the ed
 
 There exist various interesting generalizations of Ramsey numbers (e.g. to hypergraphs, to graphs which are complete except for a limited number of edges, or to infinite size graphs).
 
-Schur's lemma is closely related, and is described in
-<A HREF="../prob015/">prob015</A>.
+Schur's lemma is closely related, and is described in {prob015}.

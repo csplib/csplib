@@ -19,7 +19,7 @@ full details are given by cite{Flener:CP04} and
 cite{Flener:CONS07:CDO2}.  In a typical OPD in finance, we have $250
 \leq v \leq 500$ and $4 \leq b \leq 25$, with $r \approx 100$.  This
 is one order of magnitude larger than the largest
-[BIBDs](http://csplib.org/Problems/prob028) that have been built by
+{prob028} that have been built by
 computer using systematic search; the BIBD problem, which is a
 constraint satisfaction problem, is closely related to the OPD
 problem, which is a constrained optimisation problem.  A lower bound
