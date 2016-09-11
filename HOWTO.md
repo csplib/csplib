@@ -13,7 +13,7 @@ We realise all these technologies (version control, Git, GitHub, typesetting wit
 Yet you are here and you want to make a contribution to CSPLib.
 So nice of you!
 
-Here, we will give step by steps instructions describing how you can make a contribution to CSPLib.
+Here, we will give step by step instructions describing how you can make a contribution to CSPLib.
 These instructions will use the command line [git tool](https://git-scm.com), there are graphical user interfaces which may or may not make life easier.
 
 We strongly suggest reading tutorials on Git and GitHub usage to learn these tools better.
@@ -35,7 +35,7 @@ We strongly suggest reading tutorials on Git and GitHub usage to learn these too
 
 It is quite a lot of steps isn't it?
 Thankfully these are transferrable skills, most open source software projects use a similar setup.
-Once you are familiar with the workflow you can contribute other projects too!
+Once you are familiar with the workflow you can contribute to other projects too!
 
 Happy hacking!
 
@@ -47,9 +47,9 @@ TODO
 
 ## Setting up passwordless GitHub
 
-By default GitHub works by prompting to ask your credentials for every push.
+By default GitHub asks your credentials for every push.
 This can become annoying quite quickly.
-However, setting passwordless access to GitHub (per computer) is easy!
+However, setting passwordless access to GitHub (for a specific computer) is easy!
 
 These instructions will work for Linux and Mac OS X.
 
