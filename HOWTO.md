@@ -73,8 +73,11 @@ Just click the edit button, make your changes through the web interface and GitH
 
 Including the problem number (together with the "prob" prefix) inside curly brackets creates a link to the given problem.
 The text of the hyperlink will be the full name of the problem.
-
 For example, writing `{prob006}` inside a specification file ("specification.md") will create a link with the hyperlink text "Golomb rulers".
+
+As an alternative, using square brackets instead of curly brackets will create a link to the problem but will use the problem number as the hyperlink text.
+Modifying the previous example, writing `[prob006]` will create a link with the hyperlink text "prob006".
+
 
 ## Citing references
 
