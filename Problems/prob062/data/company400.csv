@@ -1,0 +1,16 @@
+Company,Disappointment,Lower,Upper,DailyRate,Parallel
+AIMMS,10,10,20,40,4
+SAS,10,20,100,40,6
+Keelvar,10,20,40,20,4
+Microsoft,10,20,300,60,20
+Google,20,40,300,60,20
+IBM,10,40,300,60,10
+Cadence,5,10,100,20,6
+Quintiq,10,20,100,20,6
+Siemens,10,20,100,40,6
+Cosling,5,10,30,10,4
+COSYTEC,5,10,20,10,4
+LocalSolver,5,10,40,10,4
+N-side,5,10,40,10,4
+UTRC-I,5,10,100,20,6
+Zoomer,5,10,20,20,4

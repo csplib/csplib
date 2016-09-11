@@ -24,7 +24,11 @@ However, there is no construction method for all $n$ and it is, e.g., unknown wh
 
 The problem description was taken from cite{kadioglu2009dialectic} with small adaptations.
 
+For a related problem, please see {prob006}.
+
 Here is a website which contains some more information on the problem: http://datagenetics.com/blog/february22013
+
+There was a dedicated website for the Costas Arrays Problem (http://www.costasarrays.org), but it doesn't seem accesible any more. It can be found on the [Wayback Machine](https://web.archive.org/web/20120206033000/http://www.costasarrays.org/).
 
 Helmut Simonis has slides on Costas Arrays here: http://4c.ucc.ie/~hsimonis/ELearning/costas/slides.pdf
 

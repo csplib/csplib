@@ -17,11 +17,10 @@ place="PR-{}".format(issue_num)
 text="Build preview located at http://csplib.github.io/csplib-PR-builds"
 
 pr = gh.issue('csplib', 'csplib', issue_num)
-already_added = any( i for i in pr.iter_comments() 
-		if text in i.to_json()['body'] )
+already_added = any( i for i in pr.iter_comments() if text in i.to_json()['body'] )
 
 if not already_added:
-	pr.create_comment("%s/%s\n This will be automatic updated if more commits are added."
+	pr.create_comment("%s/%s/\n This will be automatically updated if more commits are added. If travis-ci is busy it may take ~10 minutes for the build to appear"
 		% (text, place))
 	print("Added url to pull request")
 else:
