@@ -15,11 +15,11 @@ There are a set of renewable resources. Each resource has a maximum capacity and
 
 The problem is usually stated as an optimisation problem where the makespan (i.e. the completion time of the *sink* activity) is minimised. 
 
-# Multi-mode Variant
+## Multi-mode Variant
 
 An extension of the basic RCPSP is the *multi-mode* variant where activities may have multiple *modes*. The mode dictates the duration and resource demands of the activity. In this variant, the schedule must give the mode of each activity as well as its starting time. 
 
-# Non-Renewable Resources
+## Non-Renewable Resources
 
 Another extension concerns *non-renewable resources*. Each non-renewable resource has a capacity for the entire schedule. An example would be a financial budget that applies to the entire project. Modes of activities must be chosen to avoid exceeding the capacity of each of the non-renewable resources.
 
