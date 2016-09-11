@@ -68,3 +68,10 @@ Including the problem number (together with the "prob" prefix) inside curly brac
 The text of the hyperlink will be the full name of the problem.
 
 For example, writing `{prob006}` inside a specification file ("specification.md") will create a link with the hyperlink text "Golomb rulers".
+
+## Citing references
+
+Include the bibtex entry for a reference under `references/references.bib`, and you can cite it using the following syntax: `cite{KEY}` (where `KEY` is the bibtex key).
+
+So it is just like citing references in Latex, except the leading backslash character is missing (so not `\cite{}` but `cite{}`).
+
