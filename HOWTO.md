@@ -40,6 +40,11 @@ Once you are familiar with the workflow you can contribute other projects too!
 Happy hacking!
 
 
+## Keeping your fork up to date
+
+TODO
+
+
 ## Setting up passwordless GitHub
 
 By default GitHub works by prompting to ask your credentials for every push.
