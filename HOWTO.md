@@ -60,6 +60,13 @@ These instructions will work for Linux and Mac OS X.
 That's it!
 
 
+## Simple edits
+
+There is a simpler way to make "simple edits" (e.g. I just want to add a bibtex reference, or improve the description). These can be done completely though the GitHub interface using the "Edit Page" link, which exists on most pages.
+
+Just click the edit button, make your changes through the web interface and GitHub will create a pull request automatically with your changes.
+
+
 # Typesetting
 
 ## Linking to other problems
