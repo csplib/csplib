@@ -10,5 +10,4 @@ The problem can be formulated as an 0-1 problem using the variables, $M_{ij}$ fo
 
 One natural generalization is to consider partitioning into $k$ boxes (for $k>3$).
 
-Ramsey numbers are closely related, and are described in
-<A HREF="../prob017/">prob017</A>.
+Ramsey numbers are closely related, and are described in {prob017}.
