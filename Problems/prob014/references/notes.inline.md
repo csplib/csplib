@@ -1,4 +1,4 @@
-A book ( cite{Gorgon92Battleships} ) of puzzles has been published.
+A book ( cite{Gordon92Battleships} ) of puzzles has been published.
 
 Fathom It! cite{FathomIt} is a shareware program for playing and solving these puzzles.
 This gives you
