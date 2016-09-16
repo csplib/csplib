@@ -24,7 +24,7 @@ letting lb_lambda be num / denom + toInt( num % denom !=0)
 
 find opd : set (size v) of set (size r) of Nums
 
-find lambda : int(lb_lambda..v)
+find lambda : int(lb_lambda..b)
 
 minimising lambda
 
