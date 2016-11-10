@@ -42,7 +42,7 @@ Happy hacking!
 
 ## Keeping your fork up to date
 
-If you made a fork of CSPLib and make a clone of your fork to your local computer, you can keep your fork up to date by running the following commands.
+If you made a fork of CSPLib and made a clone of your fork to your local computer, you can keep your fork up to date by running the following commands.
 
     git fetch upstream
     git checkout master
