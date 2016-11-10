@@ -27,11 +27,11 @@ We strongly suggest reading tutorials on Git and GitHub usage to learn these too
 7. **Make a branch.** Use the following command to create a new named branch: `git checkout -b BRANCH_NAME` (where BRANCH_NAME is the branch name you want to use).
    (This step is optional, but it is good practice.)
 8. **Commit your changes.** Use `git add` to add new files, and use `git commit -m COMMIT_MESSAGE` to commit your changes.
-9. **Repeat,** Repeat steps 4 to 8 as many times as necessary.
+9. **Repeat.** Repeat steps 4 to 8 as many times as necessary.
 10. **Push to your fork.** Use `git push origin` to push your local changes (commits) to your fork on GitHub.
 11. **Create a pull request,** Go to the webpage for your fork. It will be at `https://github.com/USERNAME/csplib` (where USERNAME is your GitHub username). Switch to your branch using the dropdown menu on the page. Then click the "New pull request" button. GitHub will show you a preview of your changes and will allow you to write a message to CSPLib maintainers before creating the pull request.
-12. TODO: build bot
-13. TODO: you can make more commits
+12. **Build bot.** We have a built-bot which will add a message to your pull request with a link to a preview build. This build will include your changes, and will give you a chance to see how they look.
+13. **Updating PR.** You can make more commits and push to the branch corresponding to your pull request to update it before merging. The build preview will be updated after every push.
 
 It is quite a lot of steps isn't it?
 Thankfully these are transferrable skills, most open source software projects use a similar setup.
@@ -64,8 +64,8 @@ However, setting passwordless access to GitHub (for a specific computer) is easy
 These instructions will work for Linux and Mac OS X.
 
 1. **Check if you have an SSH key-pair in your system.** It is a good idea to check if you have this first, since a lot of people need this for one reason or another. You can check whether you have an SSH key-pair by checking whether you have the following two files or not: `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`. The former is your private key (don't give it to anybody!) and the latter is your public key.
-2. If you don't have the key-pair, you can create it by running `TODO`. Now you should have the two files mentioned above.
-3. Upload the contents of your public key file to GitHub by navigating to the TODO section under your GitHUb settings page.
+2. If you don't have the key-pair, you can create it by running `ssh-keygen`. Now you should have the two files mentioned above.
+3. Upload the contents of your public key file to GitHub by navigating to the [SSH and GPG keys](https://github.com/settings/keys) section in your GitHUb settings page.
 
 That's it!
 
