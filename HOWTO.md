@@ -42,7 +42,17 @@ Happy hacking!
 
 ## Keeping your fork up to date
 
-TODO
+If you made a fork of CSPLib and make a clone of your fork to your local computer, you can keep your fork up to date by running the following commands.
+
+    git fetch upstream
+    git checkout master
+    git merge upstream/master
+    git push origin master
+
+Note that you need to set `origin` to point to your fork, and `upstream` to point to the main CSPLib repository for this to work. You can set these by running the following commands.
+
+    git remote add origin https://github.com/<USERNAME>/csplib.git
+    git remote add upstream https://github.com/csplib/csplib.git
 
 
 ## Setting up passwordless GitHub
