@@ -16,6 +16,8 @@ So nice of you!
 Here, we will give step by step instructions describing how you can make a contribution to CSPLib.
 These instructions will use the command line [git tool](https://git-scm.com), there are graphical user interfaces which may or may not make life easier.
 
+(GitHub provides an easier way of making contributions, which is great for [simpler contributions](#simple-edits).)
+
 We strongly suggest reading tutorials on Git and GitHub usage to learn these tools better.
 
 1. **Create a GitHub account.** Follow the instructions on the [GitHub website](http://www.github.com).
