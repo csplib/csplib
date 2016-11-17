@@ -12,6 +12,7 @@ To build a local copy of csplib to view locally type:
 
 To add a new problem use `new_problem.sh` to create a basic outline.
 
+See [HOWTO.md](https://github.com/csplib/csplib/blob/master/HOWTO.md) for detailed instructions. 
 
 # Problem Specification
 
