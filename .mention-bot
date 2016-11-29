@@ -1,0 +1,11 @@
+{
+    "maxReviewers": 3,
+    "message": "@pullRequester, thanks for the contribution! By analysing previous contributions, the following people were identified as potential reviewers: @reviewers.",
+    "findPotentialReviewers": true,
+    "userBlacklist": [],
+    "userBlacklistForPR": [],
+    "actions": ["opened"],
+    "skipAlreadyAssignedPR": false,
+    "skipAlreadyMentionedPR": false,
+    "skipCollaboratorPR": false
+}
