@@ -1,9 +1,9 @@
 language Essence 1.3
 
-letting items be enum {a,b,c,d,e}
+letting items be new type enum {a,b,c,d,e}
 letting capacity be 100
 
-letting values be function
+letting gain be function
     ( a --> 10
     , b --> 20
     , c --> 40
@@ -11,7 +11,7 @@ letting values be function
     , e --> 50
     )
 
-letting weights be function
+letting weight be function
     ( a --> 15
     , b --> 25
     , c --> 45
