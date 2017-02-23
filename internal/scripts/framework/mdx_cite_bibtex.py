@@ -13,7 +13,8 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
 		base = markdown.util.etree.Element('span')
 		base.text=' '
-		for ref in m.group(2).split(","):
+		refs = m.group(2).split(",")
+		for (i,ref) in enumerate(refs):
 			ref = ref.strip()
 			# to allow in a html Fragment
 			ref = re.sub("[^\w]", "_", ref)
@@ -30,7 +31,18 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 			el.set('href', url)
 			el.set('class', 'bibref')
 			el.set('data-bibfragment', ref)
-			el.text = markdown.util.AtomicString("[{0}]".format(ref))
+
+			# format cite{a,b} as  [a, b]
+			fmt = "[{0}]"
+			if len(refs) > 1:
+				if i == 0:
+					fmt = "[{0}"
+				elif i == len(refs) - 1:
+					fmt = ", {0}]"
+				else:
+					fmt = ", {0}"
+
+			el.text = markdown.util.AtomicString(fmt.format(ref))
 			base.append(el)
 
 

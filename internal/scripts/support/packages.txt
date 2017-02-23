@@ -1,4 +1,4 @@
-Jinja2==2.7.1
+Jinja2==2.9
 Markdown==2.3.1
 MarkupSafe==0.18
 pybtex==0.17
