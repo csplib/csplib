@@ -13,6 +13,6 @@ notifications:
     on_failure: always
 env:
   global:
-  - secure: iKuVPLPN105Z/ihhnqg12wr08RcHHXvJDj1UAwXLVw0O7gnldi5+LaFkM3hNA0jw8WCY4pHgn/dfcWgU5FrzX0F9pIMzOQ+vYSclfE80kWROHERQ9H/opaYLT4ZqSc5d3xs7gQeAgk5dG/Z/LItWxJdm0QC/nj5gHPcZlU86iiQ=
+  - secure: "LsVKLWRl0VA9BqRz/H96tHTYRWV6ejFSyFN6JF4QoatZdv8kpBbblDGTXw2e+DdSn/prQCvxg26Vw4GxvFsxy+xH+/XXwTQPntSQUUCBNUpkUN/FqdvpMVVIxh5N9c57EhTuKRcoYjyhE+a5UgdMSdRGw86WGrsF7hsfilYvK2M="
 after_success: >
     ./internal/scripts/support/upload_to_csplib-builds.sh
