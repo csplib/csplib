@@ -1,6 +1,8 @@
 ---
-Title:    Train Traffic Rescheduling
-Proposer: Quentin Cappart and Pierre Schaus 
+Title: Train Traffic Rescheduling
+Proposer:
+- Quentin Cappart
+- Pierre Schaus
 Category: Scheduling and related problems
 ---
 
