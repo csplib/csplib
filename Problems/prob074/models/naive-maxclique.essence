@@ -1,0 +1,23 @@
+$ Maximum Clique Problem (CSPLib 074)
+$ Naive model for a largest clique in a graph presented as a list of edges.
+$ Edges are pairs of vertices in a relation; (u,v) is interpreted as {u,v}.
+$ Vertices are numbered 1 to n, all are regarded as part of the graph.
+$
+$ Andras Salamon <Andras.Salamon@st-andrews.ac.uk>
+$ 2017-07-07
+
+language Essence 1.3
+letting n be 5
+letting vertices be domain int(1..n)
+letting G be relation((1,2),(1,4),(2,3),(3,4),(3,5),(4,5))
+
+find C : matrix indexed by [vertices] of bool $ vertices in clique
+find size : vertices $ number of vertices in the clique
+
+$ the clique includes at most one of any pair of non-neighbouring vertices
+such that
+size = sum([toInt(C[u]) | u : vertices]),
+forAll v : int(2..n) . forAll u : int(1..(v-1)) .
+    (!((u,v) in G) /\ !((v,u) in G)) -> (!C[u] \/ !C[v])
+
+maximising size
