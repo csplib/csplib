@@ -15,7 +15,6 @@ find sched : set (size w) of
                 partition (regular, numParts g, partSize s) from Golfers
 
 such that
-    forAll {week1, week2} subsetEq sched .
-        forAll group1 in parts(week1) .
-            forAll group2 in parts(week2) .
-                |group1 intersect group2| < 2
+
+forAll g1, g2 : Golfers, g1 < g2 .
+    (sum week in sched . toInt(together({g1, g2}, week))) <= 1
