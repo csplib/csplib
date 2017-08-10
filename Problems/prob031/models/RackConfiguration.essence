@@ -31,7 +31,7 @@ given max_power    : function (total) Model --> int(1..),
 $ model: the model of each rack
 $ plugged: the set of cards plugged in to a particular rack
 find model   : function Rack --> Model,
-     plugged : function Rack --> set of Card
+     plugged : function Rack --> set (maxSize max(range(max_connects))) of Card
 
 $ minimise the total rack price
 minimising sum r in defined(model) . price(model(r))
