@@ -12,7 +12,7 @@ maximising |words|
 such that
     forAll w in words . |preImage(w,C)| + |preImage(w,G)| = 4,
     forAll w1,w2 in words
-        , w1 != w2
+        , w2 > w1
         . (sum i : Index . toInt(w1(i) = w2(i))) <= 4,
     forAll w1,w2 in words
         , w1 = w2
