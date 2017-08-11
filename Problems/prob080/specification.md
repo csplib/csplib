@@ -15,6 +15,8 @@ be NP-Complete as a decision problem and #P-Complete as a counting problem.
 The Blocked $n$-Queens problem is a variant where, as well as $n$, the input contains a list of squares which are blocked. A solution to the problem is a solution to the $n$-Queens problem containing no queens on any of the blocked 
 squares.
 
+The Blocked $n$-Queens problem is closely related to {prob079}, [prob079].
+
 
 Instances
 ==========================
