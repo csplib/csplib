@@ -18,6 +18,18 @@ be NP-Complete as decision problems and #P-Complete as counting problems.
 </figure>
 </center>
 
+Random Instance Generators
+==========================
+
+Python generators are available to implement the models from the paper cite{nqueenscompletion}. 
+The generator for random instances of n-Queens Completion is not recommended as it does not seem to produce hard instances. The other generators are: 
+
+<a href="data/blocked-gen.py.html">Generator for random blocked n-Queens instances</a>
+
+<a href="data/queens-diag-gen.py.html">Generator for random Excluded Diagonals n-Queens instances</a>
+
+
+
 
 References
 ==========
