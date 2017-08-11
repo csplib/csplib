@@ -1,0 +1,85 @@
+# Blocked Queens/Diagonals Lingeling experiments
+
+# 1 N (size of board)
+# 2 M (number of blocks to place/diagonals to exclude)
+# 3 instance id 
+# 4 result status text
+# 5 sat boolean
+# 6 timed out boolean
+# 7 conflicts
+# 8 conflicts per sec
+# 9 nodes
+# 10 nodes per sec
+# 11 propagations
+# 12 Megapropagations per sec
+# 13 solve time
+# 14 total time
+# 15 total system time
+# 16 total wall time
+# 17 filename for result data
+
+# Blocked Queens/Diagonals shiftqueens solver experiments
+
+# n numblocks/diags mininrow id filename numsols text nodes text timeout text time(s)
+
+# Blocked Queens/Diagonals minion experiments
+
+# 1 N (size of board)
+# 2 M (number of blocks to place/diagonals to exclude)
+# 3 D (min number in row)
+# 4 instance id 
+# 5 problem eprime file
+# 6 instance param file
+# 7 if x cse switched on
+# 8 x cse heuristic
+# 9 not used
+# 10 minion solve time 
+# 11 solver total time
+# 12 minion setup time
+# 13 solver nodes
+# 14 solver timeout bool
+# 15 solver satisfiable bool
+# 16 savile row time
+# 17 ?? savile row clauseout
+# 18 solver memout bool
+# 19 savile row timeout 
+# 20 numsat vars
+# 21 numsat clauses 
+
+# PlacedQueens Lingeling columns
+
+# 1 N-M
+# 2 N (size of board)
+# 3 M (number of queens to place)
+# 4 instance id 
+# 5 problem eprime file
+# 6 instance param file
+# 7 if x cse switched on
+# 8 x cse heuristic
+# 9 not used
+# 10 minion solve time 
+# 11 solver total time
+# 12 minion setup time
+# 13 solver nodes
+# 14 solver timeout bool
+# 15 solver satisfiable bool
+# 16 savile row time
+# 17 ?? savile row clauseout
+# 18 solver memout bool
+# 19 savile row timeout 
+# 20 numsat vars
+# 21 numsat clauses 
+
+# PlacedQueens ShiftQueens Columns
+
+# 1 N-M
+# 2 N (size of board)
+# 3 M (number of queens to place)
+# 4 instance id 
+# 5 (text)
+# 6 satisfiable or not
+# 7 (text)
+# 8 nodes taken
+# 9 (text)
+# 10 timed out or not
+
