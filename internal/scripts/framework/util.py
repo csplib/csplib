@@ -25,7 +25,7 @@ text_formats |= source_types
 
 # Format that should not be displayed inline
 binary_formats = set(['ps', 'pdf'])
-archive_formats = set(['zip', 'tar', 'tar.gz', 'rar', '7z', 'xz', 'sit', 'sitx',
+archive_formats = set(['zip', 'tar', 'tar.gz', 'tgz', 'rar', '7z', 'xz', 'sit', 'sitx',
 	 					'iso', 'bz2', 'lz', 'gz', 'lzma', 'lzo', 'z', 'Z', 'ace',
 						'jar', 'pea', 'tarz', 'tar.bz2', 'tbz2', 'tlz', 'xar',
 						'zipx', 'zz', 'zpaq'])
