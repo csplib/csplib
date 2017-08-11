@@ -1,0 +1,30 @@
+language ESSENCE' 1.0
+given      n : int(1..)
+letting    AMOUNT_QUEENS be domain int(0..n-1)
+given      blocks : matrix indexed by [ int(1..given_queens), int(1..2) ] of int(1..n)
+find       q1: matrix indexed by [ AMOUNT_QUEENS ] of int(0..n-1)
+find       q2: matrix indexed by [ AMOUNT_QUEENS ] of int(-(n-1)..n-1)
+find       q3: matrix indexed by [ AMOUNT_QUEENS ] of int(0..(n-1)*2)
+
+
+such that  allDiff(q1), 
+           allDiff(q2), 
+           allDiff(q3),
+           
+         $ diagonals
+           forAll i : AMOUNT_QUEENS . (
+               table([q2[i], q1[i]], [[a,a+i] | a : int(-(n-1)..n-1), a+i>=0, a+i<n])  /\
+               table([q3[i], q1[i]], [[a,a-i] | a : int(0..(n-1)*2), a-i>=0, a-i<n])
+           ),
+
+           forAll i : int(1..given_queens) .
+               (q1[blocks[i,1]-1] != blocks[i,2]-1),
+           
+        true
+           
+
+
+    
+          
+    
+
