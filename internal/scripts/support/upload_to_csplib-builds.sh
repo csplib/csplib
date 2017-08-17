@@ -2,6 +2,7 @@
 
 set -o nounset
 set -x
+set -e
 
 Dir="$( cd "$( dirname "$0" )" && pwd )";
 
@@ -84,6 +85,4 @@ elif [[   "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_PYTHON_VERSION == '3.4' ]
 fi
 
 
-code=$?
 set +x
-exit $code
