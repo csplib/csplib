@@ -14,6 +14,6 @@ such that
     forAll c : Index
         . (sum r : Index . toInt(!m[r,c])) = 11,
     forAll r1,r2 : Index
-        , r1 != r2
+        , r2 > r1
         . (sum c : Index . toInt(!(m[r1,c] \/ m[r2,c]))) = 1
 

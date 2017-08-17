@@ -22,7 +22,7 @@ forAll i : Vertex .
     |(toSet(graph(_,_,i) ))| = (n - 1) /\
     |(toSet(graph(_,i,i) ))| = 0,
 
-forAll i, j :  Vertex , i != j . 
+forAll i, j :  Vertex , j > i . 
    |(toSet(graph(_,i,j) ))|  = 1 /\ 
    |(toSet(graph(_,j,i) ))|  = 1 /\
    graph(_,i,j) = graph(_,j,i),
