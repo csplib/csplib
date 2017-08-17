@@ -2,6 +2,7 @@
 
 set -o nounset
 set -x
+set -o errexit
 
 Dir="$( cd "$( dirname "$0" )" && pwd )";
 
