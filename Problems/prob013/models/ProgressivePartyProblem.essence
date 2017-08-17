@@ -14,9 +14,13 @@ find hosts : set (minSize 1) of Boat,
 minimising |hosts|
 
 such that
+    $ Hosts remain the same throughout the schedule
     forAll p in sched . range(p) = hosts,
+    $ Hosts stay on their own boat
     forAll p in sched . forAll h in hosts . p(h) = h,
+    $ Hosts have the capacity to support the visiting crews
     forAll p in sched . forAll h in hosts . (sum b in preImage(p,h) . crew(b))
                                             <= capacity(h),
+    $ No two crews are at the same party more than once
     forAll b1,b2 : Boat . b1 < b2 ->
         (sum p in sched . toInt(p(b1) = p(b2))) <= 1
