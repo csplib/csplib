@@ -7,6 +7,7 @@ install:
 - ./internal/scripts/support/setup.sh && pip install github3.py
 script:
 - make build_for_gh_pages
+- ./internal/scripts/support/upload_to_csplib-builds.sh
 notifications:
   email:
     on_success: change
@@ -14,5 +15,3 @@ notifications:
 env:
   global:
   - secure: "LsVKLWRl0VA9BqRz/H96tHTYRWV6ejFSyFN6JF4QoatZdv8kpBbblDGTXw2e+DdSn/prQCvxg26Vw4GxvFsxy+xH+/XXwTQPntSQUUCBNUpkUN/FqdvpMVVIxh5N9c57EhTuKRcoYjyhE+a5UgdMSdRGw86WGrsF7hsfilYvK2M="
-after_success: >
-    ./internal/scripts/support/upload_to_csplib-builds.sh
