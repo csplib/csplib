@@ -24,6 +24,8 @@ The problem has inherent symmetry. That is, for any solution we obtain another s
 
 The problem is extremely well studied in the mathematical literature. An outstanding survey from 2009 is by Bell & Stevens cite{Bell20091}.
 
+See below for discussions of complexity problems with $n$-Queens. For closely related variants without these problems see {prob079}, [prob079], and {prob080}, [prob080].
+
 Complexity
 ==========
 
