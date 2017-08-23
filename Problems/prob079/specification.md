@@ -1,7 +1,7 @@
 ---
 Title:    n-Queens Completion Problem and Excluded Diagonals n-Queens Problem
 Proposer: Ian Gent
-Category: Games and Puzzles
+Category: Games and puzzles
 ---
 
 $n$-Queens Completion Problem
