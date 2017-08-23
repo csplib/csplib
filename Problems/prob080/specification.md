@@ -1,7 +1,7 @@
 ---
 Title:    Blocked n-Queens Problem
 Proposer: Ian Gent
-Category: Games and Puzzles
+Category: Games and puzzles
 ---
 
 Overview
