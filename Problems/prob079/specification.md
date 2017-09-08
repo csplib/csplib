@@ -43,7 +43,7 @@ The other direction is more complex but still fast, following a construction in 
 <a href="models/diagtoqueens.py.html">diagtoqueens.py</a> and 
 <a href="models/queens-diag-transform.py.html">queens-diag-transform.py</a>.
 
-The two problems are closely related to {prob079}, [prob079].
+The two problems are closely related to {prob080}, [prob080].
 
 
 Random Instance Generators
