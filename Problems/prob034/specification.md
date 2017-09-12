@@ -21,7 +21,7 @@ capacity = [1,4,2,1,3]; // capacity is indexed by Warehouses
 
 // supplyCost in indexed by Stores(0..9) and the set of Warehouses
 
-supplyCost = [ [ 24, 11, 25, 30 ]
+supplyCost = [ [ 20, 24, 11, 25, 30 ]
              , [ 28, 27, 82, 83, 74 ]
              , [ 74, 97, 71, 96, 70 ]
              , [ 2, 55, 73, 69, 61 ]
