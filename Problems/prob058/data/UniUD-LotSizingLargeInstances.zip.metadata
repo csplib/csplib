@@ -1,0 +1,3 @@
+---
+Title: Randomly generated instances of large size (200-500 periods, 10, 20, 30 items) and varying density of requests (0.8, 0.9, 1.0).  All of them were used in the paper cite{simulatedAnnealingLSP}
+---
