@@ -33,4 +33,4 @@ The optimal solution is $productionPlan = (2,1,0,1,2)$ with the cost $q^{2,1}+q^
 
 ---
 
-A [Simulated Annealing metaheuristic approach](https://doi.org/10.1016/j.cie.2017.10.017) along with a dataset of [large-size instances](data/UniUD-LotSizingLargeInstances.zip) has been developed by Sara Ceschia, Luca Di Gaspero and Andrea Schaerf.
+A [Simulated Annealing metaheuristic approach](https://doi.org/10.1016/j.cie.2017.10.017) along with a dataset of [large-size instances](data/UniUD-LotSizingLargeInstances.zip) has been developed by Sara Ceschia, Luca Di Gaspero and Andrea Schaerf. An online web solution checker and solution repository is available at [https://opthub.uniud.it/problem/lsp](https://opthub.uniud.it/problem/lsp).
