@@ -4,6 +4,6 @@ L(2,3) has the unique solution up to reversal of 312132. This was supposedly fou
 
 L(3,n) is insoluble for n less than 9. L(3,9) has 3 solutions, whilst L(3,10) has 5 solutions. L(3,n) is insoluble for n between 11 and 16 inclusive. L(3,17), L(3,18) and L(3,19) have 13,440, 54,947 and 249,280 solutions respectively, whilst L(3,20) has no solutions.
 
-John Edward Miller's [web pages](http://www.lclark.edu/~miller/langford.html) on Langford's problem including a large table of results (about half way down the long page), as well as notes about when and by whom they were proved.
+John Edward Miller's [web pages](http://www.dialectrix.com/langford.html) on Langford's problem including a large table of results (about half way down the long page), as well as notes about when and by whom they were proved.
 
 The number of solutions to Langford's problem is sequence [A014552](http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=014552) in the [On-Line Encyclopedia of Integer Sequences](http://www.research.att.com/~njas/sequences/Seis.html). The (lexicographically ordered) solutions are [A050998](http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=050998).
