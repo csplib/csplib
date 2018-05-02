@@ -7,4 +7,6 @@ improved automatically cite{frisch2001extensions}.
 Using hand-reformulation, the following paper discusses how different
 using symmetry-breaking schemes on the 3-fractions puzzle, followed by
 the derivation of implied constraints, can lead to models of varying
-quality cite{frisch2004symmetry}. 
+quality cite{frisch2004symmetry}.
+
+The following paper investigates the numerical issues arising when the number of fractions grows and two new CP models that exploit the integer factorization of the fractions’ denominators cite{malapert2017puzzle}.
