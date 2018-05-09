@@ -1,0 +1,165 @@
+$ Black Hole Solitaire
+$
+$ starting from 17 stacks of 3 cards and the spades ace in the middle 
+$ (the black hole), cards are put on top  of the black hole. 
+$ It will accept a card if its rank is one greater or one less than 
+$ the rank of the card currently on top of it. The objective is to 
+$ remove all the cards from the stacks onto the black hole.
+$
+$ modelled by Andrea Rendl
+$ after the model in 'Search in the Patience Game 'Black Hole'.'
+$ I. Gent, C. Jefferson, I. Lynce, I. Miguel, P. Nightingale, B. Smith and A. Tarim
+
+language ESSENCE' 1.0
+
+letting noSteps be 51
+letting STEPS be domain int(0..noSteps)
+letting STEPS1 be domain int(1..noSteps)
+
+letting SPADES be 0
+letting HEARTS be 1
+letting CLUBS be 2
+letting DIAMONDS be 3
+
+letting CARDS_NO_ACE be domain int(1..51) 
+letting SUITS be domain int(0..3)
+letting CARDS be domain int(0..51)
+
+$  Cards are numbered 0 -- ace of spades, 1 -- 2 of spades...  13 -- ace of hearts etc. 
+
+given initialStacks : matrix indexed by [int(0..50)] of CARDS_NO_ACE 
+
+$ the sequence of ranks for each step
+find blackHole : matrix indexed by [STEPS] of CARDS
+$ the cards and their position in the sequence
+find cardSequence : matrix indexed by [CARDS] of STEPS
+
+$ height 3: topmost card
+$ height 2: middle card
+$ height 1: lowest card
+$find height : matrix indexed by [CARDS_NO_ACE] of int(1..3)
+
+
+such that 
+
+$ initial state: the spades ace in the middle
+blackHole[0] = 0,
+cardSequence[0] = 0, 
+
+allDiff(cardSequence),
+allDiff(blackHole),
+
+forAll step : STEPS1 . 
+   (|blackHole[step-1] - blackHole[step]| % 13 in {1,12}),
+
+$   table([blackHole[step-1],blackHole[step]], CONSECUTIVE_CARD_TABLE),
+
+
+$ precedence constraint
+forAll card : int(0..50) . 
+   (card % 3 != 2) ->
+      (cardSequence[initialStacks[card]] < cardSequence[initialStacks[card+1]]),
+
+
+$ channelling constraint
+forAll step : STEPS . 
+  forAll card : CARDS . 
+     (blackHole[step] = card) <-> (cardSequence[card] = step),
+
+
+
+
+
+$ conditional symmetry breaking
+
+
+$ if two cards of the same rank are on the bottom of a stack then take the smaller one
+$ CASE A of Barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+      ( (stack1 < stack2) /\  $ the 3rd cards have the same rank
+        (initialStacks[stack1*3+2] % 13 = initialStacks[stack2*3+2] % 13)
+      ) -> 
+
+             $ y[cover[c1] < y[c2]   ->  y[c1] < y[c2]
+        (   (cardSequence[initialStacks[stack1*3+1]] < cardSequence[initialStacks[stack2*3+2]] 
+                 ) -> 
+            (cardSequence[initialStacks[stack1*3+2]] < cardSequence[initialStacks[stack2*3+2]])   
+        ),
+
+
+$ if two cards of the same rank are on top of a stack
+$ CASE B of Barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+      ( (stack1 < stack2) /\  $ the 1st cards have the same rank
+        (initialStacks[stack1*3] % 13 = initialStacks[stack2*3] % 13)
+      ) -> 
+
+             $ y[c1] < y[coveredby[c2]]  ->  y[c1] < y[c2]
+        (  ( cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+1]]  
+                 ) -> 
+             ( cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3]] )
+           
+        ),
+
+$ 2 cards are in the middle 
+$ CASE C of Barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+    ( (stack1 < stack2)  /\  $ different stacks and cards in the midle are of the same rank
+            (initialStacks[stack1*3+1] % 13 = initialStacks[stack2*3+1] % 13) 
+    ) -> 
+       $ (y[c1] < y[coveredby[c2]  &&  y[cover[c1]] < y[c2] )  ->  y[c1] < y[c2]
+    ( ( (cardSequence[initialStacks[stack1*3+1]] < cardSequence[initialStacks[stack2*3+2]]) /\
+        (cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+1]])
+      )  ->
+         ( cardSequence[initialStacks[stack1*3+1]] < cardSequence[initialStacks[stack2*3+1]])
+    ),
+
+
+$ if two cards have the same rank and one is on top and the other the last of a stack take the top one first
+$ CASE D in Barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+    ( (stack1 != stack2)  /\  $ different stacks and cards on top of stack1 and bottom of stack2 are of the same rank
+            (initialStacks[stack1*3] % 13 = initialStacks[stack2*3+2] % 13) 
+    ) -> 
+        ( cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+2]]),
+
+
+$ ADDs more SEARCH for instance 106
+$ one card on top, the other in the middle
+$ CASE E in barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+    ( (stack1 != stack2)  /\  $ different stacks and cards on top of stack1 and middle of stack2 are of the same rank
+            (initialStacks[stack1*3] % 13 = initialStacks[stack2*3+1] % 13) 
+    ) -> 
+       (   $ y[c1] < y[coveredby[c2] && y[c2] < y[coveredby[c1]]  -> y[c1] < y[c2]
+         ( (cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+2]] ) /\
+           (cardSequence[initialStacks[stack2*3+1]] < cardSequence[initialStacks[stack1*3+1]] )
+         ) ->
+          ( cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+1]])
+      ),
+
+
+$ one card in middle, other on bottom
+$ CASE F in barbara's model
+false ->
+forAll stack1, stack2 : int(0..16) . 
+    ( (stack1 != stack2)  /\ 
+            (initialStacks[stack1*3+1] % 13 = initialStacks[stack2*3+2] % 13) 
+    ) -> 
+       (   $ y[cover[c1]] < y[c2] && y[cover[c2]] < y[c1]  -> y[c1] < y[c2]
+         ( (cardSequence[initialStacks[stack1*3]] < cardSequence[initialStacks[stack2*3+2]] ) /\
+           (cardSequence[initialStacks[stack2*3+1]] < cardSequence[initialStacks[stack1*3+1]] )
+         ) ->
+          ( cardSequence[initialStacks[stack1*3+1]] < cardSequence[initialStacks[stack2*3+2]])
+      )
+
+
+
+
+
+
