@@ -1,0 +1,30 @@
+language Essence 1.3
+
+
+given n : int(1..)                    $ The size of the wheels
+
+letting V be domain int(0..2*n)       $ The vertices
+letting E be domain int(0..4*n-1)     $ The edges
+letting Colours be domain int(0..4*n) $ The colours
+letting C be 2*n                      $ The centre vertex
+letting C1 be domain int(0..n-1)      $ The inner circle
+letting C2 be domain int(n..2*n-1)    $ The outer circle
+
+find colouring : function(total,injective) V --> Colours
+find edgeID    : function(total,injective) E --> Colours
+
+such that
+  $ The inner circle is graceful
+  forAll v : C1 .
+    edgeID(v) = |colouring(v)-colouring((v+1)%n)|,
+
+  $ The outer circle is graceful
+  forAll v : C2 .
+    edgeID(v) = |colouring(v) - colouring((v+1)%n+n)|,
+
+  $ connections to the centre are graceful
+  forAll v : C1 .
+    edgeID(2*n+v) = |colouring(C) - colouring(v)|,
+
+  forAll v : C2 .
+    edgeID(2*n+v) = |colouring(C) - colouring(v)|

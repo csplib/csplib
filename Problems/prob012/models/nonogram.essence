@@ -6,30 +6,34 @@ $ Problem details available at http://www.csplib.org/Problems/prob012/
 $
 $ Essence model by Andrew Martin
 $
+$ Edited by Fraser Dunlop to support non-square Nonograms
+$
 $ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
-given nGrid : int(1..)
+given nRows : int(1..)
+given nCols : int(1..)
 given maxRules : int(1..)
 
-letting dGrid be domain int(1..nGrid)
+letting dRows be domain int(1..nRows)
+letting dCols be domain int(1..nCols)
 letting dRules be domain int(1..maxRules)
 
-given rowRules : matrix indexed by [dGrid, dRules] of int(0..)
-given colRules : matrix indexed by [dGrid, dRules] of int(0..)
+given rowRules : matrix indexed by [dRows, dRules] of int(0..)
+given colRules : matrix indexed by [dCols, dRules] of int(0..)
 
 $ gird is 1 if cell is filled, 0 otherwise.
-find grid : matrix indexed by [dGrid, dGrid] of int(0..1)
+find grid : matrix indexed by [dRows, dCols] of int(0..1)
 
 such that
     $ FOR EACH COLUMN
-    forAll column : dGrid .
+    forAll column : dCols .
 
         $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
-        ((sum i : dGrid . grid[i][column]) = (sum j : dRules . colRules[column][j]))
+        ((sum i : dCols . grid[i][column]) = (sum j : dRules . colRules[column][j]))
         /\
 
         $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
-        exists startingIndexes : matrix indexed by [dRules] of dGrid
+        exists startingIndexes : matrix indexed by [dRules] of dCols
 
             $ FOR EACH RULE
             . forAll ruleIndex : dRules
@@ -56,7 +60,7 @@ such that
                     \/
                     grid[(startingIndexes[ruleIndex])-1][column] = 0)
                     /\
-                    ((startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) = nGrid
+                    ((startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) = nCols
                     \/
                     grid[(startingIndexes[ruleIndex] + colRules[column][ruleIndex])][column] = 0) )
 
@@ -64,14 +68,14 @@ such that
 such that
 
     $ FOR EACH ROW
-    forAll row : dGrid .
+    forAll row : dRows .
 
         $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
-        ((sum i : dGrid . grid[row][i]) = (sum j : dRules . rowRules[row][j]))
+        ((sum i : dRows . grid[row][i]) = (sum j : dRules . rowRules[row][j]))
         /\
 
         $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
-        exists startingIndexes : matrix indexed by [dRules] of int(0..nGrid)
+        exists startingIndexes : matrix indexed by [dRules] of int(0..nRows)
 
             $ FOR EACH RULE
             . forAll ruleIndex : dRules
@@ -96,6 +100,6 @@ such that
                     \/
                     grid[row][(startingIndexes[ruleIndex])-1] = 0)
                     /\
-                    ((startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) = nGrid
+                    ((startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) = nRows 
                     \/
                     grid[row][(startingIndexes[ruleIndex] + rowRules[row][ruleIndex])] = 0) )
