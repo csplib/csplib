@@ -6,16 +6,21 @@ $ You are required to divide the water into two by pouring water between buckets
 $ (that is, to end up with 4 pints in the 8 pint bucket, and
 $                          4 pints in the 5 pint bucket).
 
-letting buckets be domain int(3,5,8)
+given buckets : int
 
-letting initialState be function(3 --> 0, 5 --> 0, 8 --> 8)
-letting finalState   be function(3 --> 0, 5 --> 4, 8 --> 4)
+letting Buckets be domain int(1..buckets)
 
-letting HORIZON be 10
+given initialState : function int --> int
+given finalState : function int --> int
+given capacity : function int --> int
+
+letting maxCapacity be max([capacity(i) | i : Buckets])
+
+given HORIZON : int
 
 
-find actions : sequence (maxSize HORIZON) of (buckets, buckets, int(1..8))
-find states  : sequence (maxSize HORIZON) of function (total) buckets --> int(0..max(`buckets`))
+find actions : sequence (maxSize HORIZON) of (Buckets, Buckets, int(1..maxCapacity))
+find states  : sequence (maxSize HORIZON) of function (total) Buckets --> int(0..buckets)
 
 $ action i transforms state i to state i+1
 such that |actions| = |states| - 1
@@ -27,18 +32,18 @@ $ can only pour if there is enough water
 such that forAll (i, (bFrom, bTo, amount)) in actions . amount <= states(i)(bFrom)
 
 $ bucket capacity
-such that forAll (i, f) in states . forAll b : buckets . f(b) <= b
+such that forAll (i, f) in states . forAll b : Buckets . f(b) <= capacity(b)
 
 $ preservation of water
 such that forAll (i, (bFrom, bTo, amount)) in actions . states(i)(bFrom) - amount = states(i+1)(bFrom)
 such that forAll (i, (bFrom, bTo, amount)) in actions . states(i)(bTo) + amount = states(i+1)(bTo)
 such that forAll (i, (bFrom, bTo, amount)) in actions .
-            forAll b : buckets . !(b in {bFrom, bTo}) -> states(i)(b) = states(i+1)(b)
+            forAll b : Buckets . !(b in {bFrom, bTo}) -> states(i)(b) = states(i+1)(b)
 
 $ after an action, either the source bucket is empty
 $                      or the target bucket is full
 such that forAll (i, (bFrom, bTo, amount)) in actions . states(i+1)(bFrom) = 0 \/
-                                                        states(i+1)(bTo) = bTo
+                                                        states(i+1)(bTo) = capacity(bTo)
 
 $ initial and final state
 such that states(1) = initialState

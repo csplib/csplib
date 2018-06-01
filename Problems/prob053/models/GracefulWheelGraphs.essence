@@ -1,0 +1,22 @@
+language Essence 1.3
+
+
+given n : int(1..)                    $ The size of the wheel
+
+letting V be domain int(0..n)         $ The vertices
+letting E be domain int(0..2*n-1)     $ The edges
+letting Colours be domain int(0..2*n) $ The colours
+letting C be n                        $ The centre vertex
+letting W be domain int(0..n-1)       $ The wheel
+
+find colouring : function(total,injective) V --> Colours
+find edgeID    : function(total,injective) E --> Colours
+
+such that
+  $ The wheel is graceful
+  forAll v : W .
+    edgeID(v) = |colouring(v)-colouring((v+1)%n)|,
+
+  $ connections to the centre are graceful
+  forAll v : W .
+    edgeID(n+v) = |colouring(C) - colouring(v)|

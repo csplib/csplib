@@ -1,0 +1,21 @@
+language Essence 1.3
+
+given n : int(1..) $ The size of the gear (number of verts connected to centre)
+
+letting V be domain int(0..2*n)       $ The vertices
+letting E be domain int(0..3*n-1)     $ The edges
+letting Colours be domain int(0..3*n) $ The colours
+letting G be domain int(0..2*n-1)     $ The full outer circle
+letting C be 2*n                      $ The centre
+
+find colour : function(total,injective) V --> Colours
+find edgeID : function(total,injective) E --> Colours
+
+such that
+  $ The gear is graceful
+  forAll v : G .
+    edgeID(v) = |colour(v) - colour((v+1)%(2*n))|,
+
+  $ The connections to the centre are graceful
+  forAll v : G , v % 2 = 0 .
+    edgeID(v/2+2*n) = |colour(C) - colour(v)|
