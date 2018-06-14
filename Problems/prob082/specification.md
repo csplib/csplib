@@ -1,6 +1,10 @@
 ---
 Title:    Patient Transportation Problem
-Proposer: Charles Thomas
+Proposer:
+- Charles Thomas
+- Quentin Cappart
+- Pierre Schaus
+- Louis-Martin Rousseau
 Category: Scheduling and related problems
 ---
 
