@@ -4,8 +4,14 @@ $ Problem details available at http://www.csplib.org/Problems/prob028/
 
 given v, b, r, k, lambda : int(1..)
 
-where v = b
-where r = k
+$ the following conditions define a symmetric BIBD:
+$ where v = b
+$ where r = k
+
+$ the following conditions are necessary for solutions to exist, see ../results/
+$ where r * v = b * k
+$ where lambda * (v - 1) = r * (k - 1)
+$ where b >= v
 
 letting Obj   be new type of size v,
         Block be new type of size b
