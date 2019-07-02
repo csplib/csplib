@@ -20,7 +20,7 @@ given HORIZON : int
 
 
 find actions : sequence (maxSize HORIZON) of (Buckets, Buckets, int(1..maxCapacity))
-find states  : sequence (maxSize HORIZON) of function (total) Buckets --> int(0..buckets)
+find states  : sequence (maxSize HORIZON) of function (total) Buckets --> int(0..maxCapacity)
 
 $ action i transforms state i to state i+1
 such that |actions| = |states| - 1
