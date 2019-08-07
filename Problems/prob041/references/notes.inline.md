@@ -10,3 +10,8 @@ the derivation of implied constraints, can lead to models of varying
 quality cite{frisch2004symmetry}.
 
 The following paper investigates the numerical issues arising when the number of fractions grows and two new CP models that exploit the integer factorization of the fractions’ denominators cite{malapert2017puzzle}.
+
+The note cite{codish2018sat} describes a SAT encoding for the n-fractions puzzle for which a SAT solver found new solutions for some of the remaining open instances of this problem. 
+
+Only the 44-fractions remains open when combining the most recent results of cite{malapert2017puzzle} and cite{codish2018sat}. 
+Other n-fractions have been found or proven infeasible.
