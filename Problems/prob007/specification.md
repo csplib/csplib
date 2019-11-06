@@ -4,7 +4,7 @@ Category: Combinatorial mathematics
 Proposer: Holger Hoos
 ---
 
-Given the twelve standard pitch-classes (c, c#, d, ...), represented by numbers 0,1,...,11, find a series in which each pitch-class occurs exactly once and in which the musical intervals between neighbouring notes cover the full set of intervals from the minor second (1 semitone) to the major seventh (11 semitones). That is, for each of the intervals, there is a pair of neigbhouring pitch-classes in the series, between which this interval appears. 
+Given the twelve standard pitch-classes (c, c#, d, ...), represented by numbers 0,1,...,11, find a series in which each pitch-class occurs exactly once and in which the musical intervals between neighbouring notes cover the full set of intervals from the minor second (1 semitone) to the major seventh (11 semitones). That is, for each of the intervals, there is a pair of neighbouring pitch-classes in the series, between which this interval appears. 
 
 The problem of finding such a series can be easily formulated as an instance of a more general arithmetic problem on $\mathbb Z_n$, the set of integer residues modulo $n$. Given $n \in \mathbb N$, find a vector $s = (s_1, ..., s_n)$, such that 
 
