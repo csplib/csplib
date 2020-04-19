@@ -1,7 +1,9 @@
 ---
 Title:    Warehouse Location Problem
 Proposer: Brahim Hnich
-Category: Design and configuration
+Category:
+- Design and configuration
+- Logistics
 ---
 
 In the <i>Warehouse Location</i> problem (WLP), a company considers opening warehouses at some candidate locations in order to supply its existing stores.
