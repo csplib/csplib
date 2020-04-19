@@ -22,3 +22,4 @@ Potential extensions:
 
 The problem can be used as a benchmark as either an optimisation problem (minimising total cost) or as a satisfaction problem (with a given upper bound for total cost).
 
+See {prob034} for a related problem.

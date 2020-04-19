@@ -49,3 +49,5 @@ Stores of Paris = `{}`
 
 Stores of Rome = `{4,2,0}`
 
+
+See {prob083} for a related problem.
