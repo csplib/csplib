@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
-import cgi	# for cgi.escape
 import markdown
 import os, os.path as path
 import zipfile
 import html
+
+
+# from https://github.com/posativ/isso/pull/600/files
+try:
+    from cgi import escape
+except ImportError:
+    from html import escape
 
 import logging
 logger = logging.getLogger(__name__)
@@ -108,9 +114,7 @@ def get_content_and_metadata(filepath, store_dir):
 		txt = read_file(filepath)
 		if stype in source_types:
 			css_class = "class ='brush: {0}'".format(stype)
-			txt = cgi.escape(txt)
-		else:
-			txt = html.escape(txt,quote=False)
+		txt = escape(txt,quote=False)
 
 		return ("<pre {0}>{1}</pre>".format(css_class, txt), meta, None)
 	else:
