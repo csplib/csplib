@@ -12,8 +12,8 @@
  The solution was obtained by construction.
 
 
- <A HREF="http://maths.ucc.ie/staff/fitzpatrickp/">Coding theorists</A> at UCC
-  have since then computed a solution of size <IT>112</IT>.
+ [Coding theorists](https://www.ucc.ie/en/crypto/staff/patrickfitzpatrick/) at [UCC](https://www.ucc.ie/en/matsci/people/)
+  have since then computed a solution of size *112*.
  This solution was obtained using a greedy algorithm.
  I have understood that the authors of the original paper
   have also found such a solution.
@@ -45,4 +45,3 @@ This was included in Dan C Tuplan's PhD thesis (cite{tulpan2006effective}).
 M. Codish, M. Frank, and V. Lagoon also found a solution with 128 words using a SAT solver and a clustering technique. This work was presented at ModRef 2016 workshop cite{codishWordDesign}.
 
 The solution file provided by Mike Codish can be found [here](length_128.md.html)
-

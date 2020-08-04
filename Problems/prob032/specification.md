@@ -24,7 +24,7 @@ A stable pattern, or *still-life*, is not changed by these rules. Hence, every c
 What is the densest possible still-life pattern, i.e. the pattern with the largest number of live cells, that can be fitted into an *n* x *n* section of the board, with all the rest of the board dead?
 
 
-(Note that another definition of a still-life requires the pattern to be a single *object* - see for instance [Mark Niemiec's Definitions of Life Terms](http://home.interserv.com/~mniemiec/lifeterm.htm) page.
+(Note that another definition of a still-life requires the pattern to be a single *object* - see for instance [Mark Niemiec's Definitions of Life Terms](https://conwaylife.com/ref/mniemiec/lifeterm.htm) page.
 On this definition, the 8 x 8 pattern below is a *pseudo still-life*.)
 
 ### Examples of  optimal solutions
@@ -36,4 +36,3 @@ A 3 x 3 still-life with 6 live cells and an 8 x 8 still-life with 36 live cells.
 
 ![Life 8](assets/life8.jpg)
 </center>
-

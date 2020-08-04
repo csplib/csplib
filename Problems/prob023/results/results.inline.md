@@ -1,6 +1,6 @@
 
-The diameter 5 problem has (ignoring roations and reflections)
-[http://www.comm.toronto.edu/~frank/hexagon.html](http://www.comm.toronto.edu/~frank/hexagon.html) an unique solution
+The diameter 5 problem has (ignoring rotations and reflections)
+[http://www.comm.toronto.edu/~frank/hexagon.html](https://web.archive.org/web/20000520073636/http://www.comm.toronto.edu/~frank/hexagon.html) an unique solution
 
 <center>
 <pre>
@@ -17,4 +17,3 @@ There is also a (trivial) diameter 1 magic hexagon. These are the only two sizes
 
 
 Eliminating symmetry is important. The diameter 5 problem has 12 symmetries (rotation, reflection, ...) which need to be considered.
-
