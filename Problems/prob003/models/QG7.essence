@@ -1,0 +1,16 @@
+language Essence 1.3
+$ prob003: quasigroup existence QG7
+$ http://www.csplib.org/Problems/prob003
+
+given n : int(1..100)
+letting g be domain int (0..n-1)
+
+find quasigroup : function(total) tuple(g,g) --> g
+
+such that
+  $ Latin square-ness
+  forAll v : g . injective(restrict(quasigroup,`tuple(int(v),g)`)),
+  forAll v : g . injective(restrict(quasigroup,`tuple(g,int(v))`)),
+
+  $ qg7 (b*a)*b = a*(b*a)
+  forAll a,b : g . quasigroup((quasigroup((b,a)),b)) = quasigroup((a,quasigroup((b,a))))

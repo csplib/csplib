@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>List of Languages</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Languages">Languages</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>List of Languages</h1>
+
+
+		</div>
+
+
+<table class='tablesorter'>
+<thead>
+	<tr>  <th>Id</th> <th>Title</th>  </tr>
+</thead>
+<tbody>
+<tr>
+	<td>
+		<a href="B-Prolog">
+			B-Prolog
+		</a>
+	</td>
+	<td>
+		B-Prolog
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="Comet">
+			Comet
+		</a>
+	</td>
+	<td>
+		Comet
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="ECLiPSe">
+			ECLiPSe
+		</a>
+	</td>
+	<td>
+		ECLiPSe
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="Essence">
+			Essence
+		</a>
+	</td>
+	<td>
+		Essence
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="EssencePrime">
+			EssencePrime
+		</a>
+	</td>
+	<td>
+		EssencePrime
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="MiniZinc">
+			MiniZinc
+		</a>
+	</td>
+	<td>
+		MiniZinc
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="Minion">
+			Minion
+		</a>
+	</td>
+	<td>
+		Minion Input Language
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="Numberjack">
+			Numberjack
+		</a>
+	</td>
+	<td>
+		Numberjack
+	</td>
+</tr>
+<tr>
+	<td>
+		<a href="Picat">
+			Picat
+		</a>
+	</td>
+	<td>
+		Picat
+	</td>
+</tr>
+</tbody>
+</table>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

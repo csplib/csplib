@@ -1,0 +1,141 @@
+language Essence 1.3
+
+given numDigits : int
+given dimension : int
+
+letting digit be domain int(0..9)
+letting number be domain int(0..10**numDigits)
+
+find grid : matrix indexed by [int(1..dimension), int(1..dimension)] of int(0..9)
+branching on [grid]
+
+
+$ the black blocks
+given blackCells : set of (int, int)
+such that
+    forAll (row, col) in blackCells . grid[row,col] = 0
+
+
+given acrossClueCoords : set of ( int   $ seq
+                                , int   $ the row
+                                , int   $ the starting column
+                                , int   $ the ending column
+                                )
+letting acrossIndex be domain int([i[1] | i <- acrossClueCoords])
+find across       : matrix indexed by [acrossIndex] of number
+find acrossDigits : matrix indexed by [acrossIndex] of sequence (maxSize numDigits) of digit
+such that
+    forAll (seq, row, colStart, colEnd) in acrossClueCoords .
+        acrossDigits[seq] = [ grid[row,col] | col : int(colStart..colEnd) ]
+
+
+given downClueCoords   : set of ( int   $ seq
+                                , int   $ the col
+                                , int   $ the starting row
+                                , int   $ the ending row
+                                )
+letting downIndex be domain int([i[1] | i <- downClueCoords])
+find down         : matrix indexed by [downIndex  ] of number
+find downDigits   : matrix indexed by [downIndex  ] of sequence (maxSize numDigits) of digit
+such that
+    forAll (seq, col, rowStart, rowEnd) in downClueCoords .
+        downDigits[seq] = [ grid[row,col] | row : int(rowStart..rowEnd) ]
+
+$ connecting digits to numbers
+such that
+    forAll n : acrossIndex .
+        across[n] = sum (i,d) in acrossDigits[n] . (10**max([0,|acrossDigits[n]|-i])) * d,
+    forAll n : downIndex .
+        down[n] = sum (i,d) in downDigits[n] . (10**max([0,|downDigits[n]|-i])) * d
+
+
+$ first digits are >1
+$ this is probably implied, but having it just in case.
+such that
+    forAll n : acrossIndex . acrossDigits[n](1) > 0,
+    forAll n : downIndex . downDigits[n](1) > 0
+
+
+letting AD be new type enum {A, D}
+letting CLUE be domain
+    variant
+        { is_constant    : int
+        , is_square      : bool
+        , is_prime       : bool
+        , plus_constant  : (int, AD, int)
+        , minus_constant : (int, AD, int)
+        , times_constant : (int, AD, int)
+        , div_constant   : (int, AD, int)
+        , times          : (int, AD, int, AD)
+        }
+given clues : set of (AD, int, CLUE)
+
+$ clues
+such that
+    forAll (targetKind, targetNum, clue) in clues .
+        and(
+            [ targetKind = A -> and(
+                [ active(clue, is_constant) -> across[targetNum] = clue[is_constant]
+                , active(clue, is_square  ) -> exists i : number . i**2 = across[targetNum]
+                , active(clue, is_prime   ) -> and([ across[targetNum] % i != 0
+                                                                     | i : number
+                                                                     , i >= 2
+                                                                     , i**2 <= across[targetNum]
+                                                                     ])
+                , active(clue, plus_constant) -> and(
+                    [ clue[plus_constant ][2] = A -> across[targetNum] = across[clue[plus_constant ][1]] + clue[plus_constant ][3]
+                    , clue[plus_constant ][2] = D -> across[targetNum] = down  [clue[plus_constant ][1]] + clue[plus_constant ][3]
+                    ])
+                , active(clue, minus_constant) -> and(
+                    [ clue[minus_constant][2] = A -> across[targetNum] = across[clue[minus_constant][1]] - clue[minus_constant][3]
+                    , clue[minus_constant][2] = D -> across[targetNum] = down  [clue[minus_constant][1]] - clue[minus_constant][3]
+                    ])
+                , active(clue, times_constant) -> and(
+                    [ clue[times_constant][2] = A -> across[targetNum] = across[clue[times_constant][1]] * clue[times_constant][3]
+                    , clue[times_constant][2] = D -> across[targetNum] = down  [clue[times_constant][1]] * clue[times_constant][3]
+                    ])
+                , active(clue, div_constant) -> and(
+                    [ clue[div_constant  ][2] = A -> across[targetNum] = across[clue[div_constant  ][1]] / clue[div_constant  ][3]
+                    , clue[div_constant  ][2] = D -> across[targetNum] = down  [clue[div_constant  ][1]] / clue[div_constant  ][3]
+                    ])
+                , active(clue, times) -> and(
+                    [ (clue[times][2], clue[times][4]) = (A, A) -> across[targetNum] = across[clue[times][1]] * across[clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (A, D) -> across[targetNum] = across[clue[times][1]] * down  [clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (D, A) -> across[targetNum] = down  [clue[times][1]] * across[clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (D, D) -> across[targetNum] = down  [clue[times][1]] * down  [clue[times][3]]
+                    ])
+                ])
+
+            , targetKind = D -> and(
+                [ active(clue, is_constant) -> down[targetNum] = clue[is_constant]
+                , active(clue, is_square  ) -> exists i : number . i**2 = down[targetNum]
+
+                , active(clue, is_prime   ) -> and([ down[targetNum] % i != 0
+                                                                     | i : number
+                                                                     , i >= 2
+                                                                     , i**2 <= down[targetNum]
+                                                                     ])
+                , active(clue, plus_constant) -> and(
+                    [ clue[plus_constant ][2] = A -> down[targetNum] = across[clue[plus_constant ][1]] + clue[plus_constant ][3]
+                    , clue[plus_constant ][2] = D -> down[targetNum] = down  [clue[plus_constant ][1]] + clue[plus_constant ][3]
+                    ])
+                , active(clue, minus_constant) -> and(
+                    [ clue[minus_constant][2] = A -> down[targetNum] = across[clue[minus_constant][1]] - clue[minus_constant][3]
+                    , clue[minus_constant][2] = D -> down[targetNum] = down  [clue[minus_constant][1]] - clue[minus_constant][3]
+                    ])
+                , active(clue, times_constant) -> and(
+                    [ clue[times_constant][2] = A -> down[targetNum] = across[clue[times_constant][1]] * clue[times_constant][3]
+                    , clue[times_constant][2] = D -> down[targetNum] = down  [clue[times_constant][1]] * clue[times_constant][3]
+                    ])
+                , active(clue, div_constant) -> and(
+                    [ clue[div_constant  ][2] = A -> down[targetNum] = across[clue[div_constant  ][1]] / clue[div_constant  ][3]
+                    , clue[div_constant  ][2] = D -> down[targetNum] = down  [clue[div_constant  ][1]] / clue[div_constant  ][3]
+                    ])
+                , active(clue, times) -> and(
+                    [ (clue[times][2], clue[times][4]) = (A, A) -> down[targetNum] = across[clue[times][1]] * across[clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (A, D) -> down[targetNum] = across[clue[times][1]] * down  [clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (D, A) -> down[targetNum] = down  [clue[times][1]] * across[clue[times][3]]
+                    , (clue[times][2], clue[times][4]) = (D, D) -> down[targetNum] = down  [clue[times][1]] * down  [clue[times][3]]
+                    ])
+                ])
+           ])

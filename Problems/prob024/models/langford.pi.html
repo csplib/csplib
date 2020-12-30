@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+
+  <li><a href="/Problems/prob024/models">Models</a></li>
+  <li>langford.pi</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob024/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob024/results">Results</a></li>
+
+     	<li><a href="/Problems/prob024/references">References</a></li>
+
+     	<li><a href="/Problems/prob024/models">Models</a></li>
+
+     	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob024.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/models/langford.pi">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob024/models/langford.pi">Download</a>
+<pre class ='brush: picat'>/*
+
+  Langford's number problem in Picat.
+
+  Langford's number problem (CSP lib problem 24)
+  http://www.csplib.org/Problems/prob024/
+  """
+  Arrange 2 sets of positive integers 1..k to a sequence,
+  such that, following the first occurence of an integer i, 
+  each subsequent occurrence of i, appears i+1 indices later
+  than the last. 
+  For example, for k=4, a solution would be 41312432
+  """
+  
+  * John E. Miller: Langford's Problem
+    http://www.lclark.edu/~miller/langford.html
+  
+  * Encyclopedia of Integer Sequences for the number of solutions for each k
+    http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=014552
+
+
+  Note: For k=4 there are two different solutions:
+     solution:[4,1,3,1,2,4,3,2]
+     position:[2,5,3,1,4,8,7,6]
+  and
+     solution:[2,3,4,2,1,3,1,4]
+     position:[5,1,2,3,7,4,6,8]
+
+  Which this symmetry breaking
+
+     Solution[1] #&lt; Solution[K2],
+
+  then just the second solution is shown.
+
+  Note: There are only solutions when K mod 4 == 0 or K mod 4 == 3.
+
+
+  Model created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my Picat page: http://www.hakank.org/picat/
+
+*/
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+import util.
+import cp.
+
+main =&gt; go.
+
+go =&gt;
+    K = 12,
+    writef("K: %d\n", K),
+    time2($langford(K, Solution, Position)),
+    writef("Solution: %w\n", Solution),
+    writef("Position: %w\n", Position).
+
+%
+% Get the first (if any) solutions for K in 2..40
+%
+go2 =&gt; 
+    foreach(K in 2..40) 
+       writef("K: %d\n", K),
+       if time2($langford(K, Solution, Position)) then
+           if nonvar(Solution) then 
+             writef("Solution: %w\n", Solution),
+             writef("Position: %w\n", Position)
+           else 
+             writef("No solution\n")
+           end,
+          writef("\n")
+       end
+    end.
+
+ 
+langford(K, Solution, Position) =&gt;
+
+        if not ((K mod 4 == 0; K mod 4 == 3)) then
+           println("There is no solution for K unless K mod 4 == 0 or K mod 4 == 3"),
+           fail
+        end,
+
+        K2 = 2*K,
+        Position = new_list(K2),
+        Position :: 1..K2,
+
+        Solution = new_list(K2),
+        Solution :: 1..K,
+
+        all_different(Position),
+
+        % symmetry breaking:
+        Solution[1] #&lt; Solution[K2],
+        % Solution[1] #&gt; Solution[K2],
+
+        foreach(I in 1..K)
+            % This "advanced" usage of element don't work
+            /*
+              Position[K+I] #= Position[I] + I+1,
+              Solution[Position[I]] = I,
+              Solution[Position[K+I]] = I
+            */
+
+            IK = I+K,
+            element(IK, Position, PositionIK),
+            element(I, Position, PositionI),
+            PositionIK #= PositionI + I+1,
+            element(PositionI,Solution,SolutionPositionI),
+            SolutionPositionI #= I,
+            element(PositionIK,Solution,SolutionPositionIK),
+            SolutionPositionIK #= I
+        end,
+
+        Vars = Solution ++ Position,
+        solve([ff,updown], Vars).
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

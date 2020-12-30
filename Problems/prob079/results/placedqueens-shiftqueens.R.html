@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>079: n-Queens Completion Problem and Excluded Diagonals n-Queens Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob079">prob079</a></li>
+
+  <li><a href="/Problems/prob079/results">Results</a></li>
+  <li>placedqueens-shiftqueens.R</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>079: n-Queens Completion Problem and Excluded Diagonals n-Queens Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob079/">Specification</a></li>
+
+     	<li><a href="/Problems/prob079/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob079/results">Results</a></li>
+
+     	<li><a href="/Problems/prob079/references">References</a></li>
+
+     	<li><a href="/Problems/prob079/models">Models</a></li>
+
+     	<li><a href="/Problems/prob079/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob079.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob079/results/placedqueens-shiftqueens.R">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob079/results/placedqueens-shiftqueens.R">Download</a>
+<pre >
+# In the stats data the nostats exe has an id appended
+# 1 N-M
+# 2 N (size of board)
+# 3 M (number of queens to place)
+# 4 instance id 
+# 5 problem eprime file
+# 6 instance param file
+# 7 if x cse switched on
+# 8 x cse heuristic
+# 9 not used
+# 10 minion solve time 
+# 11 solver total time
+# 12 minion setup time
+# 13 solver nodes
+# 14 solver timeout bool
+# 15 solver satisfiable bool
+# 16 savile row time
+# 17 ?? savile row clauseout
+# 18 solver memout bool
+# 19 savile row timeout 
+# 20 numsat vars
+# 21 numsat clauses 
+
+# install.packages("data.table",repos="https://cloud.r-project.org/")
+require(data.table)
+
+colnames &lt;- c('delta','n','m','id',
+              'eprime', 'param','c3','c4','c5',
+              'solvetime','totaltime',
+              'setuptime','nodes',
+              'timeout', 'sat',
+              'srtime','c13',
+              'srmemout','srtimeout',
+              'numvars','numclauses')
+
+numbercols &lt;- c('totaltime','setuptime','nodes','sat','srtime','n','m','delta')
+
+
+# colnames.shifttime = c('delta','n','m','id','c5','sat','c7','nodes','c9','timeout','c11','solvetime')
+
+colnames.shift = c('delta','n','m','id','c5','sat','c7','nodes','c9','timeout')
+
+shiftdata &lt;- read.table('shiftqueens-paper-processed.txt',col.names=colnames.shift,header=FALSE)
+sd &lt;- data.table(shiftdata)
+
+sd.out &lt;- sd[,list(scaled=mean(n/((delta**2))),predictiond=mean(n-(0.19*delta*delta)),psat=mean(sat),nodesmean=mean(nodes),med=as.double(median(nodes)),max=max(nodes)),by=c("delta","n","m")]
+sd3 &lt;- sd.out[order(delta,n)]
+
+pdf("placedqueens-shiftqueens-prob.pdf",width=6,height=6,useDingbats=FALSE)
+
+plot(sd3$psat ~ sd3$n,ann=FALSE,type="n",ylim=c(0,1))
+
+for (i in c(5,10,15,20,25,30)) {
+    lines(sd3$psat[sd3$delta==i] ~ sd3$n[sd3$delta==i],lwd=1,lty=i/5,pch=i/5,col=i/5,type='b')
+}
+legend('topright',c('5','10','15','20','25','30'),lty=c(1,2,3,4,5,6),pch=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+title(ylab="Probability solution exists")
+title(xlab="n")
+grid()
+dev.off()
+
+pdf("placedqueens-shiftqueens-mean.pdf",width=6,height=6,useDingbats=FALSE)
+plot(sd3$nodesmean ~ sd3$n,ann=FALSE,type="n",log='y')
+for (i in c(5,10,15,20,25,30)) {
+    lines(sd3$nodesmean[sd3$delta==i] ~ sd3$n[sd3$delta==i],lwd=1,lty=i/5,pch=i/5,col=i/5,type='b')
+}
+legend('topright',c('5','10','15','20','25','30'),lty=c(1,2,3,4,5,6),pch=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+title(ylab="Mean nodes searched")
+title(xlab="n")
+grid()
+dev.off()
+
+quit()
+
+
+pdf("fig-rescaled-prob.pdf",width=6,height=6,useDingbats=FALSE)
+
+plot(sd3$psat ~ sd3$scaled,ann=FALSE,type="n",xlim=c(0,0.45),ylim=c(0,1))
+for (i in c(5,10,15,20,25,30)) {
+    lines(sd3$psat[sd3$delta==i] ~ sd3$scaled[sd3$delta==i],lwd=1,lty=i/5,pch=i/5,col=i/5,type='b')
+}
+legend('topright',c('5','10','15','20','25','30'),lty=c(1,2,3,4,5,6),pch=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+grid()
+dev.off()
+
+pdf("fig-rescaled-mean.pdf",width=6,height=6,useDingbats=FALSE)
+plot(sd3$nodesmean ~ sd3$scaled,ann=FALSE,type="n",log='y',xlim=c(0.00,0.45))
+for (i in c(5,10,15,20,25,30)) {
+    lines(sd3$nodesmean[sd3$delta==i] ~ sd3$scaled[sd3$delta==i],lwd=1,lty=i/5,pch=i/5,col=i/5,type='b')
+}
+legend('topright',c('5','10','15','20','25','30'),lty=c(1,2,3,4,5,6),pch=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+grid()
+dev.off()
+
+pdf("fig-rescaled-median.pdf",width=6,height=6,useDingbats=FALSE)
+plot(sd3$med ~ sd3$scaled,ann=FALSE,type="n",log='y',xlim=c(0.00,0.45))
+for (i in c(5,10,15,20,25,30)) {
+    lines(sd3$med[sd3$delta==i] ~ sd3$scaled[sd3$delta==i],lwd=1,lty=i/5,pch=i/5,col=i/5,type='b')
+}
+legend('topright',c('5','10','15','20','25','30'),lty=c(1,2,3,4,5,6),pch=c(1,2,3,4,5,6),col=c(1,2,3,4,5,6))
+grid()
+dev.off()
+
+
+
+
+plot(sd3$psat ~ sd3$scaled,ann=FALSE,type="n",ylim=c(0.35,0.7),xlim=c(0.18,0.20))
+for (i in c(5,10,15,20,25,30)){
+    lines(sd3$psat[sd3$delta==i] ~ sd3$scaled[sd3$delta==i],lwd=1,lty=1,pch=i-7,col=i-7,type='b')
+}
+legend('bottomleft',as.character(c(8:25)),xpd=TRUE,lty=1,pch=c(1:18),col=c(1:18),ncol=2)
+grid()
+
+plot(sd3$psat ~ sd3$predictiond,ann=FALSE,type="n",ylim=c(0.2,0.8),xlim=c(-2.5,2.5))
+for (i in c(8:25)){
+    lines(sd3$psat[sd3$delta==i] ~ sd3$predictiond[sd3$delta==i],lwd=1,lty=1,pch=i-7,col=i-7,type='b')
+}
+legend('bottomleft',as.character(c(8:25)),xpd=TRUE,lty=1,pch=c(1:18),col=c(1:18),ncol=4)
+grid()
+
+
+plot(sd3$psat ~ sd3$scaled,ann=FALSE,type="n",ylim=c(0.35,0.9),xlim=c(0.18,0.22))
+for (i in c(8:25)){
+    lines(sd3$psat[sd3$delta==i &amp; sd3$psat&gt;0.5] ~ sd3$scaled[sd3$delta==i &amp; sd3$psat&gt;0.5],lwd=1,lty=1,pch=i-7,col=1,type='b')
+    lines(sd3$psat[sd3$delta==i &amp; sd3$psat&lt;=0.5] ~ sd3$scaled[sd3$delta==i &amp; sd3$psat&lt;=0.5],lwd=1,lty=1,pch=i-7,col=2,type='b')
+}
+legend('topright',as.character(c(8:25)),lty=1,pch=c(1:18),col=2)
+
+
+plot(dt3$psat[dt3$delta==25] ~ dt3$n[dt3$delta==25],lwd=1,type='b',ylim=c(0.3,0.7))
+
+
+
+
+
+points(dt3$psat ~ dt3$scaled,col=dt3$delta/5,pch=dt3$delta/5)
+
+
+dt.10 =dt.out[dt.out$delta==10]
+dt.35 =dt.out[dt.out$delta==35]
+
+
+
+
+alldata &lt;- read.table('res40-lingeling-partial.txt',col.names=colnames,header=FALSE)
+
+boxplot( dt$nodes[dt$nodes&gt;0] ~ dt$m[dt$nodes&gt;0],log="y")
+
+
+dt2 =dt[dt$timeout == 0 &amp; dt$totaltime &lt; 1800]
+
+dt.out &lt;- dt2[, list(psat=mean(sat),nodesmean=mean(nodes),med=as.double(median(nodes))),by=c("delta","n")]
+plot(dt.out$n/(dt.out$delta*log(dt.out$delta)),dt.out$psat)
+
+
+plot(dt.out$m,dt.out$psat)
+
+
+
+attach(all)
+ 
+nfactor &lt;- list(factor(n))
+mfactor &lt;- list(factor(m))
+
+
+means &lt;- aggregate(list(sat,nodes,solvetime,totaltime,setuptime,srtime),list(factor(n),factor(m)),mean)
+
+
+
+
+
+
+meds &lt;- aggregate(cpu,list(factor(noStatsExe),factor(inst)),median)
+
+manymeds &lt;- aggregate(list(cpu,cpuStats,confs,props,intProps,unblockedProps,totallyUnblockedProps,noWatchProps,newWatchProps,totalVarChecks,varChecksFailed,failedChecksWatchProps),list(factor(noStatsExe),factor(inst)),median)
+
+colnames(meds) &lt;- c("exe","inst","medcpu")
+colnames(manymeds) &lt;- c('exe','inst','cpu','cpuStats','confs',
+              'props', 'intProps','unblockedProps','totallyUnblockedProps','noWatchProps',
+              'newWatchProps','totalVarChecks','varChecksFailed','failedChecksWatchProps'
+              )
+
+levs &lt;- levels(noStatsExe)
+mininame &lt;- levs[1]
+twolitname &lt;- levs[2]
+looponename &lt;- levs[3]
+
+detach(all)
+attach(manymeds)
+o &lt;- manymeds[which(exe == looponename),]
+b &lt;- manymeds[which(exe == mininame),]
+t &lt;- manymeds[which(exe == twolitname),]
+
+baseloop &lt;- merge(o,t,by=2,suffixes=c('.onepointer','.twopointer'))
+baselooptwo &lt;- merge(b,baseloop,by.x=2,by.y=1,sort=TRUE)
+
+write.table(baselooptwo,"propagationMedians.txt",quote=FALSE,row.names=FALSE,col.names=TRUE)
+
+
+detach(manymeds)
+attach(all)
+
+#meds[3] is median of cpu, meds[1] is exe
+
+aggregate(meds[3],meds[1],summary)
+
+#                                    Group.1   x.Min. x.1st Qu. x.Median   x.Mean
+# 1       base_nostats_parednolearn_68b5_mac    1.886    32.570   78.130  182.600
+# 2 twolitonly_nostats_parednolearn_2012_mac    2.007    33.000   81.080  155.900
+# 3 wl_nostats_loopone_parednolearn_97f1_mac    1.899    30.290   73.100  141.600
+#   x.3rd Qu.   x.Max.
+# 1   125.900 4344.000
+# 2   130.800 3920.000
+# 3   115.000 3744.000
+
+#  base vs oneloop
+# each measure is better, with mean a bit more than 20% faster.
+
+
+varchecksPerSec &lt;- aggregate(totalVarChecks/cpu,list(factor(noStatsExe),factor(inst)),median)
+aggregate(varchecksPerSec[3],varchecksPerSec[1],summary)
+
+intProps &lt;- aggregate(intProps/cpu,list(factor(noStatsExe),factor(inst)),median)
+aggregate(intProps[3],intProps[1],summary)
+
+confsPerSec &lt;- aggregate(confs/cpu,list(factor(noStatsExe),factor(inst)),median)
+aggregate(confsPerSec[3],confsPerSec[1],summary)
+
+medsbase &lt;- meds[which(meds[1]=="base_nostats_parednolearn_68b5_mac"),]
+medsloop &lt;- meds[which(meds[1]=="wl_nostats_loopone_parednolearn_97f1_mac"),]
+
+baseloop &lt;- merge(medsbase,medsloop,by=2)
+
+# divide median time for base propagation by median time for oneloop
+summary(baseloop[3]/baseloop[5])
+      # x.x        
+ # Min.   :0.8527  
+ # 1st Qu.:0.9486  
+ # Median :0.9875  
+ # Mean   :1.1651  
+ # 3rd Qu.:1.0568  
+ # Max.   :9.5356  
+
+# i.e. best for base is 15% faster.
+# median behavior is base is 1.25% faster [interestingly]
+# mean is that onleoop is 16% faster
+# best for one loop is 9.5 TIMES faster.
+
+# note that median is that base runs slightly faster than oneloop
+# but median of raw times is better for oneloop
+# Sounds contradictory!   
+
+# Because oneloop is often much faster, where it is faster those instances can undershoot 
+# the ones where base is faster [not very clear, sorry!]
+
+# The advantage of being slightly faster on many instances is not enough to outweight being much 
+# slower on some instances.
+
+medstwo &lt;- meds[which(meds[1]=="twolitonly_nostats_parednolearn_2012_mac"),]
+
+basetwo &lt;- merge(medsbase,medstwo,by=2)
+summary(basetwo[3]/basetwo[5])
+
+ # Min.   :0.7818  
+ # 1st Qu.:0.8652  
+ # Median :0.9013  
+ # Mean   :1.0519  
+ # 3rd Qu.:0.9740  
+ # Max.   :7.6958  
+
+# median 10% faster for base but mean still 5% faster for twolit
+
+twoloop &lt;- merge(medstwo,medsloop,by=2)
+summary(twoloop[3]/twoloop[5])
+
+# Min.   :0.8749  
+# 1st Qu.:1.0739  
+# Median :1.1030  
+# Mean   :1.1016  
+# 3rd Qu.:1.1291  
+# Max.   :1.3459  
+
+# only varies from 13% better to 34% worse, with both mean and median at 10% worse.
+
+
+b &lt;- baseloop[which(baseloop[3]&gt;=2*baseloop[5]),]
+
+# find the instances where oneloop is twice as fast 
+# processed separately into file muchfaster_instances 
+# minisat results grepped into file muchfaster_minisat.txt
+
+
+colnames &lt;- c('inst','exe','runID','resInt','cpu','confs','props','propsPerSec',
+              'resString','vars','clauses','parseCpu','restarts','decisions',
+              'conflictLiterals','mem','dataFileName') 
+
+detach(all)
+all &lt;- read.table('muchfaster_minisat.txt',col.names=colnames)
+attach(all)
+
+ifactor &lt;- list(factor(inst))
+efactor &lt;- list(factor(exe))
+resIntMean &lt;- aggregate(resInt,list(inst),mean)
+allExesFailed &lt;- resIntMean[which(resIntMean[2] == 3),][1]
+failedFactor &lt;- factor(allExesFailed$Group.1)
+meds &lt;- aggregate(cpu,(list(exe,inst)),median)
+
+detach(all)
+colnames(meds) &lt;- c("exe","inst","medcpu")
+attach(meds)
+
+medsNotAllFail &lt;- meds[which(!(inst %in% failedFactor)),]
+
+detach(meds)
+attach(medsNotAllFail)
+
+efactor &lt;- list(factor(exe))
+aggregate(medcpu,efactor,summary)
+
+#                      Group.1  x.Min. x.1st Qu. x.Median  x.Mean x.3rd Qu.
+#1             minisat_2_2_mac   95.58    293.70   683.20  659.80   1010.00
+#2 twolitonly_minisat_ade3_mac   11.05    153.20   604.40  633.70   1194.00
+#3 wl_loopone_minisat_70de_mac   25.47    354.80   959.70  772.80   1196.00
+   #x.Max.
+#1 1198.00
+#2 1197.00
+#3 1197.00
+
+
+# Only 14 instances and really not much to learn.   
+
+
+
+#### Read from HERE to ... 
+
+obpu &lt;- (o$intProps-o$unblockedProps)/o$unblockedProps
+tbpu &lt;- (t$intProps-o$unblockedProps)/t$unblockedProps
+bbpu &lt;- (b$intProps-b$unblockedProps)/b$unblockedProps
+ocps &lt;- (o$confs/o$cpu)
+tcps &lt;- (t$confs/t$cpu)
+bcps &lt;- (b$confs/b$cpu)
+cpsratio2 &lt;- tcps/bcps
+cpsratio &lt;- ocps/bcps
+bpuratio &lt;- obpu/bbpu
+bpuratio2 &lt;- tbpu/bbpu
+
+ofpnw &lt;- (o$failedChecksWatchProps/ o$newWatchProps)
+bfpnw &lt;- (b$failedChecksWatchProps/ b$newWatchProps)
+fpnwratio &lt;- ofpnw/bfpnw
+
+less &lt;- which(bpuratio2 &lt; 1.2)
+more2 &lt;- which(bpuratio2 &gt;= 1.2)
+length(more2)
+# 122
+
+
+two &lt;- which(bpuratio&lt;=1.20)
+more &lt;- which(bpuratio &gt; 1.2)
+lmra &lt;- lm(cpsratio[more]~bpuratio[more])
+lmra2 &lt;- lm(cpsratio2[more2]~bpuratio2[more2])
+lmrb2 &lt;- lm(cpsratio2[less]~bpuratio2[less])
+
+summary(lmra)
+# Call:
+# lm(formula = cpsratio[more] ~ bpuratio[more])
+# 
+# Residuals:
+     # Min       1Q   Median       3Q      Max 
+# -0.83210 -0.18617 -0.04759  0.09639  2.72261 
+# 
+# Coefficients:
+               # Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)     0.52289    0.05945   8.795 1.18e-14 ***
+# bpuratio[more]  0.54808    0.01871  29.299  &lt; 2e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+# 
+# Residual standard error: 0.423 on 121 degrees of freedom
+# Multiple R-squared: 0.8765,	Adjusted R-squared: 0.8754 
+# F-statistic: 858.4 on 1 and 121 DF,  p-value: &lt; 2.2e-16 
+
+lmrb &lt;- lm(cpsratio[two]~bpuratio[two])
+summary(lmrb)
+
+#Call:
+#lm(formula = cpsratio[two] ~ bpuratio[two])
+#
+#Residuals:
+     #Min       1Q   Median       3Q      Max 
+#-0.10741 -0.04002 -0.01404  0.02695  0.48142 
+#
+#Coefficients:
+              #Estimate Std. Error t value Pr(&gt;|t|)    
+#(Intercept)    0.87754    0.04504  19.485   &lt;2e-16 ***
+#bpuratio[two]  0.10203    0.04313   2.366   0.0184 *  
+#---
+###Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+#
+#Residual standard error: 0.06352 on 469 degrees of freedom
+#Multiple R-squared: 0.01179,	Adjusted R-squared: 0.009684 
+#F-statistic: 5.596 on 1 and 469 DF,  p-value: 0.01841 
+
+# ... HERE
+# What we see is that...
+# Where blocks per unblocked is &gt; 1.2 times better or more in OnePointer,
+#   there is a very strong linear correlation between bpu-ratio and cps-ratio.
+#   r^2 = 0.88
+#   meaning that improved bpu explains most of improved cpu time
+
+# Where blocks per unblocked ratio is &lt;= 1.2, 
+#   there is no correlation between bpu ratio and cps ratio
+#   r^2 = 0.01
+
+summary(lmra2)
+
+# Call:
+# lm(formula = cpsratio2[more2] ~ bpuratio2[more2])
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -0.9800 -0.1601 -0.0500  0.1025  2.3641 
+# 
+# Coefficients:
+#                  Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)       0.57194    0.05127   11.16   &lt;2e-16 ***
+# bpuratio2[more2]  0.43701    0.01595   27.40   &lt;2e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+# 
+# Residual standard error: 0.3641 on 120 degrees of freedom
+# Multiple R-squared: 0.8622,	Adjusted R-squared: 0.861 
+# F-statistic: 750.7 on 1 and 120 DF,  p-value: &lt; 2.2e-16 
+
+summary(lmrb2)
+
+# Call:
+# lm(formula = cpsratio2[less] ~ bpuratio2[less])
+# 
+# Residuals:
+#      Min       1Q   Median       3Q      Max 
+# -0.11177 -0.04046 -0.01327  0.02772  0.52979 
+# 
+# Coefficients:
+#                 Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)      1.00393    0.04725  21.246   &lt;2e-16 ***
+# bpuratio2[less] -0.10191    0.04534  -2.248   0.0251 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+# 
+# Residual standard error: 0.06558 on 470 degrees of freedom
+# Multiple R-squared: 0.01063,	Adjusted R-squared: 0.00853 
+# F-statistic: 5.052 on 1 and 470 DF,  p-value: 0.02506 
+
+summary(cpsratio2[more2])
+   # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  # 0.860   1.079   1.328   1.648   1.939   7.696 
+
+summary(cpsratio2[less])
+# 0.7818  0.8594  0.8833  0.8979  0.9238  1.4120 
+
+
+# Same story with TwoPointer.   r^2 = .86 where bpu ratio &gt;= 1.2
+# but only 0.07 if bpuratio &lt; 1.2. 
+
+# Of 122 instances with &gt;= 1.2 bpu ratio, mean 65% faster 
+# Of other 472, mean is 10% (slower).  
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>060: Ridesharing</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob060">prob060</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>060: Ridesharing</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob060/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob060/results">Results</a></li>
+
+     	<li><a href="/Problems/prob060/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob060/models">Models</a></li>
+
+     	<li><a href="/Problems/prob060/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob060.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob060/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Vincent Armant
+</p>
+
+<p>The aim is to match riders to drivers, satisfying car capacities and individual trip constraints, while maximizing the total number of rider participants. A driver&rsquo;s trip offer is specified as a route from start to finish, a time window of earliest departure and latest arrival, and the number of available seats for passengers. A rider&rsquo;s trip request specifies a start location and destination and a time window. Some drivers (called shifters) are flexible, and are willing to be selected as riders. Shifters specify both a trip offer and a trip request. We assume a driver will definitely drive, regardless of whether or not match is made; a shifter will definitely travel, and thus will drive if not selected as a passenger and no rider is matched. Each driver that is allocated one or more riders must be given a departure time and an arrival time at each point on the route, such that the time gap between any pair of locations is not less than the known travel times. For a rider to be assigned to a driver, the rider&rsquo;s start and finish locations must be on the drivers route in the right order, and the driver&rsquo;s times must satisfy the rider&rsquo;s time window. Multiple riders can be allocated to the same driver, as long as the number of passengers travelling between any pair of locations on the route does not exceed the available number of seats. If a shifter is assigned as a passenger for another driver, then the shifter doesnot drive, and no rider can be assigned to the shifter. Similarly, if a rider is assigned as a passenger on the shifter&rsquo;s trip, then the shifter cannot be assigned as a passenger. A driver is served when at least one rider is assigned to the driver&rsquo;s trip; a rider is served when he or she is assigned to a trip. A solution to the ride sharing problem is then an assignment of a clear role to shifters (driver or rider) and a matching of drivers to riders that satisfies the above constraints.</p>
+<ul>
+<li>For each instance of ridesharing problem the following data file is required.</li>
+<li>The Map </li>
+<li>&ldquo;source&rdquo; &ldquo;destination&rdquo; &ldquo;distance&rdquo; &ldquo;time&rdquo; &ldquo;cost&rdquo;</li>
+<li>The drivers trip offers </li>
+<li>&ldquo;userId&rdquo; &ldquo;departure&rdquo; &ldquo;arrival&rdquo; &ldquo;earliest starting time&rdquo; &ldquo;latest arrival time&rdquo; &ldquo;car capacity&rdquo;</li>
+<li>The riders trip requests</li>
+<li>&ldquo;userid&rdquo; &ldquo;departure&rdquo; &ldquo;arrival&rdquo; &ldquo;earliest starting time&rdquo; &ldquo;latest arrival time&rdquo; &ldquo;reward&rdquo;</li>
+</ul>
+<p>Example of map
+<pre>
+1 2 10
+2 3 10
+3 4 10
+4 5 10
+5 6 10
+7 8 10
+8 4 10
+5 9 10
+9 10 10
+</pre></p>
+<p>Example of driver trip offers:
+<pre>
+1 1 6 0 70 2
+2 7 10 10 80 2
+3 8 9 20 40 2
+</pre></p>
+<p>Example of rider trip requests:
+<pre>
+4 2 3 20 30 1
+5 4 5 40 60 1
+3 8 9 20 40 3
+</pre></p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

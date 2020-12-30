@@ -1,0 +1,19 @@
+#Prerequisite
+python 2
+
+1. Generating base instances: 
+#generate_base_instance.py
+#the following parameters are to be set
+no_jobs = 4
+no_mach = 10
+no_tasks = [3,4]
+max_e_mach = 7
+proc = [50,90]
+#python generate_base_instance.py 
+#a file containing the base scenario is created in the current location
+
+2. Create stochastic instance
+#run the generate_stoch.py file with 2 arguments
+#the first argument is the base file created in step 1
+#the second argument is the number of scenarios to be created
+python generate_stoch.py <baseFile.mzn> <#scenarios>

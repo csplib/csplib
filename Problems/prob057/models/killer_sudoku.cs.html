@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>057: Killer Sudoku</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob057">prob057</a></li>
+
+  <li><a href="/Problems/prob057/models">Models</a></li>
+  <li>killer_sudoku.cs</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>057: Killer Sudoku</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob057/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/results">Results</a></li>
+
+     	<li><a href="/Problems/prob057/references">References</a></li>
+
+     	<li><a href="/Problems/prob057/models">Models</a></li>
+
+     	<li><a href="/Problems/prob057/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob057.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob057/models/killer_sudoku.cs">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob057/models/killer_sudoku.cs">Download</a>
+<pre >//
+// Copyright 2012 Hakan Kjellerstrand
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Google.OrTools.ConstraintSolver;
+
+
+public class KillerSudoku
+{
+
+  /**
+   * Ensure that the sum of the segments
+   * in cc == res
+   *
+   */
+  public static void  calc(Solver solver,
+                           int[] cc,
+                           IntVar[,] x,
+                           int res)
+  {
+
+    // sum the numbers
+    int len = cc.Length / 2;
+    solver.Add( (from i in Enumerable.Range(0, len)
+                 select x[cc[i*2]-1,cc[i*2+1]-1]).ToArray().Sum() == res);
+  }
+
+
+
+  /**
+   *
+   * Killer Sudoku.
+   *
+   * http://en.wikipedia.org/wiki/Killer_Sudoku
+   * """
+   * Killer sudoku (also killer su doku, sumdoku, sum doku, addoku, or
+   * samunamupure) is a puzzle that combines elements of sudoku and kakuro.
+   * Despite the name, the simpler killer sudokus can be easier to solve
+   * than regular sudokus, depending on the solver's skill at mental arithmetic;
+   * the hardest ones, however, can take hours to crack.
+   *
+   * ...
+   *
+   * The objective is to fill the grid with numbers from 1 to 9 in a way that
+   * the following conditions are met:
+   *
+   * - Each row, column, and nonet contains each number exactly once.
+   * - The sum of all numbers in a cage must match the small number printed
+   *   in its corner.
+   * - No number appears more than once in a cage. (This is the standard rule
+   *   for killer sudokus, and implies that no cage can include more
+   *   than 9 cells.)
+   *
+   * In 'Killer X', an additional rule is that each of the long diagonals
+   * contains each number once.
+   * """
+   *
+   * Here we solve the problem from the Wikipedia page, also shown here
+   * http://en.wikipedia.org/wiki/File:Killersudoku_color.svg
+   *
+   * The output is:
+   *   2 1 5 6 4 7 3 9 8
+   *   3 6 8 9 5 2 1 7 4
+   *   7 9 4 3 8 1 6 5 2
+   *   5 8 6 2 7 4 9 3 1
+   *   1 4 2 5 9 3 8 6 7
+   *   9 7 3 8 1 6 4 2 5
+   *   8 2 1 7 3 9 5 4 6
+   *   6 5 9 4 2 8 7 1 3
+   *   4 3 7 1 6 5 2 8 9
+   *
+   * Also see http://www.hakank.org/or-tools/killer_sudoku.py
+   * though this C# model has another representation of
+   * the problem instance.
+   *
+   */
+  private static void Solve()
+  {
+
+    Solver solver = new Solver("KillerSudoku");
+
+    // size of matrix
+    int cell_size = 3;
+    IEnumerable&lt;int&gt; CELL = Enumerable.Range(0, cell_size);
+    int n = cell_size*cell_size;
+    IEnumerable&lt;int&gt; RANGE = Enumerable.Range(0, n);
+
+    // For a better view of the problem, see
+    //  http://en.wikipedia.org/wiki/File:Killersudoku_color.svg
+
+    // hints
+    //  sum, the hints
+    // Note: this is 1-based
+    int[][] problem =
+      {
+        new int[] { 3,  1,1,  1,2},
+        new int[] {15,  1,3,  1,4, 1,5},
+        new int[] {22,  1,6,  2,5, 2,6, 3,5},
+        new int[] {4,   1,7,  2,7},
+        new int[] {16,  1,8,  2,8},
+        new int[] {15,  1,9,  2,9, 3,9, 4,9},
+        new int[] {25,  2,1,  2,2, 3,1, 3,2},
+        new int[] {17,  2,3,  2,4},
+        new int[] { 9,  3,3,  3,4, 4,4},
+        new int[] { 8,  3,6,  4,6, 5,6},
+        new int[] {20,  3,7,  3,8, 4,7},
+        new int[] { 6,  4,1,  5,1},
+        new int[] {14,  4,2,  4,3},
+        new int[] {17,  4,5,  5,5, 6,5},
+        new int[] {17,  4,8,  5,7, 5,8},
+        new int[] {13,  5,2,  5,3, 6,2},
+        new int[] {20,  5,4,  6,4, 7,4},
+        new int[] {12,  5,9,  6,9},
+        new int[] {27,  6,1,  7,1, 8,1, 9,1},
+        new int[] { 6,  6,3,  7,2, 7,3},
+        new int[] {20,  6,6,  7,6, 7,7},
+        new int[] { 6,  6,7,  6,8},
+        new int[] {10,  7,5,  8,4, 8,5, 9,4},
+        new int[] {14,  7,8,  7,9, 8,8, 8,9},
+        new int[] { 8,  8,2,  9,2},
+        new int[] {16,  8,3,  9,3},
+        new int[] {15,  8,6,  8,7},
+        new int[] {13,  9,5,  9,6, 9,7},
+        new int[] {17,  9,8,  9,9}
+
+      };
+
+
+    int num_p = 29; // Number of segments
+
+    //
+    // Decision variables
+    //
+    IntVar[,] x =  solver.MakeIntVarMatrix(n, n, 0, 9, "x");
+    IntVar[] x_flat = x.Flatten();
+
+    //
+    // Constraints
+    //
+
+    //
+    // The first three constraints is the same as for sudokus.cs
+    //
+    //  alldifferent rows and columns
+    foreach(int i in RANGE) {
+      // rows
+      solver.Add( (from j in RANGE
+                   select x[i,j]).ToArray().AllDifferent());
+
+      // cols
+      solver.Add( (from j in RANGE
+                   select x[j,i]).ToArray().AllDifferent());
+
+    }
+
+    // cells
+    foreach(int i in CELL) {
+      foreach(int j in CELL) {
+        solver.Add( (from di in CELL
+                     from dj in CELL
+                     select x[i*cell_size+di, j*cell_size+dj]
+                     ).ToArray().AllDifferent());
+      }
+    }
+
+
+    // Sum the segments and ensure alldifferent
+    for(int i = 0; i &lt; num_p; i++) {
+      int[] segment = problem[i];
+
+      // Remove the sum from the segment
+      int[] s2 = new int[segment.Length-1];
+      for(int j = 1; j &lt; segment.Length; j++) {
+        s2[j-1] = segment[j];
+      }
+
+      // sum this segment
+      calc(solver, s2, x, segment[0]);
+
+      // all numbers in this segment must be distinct
+      int len = segment.Length / 2;
+      solver.Add( (from j in Enumerable.Range(0, len)
+                   select x[s2[j*2]-1, s2[j*2+1]-1])
+                  .ToArray().AllDifferent());
+    }
+
+    //
+    // Search
+    //
+    DecisionBuilder db = solver.MakePhase(x_flat,
+                                          Solver.INT_VAR_DEFAULT,
+                                          Solver.INT_VALUE_DEFAULT);
+
+    solver.NewSearch(db);
+
+    while (solver.NextSolution()) {
+      for(int i = 0; i &lt; n; i++) {
+        for(int j = 0; j &lt; n; j++) {
+          int v = (int)x[i,j].Value();
+          if (v &gt; 0) {
+            Console.Write(v + " ");
+          } else {
+            Console.Write("  ");
+          }
+        }
+        Console.WriteLine();
+      }
+    }
+
+    Console.WriteLine("\nSolutions: {0}", solver.Solutions());
+    Console.WriteLine("WallTime: {0}ms", solver.WallTime());
+    Console.WriteLine("Failures: {0}", solver.Failures());
+    Console.WriteLine("Branches: {0} ", solver.Branches());
+
+    solver.EndSearch();
+
+  }
+
+
+  public static void Main(String[] args)
+  {
+
+    Solve();
+  }
+}
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

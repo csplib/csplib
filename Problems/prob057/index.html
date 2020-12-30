@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>057: Killer Sudoku</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob057">prob057</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>057: Killer Sudoku</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/results">Results</a></li>
+
+     	<li><a href="/Problems/prob057/references">References</a></li>
+
+     	<li><a href="/Problems/prob057/models">Models</a></li>
+
+     	<li><a href="/Problems/prob057/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob057.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob057/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Peter Nightingale
+</p>
+
+<p>Killer Sudoku is a puzzle played on a $\{9\times 9\}$ grid containing 81 cells. 
+The cells are filled in with numbers from the set $\{1\ldots 9\}$.
+Each row and column must contain all numbers $\{1\ldots 9\}$. Each of the 9
+non-overlapping $3\times 3$ subsquares (named <em>boxes</em>) must also contain all numbers $\{1\ldots 9\}$.</p>
+<p>Each Killer Sudoku puzzle has a set of <em>cages</em>. A cage is a set of contiguous cells
+and a total; the numbers in the cells must add up to the total. Also, the cells in
+a cage cannot contain the same number more than once. The cages do not overlap, 
+and they cover all cells. Cages typically contain two to four cells. 
+Typically a Killer Sudoku puzzle will have exactly one solution. </p>
+<p>An example Killer Sudoku puzzle is shown below. Each cage is shown as an area of one colour.</p>
+<p><center>
+<figure>
+  <img src="assets/Killersudoku_color.svg" alt="Killer Sudoku Puzzle">
+  <figcaption>A Killer Sudoku Puzzle (public domain image from Wikipedia)</figcaption>
+</figure>
+</center></p>
+<p>The solution of the above puzzle is shown below. </p>
+<p><center>
+<figure>
+  <img src="assets/Killersudoku_color_solution.svg" alt="Killer Sudoku Puzzle Solution">
+  <figcaption>A Killer Sudoku Puzzle Solution (public domain image from Wikipedia)</figcaption>
+</figure>
+</center></p>
+<h2>Generalisation to $n \times n$ grids</h2>
+<p>There is a straightforward generalisation of Killer Sudoku. For any $n$ that has
+an integer square root, we have an $n \times n$ grid and each cell takes any
+value in $\{1\ldots n\}$. In a solution each row and column contains all numbers $\{1\ldots n\}$,
+and the $n$ non-overlapping $\sqrt{n} \times \sqrt{n}$ boxes also contain all
+numbers $\{1\ldots n\}$. Cages function in the same way in the generalised 
+problem as in the $\{9\times 9\}$ problem. </p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

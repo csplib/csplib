@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>062: Interview Assignment Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob062">prob062</a></li>
+
+  <li><a href="/Problems/prob062/data">Data</a></li>
+  <li>slots200.csv</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>062: Interview Assignment Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob062/">Specification</a></li>
+
+     	<li><a href="/Problems/prob062/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob062/results">Results</a></li>
+
+     	<li><a href="/Problems/prob062/references">References</a></li>
+
+     	<li><a href="/Problems/prob062/models">Models</a></li>
+
+     	<li><a href="/Problems/prob062/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob062.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob062/data/slots200.csv">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob062/data/slots200.csv">Download</a>
+<pre >StudentNr,slot1,slot2,slot3,slot4,slot5
+1, 3, 5, 6, 10, 19
+2, 3, 5, 13, 15, 20
+3, 2, 7, 9, 18, 19
+4, 2, 7, 14, 17, 19
+5, 4, 10, 18, 19, 20
+6, 1, 3, 6, 16, 20
+7, 11, 14, 15, 18, 20
+8, 2, 9, 12, 17, 19
+9, 5, 6, 13, 16, 17
+10, 2, 3, 10, 14, 16
+11, 8, 10, 12, 19, 20
+12, 1, 4, 7, 14, 15
+13, 5, 6, 7, 10, 19
+14, 1, 6, 11, 15, 17
+15, 9, 12, 13, 19, 20
+16, 5, 8, 9, 10, 12
+17, 2, 13, 15, 19, 20
+18, 2, 14, 15, 17, 18
+19, 8, 14, 15, 16, 18
+20, 4, 9, 10, 12, 18
+21, 2, 3, 6, 13, 16
+22, 3, 6, 9, 12, 13
+23, 4, 14, 16, 18, 20
+24, 7, 8, 9, 16, 17
+25, 4, 13, 15, 16, 18
+26, 2, 3, 9, 10, 18
+27, 2, 9, 13, 17, 20
+28, 4, 5, 8, 9, 14
+29, 1, 5, 11, 15, 20
+30, 3, 5, 8, 12, 17
+31, 2, 6, 7, 17, 18
+32, 1, 2, 5, 10, 17
+33, 4, 8, 11, 12, 20
+34, 8, 10, 11, 17, 19
+35, 1, 2, 8, 14, 17
+36, 4, 7, 15, 17, 18
+37, 1, 5, 13, 19, 20
+38, 8, 12, 15, 17, 19
+39, 4, 8, 13, 14, 15
+40, 7, 10, 15, 18, 20
+41, 4, 6, 8, 16, 20
+42, 5, 6, 12, 15, 16
+43, 4, 5, 12, 17, 20
+44, 7, 11, 14, 16, 19
+45, 2, 6, 7, 8, 9
+46, 2, 9, 10, 13, 15
+47, 8, 16, 17, 19, 20
+48, 5, 6, 11, 16, 20
+49, 1, 9, 10, 12, 18
+50, 2, 3, 10, 11, 16
+51, 3, 10, 11, 17, 20
+52, 3, 5, 9, 18, 19
+53, 5, 7, 8, 15, 20
+54, 1, 4, 9, 12, 14
+55, 3, 4, 12, 17, 18
+56, 2, 3, 4, 6, 15
+57, 6, 7, 10, 13, 15
+58, 3, 4, 8, 13, 18
+59, 1, 5, 6, 8, 20
+60, 4, 5, 9, 15, 19
+61, 7, 11, 13, 16, 18
+62, 5, 6, 7, 8, 20
+63, 2, 5, 11, 18, 19
+64, 2, 4, 9, 14, 18
+65, 5, 6, 11, 12, 16
+66, 1, 2, 9, 19, 20
+67, 6, 7, 13, 15, 16
+68, 5, 7, 9, 15, 17
+69, 2, 4, 13, 15, 19
+70, 1, 5, 10, 12, 20
+71, 9, 12, 16, 17, 19
+72, 1, 7, 12, 18, 20
+73, 2, 6, 7, 11, 18
+74, 1, 6, 7, 10, 16
+75, 3, 11, 14, 16, 18
+76, 1, 6, 7, 8, 15
+77, 1, 7, 14, 15, 19
+78, 5, 9, 12, 16, 20
+79, 1, 2, 3, 9, 17
+80, 3, 4, 10, 13, 18
+81, 7, 9, 14, 16, 19
+82, 1, 9, 11, 16, 20
+83, 1, 4, 6, 15, 16
+84, 9, 14, 15, 16, 18
+85, 7, 8, 11, 13, 16
+86, 4, 5, 8, 10, 15
+87, 9, 11, 13, 14, 19
+88, 1, 6, 8, 9, 12
+89, 3, 5, 16, 18, 19
+90, 4, 7, 8, 18, 19
+91, 4, 7, 10, 11, 14
+92, 2, 9, 12, 14, 16
+93, 9, 10, 11, 14, 19
+94, 2, 11, 12, 15, 18
+95, 4, 10, 12, 14, 19
+96, 5, 9, 11, 13, 17
+97, 3, 7, 10, 16, 20
+98, 1, 8, 13, 18, 19
+99, 2, 4, 11, 12, 16
+100, 6, 9, 15, 18, 19
+101, 6, 10, 11, 12, 16
+102, 3, 4, 7, 8, 15
+103, 2, 4, 15, 16, 18
+104, 5, 8, 10, 11, 12
+105, 1, 7, 9, 10, 18
+106, 3, 4, 8, 9, 18
+107, 1, 5, 14, 17, 20
+108, 2, 3, 7, 8, 14
+109, 3, 4, 13, 14, 18
+110, 2, 8, 10, 11, 19
+111, 1, 8, 10, 15, 20
+112, 1, 6, 10, 11, 16
+113, 4, 7, 9, 12, 14
+114, 4, 5, 8, 12, 16
+115, 3, 5, 8, 13, 20
+116, 5, 6, 10, 11, 20
+117, 3, 12, 15, 16, 19
+118, 5, 8, 11, 12, 16
+119, 1, 4, 7, 14, 15
+120, 1, 7, 8, 13, 14
+121, 2, 4, 6, 11, 18
+122, 1, 3, 8, 13, 18
+123, 7, 10, 14, 15, 16
+124, 8, 9, 16, 17, 20
+125, 5, 7, 12, 15, 18
+126, 1, 3, 7, 8, 10
+127, 5, 7, 9, 11, 16
+128, 1, 5, 9, 10, 12
+129, 10, 11, 12, 14, 18
+130, 1, 4, 8, 9, 19
+131, 5, 6, 10, 12, 17
+132, 1, 2, 12, 13, 14
+133, 2, 10, 12, 17, 20
+134, 8, 11, 14, 18, 19
+135, 6, 9, 17, 19, 20
+136, 4, 7, 8, 15, 16
+137, 2, 5, 6, 7, 18
+138, 1, 4, 8, 11, 18
+139, 3, 4, 10, 11, 17
+140, 1, 4, 9, 11, 14
+141, 4, 5, 11, 14, 19
+142, 1, 3, 10, 17, 19
+143, 6, 10, 14, 15, 17
+144, 1, 2, 6, 11, 18
+145, 2, 5, 8, 9, 12
+146, 6, 7, 12, 14, 17
+147, 2, 5, 11, 14, 20
+148, 5, 6, 7, 8, 20
+149, 1, 3, 13, 14, 16
+150, 1, 3, 8, 10, 15
+151, 2, 8, 9, 18, 19
+152, 1, 5, 9, 15, 20
+153, 7, 12, 14, 15, 19
+154, 3, 5, 11, 14, 20
+155, 1, 2, 5, 9, 12
+156, 1, 11, 13, 15, 19
+157, 7, 12, 15, 16, 20
+158, 1, 9, 10, 14, 19
+159, 1, 8, 13, 17, 19
+160, 2, 3, 4, 5, 11
+161, 9, 10, 11, 13, 20
+162, 4, 6, 13, 16, 19
+163, 5, 9, 10, 17, 19
+164, 1, 12, 14, 16, 19
+165, 3, 14, 15, 19, 20
+166, 2, 7, 8, 14, 18
+167, 3, 12, 18, 19, 20
+168, 4, 15, 16, 17, 20
+169, 10, 12, 15, 16, 20
+170, 5, 9, 13, 17, 19
+171, 1, 4, 12, 14, 17
+172, 1, 4, 5, 11, 17
+173, 1, 3, 4, 10, 16
+174, 3, 14, 15, 16, 18
+175, 2, 3, 5, 19, 20
+176, 3, 4, 7, 8, 13
+177, 2, 8, 11, 12, 20
+178, 6, 7, 11, 13, 14
+179, 1, 2, 8, 10, 15
+180, 2, 3, 4, 19, 20
+181, 2, 4, 6, 17, 18
+182, 1, 2, 11, 14, 19
+183, 3, 5, 12, 13, 14
+184, 3, 8, 16, 17, 19
+185, 1, 10, 13, 17, 18
+186, 1, 2, 12, 16, 19
+187, 1, 3, 8, 9, 19
+188, 1, 4, 6, 12, 16
+189, 2, 10, 11, 16, 18
+190, 1, 2, 6, 10, 18
+191, 5, 14, 16, 17, 18
+192, 1, 4, 5, 11, 12
+193, 4, 5, 13, 17, 18
+194, 4, 7, 9, 13, 17
+195, 9, 10, 12, 14, 17
+196, 1, 10, 11, 12, 16
+197, 6, 9, 12, 14, 16
+198, 2, 3, 4, 7, 9
+199, 1, 4, 14, 15, 20
+200, 2, 11, 13, 14, 19
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

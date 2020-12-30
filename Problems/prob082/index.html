@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>082: Patient Transportation Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob082">prob082</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>082: Patient Transportation Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob082/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob082/results">Results</a></li>
+
+     	<li><a href="/Problems/prob082/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob082/models">Models</a></li>
+
+     	<li><a href="/Problems/prob082/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob082.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob082/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Charles Thomas, Quentin Cappart, Pierre Schaus, Louis-Martin Rousseau
+</p>
+
+<p>The problem consists in transporting patients to medical appointments given a fleet of vehicles. The main objective is to satisfy as much patient requests as possible. Additional objectives such as minimizing the waiting time or maximum ride time of the patients or towards minimizing costs could be considered.</p>
+<p>Each request consists of a forward travel where the patient must be brought to their destination on time for their appointment, a backward travel that must be done after the end of the appointment or both. For back and forth requests, both travels must be done for the request to be satisfied. Patients are associated with categories restricting the vehicles that can take them and might be accompanied. Patients might also require some amount of time to embark/disembark vehicles.
+The vehicles have a limited capacity which must never be exceeded and are available at fixed times.</p>
+<p>The data is provided as JSON files having the following format:</p>
+<ul>
+<li>The fields &ldquo;version&rdquo;, &ldquo;id&rdquo; and &ldquo;name&rdquo; correspond respectfully to the version of the PTP instance encoding, the id and the name of the instance.</li>
+<li>The &ldquo;coordType&rdquo; field indicates if the coordinates are geographical (&ldquo;Geo&rdquo;) or euclidian (&ldquo;Eucl&rdquo;).</li>
+<li>The &ldquo;sameVehicleBackWard&rdquo; field indicates if the same vehicle has to be used for the two trips of a back and forth request.</li>
+<li>The &ldquo;maxWaitTime&rdquo; field contains the duration of the time windows during which the patient has to be transported. It is expressed as a string having the following format: &ldquo;HHhMM&rdquo;</li>
+<li>The &ldquo;places&rdquo; field contains all the distinct locations of the problem. For each of them:<ul>
+<li>&ldquo;id&rdquo; is the id of the location. It corresponds to its position in the list of locations.</li>
+<li>&ldquo;lat&rdquo; and &ldquo;long&rdquo; are the coordinates of the location.</li>
+<li>&ldquo;category&rdquo; is the category of the location. Its value can be 0 for a medical center, 1 for a vehicle depot and 2 for a patient location.</li>
+</ul>
+</li>
+<li>The &ldquo;vehicles&rdquo; field contains all the vehicles available in the fleet. Each of them has the following fields:<ul>
+<li>&ldquo;id&rdquo; which contains the id of the vehicle.</li>
+<li>&ldquo;canTake&rdquo; which is a set of categories of patients that the vehicle can take.</li>
+<li>&ldquo;start&rdquo; and &ldquo;end&rdquo; which are the ids of the starting and ending depots of the vehicle. A -1 value indicates that the vehicle has no depot.</li>
+<li>&ldquo;capacity&rdquo; which is the capacity of the vehicle.</li>
+<li>&ldquo;availability&rdquo; which is a set of time windows when the vehicle is available. Each time window is encoded by a string having the following format: &ldquo;HHhMM:HHhMM&rdquo;.</li>
+</ul>
+</li>
+<li>The &ldquo;patients&rdquo; field contains all the requests. Each patient/request has the following fields:<ul>
+<li>&ldquo;id&rdquo; which contains the id of the request.</li>
+<li>&ldquo;category&rdquo; which indicates the category of the patient</li>
+<li>&ldquo;load&rdquo; which indicates the number of places required in the vehicle during the transport.</li>
+<li>&ldquo;start&rdquo;, &ldquo;destination&rdquo; and &ldquo;end&rdquo; which indicate the ids of respectfully the starting location, medical center and return location for the patient. &ldquo;start&rdquo; or &ldquo;end&rdquo; can have a -1 value in case of single trip.</li>
+<li>&ldquo;rdvTime&rdquo; and &ldquo;rdvDuration&rdquo; indicate the start of the appointment and its duration as strings under the format &ldquo;HHhMM&rdquo;. In terms of constraints, the patient must be picked up at its starting location for its forward trip at or after rdvTime - maxWaitTime. They must be dropped at their destination before or at rdvTime. They must be picked up for their backward trip at the medical center after or at rdvTime + rdvDuration and must be dropped at their end location before or at rdvTime + rdvDuration + maxWaitTime.</li>
+<li>&ldquo;srvDuration&rdquo; indicates the time needed for the patient to embark/disembark the vehicle. It is encoded as a string under the format &ldquo;HHhMM&rdquo;.</li>
+</ul>
+</li>
+<li>The &ldquo;distMatrix&rdquo; field contains the distance (in minutes) matrix between the locations. it follows the ids and order of the locations (distMatrix[2][3] is the distance from location 2 to location 3).</li>
+</ul>
+<p>Instances are separated into three sets by difficulty.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

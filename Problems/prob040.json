@@ -1,0 +1,13 @@
+{
+  "category": [
+    "Scheduling and related problems",
+    "Bin packing"
+  ],
+  "id": "prob040",
+  "number": 40,
+  "proposer": [
+    "Ian Miguel",
+    "Armagan Tarim"
+  ],
+  "title": "A Distribution Problem with Wagner-Whitin Costs"
+}

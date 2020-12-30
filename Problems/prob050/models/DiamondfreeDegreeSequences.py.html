@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>050: Diamond-free Degree Sequences</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob050">prob050</a></li>
+
+  <li><a href="/Problems/prob050/models">Models</a></li>
+  <li>DiamondfreeDegreeSequences.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>050: Diamond-free Degree Sequences</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob050/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob050/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob050/results">Results</a></li>
+
+     	<li><a href="/Problems/prob050/references">References</a></li>
+
+     	<li><a href="/Problems/prob050/models">Models</a></li>
+
+     	<li><a href="/Problems/prob050/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob050.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob050/models/DiamondfreeDegreeSequences.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob050/models/DiamondfreeDegreeSequences.py">Download</a>
+<pre class ='brush: py'># Diamond-free Degree Sequences
+#
+# Fill in a binary matrix of size n * n in such a way that
+# - For every grouping of four rows, the sum of their non-symmetrical
+#   values is less than or equal to 4,
+# - No rows contain just zeroes,
+# - Every row has a sum modulo 3,
+# - The sum of the matrix is modulo 12.
+# - No row R contains a 1 in its Rth column.
+#
+# Note on first constraint in model:
+# A group of four nodes can have at most four edges between them.
+# Since the matrix for this model will represent the adjacency
+# matrix of the graph, we need to take into consideration the fact
+# that the matrix will be symmetrical.
+#
+# CSPLib Problem 050 - http://www.csplib.org/Problems/prob050/
+
+from Numberjack import *
+from itertools import combinations
+
+
+def get_model(N):
+    # By definition a and b will have the same cardinality:
+    matrix = Matrix(N, N)
+
+    model = Model(
+        # No rows contain just zeroes.
+        [Sum(row) &gt; 0 for row in matrix.row],
+
+        # Every row has a sum modulo 3.
+        [Sum(row) % 3 == 0 for row in matrix.row],
+
+        # The sum of the matrix is modulo 12.
+        Sum(matrix.flat) % 12 == 0,
+
+        # No row R contains a 1 in its Rth column.
+        [matrix[row][row] == 0 for row in range(N)])
+
+    # Every grouping of 4 rows can have at most a sum of 4 between them.
+    for a, b, c, d in combinations(range(N), 4):
+        model += Sum([matrix[a][b], matrix[a][c], matrix[a][d],
+                      matrix[b][c], matrix[b][d], matrix[c][d]]) &lt;= 4
+
+    # Undirected graph
+    for i in range(N):
+        model += matrix[i][i] == 0  # No looping arcs
+
+        for j in range(N):
+            model += matrix[i][j] == matrix[j][i]
+    
+    # Symmetry breaking
+    for i in range(N-1):
+        model += LeqLex(matrix.row[i], matrix.row[i+1])
+
+    return matrix, model
+
+
+def solve(param):
+    N = param['N']
+
+    matrix, model = get_model(N)
+
+    solver = model.load(param['solver'])
+    solver.setVerbosity(param['verbose'])
+    solver.solve()
+
+    if solver.is_sat():
+        print str(matrix) + '\n'
+
+        print "Degree sequence:",
+        for row in matrix:
+            print sum([x.get_value() for x in row]),
+    elif solver.is_unsat():
+        print "Unsatisfiable"
+    else:
+        print "Timed out"
+
+
+if __name__ == '__main__':
+    default = {'N': 10, 'solver': 'MiniSat', 'verbose': 1}
+    param = input(default)
+    solve(param)
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

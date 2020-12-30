@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>002: Template Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob002">prob002</a></li>
+
+  <li><a href="/Problems/prob002/models">Models</a></li>
+  <li>template_design.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>002: Template Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob002/">Specification</a></li>
+
+     	<li><a href="/Problems/prob002/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob002/results">Results</a></li>
+
+     	<li><a href="/Problems/prob002/references">References</a></li>
+
+     	<li><a href="/Problems/prob002/models">Models</a></li>
+
+     	<li><a href="/Problems/prob002/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob002.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob002/models/template_design.mzn">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob002/models/template_design.mzn">Download</a>
+<pre class ='brush: minizinc'>%-----------------------------------------------------------------------------%
+% Template design
+% Problem 002 in CSPLib
+%-----------------------------------------------------------------------------%
+% Based on "ILP and Constraint Programming Approaches to a Template
+% Design Problem", Les Proll and Barbara Smith, School of Computing
+% Research Report 97.16, University of Leeds, May 1997.
+%-----------------------------------------------------------------------------%
+
+include "globals.mzn";
+
+int: S;   		% Number of slots per template.
+int: t;   		% Number of templates.
+int: n;   		% Number of variations.
+array[1..n] of int: d; 	% How much of each variation we must print?
+
+% Lower and upper bounds for the total production.
+%
+int: llower = ceil(sum(i in 1..n)(int2float(d[i]))/int2float(S));
+int: lupper = 2*llower; % If t&gt;1, this should be the optimal Production_{t-1}-1.
+
+% # Slots allocated to variation i in template j
+array[1..n,1..t] of var 0..S: p;
+
+% # Pressings of template j.
+array[1..t] of var 1..lupper: R;
+
+% Sum of all Rj.
+var llower..lupper: Production;
+
+% Production x S - sum(d[i])
+var 0..lupper-llower: Surplus;
+
+% First, set up Production to be the sum of the Rj
+constraint
+	Production = sum(i in 1..t)(R[i]);
+
+% the limits on production
+constraint
+	Production &gt;= llower /\ Production &lt;= lupper;
+
+% The number of slots occupied in each template is S.
+constraint
+	forall(j in 1..t)
+		 (sum(i in 1..n)(p[i,j]) = S);
+
+% Enough of each variation is printed.
+constraint
+	forall(i in 1..n)
+		 (sum(j in 1..t)(p[i,j]*R[j]) &gt;= d[i]);
+
+% Symmetry constraints.
+% Variations with the same demand are symmetric.
+constraint
+	forall(i in 1..n-1) (
+		if d[i] == d[i+1] then
+			lex_lesseq([p[i,  j] | j in 1..t],
+				[p[i+1,j] | j in 1..t])
+		else
+			true
+		endif
+	);
+
+% pseudo symmetry
+constraint
+	forall(i in 1..n-1) (
+		if d[i] &lt; d[i+1] then
+		       sum (j in 1..t) (p[i,j]*R[j])
+		     &lt;= sum (j in 1..t) (p[i+1,j]*R[j])
+		else
+			true
+		endif
+	);
+
+% implied constraints on the surplus
+
+% These are presented in the paper as necessary to get good
+% performance for this model, but I think bounds consistency on the
+% sum(R[i]) constraint would produce the same amount of propagation
+
+% Set up surplus, which is bounded as production is bounded.
+constraint
+	Surplus = Production*S - sum(i in 1..n)(d[i]);
+
+% The surplus of each variation is also limited by the surplus.
+constraint
+	forall(k in 1..n)
+		 (sum(j in 1..t)(p[k,j]*R[j]-d[k]) &lt;= Surplus);
+
+% The surplus of the first k variations is limited by the surplus.
+constraint
+	forall(k in 2..n-1)
+		 (sum(j in 1..t, m in 1..k)( p[m,j]*R[j]-d[m] ) &lt;= Surplus);
+
+% Implied constraints on the run length.
+constraint
+	if t=2 then (
+		R[1] &lt;= Production div 2
+	/\	R[2] &gt;= Production div 2
+	) else true endif;
+
+constraint
+	if t=3 then (
+		R[1] &lt;= Production div 3
+	/\	R[2] &lt;= Production div 2
+	/\	R[3] &gt;= Production div 3
+	) else true endif;
+
+% Minimize the production.
+solve :: int_search(array1d(1..n*t,p) ++ R, input_order, indomain_min, complete)
+    minimize Production;
+
+output [
+    if v = 1 then "template #" ++ show(i) ++ ": [" else "" endif ++
+    show(p[v, i]) ++
+    if v = n then "], pressings: " ++ show(R[i]) ++ "\n" else ", " endif
+	| i in 1..t, v in 1..n]
+    ++ ["Total pressings: ", show(Production), "\n%\n"];
+
+%-----------------------------------------------------------------------------%
+%-----------------------------------------------------------------------------%
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

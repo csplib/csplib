@@ -1,0 +1,178 @@
+/* css for the nav*/
+.nav, .nav2 {
+   width: 100%;
+ }
+.nav ul, .nav2 ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  font-weight: bold;
+}
+.nav ul li, .nav2 ul li {
+  display: inline-block;
+}
+.nav ul li a, .nav2 ul li a {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.nav ul li a:hover, .nav2 ul li a:hover  {
+  color: #a8d6e7;
+}
+
+/* using an `a` instead of a `p` to make moblie css easier */
+.nav ul li a.current-item:hover,
+.nav ul li a.current-item,
+.nav2 ul li a.current-item:hover,
+.nav2 ul li a.current-item  {
+  color: #000000;
+  pointer-events: none;
+  cursor: default;
+}
+
+.no-files{
+  color: #ff0000;
+}
+
+/* css for the nav on moblie*/
+@media (max-width:45.320em) {
+  .nav-header .nav-container {
+    width: 100%;
+  }
+  .nav ul {
+    width: 100%;
+    font-weight: normal;
+    text-align: center;
+  }
+  .nav ul li {
+    width: 50%;
+    float: left;
+  }
+
+  .nav ul li:first-of-type a {
+    border-top: 1px solid #ccc;
+  }
+
+  .nav ul li:nth-of-type(2) a {
+    border-top: 1px solid #ccc;
+  }
+
+  .nav ul li:nth-of-type(odd) a {
+    border-left: 1px solid #ccc;
+  }
+
+  .nav ul li a {
+    padding: 8px 0px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    display: block;
+  }
+
+}
+
+
+/* Headers */
+div.page-header{
+  margin: 0px 0 20px;
+}
+
+h2.smaller{
+    font-size: 1.5em;
+}
+
+
+
+/* problem metadata */
+.proposed{
+    font-size: 1.15em;
+}
+
+#footer {
+  border-top:1px solid #000000;
+  padding:3px
+}
+
+
+.tables {
+  margin-bottom: 20px;
+}
+
+.tables thead > tr > th,
+.tables tbody > tr > th,
+.tables tfoot > tr > th,
+.tables thead > tr > td,
+.tables tbody > tr > td,
+.tables tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+.tables thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+
+.tables caption + thead tr:first-child th,
+.tables colgroup + thead tr:first-child th,
+.tables thead:first-child tr:first-child th,
+.tables caption + thead tr:first-child td,
+.tables colgroup + thead tr:first-child td,
+.tables thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.tables tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.tables .table {
+  background-color: #ffffff;
+}
+
+/* Table CSS
+ * Only row borders
+ * No column borders by default
+ * Few colours
+ * More spacing
+ */
+
+table {
+  margin-bottom: 20px;
+}
+
+table thead > tr > th,
+table tbody > tr > th,
+table tfoot > tr > th,
+table thead > tr > td,
+table tbody > tr > td,
+table tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+table thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+
+table caption + thead tr:first-child th,
+table colgroup + thead tr:first-child th,
+table thead:first-child tr:first-child th,
+table caption + thead tr:first-child td,
+table colgroup + thead tr:first-child td,
+table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+table tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+table .table {
+  background-color: #ffffff;
+}

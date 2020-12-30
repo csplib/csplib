@@ -1,0 +1,17 @@
+language Essence 1.3
+$ prob015.essence: Schur's Lemma
+$ Problem details available at http://www.csplib.org/Problems/prob015/
+
+$ number of balls
+given n : int(1..)
+letting ball be domain int(1..n)
+
+$ number of boxes, 3 in CSPLib
+given k : int(1..)
+
+find boxes : partition (numParts k) from ball
+
+such that
+    forAll nums : set (size 3) of ball .
+        (exists x,y,z in nums . x != y /\ x + y = z)
+        -> apart(nums, boxes)

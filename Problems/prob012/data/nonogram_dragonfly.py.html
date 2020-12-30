@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>012: Nonogram</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob012">prob012</a></li>
+
+  <li><a href="/Problems/prob012/data">Data</a></li>
+  <li>nonogram_dragonfly.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>012: Nonogram</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob012/">Specification</a></li>
+
+     	<li><a href="/Problems/prob012/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob012/results">Results</a></li>
+
+     	<li><a href="/Problems/prob012/references">References</a></li>
+
+     	<li><a href="/Problems/prob012/models">Models</a></li>
+
+     	<li><a href="/Problems/prob012/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob012.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob012/data/nonogram_dragonfly.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob012/data/nonogram_dragonfly.py">Download</a>
+<pre ># Copyright 2010 Hakan Kjellerstrand hakank@bonetmail.com
+#
+# Licensed under the Apache License, Version 2.0 (the 'License'); 
+# you may not use this file except in compliance with the License. 
+# You may obtain a copy of the License at 
+#
+#     http://www.apache.org/licenses/LICENSE-2.0 
+#
+# Unless required by applicable law or agreed to in writing, software 
+# distributed under the License is distributed on an 'AS IS' BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+# See the License for the specific language governing permissions and 
+# limitations under the License. 
+#
+# Nonogram problem from Gecode: Dragonfly
+# http://www.gecode.org/gecode-doc-latest/classNonogram.html
+#
+rows = 20
+row_rule_len = 5
+row_rules = [
+    [0,0,0,7,1],
+    [0,0,1,1,2],
+    [0,0,2,1,2],
+    [0,0,1,2,2],
+    [0,0,4,2,3],
+    [0,0,3,1,4],
+    [0,0,3,1,3],
+    [0,0,2,1,4],
+    [0,0,0,2,9],
+    [0,0,2,1,5],
+    [0,0,0,2,7],
+    [0,0,0,0,14],
+    [0,0,0,8,2],
+    [0,0,6,2,2],
+    [0,2,8,1,3],
+    [0,1,5,5,2],
+    [1,3,2,4,1],
+    [3,1,2,4,1],
+    [1,1,3,1,3],
+    [0,2,1,1,2]
+    ]
+
+cols = 20
+col_rule_len = 5
+col_rules = [
+    [0,1,1,1,2],
+    [3,1,2,1,1],
+    [1,4,2,1,1],
+    [0,1,3,2,4],
+    [0,1,4,6,1],
+    [0,0,1,11,1],
+    [0,5,1,6,2],
+    [0,0,0,0,14],
+    [0,0,0,7,2],
+    [0,0,0,7,2],
+    [0,0,6,1,1],
+    [0,0,0,9,2],
+    [0,3,1,1,1],
+    [0,0,3,1,3],
+    [0,0,2,1,3],
+    [0,0,2,1,5],
+    [0,0,3,2,2],
+    [0,0,3,3,2],
+    [0,0,2,3,2],
+    [0,0,0,2,6]
+    ]
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+language ESSENCE' 1.0
+
+$written by Karen E. J. Petrie,  5th of Sept, 2015
+
+find nodes : matrix indexed by [int(1..8)] of int(0..16)
+find edges : matrix indexed by [int(1..16)] of int(1..16)
+     
+such that
+	|nodes[1] - nodes[2]| = edges[1],
+	|nodes[1] - nodes[3]| = edges[2],
+	|nodes[1] - nodes[4]| = edges[3],
+	|nodes[2] - nodes[3]| = edges[4],
+	|nodes[2] - nodes[4]| = edges[5],
+	|nodes[3] - nodes[4]| = edges[6],
+	|nodes[5] - nodes[6]| = edges[7],
+	|nodes[5] - nodes[7]| = edges[8],
+	|nodes[5] - nodes[8]| = edges[9],
+	|nodes[6] - nodes[7]| = edges[10],
+	|nodes[6] - nodes[8]| = edges[11],
+	|nodes[7] - nodes[8]| = edges[12],
+	|nodes[1] - nodes[5]| = edges[13],
+	|nodes[2] - nodes[6]| = edges[14],
+	|nodes[3] - nodes[7]| = edges[15],
+	|nodes[4] - nodes[8]| = edges[16],
+	alldifferent(edges),
+	alldifferent(nodes)

@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>004: Mystery Shopper</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob004">prob004</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>004: Mystery Shopper</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob004/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob004/results">Results</a></li>
+
+     	<li><a href="/Problems/prob004/references">References</a></li>
+
+     	<li><a href="/Problems/prob004/models">Models</a></li>
+
+     	<li><a href="/Problems/prob004/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob004.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob004/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Jim Ho Man Lee
+</p>
+
+<p>A well-known cosmetic company wants to evaluate the performance of their sales people, who are stationed at the company&rsquo;s counters at various department stores in different geographical locations. For this purpose, the company has hired some secret agents to disguise themselves as shoppers to visit the sales people. The visits must be scheduled in such a way that each sales person must be visited by shoppers of different varieties and that the visits should be spaced out roughly evenly. Also, shoppers should visit sales people in different geographic locations. The exact constraints, which ensure the statistical soundness of the project, follow.</p>
+<ol>
+<li>
+<p>There are a total of 19 outlets to be visited. They are located in 4 geographical regions: 5 outlets in Area 1 (outlet 1-5), 5 outlets in Area 2 (outlet 6-10), 5 outlets in Area 3 (outlet 11-15), and 4 outlets in Area 4 (outlet 16-19).</p>
+</li>
+<li>
+<p>There will be 1 to 4 sales people in each outlet. Each sales person will be visited by 4 different shoppers. The frequency of visits to a particular outlet will be the number of sales people times 4. There are a total of 35 sales people working in all outlets everyday. Therefore, the total number of visits is 140.</p>
+</li>
+<li>
+<p>The shoppers are divided into 4 groups according to age, professions, and etc. Each group has 10 shoppers. Therefore, the total number of shoppers is 40. Therefore, in each group of shoppers, 5 shoppers will perform 3 visits and the other 5 shoppers will perform 4 visits.</p>
+</li>
+<li>
+<p>Each shopper should only visit 1 outlet in each of the 4 areas.</p>
+</li>
+<li>
+<p>All sales people should be visited 2 times in the first 2 weeks of fieldwork.</p>
+</li>
+<li>
+<p>The total fieldwork period will be 4 weeks. Theoretically, each shopper has to pay 1 visit each week. However, shoppers making 4 visits must have done 2 visits by the end of the second week. Shoppers making 3 visits should have done 1 or 2 visits by the end of the second week. The data of the first 50% visits will be analysed and put in an interim report.</p>
+</li>
+<li>
+<p>Listed below are locations of the 19 outlets and the number of sales people in that particular outlet. (outlets with * are boutiques)</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Outlet</th>
+<th>Number of Salesladies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*Outlet 1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Outlet 3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Outlet 4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Outlet 6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 7</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Outlet 8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Outlet 9</td>
+<td>1</td>
+</tr>
+<tr>
+<td>*Outlet 10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 11</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 12</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 13</td>
+<td>1</td>
+</tr>
+<tr>
+<td>*Outlet 14</td>
+<td>2</td>
+</tr>
+<tr>
+<td>*Outlet 15</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Outlet 16</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 17</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Outlet 18</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Outlet 19</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Convention: shoppers 0 - 9 belong to group 1, shoppers 10 - 19 belong to group 2, shoppers 20 - 29 belong to group 3, and shoppers 30 - 39 belong to group 4</p>
+<p>In each group, the first 5 shoppers make 3 visits and the remaining 5 shoppers make 4 visits. For example, in group 1, shoppers 0 - 4 make 3 visits and shoppers 5 - 9 make 4 visits.</p>
+<p>Besides, for the sales people: sales people 0 - 1 belong to outlet 1, sales people 2 - 5 belong to outlet 2, sales person 6 belongs to outlet 3, &hellip; and sales people 33 - 34 belong to outlet 19.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

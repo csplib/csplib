@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>065: Optimal Financial Portfolio Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob065">prob065</a></li>
+
+  <li><a href="/Problems/prob065/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>065: Optimal Financial Portfolio Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob065/">Specification</a></li>
+
+     	<li><a href="/Problems/prob065/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob065/results">Results</a></li>
+
+     	<li><a href="" class='current-item'>References</a></li>
+
+     	<li><a href="/Problems/prob065/models">Models</a></li>
+
+     	<li><a href="/Problems/prob065/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob065.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob065/references">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob065/references/prob065-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="Lebbah_IJAMC15" class='bib'>
+    <span class="bibkey">
+        [Lebbah:IJAMC15]
+    </span>
+    <br>
+    <span class="authors">
+        Fatima Zohra Lebbah and Yahia Lebbah
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.4018/IJAMC.2015040101">A local search approach to solve a financial portfolio design problem</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">International Journal of Applied Metaheuristic Computing 6(2), 1-17</span>, 
+
+    <span class="date">
+        
+        2015
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Lebbah_ENDM15" class='bib'>
+    <span class="bibkey">
+        [Lebbah:ENDM15]
+    </span>
+    <br>
+    <span class="authors">
+        Fatima Zohra Lebbah and Yahia Lebbah
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.1016/j.endm.2014.11.017">VNS approach for solving a financial portfolio design problem</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Electronic Notes in Discrete Mathematics 47(1), 125-132</span>, 
+
+    <span class="date">
+        
+        2015
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Flener_AOC08" class='bib'>
+    <span class="bibkey">
+        [Flener:AOC08]
+    </span>
+    <br>
+    <span class="authors">
+        Olof Sivertsson, Pierre Flener, and Justin Pearson
+    </span>
+
+    <br>
+
+    <span class="title">
+        A bound on the overlap of same-sized sets
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Annals of Combinatorics 12(3), 347-352</span>, 
+
+    <span class="date">
+        oct
+        2008
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Flener_CONS07_CDO2" class='bib'>
+    <span class="bibkey">
+        [Flener:CONS07:CDO2]
+    </span>
+    <br>
+    <span class="authors">
+        Pierre Flener, Justin Pearson, Luis G. Reyna, and Olof Sivertsson
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.1007/s10601-006-9014-4">Design of financial CDO squared transactions using constraint programming</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Constraints 12(2), 179-205</span>, 
+
+    <span class="date">
+        apr
+        2007
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Sivertsson_MSc05" class='bib'>
+    <span class="bibkey">
+        [Sivertsson:MSc05]
+    </span>
+    <br>
+    <span class="authors">
+        Olof Sivertsson
+    </span>
+
+    <br>
+
+    <span class="title">
+        Construction of Synthetic CDO Squared
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+
+    <span class="date">
+        dec
+        2005
+    </span>
+
+    <span class="links">
+    </span>
+
+    <br>
+    <span class="note">
+      Note:
+      Available as Technical Report 2005-042 at http://www.it.uu.se/research/reports/2005-042
+    </span>
+</p>
+
+<p id="Agren_CP05" class='bib'>
+    <span class="bibkey">
+        [Agren:CP05]
+    </span>
+    <br>
+    <span class="authors">
+        Magnus Ågren, Pierre Flener, and Justin Pearson
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.1007/11564751_7">Incremental algorithms for local search from existential second-order logic</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">CP 2005, 47-61</span>, 
+
+    <span class="date">
+        
+        2005
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Flener_CP04" class='bib'>
+    <span class="bibkey">
+        [Flener:CP04]
+    </span>
+    <br>
+    <span class="authors">
+        Pierre Flener, Justin Pearson, and Luis G. Reyna
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://dx.doi.org/10.1007/978-3-540-30201-8_19">Financial portfolio optimisation</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">CP 2004, 227-241</span>, 
+
+    <span class="date">
+        
+        2004
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>054: N-Queens</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob054">prob054</a></li>
+
+  <li><a href="/Problems/prob054/models">Models</a></li>
+  <li>nqueens.cs</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>054: N-Queens</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob054/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob054/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob054/results">Results</a></li>
+
+     	<li><a href="/Problems/prob054/references">References</a></li>
+
+     	<li><a href="/Problems/prob054/models">Models</a></li>
+
+     	<li><a href="/Problems/prob054/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob054.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob054/models/nqueens.cs">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob054/models/nqueens.cs">Download</a>
+<pre >//
+// Copyright 2012 Hakan Kjellerstrand
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Linq;
+using Google.OrTools.ConstraintSolver;
+
+public class NQueens
+{
+  /**
+   *
+   * Solves the N-Queens problem.
+   *
+   * Syntax: nqueens.exe n num print
+   * where 
+   *    n    : size of board
+   *    num  : number of solutions to calculate
+   *    print: print the results (if &gt; 0)
+   *
+   */
+  private static void Solve(int n=8, int num=0, int print=1)
+  {
+    Solver solver = new Solver("N-Queens");
+
+    //
+    // Decision variables
+    //
+    IntVar[] q = solver.MakeIntVarArray(n, 0, n-1, "q");
+
+
+    //
+    // Constraints
+    //  
+    solver.Add(q.AllDifferent());
+
+    IntVar[] q1 = new IntVar[n];
+    IntVar[] q2 = new IntVar[n];
+    for(int i = 0; i &lt; n; i++) {
+      q1[i] = (q[i] + i).Var();
+      q2[i] = (q[i] - i).Var();
+    }
+    solver.Add(q1.AllDifferent());
+    solver.Add(q2.AllDifferent());
+
+    // Alternative version: it works as well but are not that clear
+    /*
+    solver.Add((from i in Enumerable.Range(0, n)
+                select (q[i] + i).Var()).ToArray().AllDifferent());
+
+    solver.Add((from i in Enumerable.Range(0, n)
+                select (q[i] - i).Var()).ToArray().AllDifferent());
+    */
+
+    //
+    // Search
+    //
+    DecisionBuilder db = solver.MakePhase(q,
+                                          Solver.CHOOSE_MIN_SIZE_LOWEST_MAX,
+                                          Solver.ASSIGN_CENTER_VALUE);
+
+    solver.NewSearch(db);
+    int c = 0;
+    while (solver.NextSolution()) {
+      if (print &gt; 0) {
+        for(int i = 0; i &lt; n; i++) {
+          Console.Write("{0} ", q[i].Value());
+        }
+      
+        Console.WriteLine();
+      }
+      c++;
+      if (num &gt; 0 &amp;&amp; c &gt;= num) {
+        break;
+      }
+    }
+
+    Console.WriteLine("\nSolutions: {0}", solver.Solutions());
+    Console.WriteLine("WallTime: {0}ms", solver.WallTime());
+    Console.WriteLine("Failures: {0}", solver.Failures());
+    Console.WriteLine("Branches: {0} ", solver.Branches());
+
+    solver.EndSearch();
+
+  }
+
+  public static void Main(String[] args)
+  {
+    int n = 8;
+    int num = 0;
+    int print = 1;
+
+    if (args.Length &gt; 0) {
+      n = Convert.ToInt32(args[0]);
+    }
+
+    if (args.Length &gt; 1) {
+      num = Convert.ToInt32(args[1]);
+    }
+    if (args.Length &gt; 2) {
+      print = Convert.ToInt32(args[2]);
+    }
+
+    Console.WriteLine("n: {0} num: {1} print: {2}", n, num, print);
+
+    Solve(n, num, print);
+  }
+}
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

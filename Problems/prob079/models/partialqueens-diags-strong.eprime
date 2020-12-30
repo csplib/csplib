@@ -1,0 +1,33 @@
+language ESSENCE' 1.0
+given      n : int(1..)
+letting    AMOUNT_QUEENS be domain int(0..n-1)
+find       q1: matrix indexed by [ AMOUNT_QUEENS ] of int(0..n-1)
+find       q2: matrix indexed by [ AMOUNT_QUEENS ] of int(-(n-1)..n-1)
+find       q3: matrix indexed by [ AMOUNT_QUEENS ] of int(0..(n-1)*2)
+given      numdiff : int(0..)
+given      numsum : int(0..)
+given      diffdiags : matrix indexed by [ int(1..numdiff) ] of int(-(n-1)..n-1)
+given      sumdiags : matrix indexed by [ int(1..numsum) ] of int(0..(n-1)*2)
+
+$ Tables to connect q2 and q3 to q1 instead of sum constraints.
+
+such that  allDiff(q1), 
+           allDiff(q2), 
+           allDiff(q3),
+           
+         $ diagonals
+           forAll i : AMOUNT_QUEENS . (
+               table([q2[i], q1[i]], [[a,a+i] | a : int(-(n-1)..n-1), a+i>=0, a+i<n])  /\
+               table([q3[i], q1[i]], [[a,a-i] | a : int(0..(n-1)*2), a-i>=0, a-i<n])
+           ),
+
+           forAll i : int(1..numdiff) .
+		forAll j : AMOUNT_QUEENS . 
+			q2[j] != diffdiags[i],
+
+           forAll i : int(1..numsum) .
+		forAll j : AMOUNT_QUEENS . 
+			q3[j] != sumdiags[i],
+           
+        true
+      

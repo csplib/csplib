@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>030: Balanced Academic Curriculum Problem (BACP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob030">prob030</a></li>
+
+  <li><a href="/Problems/prob030/models">Models</a></li>
+  <li>curriculum.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>030: Balanced Academic Curriculum Problem (BACP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob030/">Specification</a></li>
+
+     	<li><a href="/Problems/prob030/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob030/results">Results</a></li>
+
+     	<li><a href="/Problems/prob030/references">References</a></li>
+
+     	<li><a href="/Problems/prob030/models">Models</a></li>
+
+     	<li><a href="/Problems/prob030/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob030.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob030/models/curriculum.mzn">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob030/models/curriculum.mzn">Download</a>
+<pre class ='brush: minizinc'>% The balanced academic curriculum problem: see
+% http://www.dcs.st-and.ac.uk/~ianm/CSPLib/prob/prob030/spec.html
+%
+% A curriculum is a set of courses with prerequisites.
+%
+% Each course must be assigned within a set number of periods.
+%
+% A course cannot be scheduled before its prerequisites.
+%
+% Each course confers a number of academic credits (it's "load").
+%
+% Students have lower and upper bounds on the number of credits
+% they can study for in a given period.
+%
+% Students have lower and upper bounds on the number of courses
+% they can study for in a given period.
+%
+% The goal is to assign a period to every course satisfying these
+% criteria, minimising the load for all periods.
+
+include "globals.mzn";
+
+int: n_courses;
+int: n_periods;
+int: load_per_period_lb;
+int: load_per_period_ub;
+int: courses_per_period_lb;
+int: courses_per_period_ub;
+array [1..n_courses] of int: course_load;
+int: max_course_load = sum(c in courses)(course_load[c]);
+
+set of int: courses = 1..n_courses;
+set of int: periods = 1..n_periods;
+
+% period course is assigned to
+array [courses] of var periods: course_period;
+% whether period i has course j assigned
+array [periods, courses] of var 0..1: x;
+% total load for each period
+array [periods] of var load_per_period_lb..load_per_period_ub: load;
+% optimisation target
+var load_per_period_lb..load_per_period_ub: objective;
+
+constraint forall(p in periods) (
+    forall(c in courses) (x[p,c] = bool2int(course_period[c] = p)) /\
+    sum(i in courses) (x[p,i]) &gt;= courses_per_period_lb /\
+    sum(i in courses) (x[p,i]) &lt;= courses_per_period_ub /\
+    load[p] = sum(c in courses) (x[p,c] * course_load[c]) /\
+    load[p] &gt;= load_per_period_lb /\
+    load[p] &lt;= objective
+);
+
+% prerequisite(a, b) means "course a has prerequisite course b".
+
+predicate prerequisite(courses: a, courses: b) =
+    course_period[b] &lt; course_period[a];
+
+% add some redundant linear constraints
+
+constraint forall(p in 0..n_periods-1) (
+    let {
+		var 0..max_course_load: l = sum(c in courses) (bool2int(course_period[c] &gt; p) * course_load[c])
+	} in 
+        l &gt;= (n_periods-p) * load_per_period_lb /\
+        l &lt;= (n_periods-p) * objective
+    );
+
+solve :: seq_search([
+      int_search([x[i,j] | i in periods, j in courses], input_order, indomain_max, complete),
+      int_search([objective], input_order, indomain_min, complete)
+    ]) minimize objective;
+
+output 
+    [show(c) ++ "-" ++ show(course_period[c]) ++ "\t" | c in courses ] ++ ["\n"] ++
+    ["objective = ", show(objective)];
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

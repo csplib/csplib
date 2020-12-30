@@ -1,0 +1,14 @@
+{
+  "category": [
+    "Network design"
+  ],
+  "id": "prob071",
+  "number": 71,
+  "proposer": [
+    "Deepak Mehta",
+    "Cemalettin Ozturk",
+    "Luis Quesada",
+    "Barry O'Sullivan"
+  ],
+  "title": "Diameter and Degree Bounded Network Design Problem"
+}

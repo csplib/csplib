@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>072: Target Tracking in Distributed Sensor Network</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob072">prob072</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>072: Target Tracking in Distributed Sensor Network</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/results">Results</a></li>
+
+     	<li><a href="/Problems/prob072/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/models">Models</a></li>
+
+     	<li><a href="/Problems/prob072/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob072.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob072/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Mohamed Wahbi
+</p>
+
+<h2>Overview</h2>
+<p><em>The general definition of the</em> <strong>SensorDisCSP</strong> <em>family is as follows:</em></p>
+<p>The target tracking in distributed sensor network problem
+(SensorDisCSP) is a real distributed resource allocation problem.
+This problem consists of
+a set of $n$ <em>stationary</em> sensors,
+$\mathcal{S} = \{s_{1}, \ldots, s_{n}\}$,
+and a set of $m$ targets, $\mathcal{T} = \{t_{1}, \ldots, t_{m}\}$,
+moving through their sensing range.
+The objective is to track each target by sensors.
+Thus, sensors have to cooperate for tracking all targets.
+In order for a target to be tracked accurately, at least
+three sensors must concurrently turn on overlapping sectors.
+This allows the target&rsquo;s position to be triangulated.
+However, each sensor can track at most one target.
+Hence, a solution is an assignment of three distinct sensors
+to each target.</p>
+<p>A solution must satisfy the <strong>visibility</strong>
+and the <strong>compatibility</strong> constraints.
+The <em>visibility constraint</em> defines the set of sensors to which
+a target is visible. This mainly depends on the sensing range
+of each sensor and to the presence of obstacles in the sensing range.
+The sensing ranges of all sensors form a <em>sensing graph</em>.
+The <em>compatibility constraint</em> defines the compatibility among sensors
+(sensors within the communication range of each other). There may be
+obstacles or noise sources on the communication area leading to breaking
+links of communication. The compatibility constraints are represented
+through the <em>communication network</em>.</p>
+<h3>Grid Model</h3>
+<p>The Grid-based SensorDisCSP (or GSensorDisCSP, for short) is a specific
+variant of the general SensorDisCSP:
+as before, we have multiple sensors $\mathcal{S} = \{s_{1}, \ldots, s_{n}\}$,
+multiple objects/tagets $\mathcal{T} = \{t_{1}, \ldots, t_{m}\}$ which are to
+be tracked by the sensors subject to visibility and compatibility
+constraints, and the goal is to allocate three sensors to track each
+object/target, while keeping these triplets of sensors pair-wise disjoint.
+However, in GSensorDisCSP the sensors are located on the nodes of a
+uniform grid of $n$ nodes, and the target objects are located within
+the surface enclosed by the grid (i.e., the grid specifies the
+generally trackable region).</p>
+<p><center>
+<figure>
+  <figcaption><strong>Fig.1:</strong> <em>An example of the target tracking problem in distributed sensor networks.</em></figcaption>
+  <figure>
+    <img src="assets/sensing.png" alt="Sensing graph" width="300">
+    <figcaption><em>(a): Sensing graph.</em></figcaption>
+  </figure>
+  <figure>
+    <img src="assets/communication.png" alt="Communication network" width="300">
+    <figcaption><em>(b): Communication network.</em></figcaption>
+  </figure>
+  <figure>
+    <img src="assets/solution.png" alt="Feasible sensors/target assignment" width="300">
+    <figcaption><em>(c): Feasible sensors/target assignment.</em></figcaption>
+  </figure>
+</figure>
+</center></p>
+<p>Fig.1 shows an example of the target tracking problem in distributed
+sensor networks where $s_{i}$ represents the sensor and $t_{j}$
+represents the target. In this example sensors are arranged on
+the nodes of a uniform grid and it is assumed that only one target
+can exist in one area. This instance consists of 2 targets:
+$t_{1}$ and $t_{2}$ and 6 sensors: $s_{1}$, $\ldots$, and $s_{6}$.
+Each target has a set of sensors that can possibly detect it
+(the sensors in the nodes of the area where the target is located),
+as depicted by the bipartite sensing graph in Fig.1(a).
+For example, $t_{1}$ can be tracked by $s_{1}$, $s_{2}$, $s_{4}$, and $s_{5}$.
+In addition, it is required that each target be assigned three
+sensors that satisfy a compatibility relation with each other;
+this compatibility relation is depicted by the communication network
+in Fig.1(b). Each sensor can communicate with all sensors that are at
+most 1 hop (rectilinear and/or diagonal) from it.
+Finally, it is required that each sensor only track at most one target.
+A possible solution is depicted in Fig.1(c), where the set of
+three sensors assigned to each target is indicated by the green edges.</p>
+<h2>Distributed CSP Formulation</h2>
+<p>In the following, three Distributed CSP based formalizations for
+target tracking in sensor network problem are shown.
+These are <strong>TaV</strong>, <strong>STaV</strong> and <strong>SaV</strong>.</p>
+<h3>Target as Variable (TaV):</h3>
+<p>Target as Variable (TaV) is a model of formalization which defines
+an agent for each target (i.e., the set of agent is exactly the
+set of targets $\mathcal{A}=\mathcal{T}$).
+There are three variables per agent, one for each sensor that we need
+to allocate to the corresponding target. The domain of each variable
+is the set of sensors that can detect the corresponding target
+(the visibility constraint defines such sensors).
+The inter-agent constraints between the variables of one agent
+(target) specify that the three sensors assigned to the target
+must be distinct.</p>
+<p><center>
+<figure>
+  <figcaption><strong>Fig.2:</strong> <em>Target as Variable formulation of the problem in Fig.1</em>.</figcaption>
+  <img src="assets/TaV.png" alt="Target as Variable formulation" width="600">
+</figure>
+</center></p>
+<p>In Fig. 2, the instance of target tracking in distributed sensor network
+shown in Fig. 1 is formalized as a <strong>TaV</strong> problem. Each target is represented
+by an agent, i.e., there is two agents $A_{1}$ representing $t_{1}$ and
+agent $A_{2}$ representing $t_{2}$. Each agent controls 3 distinct variables
+(one for each sensor to track the target).
+Agent $A_{1}$ has variables $x_{1}^{1}$, $x_{1}^{2}$, and $x_{1}^{3}$,
+while agent $A_{2}$ has variables $x_{2}^{1}$, $x_{2}^{2}$, and $x_{2}^{3}$.
+The domain of variables of each agent is the set of sensors that can track
+the target represented by the that agent.
+Target $t_{1}$ can be tracked by
+$s_{1}$, $s_{2}$, $s_{4}$, and $s_{5}$, thus,
+$D_{1}^{1}=D_{1}^{2}=D_{1}^{3}=\{1,2,4,5\}$.
+For agent/target $A_{2}/t_{2}$, $D_{2}^{1}=D_{2}^{2}=D_{2}^{3}=\{2,3,5,6\}$.
+The domains are used to represent the <em>visibility</em> constraint.
+There is a $\texttt{clique}$ constraint between variables of each agent:
+$\texttt{clique}(3,[x_{1}^{1},x_{1}^{2},x_{1}^{3}])$ (respectively
+$\texttt{clique}(3,[x_{2}^{1},x_{2}^{2},x_{2}^{3}])$) specifying that there
+is a maximum clique of size 3 in the communication graph between sensors
+assigned to target $t_{1}$ (respectively $t_{2}$).
+$\texttt{clique}$ constraint is used for representing the
+<em>compatibility</em> constraint.
+An $\texttt{allDiff}$ constraint on the variables of agents having
+a common sensor in there domains is used to specify that each sensor
+can track at most one target:
+$\texttt{allDiff}(x_{1}^{1},x_{1}^{2},x_{1}^{3},x_{2}^{1},x_{2}^{2},x_{2}^{3})$.</p>
+<p>A solution (Fig.1(c)) to that problem is:
+$x_{1}^{1}=1,x_{1}^{2}=2,x_{1}^{3}=4,x_{2}^{1}=3,x_{2}^{2}=5,x_{2}^{3}=6$.</p>
+<h3>Sensor-Target as Variable (STaV):</h3>
+<p>Sensor-Target as Variable (<strong>STaV</strong>) is a model of formalization which
+defines a variable for a pair of a sensor and a target. Each sensor
+$s_{i}$ is modeled by an agent $A_{i}$. For each agent $A_{i}$ there
+is a binary variable $x_{i}^{j}$ (i.e., $D_{i}^{j}=\{0,1\}$)
+for each target $t_{j}$ that can be tracked by $s_{i}$.
+For each sensor, there is a constraint specifying that it can not track
+more than one target: $\forall s_{i}\in\mathcal{S},\sum_{j=1}^{m}{x_{i}^{j}}\leq 1$.
+For each target, there is a constraint specifying that it must be tracked
+by at least 3 sensors: $\forall t_{j}\in\mathcal{T},\sum_{i=1}^{n}{x_{i}^{j}}\geq 3$.</p>
+<p><center>
+<figure>
+  <figcaption><strong>Fig.3:</strong> <em>Sensor-Target as Variable formulation of the problem in Fig.1</em>.</figcaption>
+  <img src="assets/STaV.png" alt="Sensor-Target as Variable formulation" width="500">
+</figure>
+</center></p>
+<p>An example of a sensor network shown in Fig. 1 is formalized as a
+<strong>STaV</strong> problem shown in Fig. 3.
+In Fig. 3, $x_{i}^{j}$ represents a variable of $s_{i}$ for target $t_{j}$.
+For each sensor $s_{i}$, variables are defined for targets that can
+be observed by $s_{i}$.
+In this example, $A_{1}$, $A_{3}$, $A_{4}$, and $A_{6}$ have one
+variable each because they represent sensors that can observe
+only one target ($t_{1}$ for $s_{1}$ and $s_{4}$ and
+$t_{2}$ for $s_{3}$ and $s_{6}$).
+$s_{2}$ and $s_{5}$ have two variables because they can observe
+two targets (i.e., $t_{1}$ and $t_{2}$).
+A value of $x_{i}^{j}$ represents which sensors are allocated to $t_{j}$.
+We have 4 constraints in that problem where constraints
+$c_{1}$ and $c_{2}$ specifying that a sensor can track at most one target
+and constraints $c_{3}$ and $c_{4}$ specifying that a target must be tracked
+by at least 3 sensors.</p>
+<ul>
+<li>$c_{1}: x_{2}^{1}+x_{2}^{2}\leq 1$</li>
+<li>$c_{2}: x_{5}^{1}+x_{5}^{2}\leq 1$</li>
+<li>$c_{3}: x_{1}^{1}+x_{2}^{1}+x_{4}^{1}+x_{5}^{1}\geq 3$</li>
+<li>$c_{4}: x_{2}^{2}+x_{3}^{2}+x_{5}^{2}+x_{6}^{2}\geq 3$</li>
+</ul>
+<p>A solution (Fig.1(c)) to that problem is:
+$x_{1}^{1}=1,x_{2}^{1}=1,x_{2}^{2}=0,x_{3}^{2}=1,x_{4}^{1}=1,x_{5}^{1}=0,x_{5}^{2}=1,x_{6}^{2}=1$.</p>
+<h3>Sensors as Variable (SaV):</h3>
+<p>Sensor as Variable (<strong>SaV</strong>) is a model of formalization which
+defines an agent $A_{i}$ for each sensor $s_{i}$.
+For each agent/sensor $A_{i}$ there is one single variable $x_{i}$.
+The domain of a variable $x_{i}$ is defined by the set of targets that
+sensor $s_{i}$ can track. There is an $\texttt{atleast}$ constraint
+on the variables $[x_{i},&hellip;,x_{k}]$ that can track each target,
+i.e., $\forall t_{j}\in\mathcal{T},\texttt{atleast}(3,[x_{i},\ldots,x_{k}],j)$
+such that $\forall x_{l}\in [x_{i},\ldots,x_{k}]$, $j\in D_{l}$.</p>
+<p><center>
+<figure>
+  <figcaption><strong>Fig.4:</strong> <em>Sensor as Variable formulation of the problem in Fig.1</em>.</figcaption>
+  <img src="assets/SaV.png" alt="Sensor as Variable formulation" width="500">
+</figure>
+</center></p>
+<p>An example of a sensor network shown in Fig. 1 is formalized as a
+<strong>SaV</strong> problem shown in Fig. 4.
+In Fig. 4, each sensor $s_{i}$ is represented by a variable $x_{i}$
+controlled by agent $A_{i}$. Thus, there is 6 variales/agents
+(i.e., $x_{1},\ldots,x_{6}$). The domain of each variable $x_{i}$
+is the set of targets that $s_{i}$ can track. Thus,
+$D_{1}=D_{4}=\{1\}$,
+$D_{3}=D_{6}=\{2\}$ and
+$D_{2}=D_{5}=\{1,2\}$.
+There is 2 $\texttt{atleast}$ constraints (one for each target):
+$\texttt{atleast}(3,[x_{1},x_{2},x_{4},x_{5}],1)$
+and $\texttt{atleast}(3,[x_{2},x_{3},x_{5},x_{6}],2)$ specifying
+that at least 3 sensors among $\{s_{1},s_{2},s_{4},s_{5}\}$
+must track target $t_{1}$ and at least 3 sensors among
+$\{s_{2},s_{3},s_{5},s_{6}\}$ must track target $t_{2}$.</p>
+<p>A solution (Fig.1(c)) to that problem is:
+$x_{1}=1,x_{2}=1,x_{3}=2,x_{4}=1,x_{5}=2,x_{6}=2$.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

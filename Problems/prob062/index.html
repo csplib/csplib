@@ -1,0 +1,810 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>062: Interview Assignment Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob062">prob062</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>062: Interview Assignment Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob062/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob062/results">Results</a></li>
+
+     	<li><a href="/Problems/prob062/references">References</a></li>
+
+     	<li><a href="/Problems/prob062/models">Models</a></li>
+
+     	<li><a href="/Problems/prob062/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob062.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob062/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Helmut Simonis
+</p>
+
+<p>This problem was used for the programming competition of the ACP
+Summer School 2016 in Cork. The problem was defined in multiple
+stages, adding constraints and problem data as the competition
+progressed.</p>
+<p>This is a totally made-up problem. None of the companies mentioned
+  have been contacted, there are no interviews that will be arranged. Sorry! But there are conferences which run
+  such a scheme, as well as some universities. The companies mentioned
+  are interested in Constraint Programming, many are sponsoring the CP
+  2016 conference, or have participants in the ACP Summer School.</p>
+<h1>Initial Problem Statement</h1>
+<p>You have been asked to provide a tool that helps match students to companies in
+an interview session at the next major Constraint Programming conference. A
+number of companies have expressed interest in participating, there are currently
+15 companies in the scheme.</p>
+<p>Each student from set $S$ can express a preference to interview with each
+company, with values ranging from 1 (very interested) to 5 (not at all interested).
+We provide a comma separated text file that shows the answers that have been
+collected through a Google Forms document (<code>test.csv</code>).
+Each student should have three interviews during the conference, with different companies. The companies have expressed limits on how many interviews
+they want to perform during the conference.
+We want to find an assignment of students to companies that stays within
+the capacity limits for each company, while providing the best match to the
+student preferences. Overall quality will be measured by two quality
+indicators:</p>
+<ol>
+<li>
+<p>If the preference of student $i$ for company $j$ is $p_{ij}$ , and the three companies selected for student $i$ are $s_{ik}$ with $k \in [1, 3]$, the first overall quality
+  indicator is the sum of the preferences for the selected assignments,
+  i.e. $\sum_{i \in S} \sum_{k=1}^{3} p_{is_{ik}}$ . We want to minimize this sum.</p>
+</li>
+<li>
+<p>We do not want to have a solution that satisfies all preferences for some
+  students, but not for others. As a secondary criterion, we want to minimize the maximum of the total preference costs per student, adding the
+  preference values for their assignments, i.e. $\min \max_{i \in S}
+  \sum_{k=1}^{3} p_{is_{ik}}$  .</p>
+</li>
+</ol>
+<p>The capacities for the companies are given in Table 1.</p>
+<table>
+<thead>
+<tr>
+<th>Nr</th>
+<th>Company</th>
+<th align="right">Capacity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>AIMMS</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SAS</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Keelvar</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Microsoft</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Google</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>6</td>
+<td>IBM</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cadence</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Quintiq</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Siemens</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cosling</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>COSYTEC</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>12</td>
+<td>LocalSolver</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>13</td>
+<td>N-side</td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>14</td>
+<td>UTRC-I</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Zoomer</td>
+<td align="right">5</td>
+</tr>
+</tbody>
+</table>
+<h1>Updated Problem (Day 2)</h1>
+<p>More students are signing up to the process, there is now an updated
+file <code>test2.csv</code> with a larger number of participating students.</p>
+<p>In the data yesterday there were some students that had only negative
+preferences (5,&hellip;,5). This made it impossible to optimize the second
+criterion on balancing the assignment between students. As a first
+change we reduce the number of interviews to the minimum of three and
+the number of preferences given with a value less than 4. If a student
+only assigns preference value five, then no interviews should be scheduled. If
+a student only gives two preferences of value three or better, then
+only two interviews should be scheduled for the student.</p>
+<p>Today, we also change the objective:</p>
+<p>We first want to minimize the maximum <em>regret</em> over all students. This is
+the difference between the sum of the assigned preferences, and the
+three best indicated preferences. If a student had stated two preferences
+with cost one, and two with cost two, the best three choices have value
+four (1+1+2). If he is assigned to one interview with preference one, and two
+with preference two, then the assigned cost is five (1+2+2), a resulting
+regret of value 1. Minimizing the maximal regret is the highest
+priority, and then the total cost (sum of all assigned preferences)
+should be minimized as secondary criterion.</p>
+<p>The companies have replied to the increased demand by also increasing
+the number of slots available. But they are worried that not enough
+student are assigned to their interviews, and they wont participate if
+less than half of their slots are taken. This leads to two scenarios:</p>
+<ol>
+<li>We can assign no students to a company, and incur a disappointment
+  cost $d_{j}$ for the company. </li>
+<li>The number of students assigned is between a given lower and an
+  upper bound. In this case the company is happy without extra cost.</li>
+</ol>
+<p>For companies $j$, they should either be assigned no student,
+at a disappointment cost $d_{j}$, or be assigned at least a given
+minimum number of students $l_{j}$, and at most a maximum number
+$u_{j}$ so that they are satisfied. The data for the companies is
+given in Table 2.</p>
+<table>
+<thead>
+<tr>
+<th>Nr</th>
+<th>Company</th>
+<th align="right">Disappointment Cost</th>
+<th align="right">Min Assignment</th>
+<th align="right">Max Assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>AIMMS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SAS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Keelvar</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Microsoft</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Google</td>
+<td align="right">20</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>6</td>
+<td>IBM</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cadence</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Quintiq</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Siemens</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cosling</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>11</td>
+<td>COSYTEC</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>12</td>
+<td>LocalSolver</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>N-side</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>14</td>
+<td>UTRC-I</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Zoomer</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<h1>Updated Problem (Day 3)</h1>
+<p>The interview assignment process seems to be working fine, but the
+conference organizers see a problem with the scheduling of the
+interviews. The conference is run over five days (Mon-Fri), with four
+time periods on each day. The sessions are numbered from 1 (Monday, early
+morning), to 20 (Friday, late afternoon). The students can indicate five of these
+twenty slots, when they are available for interviews. They are not
+available during any other period.  Otherwise the
+conference organizers are worried that nobody will attend the talks of
+the conference. </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="right">Mon</th>
+<th align="right">Tue</th>
+<th align="right">Wed</th>
+<th align="right">Thu</th>
+<th align="right">Fri</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AM Early</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">17</td>
+</tr>
+<tr>
+<td>AM Late</td>
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">10</td>
+<td align="right">14</td>
+<td align="right">18</td>
+</tr>
+<tr>
+<td>PM Early</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">11</td>
+<td align="right">15</td>
+<td align="right">19</td>
+</tr>
+<tr>
+<td>PM Late</td>
+<td align="right">4</td>
+<td align="right">8</td>
+<td align="right">12</td>
+<td align="right">16</td>
+<td align="right">20</td>
+</tr>
+</tbody>
+</table>
+<p>Students can only have one interview during one session, so their
+three interviews will occupy three of their five time slots. Companies
+can perform two interviews in one session. All interviews are
+scheduled in a set of suites, with each suite costing 200 units per
+week. Using a small number of suites is a good idea, as if even just
+one
+interview is scheduled in a suite, then the complete weekly rate has
+to be paid. Of course, each suite can hold only one interview at a
+time. There are at most 12 suites available.</p>
+<p>If an
+interview of a company is scheduled in a period, then the company
+representative has to attend the conference for that day. Indeed, the
+company has to pay for all days between their earliest and the latest
+interview. If for example the first interview is in session 7 (Tue), and the
+latest interview in session 18 (Fri), then the company has to attend for
+four days (Tue, Wed, Thu, Fri), even if no interviews for them are
+scheduled on the Thursday. It therefore pays to group all interviews
+for a company together. The daily rate varies with each company, and
+is given in the company data below.</p>
+<p>As the best solution yesterday allowed for a maximum of one regret only, this is
+now imposed as a hard constraint, so the maximal preference regret for
+each student is one. As all companies could be satisfied in yesterday&rsquo;s
+optimal solution, we now have
+to plan for all companies getting between their lower and their upper
+bound of interviews, we can no longer disappoint them.</p>
+<p>The objective now consists of the sum of the preference cost for the students,
+the attendance cost for the companies, and the rental cost for the
+interview suites. Using more suites might decrease the number of days
+that the companies have to attend, as more interviews can be performed
+in parallel, but increases the rental fee.</p>
+<h2>Data Format</h2>
+<p>The time slots for the students are given in a new file
+<code>slots.csv</code>, which on each line, lists the possible five time slots
+for each student.</p>
+<pre><code>StudentNr,slot1,slot2,slot3,slot4,slot5
+1,3,5,9,13,17
+...
+</code></pre>
+
+<p>The cost of attendance for each company is given is
+Table 4, which is otherwise unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Nr</th>
+<th>Company</th>
+<th align="right">DisappointmentCost</th>
+<th align="right">Min Assignment</th>
+<th align="right">Max Assignment</th>
+<th align="right">Attendance Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>AIMMS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SAS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Keelvar</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Microsoft</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Google</td>
+<td align="right">20</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+</tr>
+<tr>
+<td>6</td>
+<td>IBM</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cadence</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Quintiq</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Siemens</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cosling</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>11</td>
+<td>COSYTEC</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>12</td>
+<td>LocalSolver</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>13</td>
+<td>N-side</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+</tr>
+<tr>
+<td>14</td>
+<td>UTRC-I</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Zoomer</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+<h1>Updated Problem (Day 4)</h1>
+<p>Success! People have heard about your assignment tool, and want to use
+it for their next conference. You can be proud of your modelling
+skills! There is only a small problem: This is for a major conference,
+with 15 companies participating, and up to 400 students that should be
+assigned. The corresponding preference file is <code>testNNN.csv</code>, the slot
+data are given in <code>slotsNNN.csv</code>,
+and the company data are in a file <code>companyNNN.csv</code>.</p>
+<p>The file <code>companyNNN.csv</code> contains the company specific data in
+a .csv file. We&rsquo;ve added a field to tell how many interviews the
+company can perform in parallel in each session. The data from
+yesterday are in the file <code>company.csv</code> shown in Table 5. The disappointment value
+is not used.</p>
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th align="right">Disappointment</th>
+<th align="right">Lower</th>
+<th align="right">Upper</th>
+<th align="right">DailyRate</th>
+<th align="right">Parallel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIMMS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>SAS</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Keelvar</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Microsoft</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Google</td>
+<td align="right">20</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>IBM</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">30</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Cadence</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Quintiq</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Siemens</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">20</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Cosling</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>COSYTEC</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>LocalSolver</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>N-side</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>UTRC-I</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>Zoomer</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<p>The new datasets are given in Table 6.</p>
+<table>
+<thead>
+<tr>
+<th>Preferences</th>
+<th>Slots</th>
+<th>Company</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test2.csv</td>
+<td>slots.csv</td>
+<td>company2.csv</td>
+</tr>
+<tr>
+<td>test100.csv</td>
+<td>slots100.csv</td>
+<td>company100.csv</td>
+</tr>
+<tr>
+<td>test200.csv</td>
+<td>slots200.csv</td>
+<td>company200.csv</td>
+</tr>
+<tr>
+<td>test400.csv</td>
+<td>slots400.csv</td>
+<td>company400.csv</td>
+</tr>
+</tbody>
+</table>
+<p>We also may need more than 12 suites to schedule all the interviews.</p>
+<p>Can you still provide a good assignment?</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

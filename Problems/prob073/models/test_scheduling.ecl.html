@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>073: Test Scheduling Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob073">prob073</a></li>
+
+  <li><a href="/Problems/prob073/models">Models</a></li>
+  <li>test_scheduling.ecl</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>073: Test Scheduling Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob073/">Specification</a></li>
+
+     	<li><a href="/Problems/prob073/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob073/results">Results</a></li>
+
+     	<li><a href="/Problems/prob073/references">References</a></li>
+
+     	<li><a href="/Problems/prob073/models">Models</a></li>
+
+     	<li><a href="/Problems/prob073/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob073.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob073/models/test_scheduling.ecl">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob073/models/test_scheduling.ecl">Download</a>
+<pre class ='brush: eclipse'>%
+% ECLiPSe sample code
+% Author: Joachim Schimpf
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+%
+% This is a simple model for the Test Scheduling Problem from the CP2015
+% Modelling Competition, described at http://csplib.org/Problems/prob073
+%
+% Uses straightforward no-overlap constraints and a simple search heuristic.
+%
+
+
+% Data structure declarations
+:- local struct(task(name,dur,machs,nmach,res,nres,start,mach)).
+:- local struct(res(name,cap)).
+:- local struct(mach(name,id)).
+
+% Libraries used
+:- lib(ic).
+:- lib(ic_edge_finder).
+:- lib(branch_and_bound).
+:- lib(timeout).
+
+
+main :-
+%        Instance = "instances/t40m10r3-2.pl",        % opt=1725
+        Instance = "instances/t50m10r3-9.pl",         % opt=7279
+%        Instance = "instances/t100m50r10-11.pl",     % opt=4970
+%        Instance = "instances/t500m50r5-5.pl",       % opt=33848
+        get_data(Instance, Resources, Machines, Tasks),
+        model(Resources, Machines, Tasks, MakeSpan),
+        solve(Tasks, MakeSpan),
+        writeln(makespan=MakeSpan).
+
+
+model(Resources, Machines, Tasks, MakeSpan) :-
+
+        % Initialize machine variables, define task ends and makespan
+        (
+            foreach(task{start:S,dur:D,machs:Ms,mach:M},Tasks),
+            foreach(S,Starts), foreach(E,Ends), foreach(D,Durs)
+        do
+            M #:: Ms,           % machine variable
+            E #= S+D            % end time
+        ),
+        MakeSpan #= max(Ends),
+        LowerBound is integer(ceiling(sum(Durs)/length(Machines))),
+        MakeSpan #&gt;= LowerBound,
+
+        % Initialize start times
+        Starts #:: 0..sum(Durs)-min(Durs),
+
+        % Non-overlap on global resources
+        ( foreach(res{name:RN},Resources), param(Tasks) do
+            (
+                foreach(task{res:Rs,start:S,dur:D},Tasks),
+                fromto(Starts,Starts1,Starts2,[]),
+                fromto(Durs,Durs1,Durs2,[]),
+                param(RN)
+            do
+                ( memberchk(RN,Rs) -&gt;
+                    Starts1 = [S|Starts2],
+                    Durs1 = [D|Durs2]
+                ;
+                    Starts1 = Starts2,
+                    Durs1 = Durs2
+                )
+            ),
+            ( Starts==[] -&gt; true ; disjunctive(Starts, Durs) )
+        ),
+
+        % Non-overlap on machines
+        ( fromto(Tasks,[T1|Ts],Ts,[]) &gt;&gt; (foreach(T2,Ts),param(T1)) do
+            task{start:S1,dur:D1,mach:M1} = T1,
+            task{start:S2,dur:D2,mach:M2} = T2,
+            M1#=M2 =&gt; (S1+D1#=&lt;S2 or S2+D2#=&lt;S1)
+        ).
+
+
+solve(Tasks, MakeSpan) :-
+
+        % Order tasks with many resources/few machines/long duration first
+        sort(dur of task, &gt;=, Tasks, Tasks1),
+        sort(nmach of task, =&lt;, Tasks1, Tasks2),
+        sort(nres of task, &gt;=, Tasks2, OrderedTasks),
+
+        % branch-and-bound, allowing 10s for each improvement
+        bb_min(
+            timeout(label(OrderedTasks), 10, (writeln(timeout),fail)),
+            MakeSpan,
+            bb_options{strategy:restart}        % faster
+%            bb_options{strategy:dichotomic}    % better
+        ).
+
+    % Assign machines and earliest feasible start time
+    label(Tasks) :-
+        ( foreach(task{start:Start,mach:Machine},Tasks), count(_I,1,_) do
+            indomain(Machine, random),
+            once indomain(Start, min)       % incomplete labeling here!
+        ).
+
+
+% Collect instance data: Resources, Machines, Tasks
+get_data(Instance, Resources, Machines, Tasks) :-
+        compile(Instance),
+        findall(res{name:N,cap:C}, resource(N,C), Resources),
+        findall(mach{name:N}, embedded_board(N), Machines),
+        ( foreach(mach{id:I},Machines), count(I,1,NMach) do true ),
+        findall(task{name:N,dur:D,machs:Ms,nmach:NM,res:Rs,nres:NR}, (
+                test(N,D,MNames,Rs,_,_),
+                length(Rs, NR),
+                ( MNames==[] -&gt;
+                    NM = NMach, Ms = 1..NMach
+                ;
+                    length(MNames, NM),
+                    ( foreach(MName,MNames), foreach(M,Ms), param(Machines) do
+                        memberchk(mach{name:MName,id:M}, Machines)
+                    )
+                )
+            ), Tasks).
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

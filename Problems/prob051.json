@@ -1,0 +1,12 @@
+{
+  "category": [
+    "Bin packing",
+    "Partitioning and related problems"
+  ],
+  "id": "prob051",
+  "number": 51,
+  "proposer": [
+    "Pierre Schaus"
+  ],
+  "title": "Tank Allocation"
+}

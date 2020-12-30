@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob068">prob068</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob068/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob068/results">Results</a></li>
+
+     	<li><a href="/Problems/prob068/references">References</a></li>
+
+     	<li><a href="/Problems/prob068/models">Models</a></li>
+
+     	<li><a href="/Problems/prob068/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob068.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob068/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Gilles Pesant
+</p>
+
+<p>The TTPPV was introduced by [MeloUR09] and consists of finding an optimal compact single round robin schedule for a sport event. Given a set of $n$ teams, each team has to play against every other team exactly once. In each round, a team plays either at home or away, however no team can play more than three consecutive times at home or away. The sum of the traveling distance of each team has to be minimized. The particularity of this problem resides on the venue of each game that is predefined, i.e. if team $a$ plays against $b$ it is already known whether the game is going to be held at $a$&rsquo;s home or at $b$&rsquo;s home. A TTPPV instance is said to be balanced if the number of home games and the number of away games differ by at most one for each team; otherwise it is referred to as non-balanced or random. Non-balanced instances may be infeasible.</p>
+<p>The original instances assume symmetric <em>circular</em> distances:
+for $i \geq j$, $d_{ij} = d_{ji} = \min ( i-j, j-i+n )$.</p>
+<p>For example here is a solution for some 8-team instance with circular distances, each row describing the schedule for an individual team and giving its travel distance: </p>
+<pre><code>  1    7   @4   @5   @6    2   @3    team travel distance: 14
+ @0    5    7   @6   @4    3   @2    team travel distance: 12
+ @3    4    6    7   @5   @0    1    team travel distance: 10
+  2    6    5   @4   @7   @1    0    team travel distance: 8
+  6   @2    0    3    1   @7   @5    team travel distance: 10
+ @7   @1   @3    0    2   @6    4    team travel distance: 10
+ @4   @3   @2    1    0    5   @7    team travel distance: 10
+  5   @0   @1   @2    3    4    6    team travel distance: 6
+total cost: 80
+</code></pre>
+
+<p>The &ldquo;@&rdquo; prefix means that the team is playing away, e.g. team 0 is playing away against team 4 in the third round.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

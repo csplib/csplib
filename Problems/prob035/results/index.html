@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>035: Molnar's Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob035">prob035</a></li>
+
+  <li><a href="/Problems/prob035/results">Results</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>035: Molnar's Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob035/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob035/data">Data files</a></li>
+
+     	<li><a href="" class='current-item'>Results</a></li>
+
+     	<li><a href="/Problems/prob035/references">References</a></li>
+
+     	<li><a href="/Problems/prob035/models">Models</a></li>
+
+     	<li><a href="/Problems/prob035/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob035.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob035/results">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+	<p>A simple way to state this problem is as a pair consisting of the order of the
+matrix and an upper bound on the entries (disallowing negative entries). 
+For Guy&rsquo;s variant (see [2]), where 0 entries are also disallowed and the determinants
+of the two matrices are constrained to be equal, the number of unique
+solutions are as follows (as shown in [1]):</p>
+<p><CENTER>
+<TABLE cellspacing="10">
+<TR>
+  <TD>Order, UBound</TD>
+  <TD>No. Solutions</TD>
+  <TD>Order, UBound</TD>
+  <TD>No. Solutions</TD> 
+</TR></p>
+<TR>
+  <TD>3, 3</TD>
+  <TD>0</TD>
+  <TD>3, 4</TD>
+  <TD>0</TD>
+</TR>
+
+<TR>
+  <TD>3, 5</TD>
+  <TD>0</TD>
+  <TD>3, 6</TD>
+  <TD>0</TD>
+</TR>
+
+<TR>
+  <TD>3, 7</TD>
+  <TD>0</TD>
+  <TD>3, 8</TD>
+  <TD>0</TD>
+</TR>
+
+<TR>
+  <TD>3, 9</TD>
+  <TD>3</TD>
+  <TD>3, 10</TD>
+  <TD>4</TD>
+</TR>
+
+<TR>
+  <TD>3, 11</TD>
+  <TD>5</TD>
+  <TD>4, 3</TD>
+  <TD>0</TD>
+</TR>
+
+<TR>
+  <TD>4, 4</TD>
+  <TD>0</TD>
+  <TD>4, 5</TD>
+  <TD>13</TD>
+</TR>
+
+<p></TABLE>
+</CENTER></p>
+<p>Of course, this table can be extended indefinitely. The difficulty
+of finding all solutions increases rapidly with the size of the domains.</p>
+<P>
+The <A HREF="../references/">references</A> page gives pointers to several
+solutions, both individuals and parametric families. Some examples
+include:
+
+<CENTER>
+<TABLE CELLSPACING="10">
+ <TR>
+  <TD>2</TD><TD>3</TD><TD>2</TD><TD></TD>
+  <TD>2</TD><TD>3</TD><TD>5</TD><TD></TD>
+  <TD>2</TD><TD>3</TD><TD>6</TD><TD></TD>
+  <TD>5</TD><TD>7</TD><TD>6</TD><TD></TD>
+  <TD>8</TD><TD>7</TD><TD>8</TD><TD></TD>
+  <TD>10</TD><TD>7</TD><TD>12</TD><TD></TD>
+ </TR>
+ <TR>
+  <TD>4</TD><TD>2</TD><TD>3</TD><TD>,</TD>
+  <TD>3</TD><TD>2</TD><TD>3</TD><TD>,</TD>
+  <TD>3</TD><TD>2</TD><TD>3</TD><TD>,</TD>
+  <TD>6</TD><TD>4</TD><TD>7</TD><TD>,</TD>
+  <TD>12</TD><TD>11</TD><TD>7</TD><TD>,</TD>
+  <TD>4</TD><TD>2</TD><TD>7</TD><TD></TD>
+ </TR>
+ <TR>
+  <TD>9</TD><TD>6</TD><TD>7</TD><TD></TD>
+  <TD>9</TD><TD>5</TD><TD>7</TD><TD></TD>
+  <TD>17</TD><TD>11</TD><TD>16</TD><TD></TD>
+  <TD>17</TD><TD>16</TD><TD>20</TD><TD></TD>
+  <TD>17</TD><TD>15</TD><TD>16</TD><TD></TD>
+  <TD>17</TD><TD>12</TD><TD>20</TD><TD></TD>
+ </TR>
+</TABLE>
+</CENTER>
+
+<OL>
+ <LI>A. M. Frisch, C. Jefferson, I. Miguel,
+        &ldquo;Constraints for Breaking More Row and Column Symmetries,&rdquo;
+        Proceedings of the 9th International Conference on Principles and
+        Practice of Constraint Programming, 2003.
+ </LI>
+ <LI>R. K. Guy, &ldquo;Unsolved Problems in Number Theory&rdquo;, Section F28,
+     Sringer-Verlag, 1994.
+ </LI>
+</OL>
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>047: Supply Chain Coordinations</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob047">prob047</a></li>
+
+  <li><a href="/Problems/prob047/data">Data</a></li>
+  <li>instance5.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>047: Supply Chain Coordinations</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob047/">Specification</a></li>
+
+     	<li><a href="/Problems/prob047/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob047/results">Results</a></li>
+
+     	<li><a href="/Problems/prob047/references">References</a></li>
+
+     	<li><a href="/Problems/prob047/models">Models</a></li>
+
+     	<li><a href="/Problems/prob047/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob047.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob047/data/instance5.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob047/data/instance5.md">Download</a>
+<h4>Note on instance description</h4>
+<p>This instance is based on a supply chain topology referred to as the &lsquo;W&rsquo; system, which is composed of 2 final products produced from 3 components. Each product is assembled from a common and a unique component. This system has the characteristics of pure distribution (common component is used in both products) and pure assembly structure. W system is well-known in the assemble-to-order inventory literature.</p>
+<p>The instance description consists of two parts:</p>
+<ol>
+<li>Topology: the supply chain network topology consists of (i) a list of agents; (ii) a list of products that each agent produces (<em>agent-name=product-name(s)</em>); and (iii) a bill of materials specifying what products are used in building other products (<em>product-name=component-name(s)</em>).</li>
+<li>Local problems: the private data describing each agent&rsquo;s local problem - this is in the form of an OPL data file and is for use in conjunction with the OPL models provided in this benchmark description.</li>
+</ol>
+<h4>Topology</h4>
+<pre><code>Agents: A1,A2,A3,A4,A5,A6,A7,A8,A9,A10
+
+Products: 
+A1=P0,P1
+A2=P2
+A3=P3
+A4=P4
+A5=P5
+A6=P6
+A7=P7
+A8=P8
+A9=P9
+A10=P10
+
+BOM:
+P0=P2,P3
+P1=P3,P4
+P2=P5,P8
+P3=P6,P9
+P4=P7,P10
+</code></pre>
+<h4>Agent: A1</h4>
+<pre><code>numPeriods = 12;
+numProducts = 2;
+numComponents = 3;
+maxNumComponentOrders = [30,30,30];
+bom = [
+[1,1,0],
+[0,1,1]
+];
+componentBatchSize = [97,98,71];
+deliveryCost = [3298,4116,3124];
+leadtime = [2,2];
+cycles = [1,2];
+setupCycles = [10,9];
+capacity = [160,115,109,178,149,170,195,154,170,136,158,194];
+demand = [
+[92,13],
+[95,48],
+[55,53],
+[47,84],
+[101,58],
+[31,104],
+[117,113],
+[14,18],
+[12,89],
+[59,19],
+[102,85],
+[97,15]
+];
+penaltyCost = [453,419];
+openingProductInventory = [78,10];
+openingComponentInventory = [8,45,15];
+productHoldingCost = [49,65];
+componentHoldingCost = [20,34,33];
+setupCosts = [4900,6500];
+</code></pre>
+<h4>Agent: A2</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 2;
+maxNumProductOrders = [30];
+bom = [
+[1,1]
+];
+productBatchSize = [97];
+leadtime = [2];
+cycles = [2];
+setupCycles = [7];
+capacity = [92,54,97,79,77,58,99,56,51,83,98,65];
+openingProductInventory = [4];
+openingComponentInventory = [51,59];
+productHoldingCost = [20];
+componentHoldingCost = [19,1];
+setupCosts = [2000];
+maxNumComponentOrders = [30,30];
+componentBatchSize = [90,95];
+deliveryCost = [2790,2565];
+</code></pre>
+<h4>Agent: A3</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 2;
+maxNumProductOrders = [30];
+bom = [
+[1,1]
+];
+productBatchSize = [98];
+leadtime = [0];
+cycles = [1];
+setupCycles = [9];
+capacity = [62,50,71,72,59,87,88,50,68,65,90,90];
+openingProductInventory = [40];
+openingComponentInventory = [44,87];
+productHoldingCost = [34];
+componentHoldingCost = [14,23];
+setupCosts = [3400];
+maxNumComponentOrders = [30,30];
+componentBatchSize = [52,84];
+deliveryCost = [1508,3276];
+</code></pre>
+<h4>Agent: A4</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 2;
+maxNumProductOrders = [30];
+bom = [
+[1,1]
+];
+productBatchSize = [71];
+leadtime = [2];
+cycles = [1];
+setupCycles = [9];
+capacity = [61,63,51,85,65,64,97,91,86,94,51,91];
+openingProductInventory = [92];
+openingComponentInventory = [85,34];
+productHoldingCost = [33];
+componentHoldingCost = [15,23];
+setupCosts = [3300];
+maxNumComponentOrders = [30,30];
+componentBatchSize = [88,50];
+deliveryCost = [3960,2300];
+</code></pre>
+<h4>Agent: A5</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [90];
+leadtime = [1];
+cycles = [1];
+setupCycles = [10];
+capacity = [61,85,92,66,56,85,58,58,93,85,70,67];
+openingProductInventory = [53];
+openingComponentInventory = [39];
+productHoldingCost = [19];
+componentHoldingCost = [21];
+setupCosts = [1900];
+componentArrivals = [
+[56],
+[51],
+[87],
+[99],
+[92],
+[64],
+[53],
+[64],
+[86],
+[95],
+[50],
+[100]
+];
+</code></pre>
+<h4>Agent: A6</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [52];
+leadtime = [1];
+cycles = [1];
+setupCycles = [10];
+capacity = [51,84,76,77,67,89,75,50,76,98,67,79];
+openingProductInventory = [43];
+openingComponentInventory = [55];
+productHoldingCost = [14];
+componentHoldingCost = [18];
+setupCosts = [1400];
+componentArrivals = [
+[62],
+[98],
+[78],
+[65],
+[71],
+[91],
+[98],
+[100],
+[92],
+[60],
+[97],
+[54]
+];
+</code></pre>
+<h4>Agent: A7</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [88];
+leadtime = [0];
+cycles = [2];
+setupCycles = [7];
+capacity = [52,53,86,85,100,84,67,61,73,75,97,66];
+openingProductInventory = [15];
+openingComponentInventory = [95];
+productHoldingCost = [15];
+componentHoldingCost = [16];
+setupCosts = [1500];
+componentArrivals = [
+[50],
+[30],
+[47],
+[36],
+[36],
+[25],
+[34],
+[40],
+[43],
+[42],
+[40],
+[28]
+];
+</code></pre>
+<h4>Agent: A8</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [95];
+leadtime = [2];
+cycles = [1];
+setupCycles = [6];
+capacity = [66,99,89,95,71,59,86,50,80,60,88,57];
+openingProductInventory = [77];
+openingComponentInventory = [71];
+productHoldingCost = [1];
+componentHoldingCost = [4];
+setupCosts = [100];
+componentArrivals = [
+[94],
+[76],
+[78],
+[61],
+[55],
+[61],
+[97],
+[86],
+[56],
+[70],
+[91],
+[72]
+];
+</code></pre>
+<h4>Agent: A9</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [84];
+leadtime = [1];
+cycles = [2];
+setupCycles = [9];
+capacity = [69,50,53,62,75,53,67,66,79,87,69,58];
+openingProductInventory = [52];
+openingComponentInventory = [11];
+productHoldingCost = [23];
+componentHoldingCost = [23];
+setupCosts = [2300];
+componentArrivals = [
+[26],
+[33],
+[45],
+[40],
+[49],
+[48],
+[36],
+[48],
+[44],
+[33],
+[27],
+[48]
+];
+</code></pre>
+<h4>Agent: A10</h4>
+<pre><code>numPeriods = 12;
+numProducts = 1;
+numComponents = 1;
+maxNumProductOrders = [30];
+bom = [
+[1]
+];
+productBatchSize = [50];
+leadtime = [2];
+cycles = [1];
+setupCycles = [6];
+capacity = [96,52,65,99,53,90,88,71,52,57,64,58];
+openingProductInventory = [1];
+openingComponentInventory = [15];
+productHoldingCost = [23];
+componentHoldingCost = [19];
+setupCosts = [2300];
+componentArrivals = [
+[58],
+[88],
+[60],
+[95],
+[60],
+[96],
+[96],
+[86],
+[87],
+[78],
+[52],
+[68]
+];
+</code></pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

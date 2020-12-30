@@ -1,0 +1,37 @@
+language Essence 1.3
+
+$ prob016.essence: Traffic Lights
+$ Problem details available at http://www.csplib.org/Problems/prob016/
+
+$ Consider a four way traffic junction with eight traffic lights.
+$ Four of the traffic lights are for the vehicles and can be represented by the variables V1 to V4
+$ with domains {r,ry,g,y} (for red, red-yellow, green and yellow).
+$ The other four traffic lights are for the pedestrians and can be represented by the variables P1 to P4
+$ with domains {r,g}.
+$ The constraints on these variables can be modelled by quaternary constraints on (Vi, Pi, Vj, Pj)
+$ for i in 1..4, j = i+1 % 4, which allow just the tuples {(r,r,g,g), (ry,r,y,r), (g,g,r,r), (y,r,ry,r)}.
+
+$ We are interested in the set of all globally consistent 8-tuples
+$ (which reflects the evolution of the traffic light sequence).
+
+
+letting n_roads be 4
+
+$ Road: road identifers are between 1 and n_roads
+letting Road    be domain int(1..n_roads)
+letting Colours be new type enum {Red, RedYellow, Yellow, Green}
+
+letting VehicleColours    be domain Colours
+letting PedestrianColours be domain Colours(Red, Green)
+
+$ valid: the valid traffic light combinations
+find valid : function (total) Road --> (VehicleColours, PedestrianColours)
+
+
+such that
+    forAll i : Road .
+        { valid(i), valid(1 + i % 4) } in
+            { { (Red,       Red ), (Green , Green) }
+            , { (RedYellow, Red ), (Yellow, Red  ) }
+            }
+

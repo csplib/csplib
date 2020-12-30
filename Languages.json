@@ -1,0 +1,93 @@
+{
+  "B-Prolog": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "bprolog"
+    ],
+    "id": "B-Prolog",
+    "title": "B-Prolog"
+  },
+  "Comet": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "co"
+    ],
+    "id": "Comet",
+    "title": "Comet"
+  },
+  "ECLiPSe": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "ecl"
+    ],
+    "id": "ECLiPSe",
+    "title": "ECLiPSe"
+  },
+  "Essence": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "essence",
+      "param",
+      "solution"
+    ],
+    "id": "Essence",
+    "title": "Essence"
+  },
+  "EssencePrime": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "eprime"
+    ],
+    "id": "EssencePrime",
+    "title": "EssencePrime"
+  },
+  "MiniZinc": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "mzn",
+      "dzn"
+    ],
+    "id": "MiniZinc",
+    "title": "MiniZinc"
+  },
+  "Minion": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "minion"
+    ],
+    "id": "Minion",
+    "title": "Minion Input Language"
+  },
+  "Numberjack": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [],
+    "id": "Numberjack",
+    "title": "Numberjack"
+  },
+  "Picat": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "pi"
+    ],
+    "id": "Picat",
+    "title": "Picat"
+  }
+}

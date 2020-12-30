@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>039: The Rehearsal Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob039">prob039</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>039: The Rehearsal Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob039/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob039/results">Results</a></li>
+
+     	<li><a href="/Problems/prob039/references">References</a></li>
+
+     	<li><a href="/Problems/prob039/models">Models</a></li>
+
+     	<li><a href="/Problems/prob039/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob039.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob039/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Barbara Smith
+</p>
+
+<H3>The Rehearsal Scheduling Problem</H3>
+
+<p>This problem originated at Lancaster University in the 1970s. It is reported to have been devised by a member of staff in the Management Science department, who was a member of an amateur orchestra and formalized the problem whilst waiting to play during a rehearsal.</p>
+<p>A concert is to consist of nine pieces of music of different durations each involving a different combination of the five members of the orchestra.</p>
+<p>Players can arrive at rehearsals immediately before the first piece in which they are involved and depart immediately after the last piece in which they are involved. The problem is to devise an order in which the pieces can be rehearsed  so as to minimize the total time that players are waiting to play, i.e. the total time when players are present but not currently playing.</p>
+<p>In the table below, 1 indicates that the player is required for the corresponding  piece, 0 otherwise. The duration (i.e. time required to rehearse each piece) is in some unspecified time units.</p>
+<TABLE>
+   <TR><TD>Piece </TD><TD>   1 </TD><TD>  2</TD><TD>   3 </TD><TD>  4 </TD><TD>  5</TD><TD>   6 </TD><TD>  7</TD><TD>   8</TD><TD>   9 </TR>
+   <TR><TD>Player 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  0</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   1</TD><TD>   0</TD><TD>   1 </TR>
+   <TR><TD>Player 2</TD><TD>  1</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   1</TD><TD>   1</TD><TD>   0</TD><TD>   1</TD><TD>   0 </TR>
+   <TR><TD>Player 3</TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TR>
+   <TR><TD>Player 4 </TD><TD> 1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TR>
+   <TR><TD>Player 5</TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TR>
+<TR><TD>Duration </TD><TD> 2 </TD><TD>  4 </TD><TD>  1 </TD><TD>  3 </TD><TD>  3 </TD><TD>  2 </TD><TD>  5 </TD><TD>  7 </TD><TD>  6 </TR>
+</TABLE>
+
+<p>For example, if the nine  pieces were rehearsed in numerical order as given above, then the total waiting time would be:</p>
+<p>Player 1: 1+3+7=11</p>
+<p>Player 2: 1+5=6</p>
+<p>Player 3: 1+3+3+2=9</p>
+<p>Player 4: 4+1+3+5+7=20</p>
+<p>Player 5: 3</p>
+<p>giving a total of 49 units.  The optimal sequence gives 17 units waiting time.</p>
+<H3>The Talent Scheduling Problem</H3>
+
+<p>A very similar problem occurs in devising a schedule for shooting a film. Different days of shooting require different subsets of the cast, and cast members are paid for days they spend on set waiting. The only difference between <EM>talent scheduling problem</EM> and the rehearsal problem is that different cast members are paid at different rates, so that the cost of waiting time depends on who is waiting. The objective is to minimize the total cost of paying cast members to wait.</p>
+<p>The first problem, <I>Film1</I>,  is based on  one given by Cheng, Diamond and Lin (see <A href="references/">references</A>).</p>
+<TABLE>
+ <TR><TD>  Day   </TD><TD>  1 </TD><TD > 2 </TD><TD >  3 </TD><TD >  4 </TD><TD >  5 </TD><TD >  6 </TD><TD >  7 </TD><TD >  8 </TD><TD >  9 </TD><TD >  10 </TD><TD >  11
+</TD><TD >  12 </TD><TD >  13 </TD><TD >  14 </TD><TD >  15 </TD><TD >  16 </TD><TD >  17 </TD><TD >  18 </TD><TD >  19 </TD><TD >  20 </TD><TD >  Cost/100  </TD></TR>
+<TR><TD>Actor 1   </TD><TD> 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0
+ </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  10</TD></TR>
+<TR><TD>Actor 2   </TD><TD> 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0
+ </TD><TD>  1 </TD><TD>   1 </TD><TD>   1 </TD><TD>   0 </TD><TD>   1 </TD><TD>   0 </TD><TD>   0 </TD><TD>   1</TD><TD>  4</TD></TR>
+<TR><TD>Actor 3   </TD><TD> 0 </TD><TD> 1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0
+ </TD><TD>  1 </TD><TD>   1 </TD><TD>   1 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0</TD><TD>  5</TD></TR>
+<TR><TD>Actor 4   </TD><TD> 0 </TD><TD> 0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1
+ </TD><TD>  1 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0</TD><TD>  5</TD></TR>
+<TR><TD>Actor 5   </TD><TD> 0 </TD><TD> 1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1
+ </TD><TD>  0 </TD><TD>   1 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   1 </TD><TD>   1 </TD><TD>   1</TD><TD>  5</TD></TR>
+<TR><TD>Actor 6   </TD><TD> 0 </TD><TD> 0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0
+ </TD><TD>  0 </TD><TD>   1 </TD><TD>   1 </TD><TD>   1 </TD><TD>   1 </TD><TD>   1 </TD><TD>   0 </TD><TD>   0</TD><TD>  40 </TD></TR>
+<TR><TD>Actor 7   </TD><TD> 0 </TD><TD> 0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0
+ </TD><TD>  0 </TD><TD>   0 </TD><TD>   1 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0</TD><TD> 4 </TD></TR>
+<TR><TD>Actor 8   </TD><TD> 0 </TD><TD> 0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  0 </TD><TD>  0 </TD><TD>  0
+ </TD><TD>  0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0 </TD><TD>   0</TD><TD>  20</TD></TR>
+<TR><TD>Duration   </TD><TD> 2 </TD><TD> 1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  3 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  2 </TD><TD>  1 </TD><TD>  1
+ </TD><TD>  2 </TD><TD>  1 </TD><TD>  2 </TD><TD>  1 </TD><TD>  1 </TD><TD>  2 </TD><TD>  1 </TD><TD>  1</TD></TR>
+</TABLE>
+
+<p>The problem below, <I>Film2</I>, is also based on real film data (although the costs are purely fictitious).  It is easier to solve than <I>Film1</I>.</p>
+<TABLE>
+<TR><TD>Day     </TD><TD>   1 </TD><TD>  2 </TD><TD>  3 </TD><TD>  4 </TD><TD>  5 </TD><TD>  6 </TD><TD>  7 </TD><TD>  8 </TD><TD>  9 </TD><TD>  10 </TD><TD>  11 </TD><TD> 12 </TD><TD>  13</TD><TD >  Cost/100  </TD></TR>
+<TR><TD>Actor 1 </TD><TD>  0 </TD><TD>  0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 40 </TD></TR>
+<TR><TD>Actor 2 </TD><TD>  1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 1 </TD><TD> 20 </TD></TR>
+<TR><TD>Actor 3  </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 20  </TD></TR>
+<TR><TD>Actor 4  </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1</TD><TD> 10 </TD></TR>
+<TR><TD>Actor 5  </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 5 </TD></TR>
+<TR><TD>Actor 6  </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 10 </TD></TR>
+<TR><TD>Actor 7  </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 5 </TD></TR>
+<TR><TD>Actor 8  </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0  </TD><TD> 4 </TD></TR>
+<TR><TD>Actor 9  </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 0 </TD><TD> 1 </TD><TD> 5 </TD></TR>
+<TR><TD>Actor 10 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 0 </TD><TD> 1 </TD><TD> 1 </TD><TD> 0 </TD><TD> 0 </TD><TD>  0 </TD><TD>  4 </TD></TR>
+<TR><TD>Duration   </TD><TD> 1 </TD><TD> 1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  3 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD>  1 </TD><TD> 1</TD></TR>
+</TABLE>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

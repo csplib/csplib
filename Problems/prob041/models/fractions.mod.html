@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>041: The n-Fractions Puzzle</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob041">prob041</a></li>
+
+  <li><a href="/Problems/prob041/models">Models</a></li>
+  <li>fractions.mod</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>041: The n-Fractions Puzzle</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob041/">Specification</a></li>
+
+     	<li><a href="/Problems/prob041/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob041/results">Results</a></li>
+
+     	<li><a href="/Problems/prob041/references">References</a></li>
+
+     	<li><a href="/Problems/prob041/models">Models</a></li>
+
+     	<li><a href="/Problems/prob041/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob041.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob041/models/fractions.mod">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob041/models/fractions.mod">Download</a>
+<pre >/*
+
+  Fractions problem in AMPL+CP.
+
+  Prolog benchmark problem (BProlog)
+  """
+  Find distinct non-zero digits such that the following equation holds:
+         A        D        G
+      ------  + ----- + ------  = 1
+        B*C      E*F      H*I
+  """
+
+  This AMPL model was created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my AMPL page: http://www.hakank.org/ampl/
+
+*/
+
+# Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+param n;
+
+# decision variables
+var A &gt;= 1 &lt;= n integer;
+var B &gt;= 1 &lt;= n integer;
+var C &gt;= 1 &lt;= n integer;
+var D &gt;= 1 &lt;= n integer;
+var E &gt;= 1 &lt;= n integer;
+var F &gt;= 1 &lt;= n integer;
+var G &gt;= 1 &lt;= n integer;
+var H &gt;= 1 &lt;= n integer;
+var I &gt;= 1 &lt;= n integer;
+
+var x{1..n} &gt;= 1 &lt;= n integer;
+
+var D1 &gt;= 1 &lt;= 81 integer;
+var D2 &gt;= 1 &lt;= 81 integer;
+var D3 &gt;= 1 &lt;= 81 integer;
+
+#
+# constraints
+#
+s.t. c0: 
+   x[1] = A and
+   x[2] = B and
+   x[3] = C and
+   x[4] = D and
+   x[5] = E and
+   x[6] = F and
+   x[7] = G and
+   x[8] = H and
+   x[9] = I 
+;
+s.t. c1: alldiff{i in 1..n}  x[i];
+
+s.t. c2:
+
+   D1 = 10*B+C and
+   D2 = 10*E+F and
+   D3 = 10*H+I and
+   A*D2*D3 + D*D1*D3 + G*D1*D2 = D1*D2*D3 and
+   # symmetry breaking
+   A*D2 &gt;= D*D1 and
+   D*D3 &gt;= G*D2 and
+   # redundant constraints
+   3*A &gt;= D1 and
+   3*G &lt;= D2
+;
+
+data;
+
+param n := 9;
+
+
+
+# option presolve 0;
+option show_stats 2;
+
+option solver gecode;
+option gecode_options "var_branching=degree_max val_branching=max outlev=1 outfreq=1";
+
+# option solver ilogcp;
+# option ilogcp_options "optimizer=auto alldiffinferencelevel=4 debugexpr=0 logperiod=10 logverbosity=0";
+
+solve;
+
+display x;
+
+
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

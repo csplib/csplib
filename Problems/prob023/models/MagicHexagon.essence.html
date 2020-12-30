@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>023: Magic Hexagon</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob023">prob023</a></li>
+
+  <li><a href="/Problems/prob023/models">Models</a></li>
+  <li>MagicHexagon.essence</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>023: Magic Hexagon</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob023/">Specification</a></li>
+
+     	<li><a href="/Problems/prob023/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob023/results">Results</a></li>
+
+     	<li><a href="/Problems/prob023/references">References</a></li>
+
+     	<li><a href="/Problems/prob023/models">Models</a></li>
+
+     	<li><a href="/Problems/prob023/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob023.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob023/models/MagicHexagon.essence">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob023/models/MagicHexagon.essence">Download</a>
+<pre class ='brush: essence'>language ESSENCE 1.2.0
+$ prob023.essence: Magic Hexagon
+$ Problem details available at http://www.csplib.org/Problems/prob023/
+$ 03 September 2007
+$
+
+$ d: the diameter of the hexagon (length of the longest row)
+given d : int(1..)
+
+$ d must be an odd integer
+where d % 2 = 1
+
+$ o: the order of the hexagon (length of the shortest row)
+$ maxval: the maximum value that will appear in the hexagon
+$ maxsum: the maximum value that a row could sum to
+$ Value: the domain consisting of the integers contained in the hexagon
+letting o be d/2 + 1,
+        maxval be 3 * o**2 - 3 * o + 1,
+        maxsum be sum i : int(maxval + 1 - d..maxval) . i,
+        Value be domain int(1..maxval)
+
+$ hexagon: the hexagon is represented by a matrix. for any row i, we are only
+$          interested in the first d - |d/2 + 1 - i| elements of the row
+$ s: the magic number that all rows and diagonals sum to
+find hexagon : matrix indexed by [int(1..d),int(1..d)] of Value,
+     s : int(1..maxsum)
+
+such that
+$ all elements are different (and therefore all values are included)
+    forAll r1,r2 : int(1..d) . forAll i1 : int(1..d - |o - r1|) .
+        forAll i2 : int(1..d - |o - r2|) . r1 != r2 \/ i1 != i2 -&gt;
+            hexagon[r1,i1] != hexagon[r2,i2],
+$ all rows sum to s
+    forAll r : int(1..d) . (sum i : int(1..d - |o - r|) . hexagon[r,i]) = s,
+$ all right-sloping diagonals sum to s
+    forAll r : int(1..d) . (sum i : int(1..d - |o - r|) .
+        hexagon[i + max({0,o-r}), r - max({0,o-(i + max({0,o-r}))})]) = s,
+$ all left-sloping diagonals sum to s
+    forAll r : int(1..d) . (sum i : int(1..d - |o - r|) .
+        hexagon[i + max({0,r-o}), r - max({0,(i + max({0,r-o}))-o})]) = s
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

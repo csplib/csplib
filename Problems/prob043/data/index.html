@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>043: differential diagnosis</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob043">prob043</a></li>
+
+  <li><a href="/Problems/prob043/data">Data</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>043: differential diagnosis</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob043/">Specification</a></li>
+
+     	<li><a href="" class='current-item'>Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob043/results">Results</a></li>
+
+     	<li><a href="/Problems/prob043/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob043/models">Models</a></li>
+
+     	<li><a href="/Problems/prob043/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob043.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob043/data">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+	<h3>Problem instances</h3>
+<p>The 2 differentiation problem instances shown here come from a more complete set of <a href="http://ssdi.di.fct.unl.pt/~fa/differential-diagnosis/benchmarks.html">benchmarks</a>. One is for single faults; the other, for double faults. Both recur to the c1355 ISCAS&lsquo;85 circuit. Circuit description (taken from <a href="http://www.eecs.umich.edu/~jhayes/iscas/"><a href="http://www.eecs.umich.edu/~jhayes/iscas/">http://www.eecs.umich.edu/~jhayes/iscas/</a></a> ) can be seen <a href="http://ianm.host.cs.st-andrews.ac.uk/CSPLib/prob/prob043/c1355.txt">here</a>.</p>
+<p>The 2 benchmarks are labelled b1355_a_1b (single faults) and b1355_a_2 (double faults). Each consists of a set of diagnoses to differentiate. To make testing more exhaustive, and since there is no &lsquo;real&rsquo; circuit with a real fault, the goal is to partition such set into sets of equivalence classes of diagnoses (since some diagnoses may be indistinguishable) by means of pair-wise differentiations.
+Notice that diagnoses of double faults are not necessarily more difficult to differentiate than single faults.
+The sets of diagnoses for the 2 benchmarks are shown below, together with the respective result of equivalence classes.</p>
+<h3>Diagnoses and respective Classes</h3>
+<h4>Benchmark <em>b1355_a_2</em></h4>
+<table width="549" border="1">
+  <tbody><tr>
+    <td width="84"><span><font size="2">5 Diagnoses</font></span></td>
+    <td width="449"><span><font size="2">[&lsquo;1081gat&rsquo;/1], 
+    [&lsquo;1177gat&rsquo;/0], [&lsquo;1258gat&rsquo;/1], [&lsquo;1307gat&rsquo;/0], [&lsquo;1339gat&rsquo;/0]</font></span></td>
+  </tr>
+  <tr>
+    <td width="84"><span><font size="2">3 Classes</font></span></td>
+    <td width="449"><span><font size="2">[[1258gat/1]], 
+    [[1339gat/0],[1307gat/0],[1177gat/0]], [[1081gat/1]]</font></span></td>
+  </tr>
+</tbody></table>
+
+<h4>Benchmark <em>b1355_a_2</em></h4>
+<table width="59%" border="1">
+  <tbody><tr>
+    <td nowrap="" width="15%"><span><font size="2">36 Diagnoses</font></span></td>
+    <td nowrap="" width="85%"><span><font size="2">
+    [&lsquo;1039gat&rsquo;/1,&lsquo;1051gat&rsquo;/1],[&lsquo;1039gat&rsquo;/1,&lsquo;1147gat&rsquo;/0],[&lsquo;1039gat&rsquo;/1,&lsquo;1238gat&rsquo;/1],[&lsquo;1039gat&rsquo;/1,&lsquo;1297gat&rsquo;/0],[&lsquo;1039gat&rsquo;/1,&lsquo;1329gat&rsquo;/0],[&lsquo;1051gat&rsquo;/1,&lsquo;1230gat&rsquo;/0],[&lsquo;1051gat&rsquo;/1,&lsquo;1231gat&rsquo;/0],
+    <br>
+    [&lsquo;1051gat&rsquo;/1,&lsquo;1293gat&rsquo;/1],[&lsquo;1051gat&rsquo;/1,&lsquo;1325gat&rsquo;/1],[&lsquo;1147gat&rsquo;/0,&lsquo;1230gat&rsquo;/0],[&lsquo;1147gat&rsquo;/0,&lsquo;1231gat&rsquo;/0],[&lsquo;1147gat&rsquo;/0,&lsquo;1293gat&rsquo;/1],[&lsquo;1147gat&rsquo;/0,&lsquo;1325gat&rsquo;/1],[&lsquo;1230gat&rsquo;/0,&lsquo;1238gat&rsquo;/1],
+    <br>
+    [&lsquo;1230gat&rsquo;/0,&lsquo;1297gat&rsquo;/0],[&lsquo;1230gat&rsquo;/0,&lsquo;1329gat&rsquo;/0],[&lsquo;1231gat&rsquo;/0,&lsquo;1238gat&rsquo;/1],[&lsquo;1231gat&rsquo;/0,&lsquo;1297gat&rsquo;/0],[&lsquo;1231gat&rsquo;/0,&lsquo;1329gat&rsquo;/0],[&lsquo;1238gat&rsquo;/1,&lsquo;1293gat&rsquo;/1],[&lsquo;1238gat&rsquo;/1,&lsquo;1325gat&rsquo;/1],
+    <br>
+    [&lsquo;1293gat&rsquo;/1,&lsquo;1297gat&rsquo;/0],[&lsquo;1293gat&rsquo;/1,&lsquo;1329gat&rsquo;/0],[&lsquo;1297gat&rsquo;/0,&lsquo;1325gat&rsquo;/1],[&lsquo;1325gat&rsquo;/1,&lsquo;1329gat&rsquo;/0],[&lsquo;36gat&rsquo;/0,&lsquo;1039gat&rsquo;/1],[&lsquo;36gat&rsquo;/0,&lsquo;1230gat&rsquo;/0],[&lsquo;36gat&rsquo;/0,&lsquo;1231gat&rsquo;/0],
+    <br>
+    [&lsquo;36gat&rsquo;/0,&lsquo;1293gat&rsquo;/1],[&lsquo;36gat&rsquo;/0,&lsquo;1325gat&rsquo;/1],[&lsquo;8gat&rsquo;/1,&lsquo;1051gat&rsquo;/1],[&lsquo;8gat&rsquo;/1,&lsquo;1147gat&rsquo;/0],[&lsquo;8gat&rsquo;/1,&lsquo;1238gat&rsquo;/1],[&lsquo;8gat&rsquo;/1,&lsquo;1297gat&rsquo;/0],[&lsquo;8gat&rsquo;/1,&lsquo;1329gat&rsquo;/0],[&lsquo;8gat&rsquo;/1,&lsquo;36gat&rsquo;/0]</font></span></td>
+  </tr>
+  <tr>
+    <td nowrap="" width="15%"><span><font size="2">12 Classes</font></span></td>
+    <td nowrap="" width="85%"><span><font size="2">[[8gat/1,36gat/0]], 
+    [[8gat/1,1238gat/1]], 
+    [[8gat/1,1329gat/0],[8gat/1,1297gat/0],[8gat/1,1147gat/0]], 
+    [[8gat/1,1051gat/1]], [[36gat/0,1325gat/1],[36gat/0,1293gat/1], <br>
+    [36gat/0,1231gat/0],[36gat/0,1230gat/0]], [[36gat/0,1039gat/1]], 
+    [[1238gat/1,1325gat/1],[1238gat/1,1293gat/1],[1231gat/0,1238gat/1],[1230gat/0,1238gat/1]],
+    <br>
+    [[1325gat/1,1329gat/0],[1297gat/0,1325gat/1],[1293gat/1,1329gat/0],[1293gat/1,1297gat/0],[1231gat/0,1329gat/0],[1231gat/0,1297gat/0],[1230gat/0,1329gat/0],
+    <br>
+    [1230gat/0,1297gat/0],[1147gat/0,1325gat/1],[1147gat/0,1293gat/1],[1147gat/0,1231gat/0],[1147gat/0,1230gat/0]], 
+    [[1051gat/1,1325gat/1],[1051gat/1,1293gat/1], <br>
+    [1051gat/1,1231gat/0],[1051gat/1,1230gat/0]], [[1039gat/1,1238gat/1]], 
+    [[1039gat/1,1329gat/0],[1039gat/1,1297gat/0],[1039gat/1,1147gat/0]], 
+    [[1039gat/1,1051gat/1]]</font></span></td>
+  </tr>
+</tbody></table>
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

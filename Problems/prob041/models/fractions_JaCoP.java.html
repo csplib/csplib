@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>041: The n-Fractions Puzzle</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob041">prob041</a></li>
+
+  <li><a href="/Problems/prob041/models">Models</a></li>
+  <li>fractions_JaCoP.java</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>041: The n-Fractions Puzzle</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob041/">Specification</a></li>
+
+     	<li><a href="/Problems/prob041/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob041/results">Results</a></li>
+
+     	<li><a href="/Problems/prob041/references">References</a></li>
+
+     	<li><a href="/Problems/prob041/models">Models</a></li>
+
+     	<li><a href="/Problems/prob041/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob041.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob041/models/fractions_JaCoP.java">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob041/models/fractions_JaCoP.java">Download</a>
+<pre class ='brush: java'>/*
+ * Copyright 2016 Sevle.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+  
+/*  Fractions problem with JaCoP.
+  Find distinct non-zero digits such that the following equation holds:
+         A        D        G
+      ------  + ----- + ------  = 1
+        B*C      E*F      H*I
+  
+  Created as an assignment for Advanced Artificial Intelligence graduate class of 2016 (http://www.di.uoa.gr/eng/node/1449)
+*/
+
+import org.jacop.constraints.Alldifferent;
+import org.jacop.constraints.Constraint;
+import org.jacop.constraints.SumWeight;
+import org.jacop.constraints.XgtY;
+import org.jacop.constraints.XmulYeqZ;
+import org.jacop.constraints.XplusYplusQeqZ;
+import org.jacop.core.IntVar;
+import org.jacop.core.Store;
+import org.jacop.search.DepthFirstSearch;
+import org.jacop.search.IndomainMin;
+import org.jacop.search.InputOrderSelect;
+import org.jacop.search.PrintOutListener;
+import org.jacop.search.Search;
+import org.jacop.search.SelectChoicePoint;
+
+public class fractions_JaCoP {      
+    public static void main (String[] args) { 
+        Store store = new Store();  // define FD store 
+        
+        // define finite domain variables 
+        IntVar A = new IntVar(store, "A", 1, 9);
+        IntVar B = new IntVar(store, "B", 1, 9);
+        IntVar C = new IntVar(store, "C", 1, 9);
+        IntVar D = new IntVar(store, "D", 1, 9);
+        IntVar E = new IntVar(store, "E", 1, 9);
+        IntVar F = new IntVar(store, "F", 1, 9);
+        IntVar G = new IntVar(store, "G", 1, 9);
+        IntVar H = new IntVar(store, "H", 1, 9);
+        IntVar I = new IntVar(store, "I", 1, 9);
+        
+        //A,B,C,D,E,F,G,H,I all different
+        IntVar[] digits = {A,B,C,D,E,F,G,H,I};
+        IntVar[] v1 = {B, C};
+        IntVar[] v2 = {E, F};
+        IntVar[] v3 = {H, I};                      
+        
+        Constraint ctr = new Alldifferent(digits);
+        store.impose(ctr);
+         
+        //10*B+C,10*E+F,10*H+I
+        IntVar value_BC = new IntVar(store, "D1", 0, 81);
+        IntVar value_EF = new IntVar(store, "D2", 0, 81);
+        IntVar value_HI = new IntVar(store, "D3", 0, 81);
+         
+        int[] weights = { 10, 1 };
+        store.impose(new SumWeight (v1, weights, value_BC));
+        store.impose(new SumWeight (v2, weights, value_EF));
+        store.impose(new SumWeight (v3, weights, value_HI));
+
+        //BC*EF,HI*BC,BC*EF 
+        IntVar value_BCEF = new IntVar(store, "D1-2", 0, 6561);
+        IntVar value_EFHI = new IntVar(store, "D2-3", 0, 6561);
+        IntVar value_HIBC = new IntVar(store, "D1-3", 0, 6561);
+        
+        store.impose(new XmulYeqZ(value_BC, value_EF, value_BCEF));
+        store.impose(new XmulYeqZ(value_EF, value_HI, value_EFHI));
+        store.impose(new XmulYeqZ(value_HI, value_BC, value_HIBC));
+        
+        //HI*BC*EF
+        IntVar value_BCEFHI = new IntVar(store, "D1-2-3", 0, 531441);
+        store.impose(new XmulYeqZ(value_HIBC, value_EF, value_BCEFHI));
+        
+        //A*EF*HI,D*HI*BC,G*BC*EF
+        IntVar value_AEFHI = new IntVar(store, "A2-3", 0, 531441);
+        IntVar value_DHIBC = new IntVar(store, "B1-3", 0, 531441);
+        IntVar value_GBCEF = new IntVar(store, "C1-2", 0, 531441);         
+
+        store.impose(new XmulYeqZ(A, value_EFHI, value_AEFHI));
+        store.impose(new XmulYeqZ(D, value_HIBC, value_DHIBC));
+        store.impose(new XmulYeqZ(G, value_BCEF, value_GBCEF));
+
+        //(A*EF*HI)+(D*HI*BC)+(G*BC*EF)=(EF*HI*BC)
+        store.impose(new XplusYplusQeqZ(value_AEFHI, value_DHIBC, value_GBCEF,value_BCEFHI));
+
+        //Break symetries
+        store.impose(new XgtY(G, D));
+        store.impose(new XgtY(D, A));
+        
+        // search for a solution and print results 
+        Search&lt;IntVar&gt; search = new DepthFirstSearch&lt;&gt;(); 
+        SelectChoicePoint&lt;IntVar&gt; select = new InputOrderSelect&lt;&gt;(store, digits, new IndomainMin&lt;&gt;()); 
+        search.setSolutionListener(new PrintOutListener&lt;&gt;()); 
+        search.getSolutionListener().searchAll(true); 
+        search.labeling(store, select);      
+    } 
+}
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

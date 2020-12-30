@@ -1,0 +1,10 @@
+language Essence 1.3
+$ prob005.essence: Low Autocorrellation Binary Sequences
+$ Problem details available at http://www.csplib.org/Problems/prob005/
+
+given n : int(1..)
+
+find seq : function (total) int(1..n) --> int(-1,1)
+
+minimising sum k : int(1..n) . (sum i : int(1..n-k) . seq(i) * seq(i+k)) ** 2
+

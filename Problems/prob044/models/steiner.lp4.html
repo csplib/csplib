@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>044: Steiner triple systems</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob044">prob044</a></li>
+
+  <li><a href="/Problems/prob044/models">Models</a></li>
+  <li>steiner.lp4</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>044: Steiner triple systems</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob044/">Specification</a></li>
+
+     	<li><a href="/Problems/prob044/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob044/results">Results</a></li>
+
+     	<li><a href="/Problems/prob044/references">References</a></li>
+
+     	<li><a href="/Problems/prob044/models">Models</a></li>
+
+     	<li><a href="/Problems/prob044/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob044.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob044/models/steiner.lp4">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob044/models/steiner.lp4">Download</a>
+<pre >% 
+% Steiner triplets in ASP.
+% 
+%  http://www.probp.com/examples/clpset/steiner.pl
+% """
+% The ternary Steiner problem of order n is to find n(n-1)/6 sets of elements 
+% in {1,2,...,n} such that each set contains three elements and any two 
+% sets have at most one element in common.
+%
+% For example, the following shows a solution for size n=7:
+%
+%     {1,2,3}, {1,4,5}, {1,6,7}, {2,4,6}, {2,5,7}, {3,4,7}, {3,5,6}
+%
+% Problem taken from:
+% C. Gervet: Interval Propagation to Reason about Sets: Definition and 
+%            Implementation of a PracticalLanguage,  
+%            Constraints, An International Journal, vol.1, pp.191-246, 1997.
+% """
+%
+% Also see:
+% - http://mathworld.wolfram.com/SteinerTripleSystem.html
+%   """
+%   The numbers of nonisomorphic Steiner triple systems S(v) of orders 
+%   v=7, 9, 13, 15, 19, ... (i.e., 6k+1,3) are 1, 1, 2, 80, 11084874829, ... 
+%   """
+%
+% - http://en.wikipedia.org/wiki/Steiner_system
+%
+ 
+% This was created by Hakan Kjellerstrand, hakank@gmail.com
+% See also http://www.hakank.org/answer_set_programming/
+%
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+% Some statistics:
+%  n    time   Choices Conflicts Restarts
+%  --------------------------------------
+%   7    0.01s    183     116      1
+%   9    0.02s    412     136      1
+%  13    0.33s   6269    2385      6
+%  15    2.35s  22801   13755     10
+%  19    &gt; 2h
+
+#const n = 7.
+
+#const nb = n * (n-1) / 6.
+
+% domain
+val(1..n).
+sets(1..nb).
+
+
+0 { x(Set, Val)  } 1 :- sets(Set), val(Val).
+
+% 3 values of each set
+3 { x(Set, Val) : val(Val) } 3 :- sets(Set).
+3 { x(Set, Val) : sets(Set) } 3 :- val(Val).
+
+
+% count the number of common occurrences of each pair of Sets
+check(Set1, Set2, Val, N) :- 
+    sets(Set1;Set2), 
+    Set1 &lt; Set2,
+    val(Val),
+    N = #count { Val,Set1,Set2:x(Set1,Val), x(Set2,Val) }.
+
+% ensure that there are at most 1 occurrence 
+% with the same value  (i.e. N=2) for any two sets.
+:- sets(Set1), sets(Set2), Set1 &lt; Set2, 2 #count{Set1,Set2:check(Set1, Set2, Val, 2)}.
+
+
+%
+% ad hoc symmetry breaking (slow)
+% (What I would really like to do is 
+% to sort the sets lexicographically.)
+%
+% :- sets(Set1;Set2), Set1 &lt; Set2, 
+%     S1 = #sum{Val1:x(Set1, Val1)}, 
+%     S2 = #sum{Val2:x(Set2, Val2)}, 
+%     S1 &gt;= S2.
+
+#show x/2.
+
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

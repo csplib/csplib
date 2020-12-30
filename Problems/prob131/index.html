@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>131: Production Line Sequencing</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob131">prob131</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>131: Production Line Sequencing</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob131/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob131/results">Results</a></li>
+
+     	<li><a href="/Problems/prob131/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob131/models">Models</a></li>
+
+     	<li><a href="/Problems/prob131/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob131.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob131/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Özgür Akgün, Zeynep Kiziltan
+</p>
+
+<p>A problem description from the paper<span> <a class="bibref" data-bibfragment="bergen2001constraint" href="/Problems/prob131/references/#bergen2001constraint">[bergen2001constraint]</a></span> is the following:</p>
+<p>The manufacturing plant that we study produces approximately 36,000 vehicles in a month on two assembly lines and the sequencing is done once per month.</p>
+<p>The input to the problem is a list of orders (an order is a quantity of identical vehicles) that need to be produced during that month, capacity values that specify how many vehicles can be produced on each day on each assembly line, and the user-specified constraints. As a first step, each order is split into several smaller quantities of vehicles called lots such that the size of each lot is less than or equal to 60 vehicles, called the batch size. The lots are then grouped together into batches by putting together similar lots with sizes that add up to the batch size. Each batch is assumed to take one hour of time to produce on an assembly line. A typical problem instance has lots with between one and 60 vehicles, and batches with between one and ten lots, with the majority of batches having only one lot. It is important to note that after batching, the lots are not sequenced in a batch and thus sequencing actually occurs at the lot level.</p>
+<p>The lots and batches have attributes. Some attributes are common to all problem instances and others are user-definable and thus specific to a problem instance. Common attributes include the assembly lines that a lot can be produced on, the date a lot must be produced after (line-on date), and the date a lot must be produced by (line-off date). User definable attributes are either selected from a set of basic attributes such as vehicle model, exterior colour, type of engine, and type of transmission; or are constructed from these basic attributes by Cartesian-product. A batch&rsquo;s attribute values are taken from the attribute values of its lots. Each attribute has a different method for deriving the batch attribute value from the lot values when the lot values differ.</p>
+<p>The capacity values specify the number of batches that can be produced on each assembly line on each day. If no vehicle production is desired on a particular day, then the capacities for that day are zero. The capacities are assigned such that the sum of all the capacities for each day and assembly line equals the total number of batches that need to be produced for the month. Hence, there is no excess capacity. A day&rsquo;s production on an assembly line is sub-divided into consecutive intervals of time called slots which have a fixed start time and a duration of one hour (since each batch is assumed to take one hour of time to produce). In a final sequence, every slot is assigned one and only one unique batch. A typical problem instance consists of two assembly lines each with 20 days of non-zero capacities. Each of these daily capacities is approximately fifteen batches, which gives a total capacity of 600 batches or 36,000 vehicles.</p>
+<p>Each problem contains constraints that restricts which sequences are acceptable. Each constraint is over one or more slots, each slot taking a value from the set of all batches. Constraints are as follows.</p>
+<p>Assembly Line. The manufacturing plant contains two assembly lines. Because of unique equipment, some vehicles can only be assembled on one of the lines, while others can be assembled on either line. If a batch contains a lot that can only be assembled on one of the assembly lines, then the batch must be assembled on that assembly line. There is an assembly line constraint over each slot. Since each slot belongs to an assembly line, only batches that can be made on that assembly line can be assigned to the slot.</p>
+<p>Line-On and Line-Off. Each vehicle that is ordered must be produced sometime during the month. However, because of part availability or shipping deadlines, some orders have more stringent scheduling requirements. For this reason, each lot has a line-on and line-off day. A lot must be produced on or after its line-on day, and on or before its line-off day. A batch&rsquo;s line-on day is the maximum line-on day of its lots and its line-off day is the minimum line-off day of its lots. There is a line-on and line-off constraint over each slot.</p>
+<p>Even Distribution. An assembly line should produce a variety of different types of vehicles each day and the production of similar types of vehicles should be spread evenly over the month. Reasons for this include maintaining workers skills for making all types of vehicles, part availability, and producing certain amounts of each type of vehicle prior to any unexpected assembly line shutdown. The even distribution constraint spreads the batches by specifying the number of batches with a particular attribute value that must be produced on each day. There is an even distribution constraint for each production day and the constraint is over all of the slots that belong to that day.</p>
+<p>Distribution Exception. Sometimes an even distribution is inappropriate. For example, when a new model year is introduced, production teams need time to learn new procedures and the distribution of new models should be restricted so that fewer are produced early in the month. To do this, a distribution exception constraint specifies a minimum and maximum number of batches with a particular attribute value that can be produced on each day during a specified period of days in the month. There is a distribution exception constraint for each production day and the constraint is over all of the slots that belong to that day.</p>
+<p>Batting Order. Each day, a similar sequencing pattern should be followed on each assembly line. One reason for this is to sequence simple vehicles at the beginning of the day and gradually progress to more difficult vehicles. This allows the production teams to warm up before building more complicated vehicles. To do this, batting order constraints are defined on user-specified attributes and on user-specified orderings of those attributes&rsquo; values. Specifically, on each day, a batch must be produced before another batch if its attribute value is ordered before the attribute value of the other batch. There is a batting order constraint between each pair of consecutive slots that are on the same day.</p>
+<p>All-Different. A constraint is needed to ensure that every batch appears exactly once in any sequence. The all-different constraint is defined over all the slots.</p>
+<p>A solution to the vehicle assembly line sequencing problem consists of an assignment of batches to slots and a sequencing of the lots within batches such that all the constraints are satisfied.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

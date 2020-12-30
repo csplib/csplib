@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+
+  <li><a href="/Problems/prob024/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob024/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob024/results">Results</a></li>
+
+     	<li><a href="/Problems/prob024/references">References</a></li>
+
+     	<li><a href="" class='current-item'>Models</a></li>
+
+     	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob024.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/models">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+	<p>Some <a href="http://library.wolfram.com/mathgroup/archive/1999/Sep/msg00207.html">Mathematica code</a> for counting number of solutions by brute force (and links to some previous solutions).</p>
+
+	<table class="tablesorter">
+	<thead>
+	<tr>  <th>File</th>  <th>Type</th>  <th>Notes</th>  </tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+			<a href="Langford.aim.html">
+				Langford.aim
+			</a>
+		</td>
+		<td>
+			AIMMS+CP
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford.lp4.html">
+				langford.lp4
+			</a>
+		</td>
+		<td>
+			ASP Gringo 4
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford_bp.pl.html">
+				langford_bp.pl
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/B-Prolog">
+			B-Prolog
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford.co.html">
+				langford.co
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Comet">
+			Comet
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford.ecl.html">
+				langford.ecl
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/ECLiPSe">
+			ECLiPSe
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Langford-positional.essence.html">
+				Langford-positional.essence
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Essence">
+			Essence
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Langford-direct.essence.html">
+				Langford-direct.essence
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Essence">
+			Essence
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Langford_jacop.scala.html">
+				Langford_jacop.scala
+			</a>
+		</td>
+		<td>
+			JaCoP/Scala
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford2.mzn.html">
+				langford2.mzn
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/MiniZinc">
+			MiniZinc
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Langford.py.html">
+				Langford.py
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Numberjack">
+			Numberjack
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford.cs.html">
+				langford.cs
+			</a>
+		</td>
+		<td>
+			or-tools/C#
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford_ortools.py.html">
+				langford_ortools.py
+			</a>
+		</td>
+		<td>
+			or-tools/Python
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Langford_oscar.scala.html">
+				Langford_oscar.scala
+			</a>
+		</td>
+		<td>
+			OscaR
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford.pi.html">
+				langford.pi
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Picat">
+			Picat
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="ROD.pl.html">
+				ROD.pl
+			</a>
+		</td>
+		<td>
+			pl
+		</td>
+		<td>
+		<p>A Perl program written by John Miller based on a pattern found by Roy O. Davies that generates a single Langford sequence (for large n). Counting the number of sequences is likely to be intractable.</p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="sicstus_csplib024.pl.html">
+				sicstus_csplib024.pl
+			</a>
+		</td>
+		<td>
+			SICStus Prolog
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="langford_sicstus.pl.html">
+				langford_sicstus.pl
+			</a>
+		</td>
+		<td>
+			SICStus Prolog
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	</tbody>
+	</table>
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>030: Balanced Academic Curriculum Problem (BACP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob030">prob030</a></li>
+
+  <li><a href="/Problems/prob030/data">Data</a></li>
+  <li>bacp8.dat</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>030: Balanced Academic Curriculum Problem (BACP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob030/">Specification</a></li>
+
+     	<li><a href="/Problems/prob030/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob030/results">Results</a></li>
+
+     	<li><a href="/Problems/prob030/references">References</a></li>
+
+     	<li><a href="/Problems/prob030/models">Models</a></li>
+
+     	<li><a href="/Problems/prob030/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob030.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob030/data/bacp8.dat">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob030/data/bacp8.dat">Download</a>
+<pre >
+//data file for 8 period probelm
+
+p=8; 
+a=10; /* minimum academic load allowed per period */
+b=24; /* maximum academic load allowed per period */
+c=2; /* minimum amount of courses allowed per period, 
+        4 to make problem  tighter*/
+d=10; /* maximum amount of courses allowed per period
+         8 to make problem tighter*/
+courses = {
+dew100,fis100,hcw310,iwg101,mat190,mat192, dew101,
+fis101, iwi131, mat191 , mat193 , fis102 , hxwxx1, 
+iei134 , iei141 ,  mat194, 
+dewxx0, hcw311 ,iei132 ,iei133, iei142, iei162, 
+iwn170, mat195,  hxwxx2,  iei231, iei241, iei271, iei281, iwn261, 
+hfw120,  iei233, iei238, iei261, iei272,  iei273, iei161,  iei232, 
+iei262, iei274,  iwi365,   iwn270 , hrw130 , iei218 , iei219 ,iei248 };
+
+credit = [
+1,  3,  1,  2,  4, 
+ 4,  1,  5,  3,  4, 
+ 4,  5, 1,  3, 3, 
+ 4,  1,  1,  3,  3, 
+ 3,  3,  3,  3,  1, 
+ 4,  4,  3,  3, 3, 
+ 2,  4,  3,  3,  3, 
+ 3,  3,  3,  3,  3, 
+ 3,  3,  2,  3, 3, 
+ 3
+];
+
+prereq= {
+&lt;dew101,dew100&gt;,
+&lt;fis101, fis100&gt;,
+&lt;fis101, mat192&gt;,
+&lt;mat191, mat190&gt;,
+&lt;mat193,mat190&gt;,
+&lt;mat193,mat192&gt;,
+&lt;fis102,fis101&gt;,
+&lt;fis102, mat193&gt;,
+&lt;iei134 ,  iwi131&gt;,
+&lt;iei141 ,  iwi131&gt;,
+&lt;mat194 , mat191 &gt;,
+&lt;mat194 , mat193&gt;,
+&lt;dewxx0 ,  dew101&gt;,
+&lt;hcw311 ,  hcw310&gt;,
+&lt;iei132 ,  iei134&gt;,
+&lt;iei133 ,  iei134&gt;,
+&lt;iei142 ,  iei141&gt;,
+&lt;mat195 ,  mat194&gt;,
+&lt;iei231 ,  iei134&gt;,
+&lt;iei241 ,  iei142&gt;,
+&lt;iei271 ,  iei162&gt;,
+&lt;iei281 ,  mat195&gt;,
+&lt;iei233 ,  iei231&gt;,
+&lt;iei238 ,  iei231&gt;,
+&lt;iei261 ,  iwn261&gt;,
+&lt;iei272 , iei271&gt;,
+&lt;iei273 , iei271&gt;,
+&lt;iei273 , iei271&gt;,
+&lt;iei161 , iwn261&gt;,
+&lt;iei161 , iwn261&gt;,
+&lt;iei232 , iei273&gt;,
+&lt;iei232 , iei273&gt;,
+&lt;iei262 , iwn261&gt;,
+&lt;iei274 , iei273&gt;,
+&lt;iei274 , iei273&gt;,
+&lt;iei219 , iei232&gt;,
+&lt;iei248 ,  iei233&gt;,
+&lt;iei248 , iei233&gt;
+};
+
+
+ 
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

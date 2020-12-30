@@ -1,0 +1,24 @@
+language ESSENCE 1.2.0
+$ prob009.essence: Perfect Square Placement
+$ Problem details available at http://www.csplib.org/Problems/prob009/
+$ 05 September 2007
+$
+
+given sizemaster : int(1..)
+
+given sizes : sequence of int(1..)
+
+where sum([s*s | (_,s) <- sizes ]) = sizemaster*sizemaster
+
+letting Index be domain int(0..sizemaster)
+
+letting Squares be domain int(1..|sizes|)
+
+find x, y : function (total) Squares --> Index
+
+such that
+    forAll s : Squares . x(s) + sizes(s) < sizemaster /\ y(s) + sizes(s) < sizemaster,
+    forAll s1,s2 : Squares , s2 > s1 .
+        max({x(s1),x(s2)}) - min({x(s1)+sizes(s1),x(s2)+sizes(s2)}) >= 0 \/
+        max({y(s1),y(s2)}) - min({y(s1)+sizes(s1),y(s2)+sizes(s2)}) >= 0
+

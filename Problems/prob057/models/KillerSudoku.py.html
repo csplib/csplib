@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>057: Killer Sudoku</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob057">prob057</a></li>
+
+  <li><a href="/Problems/prob057/models">Models</a></li>
+  <li>KillerSudoku.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>057: Killer Sudoku</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob057/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob057/results">Results</a></li>
+
+     	<li><a href="/Problems/prob057/references">References</a></li>
+
+     	<li><a href="/Problems/prob057/models">Models</a></li>
+
+     	<li><a href="/Problems/prob057/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob057.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob057/models/KillerSudoku.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob057/models/KillerSudoku.py">Download</a>
+<pre class ='brush: py'># Killer Sudoku
+#
+# Killer Sudoku is a Sudoku puzzle with a twist.
+#
+# The standard Sudoku puzzle is a 9x9 matrix to be filled out
+# in such a way that each row, column and each of the 3x3
+# sub-matrices would contain the numbers 1 to 9.
+#
+# In Killer Sudoku, there is one extra constraint. There are
+# so-called "cages" which are much like the 3x3 sub-matrices.
+# They may contain at most one of each number (1 to 9) and the
+# numbers' sum must be equal to the cage's number (see CSPLib link).
+#
+# CSPlib Problem 057 - http://www.csplib.org/Problems/prob057/
+
+from Numberjack import *
+
+
+def get_model(param):
+    N = param['N']
+    cages = parsecages(examplecages)
+
+    grid = Matrix(N*N, N*N, 1, N*N)
+
+    model = Model(
+        [AllDiff(row) for row in grid.row],
+        [AllDiff(col) for col in grid.col],
+
+        # Contents of sub-matrices must be distinct.
+        [AllDiff(grid[x:x + N, y:y + N]) for x in range(0, N*N, N)
+            for y in range(0, N * N, N)],
+    )
+
+    # Contents of cages must be distinct.
+    for cagetotal, cellids in cages:
+        cagecells = [grid.flat[x] for x in cellids]
+        model += AllDiff(cagecells)
+        model += Sum(cagecells) == cagetotal
+
+    return grid, model
+
+
+def solve(param):
+    grid, model = get_model(param)
+
+    solver = model.load(param['solver'])
+    solver.setVerbosity(param['verbose'])
+    solver.solve()
+
+    if solver.is_sat():
+        print str(grid)
+    elif solver.is_unsat():
+        print "Unsatisfiable"
+    else:
+        print "Unknown"
+
+
+def parsecages(textblob):
+    cages = []
+    for line in textblob.split("\n"):
+        if not line.strip():
+            continue
+        bits = map(int, line.split())
+        cages.append((bits[0], bits[1:]))
+    return cages
+
+
+examplecages = """
+3 0 1
+15 2 3 4
+22 5 13 14 22
+4 6 15
+16 7 16
+15 8 17 26 35
+25 9 10 18 19
+17 11 12
+9 20 21 30
+8 23 32 41
+20 24 25 33
+6 27 36
+14 28 29
+17 31 40 49
+17 34 42 43
+13 37 38 46
+20 39 48 57
+12 44 53
+27 45 54 63 72
+6 47 55 56
+20 50 59 60
+6 51 52
+10 58 66 67 75
+14 61 62 70 71
+8 64 73
+16 65 74
+15 68 69
+13 76 77 78
+17 79 80
+"""
+
+
+if __name__ == '__main__':
+    default = {'N': 3, 'solver': 'Mistral', 'verbose': 0}
+    param = input(default)
+    solve(param)
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>049: Number Partitioning</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob049">prob049</a></li>
+
+  <li><a href="/Problems/prob049/models">Models</a></li>
+  <li>set_partition.lp4</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>049: Number Partitioning</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob049/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob049/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob049/results">Results</a></li>
+
+     	<li><a href="/Problems/prob049/references">References</a></li>
+
+     	<li><a href="/Problems/prob049/models">Models</a></li>
+
+     	<li><a href="/Problems/prob049/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob049.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob049/models/set_partition.lp4">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob049/models/set_partition.lp4">Download</a>
+<pre >% 
+% Set partition problem in ASP.
+% 
+% Problem formulation from
+%   http://www.koalog.com/resources/samples/PartitionProblem.java.html
+% """
+%  This is a partition problem.
+%  Given the set S = {1, 2, ..., n}, 
+%  it consists in finding two sets A and B such that:
+%  - A U B = S
+%  - |A| = |B|
+%  - sum(A) = sum(B)
+%  - sum_squares(A) = sum_squares(B)
+% """
+%
+% 
+% This was created by Hakan Kjellerstrand, hakank@gmail.com
+% See also http://www.hakank.org/answer_set_programming/
+%
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+% {1, 3, 7, 8, 9, 11}, {2, 4, 5, 6, 10, 12}
+
+#const n = 12. 
+
+% domains
+val(1..n).
+partitions(1..2).
+
+sum_domain(1..n*n / 2).
+sum_domain2(1..n*n*n / 2).
+
+% split the numbers in two partitions
+1 { p(P, I) : partitions(P) } 1 :- val(I).
+
+% Note that we use the same structure for all
+% three conditions: cardinality, sum, sum of squares.
+% Can we use that? And would it be faster?
+
+%
+% same cardinality for the partitions:
+%
+n / 2 { p(P, I) : val(I) } n / 2 :- partitions(P).
+% :- S1 = #sum [p(1, I) : val(I) = 1 ], S2 = #sum [p(2, I) : val(I) = 1 ], S1 != S2.
+% card(P,S) :- partitions(P), S = #sum [p(P, I) : val(I) = 1 ], S &gt; 0.
+% :- card(1,C1), card(2, C2), C1 != C2.
+
+%
+% same sums for the partitions
+%
+sum1(P, S) :- 
+    sum_domain(S), 
+    partitions(P), 
+    S = #sum {I,P:p(P, I), val(I) }.
+:- sum1(1, S1), sum1(2, S2), S1 != S2.
+
+%
+% same sums of squares for the partitions
+%
+sumsq1(P, S) :- 
+    sum_domain2(S), 
+    partitions(P), 
+    S = #sum {I*I,P:p(P, I) , val(I) }.
+:- sumsq1(1, S1), sumsq1(2, S2), S1 != S2.
+
+
+% symmetry breaking
+p(1,1).
+
+% for the output
+p1(I) :- p(1, I), val(I).
+p2(I) :- p(2, I), val(I).
+
+
+#show p/2.
+#show p1/1.
+#show p2/1.
+% #show card/2.
+#show sum1/2.
+#show sumsq1/2.
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

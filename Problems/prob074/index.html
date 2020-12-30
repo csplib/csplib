@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>074: Maximum Clique</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob074">prob074</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>074: Maximum Clique</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob074/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob074/results">Results</a></li>
+
+     	<li><a href="/Problems/prob074/references">References</a></li>
+
+     	<li><a href="/Problems/prob074/models">Models</a></li>
+
+     	<li><a href="/Problems/prob074/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob074.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob074/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Ciaran McCreesh
+</p>
+
+<p>Given a simple undirected graph $G = (V,E)$, where $V$ is the set of vertices
+and $E$ the set of undirected edges, a clique is a subset of $V$ such that each
+distinct pair of vertices in this subset are adjacent. The maximum clique
+problem is to find a clique of largest cardinality within a given graph. (The
+related clique enumeration problem is to enumerate all maximal cliques&ndash;that
+is, cliques which cannot be extended by adding an additional vertex.)</p>
+<p>The second DIMACS implementation challenge studied this problem, and provided a
+standard set of benchmark instances in a simple file format. These instances
+are of varying size and difficulty: some should be trivial, but a few are still
+open. A simple example of a file is:</p>
+<pre>
+c Lines that start with a c are comments. There is one line at the start
+c which starts with either "p edge" or "p col", followed by the number of
+c vertices and the (possibly incorrect) number of edges. The e lines each
+c describe an edge. Some files have blank lines.
+p edge 5 6
+e 1 2
+e 2 3
+e 3 4
+e 4 1
+e 3 5
+e 4 5
+</pre>
+
+<p>This describes a graph with 5 vertices (which are numbered 1 to 5) and 6 edges.
+The edges number is <em>not reliable</em> and should be ignored. Some instances
+include (some) edges in both directions, whilst others do not. Some files
+contain loops (vertices adjacent to themselves), which should be ignored for
+the clique problem.</p>
+<p>The maximum clique in this file has size 3, with vertices 3, 4 and 5.</p>
+<p>Other datasets are available, also using this format.</p>
+<p>The maximum clique problem is equivalent to the maximum independent set problem
+and the vertex cover problem. It is also used as an intermediate step in
+solving the maximum common subgraph problem.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

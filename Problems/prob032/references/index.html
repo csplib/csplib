@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>032: Maximum density still life</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob032">prob032</a></li>
+
+  <li><a href="/Problems/prob032/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>032: Maximum density still life</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob032/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob032/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob032/results">Results</a></li>
+
+     	<li><a href="" class='current-item'>References</a></li>
+
+     	<li><a href="/Problems/prob032/models">Models</a></li>
+
+     	<li><a href="/Problems/prob032/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob032.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob032/references">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob032/references/prob032-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="bosch2004constraint" class='bib'>
+    <span class="bibkey">
+        [bosch2004constraint]
+    </span>
+    <br>
+    <span class="authors">
+        Robert Bosch and Michael A Trick
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.dcs.gla.ac.uk/~pat/cp2001/papers/trick.ps">Constraint programming and hybrid formulations for life</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Tepper School of Business, 507</span>, 
+
+    <span class="date">
+        
+        2004
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="smith2002dual" class='bib'>
+    <span class="bibkey">
+        [smith2002dual]
+    </span>
+    <br>
+    <span class="authors">
+        Barbara M Smith
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.dcs.st-and.ac.uk/~apes/papers/CP02c.ps">A dual graph translation of a problem in ‘life’</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Principles and Practice of Constraint Programming-CP 2002, 402–414</span>, 
+
+    <span class="date">
+        
+        2002
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="bosch2000maximum" class='bib'>
+    <span class="bibkey">
+        [bosch2000maximum]
+    </span>
+    <br>
+    <span class="authors">
+        Robert A Bosch
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="http://www.elsevier.nl/gej-ng/10/34/29/49/22/23/article.pdf">Maximum density stable patterns in variants of Conway's game of Life</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Operations Research Letters 27(1), 7–11</span>, 
+
+    <span class="date">
+        
+        2000
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="bosch1999integer" class='bib'>
+    <span class="bibkey">
+        [bosch1999integer]
+    </span>
+    <br>
+    <span class="authors">
+        Robert A Bosch
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="https://epubs.siam.org/doi/pdf/10.1137/S0036144598338252">Integer programming and Conway's game of Life</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">SIAM review 41(3), 594–604</span>, 
+
+    <span class="date">
+        
+        1999
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,1057 @@
+{
+  "prob001": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob001",
+    "number": 1,
+    "proposer": [
+      "Barbara Smith"
+    ],
+    "title": "Car Sequencing"
+  },
+  "prob002": {
+    "category": [
+      "Bin packing",
+      "Partitioning and related problems"
+    ],
+    "id": "prob002",
+    "number": 2,
+    "proposer": [
+      "Barbara Smith"
+    ],
+    "title": "Template Design"
+  },
+  "prob003": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob003",
+    "number": 3,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Quasigroup Existence"
+  },
+  "prob004": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob004",
+    "number": 4,
+    "proposer": [
+      "Jim Ho Man Lee"
+    ],
+    "title": "Mystery Shopper"
+  },
+  "prob005": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob005",
+    "number": 5,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Low Autocorrelation Binary Sequences"
+  },
+  "prob006": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob006",
+    "number": 6,
+    "proposer": [
+      "Peter van Beek"
+    ],
+    "title": "Golomb rulers"
+  },
+  "prob007": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob007",
+    "number": 7,
+    "proposer": [
+      "Holger Hoos"
+    ],
+    "title": "All-Interval Series"
+  },
+  "prob008": {
+    "category": [
+      "Design and configuration"
+    ],
+    "id": "prob008",
+    "number": 8,
+    "proposer": [
+      "Ken Brown"
+    ],
+    "title": "Vessel Loading"
+  },
+  "prob009": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob009",
+    "number": 9,
+    "proposer": [
+      "Helmut Simonis"
+    ],
+    "title": "Perfect Square Placement"
+  },
+  "prob010": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob010",
+    "number": 10,
+    "proposer": [
+      "Warwick Harvey"
+    ],
+    "title": "Social Golfers Problem"
+  },
+  "prob011": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob011",
+    "number": 11,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "ACC Basketball Schedule"
+  },
+  "prob012": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob012",
+    "number": 12,
+    "proposer": [
+      "Gary Duncan",
+      "Ian Gent"
+    ],
+    "title": "Nonogram"
+  },
+  "prob013": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob013",
+    "number": 13,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Progressive Party Problem"
+  },
+  "prob014": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob014",
+    "number": 14,
+    "proposer": [
+      "Ian Gent"
+    ],
+    "title": "Solitaire Battleships"
+  },
+  "prob015": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob015",
+    "number": 15,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Schur's Lemma"
+  },
+  "prob016": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob016",
+    "number": 16,
+    "proposer": [
+      "Toby Walsh",
+      "Walter Hower"
+    ],
+    "title": "Traffic Lights"
+  },
+  "prob017": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob017",
+    "number": 17,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Ramsey Numbers"
+  },
+  "prob018": {
+    "category": [
+      "Bin packing",
+      "Partitioning and related problems"
+    ],
+    "id": "prob018",
+    "number": 18,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Water Bucket Problem"
+  },
+  "prob019": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob019",
+    "number": 19,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Magic Squares and Sequences"
+  },
+  "prob020": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob020",
+    "number": 20,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Darts Tournament"
+  },
+  "prob021": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob021",
+    "number": 21,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Crossfigures"
+  },
+  "prob022": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob022",
+    "number": 22,
+    "proposer": [
+      "Suniel Curtis"
+    ],
+    "title": "Bus Driver Scheduling"
+  },
+  "prob023": {
+    "category": [
+      "Design and configuration",
+      "Combinatorial mathematics",
+      "Games and puzzles"
+    ],
+    "id": "prob023",
+    "number": 23,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Magic Hexagon"
+  },
+  "prob024": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob024",
+    "number": 24,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Langford's number problem"
+  },
+  "prob025": {
+    "category": [
+      "Combinatorial mathematics",
+      "Games and puzzles"
+    ],
+    "id": "prob025",
+    "number": 25,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Lam's Problem"
+  },
+  "prob026": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob026",
+    "number": 26,
+    "proposer": [
+      "Toby Walsh"
+    ],
+    "title": "Sports Tournament Scheduling"
+  },
+  "prob027": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob027",
+    "number": 27,
+    "proposer": [
+      "Ian Gent"
+    ],
+    "title": "Alien Tiles Problem"
+  },
+  "prob028": {
+    "category": [
+      "Design and configuration",
+      "Combinatorial mathematics"
+    ],
+    "id": "prob028",
+    "number": 28,
+    "proposer": [
+      "Steven Prestwich"
+    ],
+    "title": "Balanced Incomplete Block Designs"
+  },
+  "prob029": {
+    "category": [
+      "Combinatorial mathematics",
+      "Games and puzzles"
+    ],
+    "id": "prob029",
+    "number": 29,
+    "proposer": [
+      "Christian Bessiere"
+    ],
+    "title": "Prime queen attacking problem"
+  },
+  "prob030": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob030",
+    "number": 30,
+    "proposer": [
+      "Brahim Hnich",
+      "Zeynep Kiziltan",
+      "Toby Walsh"
+    ],
+    "title": "Balanced Academic Curriculum Problem (BACP)"
+  },
+  "prob031": {
+    "category": [
+      "Design and configuration"
+    ],
+    "id": "prob031",
+    "number": 31,
+    "proposer": [
+      "Zeynep Kiziltan",
+      "Brahim Hnich"
+    ],
+    "title": "Rack Configuration Problem"
+  },
+  "prob032": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob032",
+    "number": 32,
+    "proposer": [
+      "Barbara Smith"
+    ],
+    "title": "Maximum density still life"
+  },
+  "prob033": {
+    "category": [
+      "Bioinformatics",
+      "Combinatorial mathematics"
+    ],
+    "id": "prob033",
+    "number": 33,
+    "proposer": [
+      "Marc van Dongen"
+    ],
+    "title": "Word Design for DNA Computing on Surfaces"
+  },
+  "prob034": {
+    "category": [
+      "Design and configuration",
+      "Logistics"
+    ],
+    "id": "prob034",
+    "number": 34,
+    "proposer": [
+      "Brahim Hnich"
+    ],
+    "title": "Warehouse Location Problem"
+  },
+  "prob035": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob035",
+    "number": 35,
+    "proposer": [
+      "Alan Frisch",
+      "Chris Jefferson",
+      "Ian Miguel"
+    ],
+    "title": "Molnar's Problem"
+  },
+  "prob036": {
+    "category": [
+      "Design and configuration",
+      "Combinatorial mathematics"
+    ],
+    "id": "prob036",
+    "number": 36,
+    "proposer": [
+      "Alan Frisch",
+      "Chris Jefferson",
+      "Ian Miguel"
+    ],
+    "title": "Fixed Length Error Correcting Codes"
+  },
+  "prob037": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob037",
+    "number": 37,
+    "proposer": [
+      "Chris Jefferson",
+      "Angela Miguel",
+      "Ian Miguel",
+      "Armagan Tarim"
+    ],
+    "title": "Peg Solitaire"
+  },
+  "prob038": {
+    "category": [
+      "Design and configuration",
+      "Bin packing"
+    ],
+    "id": "prob038",
+    "number": 38,
+    "proposer": [
+      "Ian Miguel"
+    ],
+    "title": "Steel Mill Slab Design"
+  },
+  "prob039": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob039",
+    "number": 39,
+    "proposer": [
+      "Barbara Smith"
+    ],
+    "title": "The Rehearsal Problem"
+  },
+  "prob040": {
+    "category": [
+      "Scheduling and related problems",
+      "Bin packing"
+    ],
+    "id": "prob040",
+    "number": 40,
+    "proposer": [
+      "Ian Miguel",
+      "Armagan Tarim"
+    ],
+    "title": "A Distribution Problem with Wagner-Whitin Costs"
+  },
+  "prob041": {
+    "category": [
+      "Combinatorial mathematics",
+      "Games and puzzles"
+    ],
+    "id": "prob041",
+    "number": 41,
+    "proposer": [
+      "Alan Frisch",
+      "Christopher Jefferson",
+      "Ian Miguel",
+      "Toby Walsh"
+    ],
+    "title": "The n-Fractions Puzzle"
+  },
+  "prob042": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob042",
+    "number": 42,
+    "proposer": [
+      "Francisco Azevedo"
+    ],
+    "title": "diagnosis"
+  },
+  "prob043": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob043",
+    "number": 43,
+    "proposer": [
+      "Francisco Azevedo"
+    ],
+    "title": "differential diagnosis"
+  },
+  "prob044": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob044",
+    "number": 44,
+    "proposer": [
+      "Francisco Azevedo"
+    ],
+    "title": "Steiner triple systems"
+  },
+  "prob045": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob045",
+    "number": 45,
+    "proposer": [
+      "Evgeny Selensky"
+    ],
+    "title": "The Covering Array Problem"
+  },
+  "prob046": {
+    "category": [
+      "Distributed CSP/COP",
+      "Scheduling and related problems"
+    ],
+    "id": "prob046",
+    "number": 46,
+    "proposer": [
+      "Uri Shapen",
+      "Roie Zivan",
+      "Amnon Meisels"
+    ],
+    "title": "Meeting Scheduling"
+  },
+  "prob047": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob047",
+    "number": 47,
+    "proposer": [
+      "David A. Burke",
+      "Kenneth N. Brown",
+      "Mustafa Dogru",
+      "Ben Lowe"
+    ],
+    "title": "Supply Chain Coordinations"
+  },
+  "prob048": {
+    "category": [
+      "Distributed CSP/COP",
+      "Bin packing",
+      "Partitioning and related problems"
+    ],
+    "id": "prob048",
+    "number": 48,
+    "proposer": [
+      "David A. Burke",
+      "Kenneth N. Brown"
+    ],
+    "title": "Minimum Energy Broadcast (MEB)"
+  },
+  "prob049": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob049",
+    "number": 49,
+    "proposer": [
+      "Daniel Diaz"
+    ],
+    "title": "Number Partitioning"
+  },
+  "prob050": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob050",
+    "number": 50,
+    "proposer": [
+      "Alice Miller",
+      "Patrick Prosser"
+    ],
+    "title": "Diamond-free Degree Sequences"
+  },
+  "prob051": {
+    "category": [
+      "Bin packing",
+      "Partitioning and related problems"
+    ],
+    "id": "prob051",
+    "number": 51,
+    "proposer": [
+      "Pierre Schaus"
+    ],
+    "title": "Tank Allocation"
+  },
+  "prob052": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob052",
+    "number": 52,
+    "proposer": [
+      "Michael Codish",
+      "Alice Miller",
+      "Patrick Prosser",
+      "Peter Stuckey"
+    ],
+    "title": "Extremal Graphs with Small Girth"
+  },
+  "prob053": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob053",
+    "number": 53,
+    "proposer": [
+      "Karen Petrie"
+    ],
+    "title": "Graceful Graphs"
+  },
+  "prob054": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob054",
+    "number": 54,
+    "proposer": [
+      "Bilal Syed Hussain"
+    ],
+    "title": "N-Queens"
+  },
+  "prob055": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob055",
+    "number": 55,
+    "proposer": [
+      "Peter Nightingale"
+    ],
+    "title": "Equidistant Frequency Permutation Arrays"
+  },
+  "prob056": {
+    "category": [
+      "Network design"
+    ],
+    "id": "prob056",
+    "number": 56,
+    "proposer": [
+      "Peter Nightingale"
+    ],
+    "title": "Synchronous Optical Networking (SONET) Problem"
+  },
+  "prob057": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob057",
+    "number": 57,
+    "proposer": [
+      "Peter Nightingale"
+    ],
+    "title": "Killer Sudoku"
+  },
+  "prob058": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob058",
+    "number": 58,
+    "proposer": [
+      "Vinasetan Ratheil Houndji",
+      "Pierre Schaus",
+      "Laurence Wolsey",
+      "Yves Deville"
+    ],
+    "title": "Discrete Lot Sizing Problem"
+  },
+  "prob059": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob059",
+    "number": 59,
+    "proposer": [
+      "Helmut Simonis",
+      "Barry O\u2019Sullivan",
+      "Deepak Mehta",
+      "Barry Hurley",
+      "Milan De Cauwer"
+    ],
+    "title": "Energy-Cost Aware Scheduling"
+  },
+  "prob060": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob060",
+    "number": 60,
+    "proposer": [
+      "Vincent Armant"
+    ],
+    "title": "Ridesharing"
+  },
+  "prob061": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob061",
+    "number": 61,
+    "proposer": [
+      "Peter Nightingale",
+      "Emir Demirovi\u0107"
+    ],
+    "title": "Resource-Constrained Project Scheduling Problem (RCPSP)"
+  },
+  "prob062": {
+    "category": [
+      "TimeTabling"
+    ],
+    "id": "prob062",
+    "number": 62,
+    "proposer": [
+      "Helmut Simonis"
+    ],
+    "title": "Interview Assignment Problem"
+  },
+  "prob063": {
+    "category": [
+      "Design and configuration"
+    ],
+    "id": "prob063",
+    "number": 63,
+    "proposer": [
+      "Patrick Prosser"
+    ],
+    "title": "Winner Determination Problem (Combinatorial Auction)"
+  },
+  "prob064": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob064",
+    "number": 64,
+    "proposer": [
+      "Jean-No\u00ebl Monette"
+    ],
+    "title": "Generalised Balanced Academic Curriculum Problem"
+  },
+  "prob065": {
+    "category": [
+      "Design and configuration"
+    ],
+    "id": "prob065",
+    "number": 65,
+    "proposer": [
+      "Pierre Flener",
+      "Jean-No\u00ebl Monette"
+    ],
+    "title": "Optimal Financial Portfolio Design"
+  },
+  "prob066": {
+    "category": [
+      "Clustering"
+    ],
+    "id": "prob066",
+    "number": 66,
+    "proposer": [
+      "Thi-Bich-Hanh Dao"
+    ],
+    "title": "Distance-Based Constrained Clustering"
+  },
+  "prob067": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob067",
+    "number": 67,
+    "proposer": [
+      "Gilles Pesant"
+    ],
+    "title": "Quasigroup Completion"
+  },
+  "prob068": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob068",
+    "number": 68,
+    "proposer": [
+      "Gilles Pesant"
+    ],
+    "title": "Traveling Tournament Problem with Predefined Venues (TTPPV)"
+  },
+  "prob069": {
+    "category": [
+      "Scheduling and related problems",
+      "Bin packing"
+    ],
+    "id": "prob069",
+    "number": 69,
+    "proposer": [
+      "Gilles Pesant"
+    ],
+    "title": "Balanced Nursing Workload Problem"
+  },
+  "prob070": {
+    "category": [
+      "Distributed CSP/COP"
+    ],
+    "id": "prob070",
+    "number": 70,
+    "proposer": [
+      "Ferdinando Fioretto"
+    ],
+    "title": "Distributed Channel Assignment Problem"
+  },
+  "prob071": {
+    "category": [
+      "Network design"
+    ],
+    "id": "prob071",
+    "number": 71,
+    "proposer": [
+      "Deepak Mehta",
+      "Cemalettin Ozturk",
+      "Luis Quesada",
+      "Barry O'Sullivan"
+    ],
+    "title": "Diameter and Degree Bounded Network Design Problem"
+  },
+  "prob072": {
+    "category": [
+      "Distributed CSP/COP"
+    ],
+    "id": "prob072",
+    "number": 72,
+    "proposer": [
+      "Mohamed Wahbi"
+    ],
+    "title": "Target Tracking in Distributed Sensor Network"
+  },
+  "prob073": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob073",
+    "number": 73,
+    "proposer": [
+      "Morten Mossige"
+    ],
+    "title": "Test Scheduling Problem"
+  },
+  "prob074": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob074",
+    "number": 74,
+    "proposer": [
+      "Ciaran McCreesh"
+    ],
+    "title": "Maximum Clique"
+  },
+  "prob075": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob075",
+    "number": 75,
+    "proposer": [
+      "Sascha Van Cauwelaert",
+      "Pierre Schaus"
+    ],
+    "title": "Product Matrix Travelling Salesman Problem"
+  },
+  "prob076": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob076",
+    "number": 76,
+    "proposer": [
+      "Serdar Kad\u0131o\u011flu",
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Costas Arrays"
+  },
+  "prob077": {
+    "category": [
+      "Stochastic Constraint Programming"
+    ],
+    "id": "prob077",
+    "number": 77,
+    "proposer": [
+      "David Hemmi, Guido Tack and Mark Wallace"
+    ],
+    "title": "Stochastic Assignment and Scheduling Problem"
+  },
+  "prob078": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob078",
+    "number": 78,
+    "proposer": [
+      "Quentin Cappart",
+      "Pierre Schaus"
+    ],
+    "title": "Train Traffic Rescheduling"
+  },
+  "prob079": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob079",
+    "number": 79,
+    "proposer": [
+      "Ian Gent"
+    ],
+    "title": "n-Queens Completion Problem and Excluded Diagonals n-Queens Problem"
+  },
+  "prob080": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob080",
+    "number": 80,
+    "proposer": [
+      "Ian Gent"
+    ],
+    "title": "Blocked n-Queens Problem"
+  },
+  "prob081": {
+    "category": [
+      "Games and puzzles"
+    ],
+    "id": "prob081",
+    "number": 81,
+    "proposer": [
+      "Peter Nightingale"
+    ],
+    "title": "Black Hole"
+  },
+  "prob082": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob082",
+    "number": 82,
+    "proposer": [
+      "Charles Thomas",
+      "Quentin Cappart",
+      "Pierre Schaus",
+      "Louis-Martin Rousseau"
+    ],
+    "title": "Patient Transportation Problem"
+  },
+  "prob083": {
+    "category": [
+      "Design and configuration",
+      "Logistics"
+    ],
+    "id": "prob083",
+    "number": 83,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Transshipment problem"
+  },
+  "prob084": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob084",
+    "number": 84,
+    "proposer": [
+      "Ilias S. Kotsireas"
+    ],
+    "title": "2cc Hadamard matrix Legendre pairs"
+  },
+  "prob110": {
+    "category": [
+      "Combinatorial mathematics",
+      "Games and puzzles"
+    ],
+    "id": "prob110",
+    "number": 110,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Peaceably Co-existing Armies of Queens"
+  },
+  "prob115": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob115",
+    "number": 115,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Tail Assignment"
+  },
+  "prob116": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob116",
+    "number": 116,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Vellino's Problem"
+  },
+  "prob131": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob131",
+    "number": 131,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn",
+      "Zeynep Kiziltan"
+    ],
+    "title": "Production Line Sequencing"
+  },
+  "prob132": {
+    "category": [
+      "Unclassified"
+    ],
+    "id": "prob132",
+    "number": 132,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "A Layout Problem"
+  },
+  "prob133": {
+    "category": [
+      "Combinatorial mathematics"
+    ],
+    "id": "prob133",
+    "number": 133,
+    "proposer": [
+      "\u00d6zg\u00fcr Akg\u00fcn"
+    ],
+    "title": "Knapsack Problem"
+  }
+}

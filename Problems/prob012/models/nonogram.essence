@@ -1,0 +1,105 @@
+language ESSENCE 1.3.0
+
+$ Problem Nonogram
+$
+$ Problem details available at http://www.csplib.org/Problems/prob012/
+$
+$ Essence model by Andrew Martin
+$
+$ Edited by Fraser Dunlop to support non-square Nonograms
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+given nRows : int(1..)
+given nCols : int(1..)
+given maxRules : int(1..)
+
+letting dRows be domain int(1..nRows)
+letting dCols be domain int(1..nCols)
+letting dRules be domain int(1..maxRules)
+
+given rowRules : matrix indexed by [dRows, dRules] of int(0..)
+given colRules : matrix indexed by [dCols, dRules] of int(0..)
+
+$ gird is 1 if cell is filled, 0 otherwise.
+find grid : matrix indexed by [dRows, dCols] of int(0..1)
+
+such that
+    $ FOR EACH COLUMN
+    forAll column : dCols .
+
+        $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
+        ((sum i : dCols . grid[i][column]) = (sum j : dRules . colRules[column][j]))
+        /\
+
+        $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
+        exists startingIndexes : matrix indexed by [dRules] of dCols
+
+            $ FOR EACH RULE
+            . forAll ruleIndex : dRules
+
+                $ EITHER - RULE IS ZERO
+                . colRules[column][ruleIndex] = 0
+
+                    $ OR
+                    \/
+
+                    $EACH RULE STARTS AT A POSITION > THE LAST RULE
+                    $OR IS THE FIRST RULE
+                    ((ruleIndex = 1
+                    \/
+                    startingIndexes[ruleIndex] > startingIndexes[ruleIndex - 1])
+                    /\
+
+                    $RANGE IN LOCATION GIVEN MUST BE ALL 1's
+                    $sum of all elements in range is equal to size of range
+                    ( (sum i : int(startingIndexes[ruleIndex]..(startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) ) . grid[i][column]) = colRules[column][ruleIndex])
+                    $ RANGE MUST BE CONTAINED BY 0's
+                    /\
+                    (startingIndexes[ruleIndex] = 1
+                    \/
+                    grid[(startingIndexes[ruleIndex])-1][column] = 0)
+                    /\
+                    ((startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) = nCols
+                    \/
+                    grid[(startingIndexes[ruleIndex] + colRules[column][ruleIndex])][column] = 0) )
+
+
+such that
+
+    $ FOR EACH ROW
+    forAll row : dRows .
+
+        $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
+        ((sum i : dRows . grid[row][i]) = (sum j : dRules . rowRules[row][j]))
+        /\
+
+        $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
+        exists startingIndexes : matrix indexed by [dRules] of int(0..nRows)
+
+            $ FOR EACH RULE
+            . forAll ruleIndex : dRules
+
+                $ EITHER - RULE IS ZERO
+                . rowRules[row][ruleIndex] = 0
+
+                    $ OR
+                    \/
+
+                    $EACH ELEMENT IS > PREV ELEMENT OR THE FIRST ELEMENT
+                    (( ruleIndex = 1
+                    \/
+                    startingIndexes[ruleIndex] > startingIndexes[ruleIndex - 1])
+                    /\
+
+                    $RANGE IN LOCATION GIVEN MUST BE ALL 1's
+                    ( (sum i : int(startingIndexes[ruleIndex]..(startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) ) . grid[row][i]) = rowRules[row][ruleIndex])
+                    $ RANGE MUST BE CONTAINED BY 0's
+                    /\
+                    (startingIndexes[ruleIndex] = 1
+                    \/
+                    grid[row][(startingIndexes[ruleIndex])-1] = 0)
+                    /\
+                    ((startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) = nRows 
+                    \/
+                    grid[row][(startingIndexes[ruleIndex] + rowRules[row][ruleIndex])] = 0) )

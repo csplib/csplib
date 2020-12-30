@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>054: N-Queens</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob054">prob054</a></li>
+
+  <li><a href="/Problems/prob054/models">Models</a></li>
+  <li>queens.pi</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>054: N-Queens</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob054/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob054/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob054/results">Results</a></li>
+
+     	<li><a href="/Problems/prob054/references">References</a></li>
+
+     	<li><a href="/Problems/prob054/models">Models</a></li>
+
+     	<li><a href="/Problems/prob054/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob054.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob054/models/queens.pi">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob054/models/queens.pi">Download</a>
+<pre class ='brush: picat'>/*
+
+  N-Queens problem in Picat.
+
+
+  Model created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my Picat page: http://www.hakank.org/picat/
+
+*/
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+import util.
+import cp.
+
+main =&gt; go.
+
+%
+% Note that $Q[I] is needed here.
+%
+queens3(N, Q) =&gt;
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different(Q),
+    all_different([$Q[I]-I : I in 1..N]),
+    all_different([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+queens3(N) =&gt;
+    queens3_all(N, Solutions),
+    % writeln(Solutions),
+    writeln(len=Solutions.length).
+
+% generate all solutions via solve_all (don't work right now)
+queens3_all(N, Solutions) =&gt;
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different(Q),
+    all_different([$Q[I]-I : I in 1..N]),
+    all_different([$Q[I]+I : I in 1..N]),
+    % This yield "Unknown procedure solve/2".
+    Solutions = solve_all([ff],Q).
+    % This works:
+    % Solutions = findall(Q, $solve($Q)).
+
+
+% Using all_distinct instead
+queens3b(N, Q) =&gt;
+    Q=new_list(N),
+    Q :: 1..N,
+    all_distinct(Q),
+    all_distinct([$Q[I]-I : I in 1..N]),
+    all_distinct([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+    
+% alternative approaches
+queens4(N, Q) =&gt;
+   Q = new_list(N),
+   Q :: 1..N,
+   foreach(A in [-1,0,1])
+      all_different([$Q[I]+I*A : I in 1..N])
+   end,
+   solve([ff],Q).
+
+% Decomposition of alldifferent
+all_different_me(L) =&gt;
+   Len = length(L),
+   foreach(I in 1..Len, J in I+1..Len) L[I] #!= L[J] end.
+
+% Using all_different_me (my decomposition)
+queens5(N, Q) =&gt;
+    Q=new_list(N),
+    Q :: 1..N,
+    all_different_me(Q),
+    all_different_me([$Q[I]-I : I in 1..N]),
+    all_different_me([$Q[I]+I : I in 1..N]),
+    solve([ff],Q).
+
+go =&gt; 
+   queens3(8,Q),
+   writeln(Q),
+   N2 = 12, 
+   queens3_all(8, Solutions),
+   % writeln(Solutions),
+   Len=Solutions.length,
+   writef("N:%w %w solutions.\n%w\n", N2, Len, Solutions).
+  
+
+go2 =&gt; 
+    foreach(N in 2..14) 
+       statistics(backtracks, Backtracks),
+       statistics(runtime, [_, _Runtime1]),
+       queens3_all(N, Solutions),
+       Len=Solutions.length,
+       statistics(backtracks, Backtracks2),
+       B = Backtracks2 - Backtracks,
+       Backtracks := Backtracks2,
+       statistics(runtime, [_, Runtime2]),
+       writef("N:%3d %10d solutions (%d backtracks, %d millis)\n", N, Len, B, Runtime2)
+    end.
+
+%
+% Times per Picat v 0.1-beta 10:
+%   queens3 :  6.7s (2 backtracks)
+%   queens3b: 10.83s (0 backtracks)
+%   queens4 : 4.25s (2 backtracks)
+%   queens5 : 6.86s (2 backtracks)
+%
+go3 =&gt; 
+    Ps = [queens3=1000, queens3b=1000, queens4=1000,queens5=1000],
+    foreach(P=N in Ps) 
+       printf("%w(%d)\n", P, N),
+       time2(once(call(P,N,Q))),
+       writeln(Q),
+       nl
+    end.
+
+% Using permutations/1. Very slow.
+go4 =&gt; 
+    N = 8,
+    C = 0,
+    foreach(P in permutations(1..N))
+       if check4(P) then 
+           % writeln(P), 
+           C := C +1 
+       end
+    end,
+    writeln(sols=C),
+    nl.
+
+go5 =&gt;
+    N=100,
+    queens3(N,Q),
+    writeln(Q),
+    nl.
+
+go6 =&gt;
+    N = 10000,
+    println("timing queens4(10000,Q)"),
+    time2(queens4(N,_Q)),
+    nl.
+
+check4(P) =&gt;
+   N = length(P),
+   foreach(I in 1..N, J in I+1..N) 
+      P[I]-I != P[J]-J,
+      P[I]+I != P[J]+J
+   end.
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

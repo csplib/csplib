@@ -1,0 +1,11 @@
+{
+  "category": [
+    "Unclassified"
+  ],
+  "extensions": [
+    "mzn",
+    "dzn"
+  ],
+  "id": "MiniZinc",
+  "title": "MiniZinc"
+}

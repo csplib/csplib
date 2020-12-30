@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>028: Balanced Incomplete Block Designs</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob028">prob028</a></li>
+
+  <li><a href="/Problems/prob028/models">Models</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>028: Balanced Incomplete Block Designs</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob028/">Specification</a></li>
+
+     	<li><a href="/Problems/prob028/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob028/results">Results</a></li>
+
+     	<li><a href="/Problems/prob028/references">References</a></li>
+
+     	<li><a href="" class='current-item'>Models</a></li>
+
+     	<li><a href="/Problems/prob028/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob028.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob028/models">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+	<h2>SAT encodings</h2>
+<p>These are the first five BIBD generation problems listed in Colbourn et al., encoded as described in Prestwich using the standard DIMACS format (readable by most current SAT solvers). The files are:</p>
+<table>
+  <tr>
+    <td>File name</td><td>$v$</td><td>$b$</td><td>$r$</td><td>$k$</td><td>$\lambda$</td><td>Variables</td><td>Clauses</td>
+  </tr>
+  <tr>
+    <td><a href="bibd1n.cnf">bibd1n.cnf</a></td><td>7</td><td>7</td><td>3</td><td>3</td><td>1</td><td>833</td><td>7028</td>
+  </tr>
+  <tr>
+    <td><a href="bibd1y.cnf">bibd1y.cnf</td><td>7</td><td>7</td><td>3</td><td>3</td><td>1</td><td>833</td><td>10080</td>
+  </tr>
+  <tr>
+    <td><a href="bibd2n.cnf">bibd2n.cnf</td><td>6</td><td>10</td><td>5</td><td>3</td><td>2</td><td>1260</td><td>13650</td>
+  </tr>
+  <tr>
+    <td><a href="bibd2y.cnf">bibd2y.cnf</td><td>6</td><td>10</td><td>5</td><td>3</td><td>2</td><td>1260</td><td>21745</td>
+  </tr>
+  <tr>
+    <td><a href="bibd3n.cnf">bibd3n.cnf</td><td>7</td><td>14</td><td>6</td><td>3</td><td>2</td><td>2646</td><td>40418</td>
+  </tr>
+  <tr>
+    <td><a href="bibd3y.cnf">bibd3y.cnf</td><td>7</td><td>14</td><td>6</td><td>3</td><td>2</td><td>2646</td><td>79093</td>
+  </tr>
+  <tr>
+    <td><a href="bibd4n.cnf">bibd4n.cnf</td><td>9</td><td>12</td><td>4</td><td>3</td><td>1</td><td>2700</td><td>36756</td>
+  </tr>
+  <tr>
+    <td><a href="bibd4y.cnf">bibd4y.cnf</td><td>9</td><td>12</td><td>4</td><td>3</td><td>1</td><td>2700</td><td>71865</td>
+  </tr>
+  <tr>
+    <td><a href="bibd5n.cnf">bibd5n.cnf</td><td>8</td><td>14</td><td>7</td><td>4</td><td>3</td><td>3640</td><td>58520</td>
+  </tr>
+  <tr>
+    <td><a href="bibd5y.cnf">bibd5y.cnf</td><td>8</td><td>14</td><td>7</td><td>4</td><td>3</td><td>3640</td><td>109284</td>
+  </tr>
+</table>
+
+<p>All ten instances are satisfiable. Each instance has two versions: the &ldquo;n&rdquo; version has no symmetry breaking clauses, and the &ldquo;y&rdquo; version has added clauses corresponding to &ldquo;symmetry breaking level 3&rdquo; in Prestwich.</p>
+<p>Direct BIBD algorithms can solve these five problems very quickly Meseguer et al.. However, they turn out to be hard for current SAT solvers, and several algorithms were unable to solve instance 5 within a few minutes Prestwich. </p>
+<h2>Choco model</h2>
+<p>There is some Choco <a href="choco.txt">code</a> by Patrick Prosser.</p>
+<h2>Files</h2>
+
+	<table class="tablesorter">
+	<thead>
+	<tr>  <th>File</th>  <th>Type</th>  <th>Notes</th>  </tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+			<a href="bibd5y.cnf.html">
+				bibd5y.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd1y.cnf.html">
+				bibd1y.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd5n.cnf.html">
+				bibd5n.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd4n.cnf.html">
+				bibd4n.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd3y.cnf.html">
+				bibd3y.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd4y.cnf.html">
+				bibd4y.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd1n.cnf.html">
+				bibd1n.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd2y.cnf.html">
+				bibd2y.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd3n.cnf.html">
+				bibd3n.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd2n.cnf.html">
+				bibd2n.cnf
+			</a>
+		</td>
+		<td>
+			cnf
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="BIBD.essence.html">
+				BIBD.essence
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Essence">
+			Essence
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="bibd.mzn.html">
+				bibd.mzn
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/MiniZinc">
+			MiniZinc
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Bibd.py.html">
+				Bibd.py
+			</a>
+		</td>
+		<td>
+			<a href="../../../Languages/Numberjack">
+			Numberjack
+			</a>
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="sicstus_csplib028.pl.html">
+				sicstus_csplib028.pl
+			</a>
+		</td>
+		<td>
+			SICStus Prolog
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="choco.txt.html">
+				choco.txt
+			</a>
+		</td>
+		<td>
+			txt
+		</td>
+		<td>
+		
+		</td>
+	</tr>
+	</tbody>
+	</table>
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

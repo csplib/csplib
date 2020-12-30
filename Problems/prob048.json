@@ -1,0 +1,14 @@
+{
+  "category": [
+    "Distributed CSP/COP",
+    "Bin packing",
+    "Partitioning and related problems"
+  ],
+  "id": "prob048",
+  "number": 48,
+  "proposer": [
+    "David A. Burke",
+    "Kenneth N. Brown"
+  ],
+  "title": "Minimum Energy Broadcast (MEB)"
+}

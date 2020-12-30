@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+
+  <li><a href="/Problems/prob024/models">Models</a></li>
+  <li>langford.ecl</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob024/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob024/results">Results</a></li>
+
+     	<li><a href="/Problems/prob024/references">References</a></li>
+
+     	<li><a href="/Problems/prob024/models">Models</a></li>
+
+     	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob024.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/models/langford.ecl">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob024/models/langford.ecl">Download</a>
+<pre class ='brush: eclipse'>/*
+
+  Langford's number problem in ECLiPSe.
+
+
+  Langford's number problem (CSP lib problem 24)
+  http://www.csplib.org/Problems/prob024/
+  """
+  Arrange 2 sets of positive integers 1..k to a sequence,
+  such that, following the first occurence of an integer i, 
+  each subsequent occurrence of i, appears i+1 indices later
+  than the last. 
+  For example, for k=4, a solution would be 41312432
+  """
+  
+  * John E. Miller: Langford's Problem
+    http://www.lclark.edu/~miller/langford.html
+  
+  * Encyclopedia of Integer Sequences for the number of solutions for each k
+    http://www.research.att.com/cgi-bin/access.cgi/as/njas/sequences/eisA.cgi?Anum=014552
+ 
+
+  Also, see the following models:
+  * MiniZinc: http://www.hakank.org/minizinc/langford2.mzn
+  * Comet   : http://www.hakank.org/comet/langford.co
+  * Gecode/R: http://www.hakank.org/gecode_r/langford.rb
+
+
+
+  Model created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my ECLiPSe page: http://www.hakank.org/eclipse/
+
+*/
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+:-lib(ic).
+:-lib(ic_global).
+:-lib(ic_search).
+%:-lib(branch_and_bound).
+:-lib(listut).
+:-lib(util). % for time
+%:-lib(propia).
+
+
+
+go :-
+        K :: 2..8,
+        indomain(K),
+        writeln(K),
+        Selection = first_fail,
+        Choice = indomain_min,
+        writeln([selection:Selection, choice:Choice]),
+        time(findall([K,Backtracks,Solution,Position], langford(K,Solution,Position,Selection,Choice,Backtracks),
+                L)),        
+        length(L,Len),
+        writeln(L),
+        writeln(len:Len),
+        nl,fail.
+
+
+% For a specific K, check all possible variants of Selection and
+% Choice methods.
+go2 :-
+        K = 8,
+        selection(Selections),
+        choice(Choices),
+        writeln(K),
+        ( foreach(Selection,Selections), param(Choices,K) do
+              ( foreach(Choice, Choices),
+                param(K,Selection) do
+                   writeln([selection:Selection, choice:Choice]),
+                   time(findall(Backtracks, 
+                                langford(K,_Solution,_Position,Selection,Choice,Backtracks),
+                                L)),
+                   length(L,Len),
+                   writeln(backtracks:L),
+                   writeln(len:Len),
+                   nl,
+                   flush(output)
+              )
+        ).
+        
+
+selection([input_order,first_fail, anti_first_fail, smallest,largest,
+           occurrence,most_constrained,max_regret]).
+choice([indomain,indomain_min,indomain_max,indomain_middle,
+         indomain_median,indomain_split, indomain_random,
+         indomain_interval]).
+
+        
+langford(K, Solution, Position) :-
+        langford(K, Solution, Position,first_fail,indomain,_Backtracks).
+
+
+langford(K, Solution, Position,Selection,Choice,Backtracks) :-
+        K2 is 2*K,
+        length(Position, K2),
+        Position :: 1..K2,
+
+        length(Solution,K2),
+        Solution :: 1..K,
+
+        ic_global:alldifferent(Position),
+
+        %  symmetry breaking
+        nth1(1,Solution,Solution1),
+        nth1(K2,Solution,SolutionK2),
+        Solution1 #&lt; SolutionK2,
+
+
+        ( for(I,1,K), param(Position,Solution,K) do
+              IK is I+K,
+              nth1(IK, Position, PositionIK),
+              nth1(I, Position, PositionI),
+              I1 is I+1,
+              PositionIK #= PositionI + I1,
+              nth1(PositionI,Solution,SolutionPositionI),
+              SolutionPositionI #= I,
+              nth1(PositionIK,Solution,SolutionPositionIK),
+              SolutionPositionIK #= I
+        ),
+
+
+        term_variables([Position,Solution], Vars),
+        search(Vars,0,Selection,Choice,complete,[backtrack(Backtracks)]).
+
+
+
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

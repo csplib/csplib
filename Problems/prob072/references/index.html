@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>072: Target Tracking in Distributed Sensor Network</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob072">prob072</a></li>
+
+  <li><a href="/Problems/prob072/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>072: Target Tracking in Distributed Sensor Network</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob072/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/results">Results</a></li>
+
+     	<li><a href="" class='current-item'>References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob072/models">Models</a></li>
+
+     	<li><a href="/Problems/prob072/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob072.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob072/references">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob072/references/prob072-refs.bib">Download bibtex</a>
+</p>
+
+
+
+<style>
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="WahbiEBB13a" class='bib'>
+    <span class="bibkey">
+        [WahbiEBB13a]
+    </span>
+    <br>
+    <span class="authors">
+        Mohamed Wahbi, Redouane Ezzahir, Christian Bessiere, and El Houssine Bouyakhf
+    </span>
+
+    <br>
+
+    <span class="title">
+        Nogood-Based Asynchronous Forward-Checking Algorithms
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Constraints 18(3), 404–433</span>, 
+
+    <span class="date">
+        
+        2013
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Wahbi13" class='bib'>
+    <span class="bibkey">
+        [Wahbi13]
+    </span>
+    <br>
+    <span class="authors">
+        Mohamed Wahbi
+    </span>
+
+    <br>
+
+    <span class="title">
+        Algorithms and Ordering Heuristics for Distributed Constraint Satisfaction Problems
+    </span>
+
+    <br>
+
+    <span class="publisher">John Wiley & Sons, Inc.</span>
+	<br>
+
+    <span class="venuetype"></span>
+    <span class="venue"></span>
+
+    <span class="date">
+        
+        2013
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="MatsuiM10" class='bib'>
+    <span class="bibkey">
+        [MatsuiM10]
+    </span>
+    <br>
+    <span class="authors">
+        Toshihiro Matsui and Hiroshi Matsuo
+    </span>
+
+    <br>
+
+    <span class="title">
+        A Constraint Based Formalisation for Distributed Cooperative Sensor Resource Allocation
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">International Journal of Intelligent Information and Database Systems 4(4), 307–321</span>, 
+
+    <span class="date">
+        sep
+        2010
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="ZhangWXX05" class='bib'>
+    <span class="bibkey">
+        [ZhangWXX05]
+    </span>
+    <br>
+    <span class="authors">
+        Weixiong Zhang, Guandong Wang, Zhao Xing, and Lars Wittenburg
+    </span>
+
+    <br>
+
+    <span class="title">
+        Distributed Stochastic Search and Distributed Breakout: Properties, Comparison and Applications to Constraint Optimization Problems in Sensor Networks
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Artificial Intelligence 161(1-2), 55–87</span>, 
+
+    <span class="date">
+        jan
+        2005
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="Bejar05" class='bib'>
+    <span class="bibkey">
+        [Bejar05]
+    </span>
+    <br>
+    <span class="authors">
+        Ramón Béjar, Carmel Domshlak, Cèsar Fernández, Carla Gomes, Bhaskar Krishnamachari, Bart Selman, and Magda Valls
+    </span>
+
+    <br>
+
+    <span class="title">
+        Sensor networks and distributed CSP: communication, computation and complexity
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Artificial Intelligence, 117–147</span>, 
+
+    <span class="date">
+        
+        2005
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="JungTK01" class='bib'>
+    <span class="bibkey">
+        [JungTK01]
+    </span>
+    <br>
+    <span class="authors">
+        Hyuckchul Jung, Milind Tambe, and Shriniwas Kulkarni
+    </span>
+
+    <br>
+
+    <span class="title">
+        Argumentation as distributed constraint satisfaction: applications and results
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Proceedings of the Fifth International Conference on Autonomous Agents, 324–331</span>, 
+
+    <span class="date">
+        
+        2001
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

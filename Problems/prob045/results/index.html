@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>045: The Covering Array Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob045">prob045</a></li>
+
+  <li><a href="/Problems/prob045/results">Results</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>045: The Covering Array Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob045/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob045/data">Data files</a></li>
+
+     	<li><a href="" class='current-item'>Results</a></li>
+
+     	<li><a href="/Problems/prob045/references">References</a></li>
+
+     	<li><a href="/Problems/prob045/models">Models</a></li>
+
+     	<li><a href="/Problems/prob045/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob045.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob045/results">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+	<p>In <a href="../references">reference [1]</a> an overview of algorithms for this and similar problems in combinatorial
+group testing is provided. </p>
+
+<p>In <a href="../references">references [3,4]</a> a general constraint-based approach is presented along with values of <i>CAN(3,k,2)</i>
+and <i>CAN(4,k,2)</i> (see <b>Table</b> below). The constraint model uses the original Boolean
+matrix and the matrix of size ((k choose t) x b) with variables in {0,..,g^t - 1}. 
+The requirement of having all numbers in {0,..,g^t - 1} in any t rows of the covering
+array is satisfied by posting global cardinality constraints on the rows of the second matrix.
+The consistency of values of the variables in both matrices is ensured by specialised channelling
+constraints. For search to be efficient lexicographic ordering constraints are posted
+on the original matrix.</p>
+
+<p><center></p>
+<table cellpadding="3" border="1">
+<tbody><tr>
+   <td rowspan="2">t</td> 
+   <td colspan="8"   align="CENTER">k</td>
+</tr>
+<tr>
+   <td>4</td> 
+   <td>5</td> 
+   <td>6</td> 
+   <td>7</td> 
+   <td>8</td> 
+   <td>9</td> 
+   <td>10</td> 
+   <td>11</td>
+</tr>
+<tr>
+   <td>3</td> 
+   <td><b>8*</b>(8)</td> 
+   <td><b>10*</b>(12)</td> 
+   <td><b>12*</b>(12)</td> 
+   <td><b>12*</b>(13)</td> 
+   <td><b>12*</b>(13)</td> 
+   <td><b>12*</b>(18)</td> 
+   <td><b>12*</b>(18)</td> 
+   <td><b>12*</b>(18)</td> 
+</tr>
+<tr>
+   <td>4</td> 
+   <td><b>16*</b>(16)</td> 
+   <td><b>16*</b>(24)</td> 
+   <td><b>21*</b>(28)</td> 
+   <td>- (38)</td> 
+   <td>- (42)</td> 
+   <td>- (50)</td> 
+   <td>- (50)</td> 
+   <td>- (-)</td> 
+</tr>
+</tbody></table>
+
+<p><b>Table.</b> <i>CAN(3,k,2)</i> and <i>CAN(4,k,2)</i> from <a href="../references">reference [3]</a> compared (in parentheses) with upper bounds from <a href="../references">reference [1]</p>
+<p></center>    </p>
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>062: Interview Assignment Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob062">prob062</a></li>
+
+  <li><a href="/Problems/prob062/models">Models</a></li>
+  <li>njsolution_day1.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>062: Interview Assignment Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob062/">Specification</a></li>
+
+     	<li><a href="/Problems/prob062/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob062/results">Results</a></li>
+
+     	<li><a href="/Problems/prob062/references">References</a></li>
+
+     	<li><a href="/Problems/prob062/models">Models</a></li>
+
+     	<li><a href="/Problems/prob062/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob062.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob062/models/njsolution_day1.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob062/models/njsolution_day1.py">Download</a>
+<pre class ='brush: py'>from Numberjack import *
+from validator import read_instance_day1, MAX_PREFERENCE_VALUE
+import csv
+
+
+def get_model_day1(all_student_preferences, company_cap_limits, num_interviews_each):
+    num_students = len(all_student_preferences)
+    num_companies = len(all_student_preferences[0])
+
+    model = Model()
+
+    # Matrix of FD variables 0..num_companies-1, for each student and each of their interviews,
+    # what company they are assigned to.
+    assignments = Matrix(num_students, num_interviews_each, num_companies)
+
+    for row in assignments.row:
+        # Each of the assignments for a student must be different, redundant with ordering below
+        model += AllDiff(row)
+
+        # Break symmetry by enforcing ordering on the row
+        for i in range(len(row)-1):
+            model += row[i] &lt; row[i+1]
+
+    # Cardinality constraint limiting the number of students assigned to each company
+    gcc_cap_limits = dict(
+        (company_id, [0, cap_limit]) for company_id, cap_limit in enumerate(company_cap_limits)
+    )
+    model += Gcc(assignments.flat, gcc_cap_limits)
+
+    obj1_scaling = (MAX_PREFERENCE_VALUE * num_interviews_each) + 1  # Factor to scale objective 1
+    obj1_variables, obj1_coefficients = [], []
+    obj2_components = []  # a list of the preference values for each student
+    for row, preferences in zip(assignments.row, all_student_preferences):
+        student_obj2_vars, student_obj2_coeffs = [], []
+        for company_id, preference_value in enumerate(preferences):
+            for cell in row:
+                # Components for the total preference value, scaled up above objective 2
+                obj1_variables.append(cell == company_id)
+                obj1_coefficients.append(preference_value * obj1_scaling)
+
+                # Components for linear sum of this student's preference value
+                student_obj2_vars.append(cell == company_id)
+                student_obj2_coeffs.append(preference_value)
+
+        obj2_components.append(Sum(student_obj2_vars, student_obj2_coeffs))
+
+    # Variable for the second objective, i.e. the maximum preference value across students
+    obj2 = Variable(0, obj1_scaling, 'obj2')
+    for obj2_component in obj2_components:
+        # At least as big as each student's preference value
+        model += obj2 &gt;= obj2_component
+
+    obj1 = Sum(obj1_variables, obj1_coefficients)
+    obj = obj1 + obj2
+    model += Minimise(obj)
+
+    return model, assignments, obj, obj1, obj2, obj1_scaling
+
+
+def output_assignments(assignments, filename):
+    with open(filename, "wt") as f:
+        writer = csv.writer(f)
+        writer.writerow(["StudentNr", "CompanyNr"])
+        for student_id, student_row in enumerate(assignments.row):
+            for assigned_variable in student_row:
+                # +1 for one-based indexing instead of zero-based
+                writer.writerow([student_id + 1, assigned_variable.get_value() + 1])
+
+
+def main(param):
+    all_student_preferences, company_cap_limits = read_instance_day1(param['instance'])
+    num_interviews_each = param['num_interviews_each']
+    model, assignments, obj, obj1, obj2, obj1_scaling = get_model_day1(
+        all_student_preferences, company_cap_limits, num_interviews_each
+    )
+
+    if param['verbosity'] &gt;= 3:
+        print model
+
+    solver = model.load(param['solver'])
+    solver.setVerbosity(param['verbosity'])
+    solver.solve()
+
+    if solver.is_sat():
+        print "SAT"
+        print assignments
+        print "Obj:", obj.get_value()
+        obj1_value = obj1.get_value()
+        print "Obj1:", obj1_value, "(%d * %d)" % (int(obj1_value / obj1_scaling), obj1_scaling)
+        print "Obj2:", obj2.get_value()
+        output_assignments(assignments, param['solution'])
+    elif solver.is_unsat():
+        print "UNSAT"
+    else:
+        print "Unknown"
+
+
+if __name__ == '__main__':
+    default = {
+        'instance': 'testproblems/1/preferences.csv',
+        'solution': 'test-njsolution.csv',
+        'num_interviews_each': 3,
+        'solver': 'CPLEX',
+        'verbosity': 1,
+    }
+    param = input(default)
+    main(param)
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

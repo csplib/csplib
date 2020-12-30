@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>012: Nonogram</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob012">prob012</a></li>
+
+  <li><a href="/Problems/prob012/models">Models</a></li>
+  <li>nonogram.essence</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>012: Nonogram</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob012/">Specification</a></li>
+
+     	<li><a href="/Problems/prob012/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob012/results">Results</a></li>
+
+     	<li><a href="/Problems/prob012/references">References</a></li>
+
+     	<li><a href="/Problems/prob012/models">Models</a></li>
+
+     	<li><a href="/Problems/prob012/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob012.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob012/models/nonogram.essence">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob012/models/nonogram.essence">Download</a>
+<pre class ='brush: essence'>language ESSENCE 1.3.0
+
+$ Problem Nonogram
+$
+$ Problem details available at http://www.csplib.org/Problems/prob012/
+$
+$ Essence model by Andrew Martin
+$
+$ Edited by Fraser Dunlop to support non-square Nonograms
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+given nRows : int(1..)
+given nCols : int(1..)
+given maxRules : int(1..)
+
+letting dRows be domain int(1..nRows)
+letting dCols be domain int(1..nCols)
+letting dRules be domain int(1..maxRules)
+
+given rowRules : matrix indexed by [dRows, dRules] of int(0..)
+given colRules : matrix indexed by [dCols, dRules] of int(0..)
+
+$ gird is 1 if cell is filled, 0 otherwise.
+find grid : matrix indexed by [dRows, dCols] of int(0..1)
+
+such that
+    $ FOR EACH COLUMN
+    forAll column : dCols .
+
+        $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
+        ((sum i : dCols . grid[i][column]) = (sum j : dRules . colRules[column][j]))
+        /\
+
+        $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
+        exists startingIndexes : matrix indexed by [dRules] of dCols
+
+            $ FOR EACH RULE
+            . forAll ruleIndex : dRules
+
+                $ EITHER - RULE IS ZERO
+                . colRules[column][ruleIndex] = 0
+
+                    $ OR
+                    \/
+
+                    $EACH RULE STARTS AT A POSITION &gt; THE LAST RULE
+                    $OR IS THE FIRST RULE
+                    ((ruleIndex = 1
+                    \/
+                    startingIndexes[ruleIndex] &gt; startingIndexes[ruleIndex - 1])
+                    /\
+
+                    $RANGE IN LOCATION GIVEN MUST BE ALL 1's
+                    $sum of all elements in range is equal to size of range
+                    ( (sum i : int(startingIndexes[ruleIndex]..(startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) ) . grid[i][column]) = colRules[column][ruleIndex])
+                    $ RANGE MUST BE CONTAINED BY 0's
+                    /\
+                    (startingIndexes[ruleIndex] = 1
+                    \/
+                    grid[(startingIndexes[ruleIndex])-1][column] = 0)
+                    /\
+                    ((startingIndexes[ruleIndex] + colRules[column][ruleIndex] - 1) = nCols
+                    \/
+                    grid[(startingIndexes[ruleIndex] + colRules[column][ruleIndex])][column] = 0) )
+
+
+such that
+
+    $ FOR EACH ROW
+    forAll row : dRows .
+
+        $ SUM OF ELEMENTS IN COLUMN MUST EQUAL SUM OF HINTS IN RULE
+        ((sum i : dRows . grid[row][i]) = (sum j : dRules . rowRules[row][j]))
+        /\
+
+        $ THERE EXISTS A MAPPING FROM dRULES TO dGRID
+        exists startingIndexes : matrix indexed by [dRules] of int(0..nRows)
+
+            $ FOR EACH RULE
+            . forAll ruleIndex : dRules
+
+                $ EITHER - RULE IS ZERO
+                . rowRules[row][ruleIndex] = 0
+
+                    $ OR
+                    \/
+
+                    $EACH ELEMENT IS &gt; PREV ELEMENT OR THE FIRST ELEMENT
+                    (( ruleIndex = 1
+                    \/
+                    startingIndexes[ruleIndex] &gt; startingIndexes[ruleIndex - 1])
+                    /\
+
+                    $RANGE IN LOCATION GIVEN MUST BE ALL 1's
+                    ( (sum i : int(startingIndexes[ruleIndex]..(startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) ) . grid[row][i]) = rowRules[row][ruleIndex])
+                    $ RANGE MUST BE CONTAINED BY 0's
+                    /\
+                    (startingIndexes[ruleIndex] = 1
+                    \/
+                    grid[row][(startingIndexes[ruleIndex])-1] = 0)
+                    /\
+                    ((startingIndexes[ruleIndex] + rowRules[row][ruleIndex] - 1) = nRows 
+                    \/
+                    grid[row][(startingIndexes[ruleIndex] + rowRules[row][ruleIndex])] = 0) )
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

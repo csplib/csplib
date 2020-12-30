@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>065: Optimal Financial Portfolio Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob065">prob065</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>065: Optimal Financial Portfolio Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob065/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob065/results">Results</a></li>
+
+     	<li><a href="/Problems/prob065/references">References</a></li>
+
+     	<li><a href="/Problems/prob065/models">Models</a></li>
+
+     	<li><a href="/Problems/prob065/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob065.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob065/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Pierre Flener, Jean-Noël Monette
+</p>
+
+<p>An OPD problem $\langle v, b, r \rangle$ is to find a matrix of $v$
+rows and $b$ columns of $0$-$1$ values such that each row sums to $r$,
+and the maximum, denoted $\lambda$, of the dot products beween all
+pairs of distinct rows is minimal.  Equivalently, the objective is to
+find $v$ subsets of cardinality $r$ drawn from a given set of $b$
+elements, such that the largest intersection of any two of the $v$
+sets has minimal cardinality, denoted $\lambda$.</p>
+<p>This is an abstract description of a problem that appears in finance:
+full details are given by<span> <a class="bibref" data-bibfragment="Flener_CP04" href="/Problems/prob065/references/#Flener_CP04">[Flener_CP04]</a></span> and
+<span> <a class="bibref" data-bibfragment="Flener_CONS07_CDO2" href="/Problems/prob065/references/#Flener_CONS07_CDO2">[Flener_CONS07_CDO2]</a></span>.  In a typical OPD in finance, we have $250
+\leq v \leq 500$ and $4 \leq b \leq 25$, with $r \approx 100$.  This
+is one order of magnitude larger than the largest
+<span> <a href="/Problems/prob028">Balanced Incomplete Block Designs</a></span> that have been built by
+computer using systematic search; the BIBD problem, which is a
+constraint satisfaction problem, is closely related to the OPD
+problem, which is a constrained optimisation problem.  A lower bound
+on the number of shared elements of any pair of same-sized subsets
+drawn from a given set was established by cite{Sivertsson:MSc05,
+Flener:AOC08}: this lower bound can be applied to the objective value
+$\lambda$.  A first constraint-based model, with advanced
+symmetry-handling methods, was proposed by<span> <a class="bibref" data-bibfragment="Flener_CP04" href="/Problems/prob065/references/#Flener_CP04">[Flener_CP04]</a></span>, then
+improved by<span> <a class="bibref" data-bibfragment="Sivertsson_MSc05" href="/Problems/prob065/references/#Sivertsson_MSc05">[Sivertsson_MSc05]</a></span> and ultimately by
+<span> <a class="bibref" data-bibfragment="Flener_CONS07_CDO2" href="/Problems/prob065/references/#Flener_CONS07_CDO2">[Flener_CONS07_CDO2]</a></span>, by using the lower bound.  As pointed out by
+<span> <a class="bibref" data-bibfragment="Agren_CP05" href="/Problems/prob065/references/#Agren_CP05">[Agren_CP05]</a></span>, one can advantageously exploit the many symmetries
+by using local search instead of systematic search; this was confirmed
+by<span> <a class="bibref" data-bibfragment="Lebbah_ENDM15" href="/Problems/prob065/references/#Lebbah_ENDM15">[Lebbah_ENDM15]</a></span>, by<span> <a class="bibref" data-bibfragment="Lebbah_IJAMC15" href="/Problems/prob065/references/#Lebbah_IJAMC15">[Lebbah_IJAMC15]</a></span>, and at the <a href="http://www.minizinc.org/challenge2015/challenge.html">MiniZinc
+Challenge 2015</a>,
+where a constraint-based local search solver outperformed all
+systematic search solvers, even on sub-realistic instances.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

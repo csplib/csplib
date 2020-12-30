@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>044: Steiner triple systems</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob044">prob044</a></li>
+
+  <li><a href="/Problems/prob044/models">Models</a></li>
+  <li>steiner_sicstus.pl</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>044: Steiner triple systems</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob044/">Specification</a></li>
+
+     	<li><a href="/Problems/prob044/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob044/results">Results</a></li>
+
+     	<li><a href="/Problems/prob044/references">References</a></li>
+
+     	<li><a href="/Problems/prob044/models">Models</a></li>
+
+     	<li><a href="/Problems/prob044/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob044.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob044/models/steiner_sicstus.pl">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob044/models/steiner_sicstus.pl">Download</a>
+<pre >/*
+
+  Steiner triplets in SICStus Prolog.
+
+  http://www.probp.com/examples/clpset/steiner.pl
+  """
+  The ternary Steiner problem of order n is to find n(n-1)/6 sets of elements 
+  in {1,2,...,n} such that each set contains three elements and any two 
+  sets have at most one element in common.
+
+  For example, the following shows a solution for size n=7:
+
+      {1,2,3}, {1,4,5}, {1,6,7}, {2,4,6}, {2,5,7}, {3,4,7}, {3,5,6}
+
+  Problem taken from:
+  C. Gervet: Interval Propagation to Reason about Sets: Definition and 
+             Implementation of a PracticalLanguage,  
+             Constraints, An International Journal, vol.1, pp.191-246, 1997.
+  """
+
+  Also see:
+  - http://mathworld.wolfram.com/SteinerTripleSystem.html
+  - http://en.wikipedia.org/wiki/Steiner_system
+
+
+  Note: This model uses arrays of booleans as an representation of sets.
+  Compare with the following model with the same principle:
+  * Comet: http://www.hakank.org/comet/steiner_triplet.co
+
+
+  Model created by Hakan Kjellerstrand, hakank@gmail.com
+  See also my SICStus Prolog page: http://www.hakank.org/sicstus/
+
+*/
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+:-use_module(library(clpfd)).
+:-use_module(library(lists)).
+
+
+go :-
+        N = 9,
+        steiner(N,Steiner),
+        write(Steiner),nl,
+        fd_statistics.
+
+
+steiner(N,Steiner) :-
+
+        % number of sets
+        Nb is (N * (N-1)) // 6,
+
+        matrix(Sets,[Nb,N]),
+        append(Sets,SetsList),
+        domain(SetsList,0,1),
+
+        % cardinality is 3
+        % ( foreach(S,Sets) do
+        %      sum(S,#=,3)
+        % ),
+        
+        % atmost 1 element in common
+        ( foreach(S1,Sets), count(I,1,_),
+          param(Sets) do
+              sum(S1,#=,3), % cardinality
+              ( foreach(S2,Sets), count(J,1,_),
+                param(I,S1) do
+                    I &gt; J -&gt; 
+                    union_card(S1,S2,Common),
+                    Common #=&lt; 1
+              ;
+                    true
+              )
+        ),
+
+        % lex_chain(Sets,[op(#=&lt;)]),
+
+        labeling([ffc,bisect,down],SetsList),
+        
+        % convert to set representation
+        ( foreach(SS,Sets),
+          fromto(Steiner,Out,In,[]) do
+              boolean_to_set(SS,Res),
+              Out = [Res|In]              
+        ).
+
+        
+
+%
+% number of common elements in two "sets"
+%
+union_card(S1,S2,CardCommon) :-
+        ( foreach(SS1,S1),
+          foreach(SS2,S2),
+          fromto(Sum,Out,In,[]) do
+              SSSum #= SS1 + SS2,
+              Reif in 0..1,
+              SSSum #= 2 #&lt;=&gt; Reif #= 1,
+              Out = [Reif|In]
+        ),
+        sum(Sum,#=,CardCommon).
+
+%
+% convert a list of boolean to a "set"
+%
+boolean_to_set(List,Set) :-
+        ( foreach(C,List),
+          count(I,1,_),
+          fromto(Set,Out,In,[]) do
+              C == 1 
+        -&gt;
+          Out = [I|In]
+        ;
+          Out = In
+        ).
+
+
+matrix_element(X, I, J, Val) :-
+        nth1(I, X, Row),
+        element(J, Row, Val).
+
+
+% Suggested by Mats Carlsson
+matrix(_, []) :- !.
+matrix(L, [Dim|Dims]) :-
+        length(L, Dim),
+        (   foreach(X,L),
+            param(Dims)
+        do  matrix(X, Dims)
+        ).
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

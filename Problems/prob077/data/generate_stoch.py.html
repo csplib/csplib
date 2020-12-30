@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>077: Stochastic Assignment and Scheduling Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob077">prob077</a></li>
+
+  <li><a href="/Problems/prob077/data">Data</a></li>
+  <li>generate_stoch.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>077: Stochastic Assignment and Scheduling Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob077/">Specification</a></li>
+
+     	<li><a href="/Problems/prob077/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob077/results">Results</a></li>
+
+     	<li><a href="/Problems/prob077/references">References</a></li>
+
+     	<li><a href="/Problems/prob077/models">Models</a></li>
+
+     	<li><a href="/Problems/prob077/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob077.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob077/data/generate_stoch.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob077/data/generate_stoch.py">Download</a>
+<pre >#import matplotlib.pyplot as plt  
+from subprocess import check_output
+import math
+import sys
+import os
+from random import randint
+import random
+
+def main():
+    nbScen = int(sys.argv[2])
+    original_file = sys.argv[1]
+    #creat folder and file handles
+    target_folder = original_file.replace('original_data/','').replace('.dzn','') + '_' + str(nbScen) + '/'
+    print target_folder
+    command = 'mkdir -p processed_data/' + target_folder
+    tmp = check_output(command, shell=True)
+    command = 'mkdir -p processed_data/' + target_folder + '/fzn'
+    tmp = check_output(command, shell=True)
+    command = 'mkdir -p processed_data/' + target_folder + '/data' 
+    tmp = check_output(command, shell=True)
+    command = 'mkdir -p processed_data/' + target_folder + '/results'
+    tmp = check_output(command, shell=True)
+    file_name = 'processed_data/' + target_folder + 'data/' + sys.argv[1].split('/')[-1].replace('.dzn','_stoch.dzn')
+
+    reduction_factor = 4
+    stoch_dzn = open(file_name,'w')
+    new_dzn = []
+    for i in range(0,nbScen/reduction_factor): 
+        new_dzn.append(open(file_name.replace('_stoch.dzn','_' + str(i+1) + '.dzn'),'w' ))
+    #read original file
+    of = open(original_file,'r')
+    lines = of.readlines()
+    of.close()
+    dur = []
+    mach = []
+
+    optts = []
+    durA = True
+    for l in lines:
+        if 'no_mach' in l:
+            no_mach = int(l.split(' = ')[1].replace(';',''))
+        if 'optt_dur = [' in l:
+            dur.append(l)
+        else:
+            stoch_dzn.write(l)
+            for n in new_dzn:
+                n.write(l);
+        if 'optt_mach' in l:
+            mach.append(l)
+        if 'optts' in l:
+            optts.append(l)
+    stoch_dzn.write('nbScenarios = ' + str(nbScen)+';\n')
+    for n in new_dzn: 
+        n.write('nbScenarios = ' + str(nbScen)+';\n')
+    weights = []
+    for i in range(0,nbScen):
+        weights.append(1)
+    for idx,n in enumerate(new_dzn):
+        n.write('first_scen = ' + str(idx * reduction_factor + 1) + ';\n')
+        n.write('last_scen = ' + str((idx + 1) * reduction_factor) + ';\n')
+        n.write('weights = ' + str(weights) +';\n')
+    stoch_dzn.write('weights = ' + str(weights) +';\n')
+    
+    start_dur = dur[0].index('[')+len('[')
+    end_dur = dur[0].index(']',start_dur)
+    start_mach = mach[0].index('[')+len('[')
+    end_mach = mach[0].index(']',start_mach)
+    start_optts = optts[0].index('[')+len('[')
+    end_optts = optts[0].index(']',start_optts)
+    #print dur[0][start_dur:end_dur]
+    orig_dur = []
+    for v in dur[0][start_dur:end_dur].split(','):
+        orig_dur.append(int(v))
+    orig_mach = []
+    for v in mach[0][start_mach:end_mach].split(','):
+        orig_mach.append(int(v))
+    orig_optts = []
+    for v in optts[0][start_optts:end_optts].split(','):
+        #orig_optts.append(v)
+        tmp = []
+        if '{' in v: 
+            for i in v.replace('{','').replace('}','').split(','):
+                tmp.append(int(i))
+        if '..' in v: 
+            for i in v.split('..'):
+                tmp.append(int(i))
+        orig_optts.append(tmp)
+    
+    [optt_dur,optt_dur_scen] = create_scenarios_random(orig_dur,orig_mach,nbScen,orig_optts,no_mach)
+    for n in new_dzn: 
+        n.write(optt_dur + '\n')
+        n.close()
+    stoch_dzn.write(optt_dur + '\n')
+    stoch_dzn.close()
+#The first scenario is the original one
+
+def create_scenarios_random(orig_dur,mach,nbScen,optts,no_mach):
+    output_scen = []
+    disturbance = 0
+    tmp = []
+    for idx in range(0,nbScen):
+        for o in orig_dur: 
+            while(disturbance &lt; 0.9 or disturbance &gt; 2):
+                disturbance = random.gauss(1.5, 0.3)
+            tmp.append(int(o*disturbance))
+            disturbance = 0
+        output_scen.append(tmp)
+        tmp = []
+    return create_output(output_scen) 
+
+
+def create_output(scen):
+    scenarios = []
+    de = 'optt_dur = [|'
+    s = ''
+    for i in scen: 
+        for n in i:
+            s += str(n) + ', '
+            de += str(n) + ', '
+        de = de[:-2]+'|\n'
+        scenarios.append(s[:-2])
+        s = ''
+    de = de[:-1] + '];'
+    return [de,scenarios]
+
+if __name__ == "__main__":
+        main()
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

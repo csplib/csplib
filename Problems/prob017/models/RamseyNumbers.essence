@@ -1,0 +1,50 @@
+language Essence 1.3
+
+$ The Ramsey number R(k,l) is the smallest number such that
+$ if we two-colour the edges of complete graph of this size,
+$ there always exists a monochromatic subgraph of either k or l nodes.
+
+$ In other words (from Wikipedia):
+$ The Ramsey number, R(k,l), gives the solution to the party problem,
+$ which asks the minimum number of guests, R(k,l), that must be invited
+$ so that at least k will know each other
+$      or at least l will not know each other.
+
+$ Here, we are modelling the Ramsey-graph problem which is the problem of finding counter-examples.
+$ For a given k,l, and num_vertices: find a colouring of the complete graph
+$ which does not have a blue-subgraph nor a red-subgraph.
+
+given k, l, num_vertices : int
+
+$ due to symmetry R(k, l) = R(l,k)
+where k <= l
+
+$ complete graph, to we can calculate the number of edges
+letting num_edges be num_vertices * (num_vertices - 1)
+
+$ we are two-colouring
+letting Colour be new type enum {red, blue}
+
+letting Vertex be domain int(1..num_vertices)
+
+find graph : function (size num_edges) (Vertex, Vertex) --> Colour
+
+
+$ the graph is complete
+such that
+    forAll i,j : Vertex . i < j ->
+        (i,j) in defined(graph) /\ graph((i,j)) = graph((j,i)),
+    forAll i : Vertex .
+        !((i,i) in defined(graph))
+
+
+$ there isn't a red-subgraph of size k
+such that
+    forAll subgraph_vertices : set (size k) of Vertex .
+        !(forAll {i,j} subsetEq subgraph_vertices . graph((i,j)) = red)
+
+
+$ there isn't a blue-subgraph of size l
+such that
+    forAll subgraph_vertices : set (size l) of Vertex .
+        !(forAll {i,j} subsetEq subgraph_vertices . graph((i,j)) = blue)

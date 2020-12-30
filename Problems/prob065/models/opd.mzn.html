@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>065: Optimal Financial Portfolio Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob065">prob065</a></li>
+
+  <li><a href="/Problems/prob065/models">Models</a></li>
+  <li>opd.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>065: Optimal Financial Portfolio Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob065/">Specification</a></li>
+
+     	<li><a href="/Problems/prob065/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob065/results">Results</a></li>
+
+     	<li><a href="/Problems/prob065/references">References</a></li>
+
+     	<li><a href="/Problems/prob065/models">Models</a></li>
+
+     	<li><a href="/Problems/prob065/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob065.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob065/models/opd.mzn">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob065/models/opd.mzn">Download</a>
+<pre class ='brush: minizinc'>%% Design of Collateralised Debt Obligations Squared (CDO^2) Transactions
+%%
+%% Problem described in:
+%%   Pierre Flener, Justin Pearson, Luis G. Reyna, Olof Sivertsson:
+%%   Design of Financial CDO Squared Transactions Using Constraint Programming.
+%%   Constraints 12(2):179-205, 2007
+%%   http://dx.doi.org/10.1007/s10601-006-9014-4
+%%   
+%% Also solved with:
+%%   LS with VNS: http://dx.doi.org/10.1016/j.endm.2014.11.017
+%%   CBLS with set variables: http://dx.doi.org/10.1007/11564751_7
+%%
+%% Authors: Pierre Flener and Jean-Noel Monette
+%% License: CC-BY-4.0
+%% 
+%% Model loosely based on Ralph Becket's BIBD model at
+%%   https://github.com/MiniZinc/minizinc-benchmarks/blob/master/bibd/bibd.mzn
+
+% An OPD (v, b, r) problem is to find a binary matrix of v rows
+% and b columns such that each row sums to r, and
+% the dot product beween any pair of distinct rows is minimal.
+
+
+%Requires MiniZinc &gt;= 2.0.2 for the symmetry_breaking_constraint predicate
+
+include "lex_greatereq.mzn";
+
+%instance data
+int: v;
+int: b;
+int: r;
+
+
+set of int: rows = 1..v;
+set of int: cols = 1..b;
+
+
+%computing a lower bound for lambda
+int: rv = r*v;
+int: rvmodb = rv mod b;
+int: floorrv = rv div b;
+int: ceilrv = rv div b + bool2int(rv mod b != 0);
+int: num = (ceilrv*ceilrv*rvmodb+floorrv*floorrv*(b-rvmodb)-rv);
+int: denom = v*(v-1);
+int: lb_lambda = num div denom + bool2int( num mod denom !=0);
+
+% This line is there for debugging purposes, it can be safely removed
+int: tmp = trace("Computed lower bound for lambda: "++show(lb_lambda)++"\n",lb_lambda);
+
+
+% lambda is called objective for the MiniZinc Challenge
+var lb_lambda..b: objective;
+
+
+array [rows, cols] of var 0..1: m;
+
+
+% Every row must sum to r.
+constraint forall (i in rows) (sum (j in cols) (m[i, j]) = r);
+
+% The dot product of every pair of distinct rows must be at most lambda for an OPD and a PD, and equal to lambda for a BIBD
+constraint forall (i_a, i_b in rows where i_a &lt; i_b) (
+    sum (j in cols) (m[i_a, j] * m[i_b, j]) &lt;= objective
+);
+
+
+% Break row symmetry in the incidence matrix.
+constraint symmetry_breaking_constraint(
+    forall(i in rows diff {max(rows)})(
+        lex_greatereq([m[i, j] | j in cols], [m[i+1, j] | j in cols])
+    )
+);
+% Break column symmetry in the incidence matrix.
+constraint symmetry_breaking_constraint(
+    forall(j in cols diff {max(cols)})(
+        lex_greatereq([m[i, j] | i in rows], [m[i, j+1] | i in rows])
+    )
+);
+
+
+solve 
+    :: seq_search([int_search([m[i, j] | i in rows, j in cols], input_order, indomain_max, complete),
+       		   int_search([objective], input_order,indomain_min,complete)])
+    minimize objective; 
+
+
+% Disabled the full solution. Printing only the objective value, lower bound, and parameters.
+output  ["opd: (v = ", show(v), ", b = ", show(b), ", r = ", show(r), "). Found lambda = ", show(objective),"\tlb: ", show(lb_lambda)]
+%       ++["\n\n"] ++ 
+%	[ ( if j &gt; b then "\n" else 
+%	        if fix(m[i,j])=1 then "*" else " " endif
+%	    endif )
+%       | i in rows, j in 1..(b + 1) ]
+;
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

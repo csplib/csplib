@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>014: Solitaire Battleships</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob014">prob014</a></li>
+
+  <li><a href="/Problems/prob014/models">Models</a></li>
+  <li>sicstus_csplib014.pl</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>014: Solitaire Battleships</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob014/">Specification</a></li>
+
+     	<li><a href="/Problems/prob014/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob014/results">Results</a></li>
+
+     	<li><a href="/Problems/prob014/references">References</a></li>
+
+     	<li><a href="/Problems/prob014/models">Models</a></li>
+
+     	<li><a href="/Problems/prob014/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob014.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob014/models/sicstus_csplib014.pl">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob014/models/sicstus_csplib014.pl">Download</a>
+<pre >/*
+ * SICSTUS CLPFD DEMONSTRATION PROGRAM
+ * Purpose   : Solitaire Battleships
+ * Author    : Mats Carlsson
+ *
+ * | ?- torpedo(id2794).
+ */
+
+:- module(torpedo, [torpedo/1]).
+
+:- use_module(library(lists)).
+:- use_module(library(clpfd)).
+
+torpedo(ID) :-
+	data(ID, PerRowData, PerColData, ShipData),
+	length(PerRowData, NRows),
+	length(PerColData, NCols),
+	% set up domains for the battleship variables
+	% a zero tally =&gt; that row or column must be empty
+	(   foreach(X1,PerColData),
+	    count(J1,1,_),
+	    fromto(NoCols1,S0a,Sa,[])
+	do  (X1=:=0 -&gt; S0a = [J1|Sa] ; S0a = Sa)
+	),
+	list_to_fdset(NoCols1, NoCols2),
+	fdset_parts(XDom1, 1, NCols, []),
+	fdset_subtract(XDom1, NoCols2, XDom2),
+	(   foreach(X2,PerRowData),
+	    count(J2,1,_),
+	    fromto(NoRows1,S0b,Sb,[])
+	do  (X2=:=0 -&gt; S0b = [J2|Sb] ; S0b = Sb)
+	),
+	list_to_fdset(NoRows1, NoRows2),
+	fdset_parts(YDom1, 1, NRows, []),
+	fdset_subtract(YDom1, NoRows2, YDom2),
+	(   foreach(X3,ShipData),
+	    fromto(TShips1,S0c,S1c,[]),
+	    fromto(Coords,C0,C1,[]),
+	    param([NCols,NRows,XDom2,YDom2])
+	do  ship(X3, NCols, NRows, XDom2, YDom2, S0c, S1c, C0, C1)
+	),
+	% constrain wrt. the row and column tallies
+	(   foreach(K-V,Coords),
+	    foreach(K,Xs),
+	    foreach(V,Ys)
+	do  true
+	),
+	(   foreach(X4,PerColData),
+	    foreach(J3-X4,XC),
+	    count(J3,1,_)
+	do  true
+	),
+	(   foreach(X5,PerRowData),
+	    foreach(J4-X5,YC),
+	    count(J4,1,_)
+	do  true
+	),
+	global_cardinality(Xs, XC),
+	global_cardinality(Ys, YC),
+	% constrain ships to be non-adjacent
+	(   foreach(_-Ship,TShips1),
+	    foreach(Ship,Ships),
+	    fromto(Vars,[W,H,X6,Y6|S],S,[])
+	do  Ship = ship(X6,W,Y6,H)
+	),
+	disjoint2(Ships),
+	% break symmetries: lex order ships of the same class
+	keysort(TShips1, TShips2),
+	keyclumped(TShips2, Groups),
+	(   foreach(_-Group,Groups)
+	do  (   foreach(ship(X7,_,Y7,_),Group),
+		foreach([X7,Y7],Origs)
+	    do  true
+	    ),
+	    lex_chain(Origs, [op(#&lt;),global(true)])
+	),
+	% search: largest ship first
+	labeling([bisect], Vars),
+	% display solution
+	draw(Ships, NRows, NCols).
+
+ship(1, _NCols, _NRows, XDom2, YDom2, [1-ship(X,2,Y,2)|Ships], Ships, [X-Y|Coords], Coords) :-
+	X in_set XDom2,
+	Y in_set YDom2.
+ship(2, NCols, NRows, XDom2, YDom2, [2-ship(X,W,Y,H)|Ships], Ships, [X-Y,X1-Y1|Coords], Coords) :-
+	X in_set XDom2,
+	Y in_set YDom2,
+	W in {2,3},
+	H in {2,3},
+	X+W #=&lt; NCols+2,
+	Y+H #=&lt; NRows+2,
+	H #= 2 #&lt;=&gt; Horiz,
+	W #= 2 #&lt;=&gt; Vert,
+	Horiz #\ Vert,
+	X1 #= X+Horiz,
+	Y1 #= Y+Vert.
+ship(3, NCols, NRows, XDom2, YDom2, [3-ship(X,W,Y,H)|Ships], Ships, [X-Y,X1-Y1,X2-Y2|Coords], Coords) :-
+	X in_set XDom2,
+	Y in_set YDom2,
+	W in {2,4},
+	H in {2,4},
+	X+W #=&lt; NCols+2,
+	Y+H #=&lt; NRows+2,
+	H #= 2 #&lt;=&gt; Horiz,
+	W #= 2 #&lt;=&gt; Vert,
+	Horiz #\ Vert,
+	X1 #= X+Horiz,
+	Y1 #= Y+Vert,
+	X2 #= X1+Horiz,
+	Y2 #= Y1+Vert.
+ship(4, NCols, NRows, XDom2, YDom2, [4-ship(X,W,Y,H)|Ships], Ships, [X-Y,X1-Y1,X2-Y2,X3-Y3|Coords], Coords) :-
+	X in_set XDom2,
+	Y in_set YDom2,
+	W in {2,5},
+	H in {2,5},
+	X+W #=&lt; NCols+2,
+	Y+H #=&lt; NRows+2,
+	H #= 2 #&lt;=&gt; Horiz,
+	W #= 2 #&lt;=&gt; Vert,
+	Horiz #\ Vert,
+	X1 #= X+Horiz,
+	Y1 #= Y+Vert,
+	X2 #= X1+Horiz,
+	Y2 #= Y1+Vert,
+	X3 #= X2+Horiz,
+	Y3 #= Y2+Vert.
+
+draw(Ships, NRows, NCols) :-
+	format('+~*c+\n', [NCols,0'-]),
+	draw_lines(0, NRows, NCols, Ships),
+	format('+~*c+\n', [NCols,0'-]).
+
+draw_lines(NR, NR, _, _) :- !.
+draw_lines(I,  NR, NC, Ships) :-
+	R is I+1,
+	ascii_line(0, NC, R, Ships, String, "|\n"),
+	format([0'||String], []),
+	draw_lines(R, NR, NC, Ships).
+
+ascii_line(NC, NC, _, _) --&gt; !.
+ascii_line(I, NC, R, Ships) --&gt;
+	{J is I+1},
+	ascii_cell(R, J, Ships),
+	ascii_line(J, NC, R, Ships).
+
+ascii_cell(R, J, Ships) --&gt;
+	{Template = ship(X,W,Y,H),
+	 member(Template, Ships),
+	 X=&lt;J, J&lt;X+W-1,
+	 Y=&lt;R, R&lt;Y+H-1}, !,
+	"#".
+ascii_cell(_, _, _) --&gt; " ".
+
+% A couple of items from Moshe Rubin's
+% "List of unsolvable Solitaire Battleship boards"
+
+:- dynamic
+	data/3.
+data(id113, % said to have 70 solutions
+     [2,4,3,3,2,4,1,1,0,0],
+     [0,5,0,2,2,3,1,3,2,2],
+     [4,3,3,2,2,2,1,1,1,1]).
+data(id1337, % said to have 49874 solutions
+     [1,3,2,2,2,2,2,3,1,2],
+     [3,0,4,0,3,0,3,1,2,4],
+     [4,3,3,2,2,2,1,1,1,1]).
+data(id2794, % said to have 1 solution
+     [0,0,1,4,1,5,2,1,6,0],
+     [1,3,3,1,1,4,0,1,1,5],
+     [4,3,3,2,2,2,1,1,1,1]).
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

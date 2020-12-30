@@ -1,0 +1,50 @@
+language ESSENCE 1.3.0
+
+$ prob057: Killer Sudoku
+$ Essence model by Andrew Martin
+$
+$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+$ Problem details available at http://www.csplib.org/problems/prob057/
+$
+
+given gridSize : int(1..)
+given numHints : int(1..)
+given maxHintCells : int(1..)
+
+letting dHintGrid be domain int(1..numHints)
+letting dIndivHint be domain int(1..maxHintCells)
+letting dSolutionGrid be domain int(1..gridSize*gridSize)
+letting dHintFormat be domain int(1..2)
+
+letting hintSumIndex be maxHintCells + 1
+
+$FORMAT = [[x,y],[x,y],...,[sum of cells,cells in hint]
+given hintMatrix : matrix indexed by [dHintGrid, int(1..hintSumIndex), dHintFormat] of int(0..)
+
+find solutionGrid : matrix indexed by [dSolutionGrid, dSolutionGrid] of dSolutionGrid
+
+$Rows, columns
+such that
+    forAll i : dSolutionGrid . allDiff(solutionGrid[..][i]) /\ allDiff(solutionGrid[i][..])
+
+$Boxes
+such that
+    $for each box
+    forAll gridColumn, gridRow : int(0..gridSize-1) .
+
+        $bijective function ensures allDiff on 2d submatrix
+        exists numberMapping : function (total, bijective) dSolutionGrid --> dSolutionGrid .
+            
+            $for each element within the box
+            forAll boxColumn, boxRow : int(1..gridSize) .
+                
+                $all elements are different
+                numberMapping(boxColumn + ((boxRow-1)*gridSize)) = solutionGrid[(gridColumn*gridSize) + boxColumn][(gridRow*gridSize) + boxRow]
+
+$Hints
+such that
+    forAll hintSet : dHintGrid .
+
+        $ensure sum of hint cells is equal to given sum
+        (sum index : int(1..hintMatrix[hintSet][hintSumIndex][2]) . (solutionGrid[ hintMatrix[hintSet][index][1] ][ hintMatrix[hintSet][index][2] ] ) ) = hintMatrix[hintSet][hintSumIndex][1]
+

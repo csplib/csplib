@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>069: Balanced Nursing Workload Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob069">prob069</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>069: Balanced Nursing Workload Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob069/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob069/results">Results</a></li>
+
+     	<li><a href="/Problems/prob069/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob069/models">Models</a></li>
+
+     	<li><a href="/Problems/prob069/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob069.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob069/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Gilles Pesant
+</p>
+
+<p>Given a set of patients distributed in a number of hospital zones and an available nursing staff, one must assign a nurse to each patient in such a way that the work is distributed evenly between nurses. Each patient is assigned an acuity level corresponding to the amount of care he requires; the workload of a nurse is defined as the sum of the acuities of the patients he cares for. A nurse can only work in one zone and there are retrictions both on the number of patients assigned to a nurse and on the corresponding workload. We balance the workloads by minimizing their standard deviation.</p>
+<p>This problem can be decomposed in two phases: <em>nurse staffing</em> that assigns nurses to zones and <em>nurse-patient assignment</em> that then assigns patients to nurses.</p>
+<p>A variant of this problem has patients grouped into a small number of types and has the acuity associated with each patient type being nurse-dependent. Note that the total workload is no longer known a priori since each patient&rsquo;s acuity now depends on which nurse he is assigned to. There are two objectives to minimize: the total workload and the standard deviation of the workloads. </p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

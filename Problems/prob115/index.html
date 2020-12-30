@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>115: Tail Assignment</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob115">prob115</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>115: Tail Assignment</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob115/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob115/results">Results</a></li>
+
+     	<li><a href="/Problems/prob115/references">References</a></li>
+
+     	<li><a href="/Problems/prob115/models">Models</a></li>
+
+     	<li><a href="/Problems/prob115/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob115.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob115/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Özgür Akgün
+</p>
+
+<p>(See<span> <a class="bibref" data-bibfragment="gronkvist2004constraint" href="/Problems/prob115/references/#gronkvist2004constraint">[gronkvist2004constraint]</a></span>)</p>
+<p>Tail Assignment is the problem of deciding which individual aircraft (identified by its tail number) should cover which flight. Each aircraft is thus assigned a route consisting of a sequence of flights, and possibly other activities such as maintenance, to perform. Tail Assignment deals with individual constraints, flights which are fixed in time, as well as individual rules for each tail. The planning period is typically one month. The purpose is to really create a solution that is possible to operate, satisfying all rules and regulations. The most basic rules are rules which only depend on two flights, so-called connection-based rules.</p>
+<p>For example, there must be a certain minimum buffer time between a landing and the next take-off.
+Another important set of constraints are the flight restriction rules, which forbid certain aircraft to operate certain flights. There can be many reasons for the restriction - there can be a curfew for the arrival airport and some aircraft, because the aircraft violates noise or environmental restrictions. But there can also be more down-to-earth reasons, like the aircraft not having the required in-flight entertainment system or extra fuel tanks required for a long flight. Either way, the result is that an aircraft is restricted from operating a flight. Finally, there are the maintenance rules. Aviation authorities require that all aircraft undergo various types of maintenance activities regularly. There are many maintenance types, depending om aircraft type, registration country, and airline. Typically, the rules specify that aircraft must undergo maintenance every X hours, or every Y landings. Airlines often also require that their aircraft return to a maintenance base frequently, even if no maintenance is done, to increase robustness in case disruptions occur. These rules typically specify that aircraft must come back to a maintenance base every Z days.</p>
+<p>The normal representation of the Tail Assignment problem is in terms of a flight network. In the flight network, each node represents a flight, or some other activity such as a preassigned maintenance activity for specific aircraft, and each arc represents a connection between two flights or activities. For example, if operating flight f followed by flight f is allowed according to connection rules, the connection from f to f is considered legal, and the flight network will contain an arc between nodes f and f&rsquo;. Since we are solving a dated problem, where flights are fixed in time, there are carry-in activities in the beginning of the period representing the last flights operated by each aircraft in the previous planning period, and the network is acyclic. The goal is now to find paths (routes) through the network for all aircraft, starting at the carry-in activities, such that all flight nodes are covered exactly once, and all rules are satisfied.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

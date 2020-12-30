@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>059: Energy-Cost Aware Scheduling</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob059">prob059</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>059: Energy-Cost Aware Scheduling</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob059/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob059/results">Results</a></li>
+
+     	<li><a href="/Problems/prob059/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob059/models">Models</a></li>
+
+     	<li><a href="/Problems/prob059/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob059.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob059/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Helmut Simonis, Barry O’Sullivan, Deepak Mehta, Barry Hurley, Milan De Cauwer
+</p>
+
+<p>You are running a cloud computing service, where customers contract to run
+computing services (tasks). Each task has a duration, an earliest start and
+latest end, and resource requirements expressed as integer values for CPU,
+Memory and I/O attributes. The tasks can be scheduled on one of multiple
+servers, each server has a limited capacity for the CPU, memory and I/O
+attributes. Multiple tasks can run concurrently on the same machine if the total
+resource consumption for all attributes is below the respective capacity. All
+tasks must be scheduled within their release and due dates, these dates are set
+so that no task stretches over midnight between two days. Tasks can not be
+interrupted, once started, they must run for their given duration.</p>
+<p>If a machine is used by a task, it must be running at that time. In addition to
+the cost of running the allocated tasks, the machine consumes some idle power if
+it is on. Every time a machine is switched on or off, a start-up resp. shut-down
+cost must be paid. All machines are off at the beginning of the planning period,
+all machines must be off at the end of the planning period.</p>
+<p>The price of electricity for the data centre is a real-time price, and varies
+throughout the day. The actual price is not known in advance, a forecast must be
+used to generate a schedule. The total cost of the schedule is determined after
+the fact by applying the actual price of electricity to the energy consumption
+in each time period. An example of the discrepancy between the forecast and
+actual price is shown in the Figure below. The objective is to generate a
+schedule with the lowest total cost.</p>
+<p><img alt="Energy price data from the Irish electricity market for a sample one-week period." src="assets/forecastvactuals_0.png" /></p>
+<p>This was the subject of the ICON Challenge 2014, a <a href="assets/iconchallenge.pdf">full formal description is available</a>.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

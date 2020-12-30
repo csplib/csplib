@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>023: Magic Hexagon</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob023">prob023</a></li>
+
+  <li><a href="/Problems/prob023/models">Models</a></li>
+  <li>magic_hexagon.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>023: Magic Hexagon</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob023/">Specification</a></li>
+
+     	<li><a href="/Problems/prob023/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob023/results">Results</a></li>
+
+     	<li><a href="/Problems/prob023/references">References</a></li>
+
+     	<li><a href="/Problems/prob023/models">Models</a></li>
+
+     	<li><a href="/Problems/prob023/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob023.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob023/models/magic_hexagon.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob023/models/magic_hexagon.py">Download</a>
+<pre class ='brush: py'>#!/usr/bin/python
+"""
+Magic hexagon in Numberjack.
+
+Prob023: Magic Hexagon
+http://www.comp.rgu.ac.uk/staff/ha/ZCSP/prob023/prob023.pdf
+http://www.cse.unsw.edu.au/~tw/csplib/prob/prob023/
+'''
+A magic hexagon consists of the number 1 to 19 arranged in a hexagonal pattern:
+
+   A,B,C
+  D,E,F,G
+ H,I,J,K,L
+  M,N,O,P
+   Q,R,S
+
+We have a constraint that all diagonals sum to 38. That is,
+   A+B+C = D+E+F+G = ... = Q+R+S = 38, A+D+H = B+E+I+M = ... = L+P+S = 38,
+   C+G+L = B+F+K+P = ... = H+M+Q = 38.
+'''
+
+Compare with the following models:
+* SICStus Prolog: http://www.hakank.org/sicstus/magic_hexagon.pl
+* ECLiPSe: http://www.hakank.org/eclipse/magic_hexagon.ecl
+
+This model was created by Hakan Kjellerstrand (hakank@bonetmail.com)
+See also my Numberjack page http://www.hakank.org/numberjack/
+
+"""
+from Numberjack import *
+
+class MyAllDiff(Predicate):
+    
+    def __init__(self, vars):
+        Expression.__init__(self, "MyAllDiff")
+        self.set_children(vars)
+
+    def decompose(self):
+        return [var1 != var2 for var1, var2 in pair_of(self.children)]
+
+
+def model(libs):
+
+    N = 19
+    LD = VarArray(N, 1, N, 'LD')
+    a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s = LD
+
+    model = Model (
+        AllDiff(LD),
+        # MyAllDiff(LD), # FIX!
+        a + b + c ==  38,
+        d + e + f + g ==  38,
+        h + i + j + k + l ==  38, 
+        m + n + o + p ==  38, 
+        q + r + s ==  38, 
+        a + d + h ==  38, 
+        b + e + i + m ==  38, 
+        c + f + j + n + q ==  38, 
+        g + k + o + r ==  38, 
+        l + p + s ==  38, 
+        c + g + l ==  38, 
+        b + f + k + p ==  38, 
+        a + e + j + o + s ==  38, 
+        d + i + n + r ==  38, 
+        h + m + q ==  38, 
+        a &lt; c,
+        a &lt; h,
+        a &lt; l,
+        a &lt; q,
+        a &lt; s,
+        c &lt; h
+        )
+
+    print model
+
+    for library in libs:
+        solver = model.load(library) # Load up model into solver
+        print ''
+        if solver.solve():
+            solver.printStatistics()
+            print 'LD:', LD
+            print ''
+            num_solutions = 1
+            while solver.getNextSolution() == SAT: 
+                num_solutions += 1
+                print 'LD:', LD
+                print ''
+            print 'Number of solutions: ', num_solutions
+            print 'Nodes:', solver.getNodes(), ' Time:', solver.getTime()
+            print 'getPropags:', solver.getPropags()
+            print 'getBacktracks:', solver.getBacktracks()
+            print 'getFailures:', solver.getFailures()
+        else:
+            print 'No solution'
+        print ''
+
+
+model(['Mistral'])
+
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

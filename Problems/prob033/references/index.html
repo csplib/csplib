@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>033: Word Design for DNA Computing on Surfaces</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob033">prob033</a></li>
+
+  <li><a href="/Problems/prob033/references">References</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>033: Word Design for DNA Computing on Surfaces</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob033/">Specification</a></li>
+
+     	<li><a href="/Problems/prob033/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob033/results">Results</a></li>
+
+     	<li><a href="" class='current-item'>References</a></li>
+
+     	<li><a href="/Problems/prob033/models">Models</a></li>
+
+     	<li><a href="/Problems/prob033/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob033.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob033/references">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p>
+	<a href="/Problems/prob033/references/prob033-refs.bib">Download bibtex</a>
+</p>
+
+<p>A problem formulation which I modified slightly can be found in<span> <a class="bibref" data-bibfragment="frutos1997demonstration" href="/Problems/prob033/references/#frutos1997demonstration">[frutos1997demonstration]</a></span>.
+This reference also describes the construction of a solution of size 108.</p>
+
+<style>
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
+<p id="DBLP_conf_ijcai_Codish0L17" class='bib'>
+    <span class="bibkey">
+        [DBLP:conf/ijcai/Codish0L17]
+    </span>
+    <br>
+    <span class="authors">
+        Michael Codish, Michael Frank, and Vitaly Lagoon
+    </span>
+
+    <br>
+
+    <span class="title">
+        <a href="https://doi.org/10.24963/ijcai.2017/82">The DNA Word Design Problem: A New Constraint Model and New Results</a>
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Proceedings of the Twenty-Sixth International Joint Conference on Artificial Intelligence, {IJCAI} 2017, Melbourne, Australia, August 19-25, 2017, 585–591</span>, 
+
+    <span class="date">
+        
+        2017
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="tulpan2006effective" class='bib'>
+    <span class="bibkey">
+        [tulpan2006effective]
+    </span>
+    <br>
+    <span class="authors">
+        Dan C Tulpan
+    </span>
+
+    <br>
+
+    <span class="title">
+        Effective heuristic methods for DNA strand design
+    </span>
+
+    <br>
+
+
+    <span class="venuetype">Ph.D. thesis, University of British Columbia</span>
+    <span class="venue"></span>
+
+    <span class="date">
+        
+        2006
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+<p id="frutos1997demonstration" class='bib'>
+    <span class="bibkey">
+        [frutos1997demonstration]
+    </span>
+    <br>
+    <span class="authors">
+        Anthony G Frutos, Qinghua Liu, Andrew J Thiel, Anne Marie W Sanner, Anne E Condon, Lloyd M Smith, and Robert M Corn
+    </span>
+
+    <br>
+
+    <span class="title">
+        Demonstration of a word design strategy for DNA computing on surfaces
+    </span>
+
+    <br>
+
+
+    <span class="venuetype"></span>
+    <span class="venue">Nucleic Acids Research 25(23), 4748–4757</span>, 
+
+    <span class="date">
+        
+        1997
+    </span>
+
+    <span class="links">
+    </span>
+
+</p>
+
+
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

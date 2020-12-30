@@ -1,0 +1,14 @@
+{
+  "category": [
+    "Distributed CSP/COP",
+    "Scheduling and related problems"
+  ],
+  "id": "prob046",
+  "number": 46,
+  "proposer": [
+    "Uri Shapen",
+    "Roie Zivan",
+    "Amnon Meisels"
+  ],
+  "title": "Meeting Scheduling"
+}

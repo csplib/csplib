@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>038: Steel Mill Slab Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob038">prob038</a></li>
+
+  <li><a href="/Problems/prob038/models">Models</a></li>
+  <li>description.txt</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>038: Steel Mill Slab Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob038/">Specification</a></li>
+
+     	<li><a href="/Problems/prob038/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob038/results">Results</a></li>
+
+     	<li><a href="/Problems/prob038/references">References</a></li>
+
+     	<li><a href="/Problems/prob038/models">Models</a></li>
+
+     	<li><a href="/Problems/prob038/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob038.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob038/models/description.txt">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob038/models/description.txt">Download</a>
+<pre >One straightforward way to model this problem is via a matrix model, as described here. See also [3] for a hybrid CP/IP model. More sophisticated models can be found in more recent papers - see the &lt;A HREF="/Problems/prob038/references"&gt;references&lt;/A&gt; page.
+
+&lt;H4&gt;Slab Variables&lt;/H4&gt;
+If we assume that the greatest order weight does not exceed the maximum slab size, the worst case will involve assigning each order to an individual slab. Hence, given &lt;EM&gt;d&lt;/EM&gt; orders, a maximum of &lt;EM&gt;d&lt;/EM&gt; slabs are required. We use variables &lt;EM&gt;s_1, ..., s_d&lt;/EM&gt;, with domains of size &lt;EM&gt;&amp;sigma;&lt;/EM&gt; (the number of slab sizes the mill can produce) to decide the size of each slab. Generally, some slabs will remain unused, so 0 is added to the domain of each variable such that if &lt;EM&gt;s_i&lt;/EM&gt; is assigned 0 by a particular solution, &lt;EM&gt;s_i&lt;/EM&gt; is not used in that solution. The
+optimisation function, which must be minimised, is therefore simply the sum of the &lt;EM&gt;s_i&lt;/EM&gt; variables.
+
+&lt;H4&gt;The Order Matrix&lt;/H4&gt;
+A &lt;EM&gt;d x d&lt;/EM&gt; 0/1 matrix, &lt;B&gt;orders[]&lt;/B&gt;, is used to represent the assignment of orders to slabs, where the &lt;EM&gt;o_i&lt;/EM&gt; are the orders:
+&lt;PRE&gt;
+    o_1 o_2 ... o_d
+s_1 0/1 0/1 ... 0/1
+s_2 0/1 0/1 ... 0/1
+... ... ... ... ...
+s_d 0/1 0/1 ... 0/1
+&lt;/PRE&gt;
+Constraints on the rows ensure that the slab capacity is not exceeded, where &lt;TT&gt;weight&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;) gives the weight associated with order &lt;EM&gt;o_i&lt;/EM&gt;:
+&lt;UL&gt;
+&lt;LI&gt;&lt;TT&gt;forall&lt;/TT&gt; &lt;EM&gt;j&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;: &lt;TT&gt;sum&lt;/TT&gt;_{&lt;EM&gt;i&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;} (&lt;TT&gt;weight&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;) &lt;EM&gt;x&lt;/EM&gt; &lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;i&lt;/EM&gt;, &lt;EM&gt;j&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt;) &lt;= &lt;EM&gt;s_j&lt;/EM&gt;
+&lt;/UL&gt;
+Constraints on the columns ensure that each order is assigned to one and only one slab:
+&lt;UL&gt;
+&lt;LI&gt;&lt;TT&gt;forall&lt;/TT&gt; &lt;EM&gt;i&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;: &lt;TT&gt;sum&lt;/TT&gt;_{&lt;EM&gt;j&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;} (&lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;i&lt;/EM&gt;, &lt;EM&gt;j&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt;) = 1
+&lt;/UL&gt;
+
+&lt;H4&gt;The Colour Matrix&lt;/H4&gt;
+A second 0/1 matrix, &lt;B&gt;colours[]&lt;/B&gt;, with dimensions &lt;EM&gt;k x d&lt;/EM&gt; (recall that &lt;EM&gt;k&lt;/EM&gt; is the number of colours) is used to enforce the colour constraints:
+&lt;PRE&gt;
+    red green ... brown
+s_1 0/1 0/1   ... 0/1
+s_2 0/1 0/1   ... 0/1
+... ... ...   ... ...
+s_d 0/1 0/1   ... 0/1
+&lt;/PRE&gt;
+
+Channelling constraints link &lt;B&gt;orders[]&lt;/B&gt; to &lt;B&gt;colours[]&lt;/B&gt;, where &lt;TT&gt;colour&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;) gives the colour associated with order &lt;EM&gt;o_i&lt;/EM&gt;:
+&lt;UL&gt;
+&lt;LI&gt; &lt;TT&gt;forall&lt;/TT&gt; &lt;EM&gt;i, j&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;: &lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;i, j&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt; = 1 -&gt; &lt;B&gt;colours[&lt;/B&gt;&lt;TT&gt;colour&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;), &lt;EM&gt;j&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt;=1
+&lt;/UL&gt;
+
+Constraints on the rows of &lt;B&gt;colours[]&lt;/B&gt; ensure that orders with at most &lt;EM&gt;p&lt;/EM&gt; colours are assigned to each slab:
+&lt;UL&gt;
+&lt;LI&gt; &lt;TT&gt;forall&lt;/TT&gt; &lt;EM&gt;j&lt;/EM&gt; in 1..&lt;EM&gt;d&lt;/EM&gt;: &lt;TT&gt;sum&lt;/TT&gt;_{&lt;EM&gt;i&lt;/EM&gt; in 1..&lt;EM&gt;k&lt;/EM&gt;} (&lt;B&gt;colours[&lt;/B&gt;&lt;EM&gt;i&lt;/EM&gt;, &lt;EM&gt;j&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt;) &lt;= &lt;EM&gt;p&lt;/EM&gt;
+&lt;/UL&gt;
+
+The slab variables, &lt;EM&gt;s_1, ..., s_d&lt;/EM&gt; are indistinguishable: the slab sizes assigned to each of these variables may be permuted without affecting the solution (assuming order assignments are updated appropriately). This symmetry can be broken by ordering the variables. The ordering is as follows so that the `used' slabs appear first:
+&lt;UL&gt;
+&lt;LI&gt;&lt;EM&gt;s_1 &gt;= s_2 &gt;= ... &gt;= s_d&lt;/EM&gt;
+&lt;/UL&gt;
+Furthermore, columns of &lt;B&gt;orders[]&lt;/B&gt; associated with orders of equal weight and colour are symmetrical. One way of removing this symmetry is to impose a lexicographic order (see [1]) on the symmetrical columns, where &lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;i&lt;/EM&gt;, _&lt;B&gt;]&lt;/B&gt; is the &lt;EM&gt;i&lt;/EM&gt;th column of &lt;B&gt;orders[]&lt;/B&gt;:
+&lt;UL&gt;
+&lt;LI&gt;&lt;TT&gt;weight&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;) = &lt;TT&gt;weight&lt;/TT&gt;(&lt;EM&gt;o_j&lt;/EM&gt;) &lt;TT&gt;AND&lt;/TT&gt; &lt;TT&gt;colour&lt;/TT&gt;(&lt;EM&gt;o_i&lt;/EM&gt;) = &lt;TT&gt;colour&lt;/TT&gt;(&lt;EM&gt;o_j&lt;/EM&gt;) -&gt; &lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;i&lt;/EM&gt;, _&lt;B&gt;]&lt;/B&gt; &gt;=(lex) &lt;B&gt;orders[&lt;/B&gt;&lt;EM&gt;j&lt;/EM&gt;, _&lt;B&gt;]&lt;/B&gt;
+&lt;/UL&gt;
+Lastly, rows of &lt;B&gt;orders[]&lt;/B&gt; associated with slabs of an equal size are also symmetrical. Again, this symmetry can be removed by imposing a lexicographic order on the symmetrical rows, where &lt;B&gt;orders[&lt;/B&gt;_, &lt;EM&gt;i&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt; is the &lt;EM&gt;i&lt;/EM&gt;th row of &lt;B&gt;orders[]&lt;/B&gt;:
+&lt;UL&gt;
+&lt;LI&gt;&lt;TT&gt;forall&lt;/TT&gt; &lt;EM&gt;i&lt;/EM&gt; in 1..&lt;EM&gt;d-1&lt;/EM&gt;: &lt;EM&gt;s_i&lt;/EM&gt; = &lt;EM&gt;s&lt;/EM&gt;_{&lt;EM&gt;i&lt;/EM&gt;+1} -&gt; &lt;B&gt;orders[&lt;/B&gt;_, &lt;EM&gt;i&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt; &gt;=(lex) &lt;B&gt;orders[&lt;/B&gt;_, &lt;EM&gt;i+1&lt;/EM&gt;&lt;B&gt;]&lt;/B&gt;
+&lt;/UL&gt;
+
+&lt;H4&gt;Implied Constraints&lt;/H4&gt;
+Several useful implied constraints can be added to this model, as described in [2].
+&lt;OL&gt;
+ &lt;LI&gt;
+      A. M. Frisch, B. Hnich, Z. Kiziltan, I. Miguel, T. Walsh.
+      "&lt;A HREF="http://www.cs.york.ac.uk/aig/projects/implied/docs/CPGACLex.pdf"&gt;Global Constraints for Lexicographic Orderings&lt;/A&gt;,"
+      Proceedings of the Eighth International Conference on Principles and Practice of Constraint Programming, pages 93-108, 2002. 
+ &lt;/LI&gt;
+ &lt;LI&gt;
+      A. M. Frisch, I. Miguel, T. Walsh.
+      "&lt;A HREF="http://www.cs.york.ac.uk/aig/projects/implied/docs/SMillModelling.pdf"&gt;Symmetry and Implied Constraints in the Steel Mill Slab Design Problem&lt;/A&gt;,"
+      Proceedings of the CP'01 Workshop on Modelling and Problem Formulation (Formul'01), pages 8-15, 2001.
+ &lt;/LI&gt;
+ &lt;LI&gt;
+     B. Hnich, Z. Kiziltan, I. Miguel, T. Walsh.
+     "&lt;A HREF="http://download.springer.com/static/pdf/339/art%253A10.1023%252FB%253AANOR.0000032568.51115.0d.pdf?auth66=1393669700_9ff4010d5fe4a0ec5f0868f17dd23f94&amp;ext=.pdf"&gt;Hybrid Modelling for Robust Solving&lt;/A&gt;,"   
+     Annals of Operations Research 130 (1-4), 19-39, 2003.
+ &lt;/LI&gt;
+&lt;/OL&gt;
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

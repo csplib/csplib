@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>043: differential diagnosis</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob043">prob043</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>043: differential diagnosis</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob043/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob043/results">Results</a></li>
+
+     	<li><a href="/Problems/prob043/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob043/models">Models</a></li>
+
+     	<li><a href="/Problems/prob043/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob043.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob043/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Francisco Azevedo
+</p>
+
+<p>When the output of some system does not correspond to its expected behaviour for  a given input, one is faced with the problem of diagnosis. We are particularly  concerned with digital circuits where only the circuits input and output may be  observed.</p>
+<p>Given a set of possible faults, we want to differentiate them in order to find  the real one affecting the circuit. For that, we may perform pairwise  differentiations between 2 diagnoses (2 sets of faults - usually 2 single  faults) <em>d1</em>,<em>d2</em>, by generating an input vector  <em>Id1,d2</em> that would entail an output  vector <em>Od1</em> under diagnosis <em>d1</em> (i.e. with faults <em>d1</em> really present in the  circuit), and an output vector <em>Od2</em> under diagnosis <em>d2</em>, with <em>Od1</em> different than <em>Od2</em>. Applying such input <em>Id1,d2</em> to the circuit, at least one of the 2 diagnoses  will be discarded by checking the output.</p>
+<p>Differential diagnosis thus consists in finding such a differentiating test  vector, or concluding that none exists (in which case we say that the two  diagnoses are indistinguishable).
+(As usual, faulty circuit gates are either <em>stuck-at-0 _or _stuck-at-1</em>,  respectively outputting value 0 or 1 independently of the input.)</p>
+<p>In the example adder circuit below, to differentiate candidate faults <em>Gate1  stuck-at-1</em> and <em>Gate3 stuck-at-1</em>, a possible input test vector is , since  with <em>Gate1 stuck-at-1</em> the output would be  $(S=0,C=1)$, whereas with  _Gate3  stuck-at-1 _the output would be  (the same as without faults).</p>
+<p><img border="0" src="assets/ADDER.gif" width="385" height="169"></p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

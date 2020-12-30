@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>046: Meeting Scheduling</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob046">prob046</a></li>
+
+  <li><a href="/Problems/prob046/results">Results</a></li>
+  <li>results.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>046: Meeting Scheduling</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob046/">Specification</a></li>
+
+     	<li><a href="/Problems/prob046/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob046/results">Results</a></li>
+
+     	<li><a href="/Problems/prob046/references">References</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob046/models">Models</a></li>
+
+     	<li><a href="/Problems/prob046/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob046.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob046/results/results.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob046/results/results.md">Download</a>
+<p><strong>Instance #1</strong>  <br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 2 <br />
+   Meeting 2 scheduled at time 2 <br />
+   Meeting 3 scheduled at time 11 <br />
+   Meeting 4 scheduled at time 11 <br />
+   Meeting 5 scheduled at time 6 <br />
+   Meeting 6 scheduled at time 11 <br />
+   Meeting 7 scheduled at time 6 <br />
+   Meeting 8 scheduled at time 6 <br />
+   Meeting 9 scheduled at time 0 <br />
+   Meeting 10 scheduled at time 3 <br />
+   Meeting 11 scheduled at time 11 <br />
+   Meeting 12 scheduled at time 0 <br />
+   Meeting 13 scheduled at time 8 <br />
+   Meeting 14 scheduled at time 5 <br />
+   Meeting 15 scheduled at time 0 <br />
+   Meeting 16 scheduled at time 9 <br />
+   Meeting 17 scheduled at time 9 <br />
+   Meeting 18 scheduled at time 4 <br />
+   Meeting 19 scheduled at time 4   </p>
+<p><strong>Instance #2</strong>  <br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 5 <br />
+   Meeting 1 scheduled at time 9 <br />
+   Meeting 2 scheduled at time 3 <br />
+   Meeting 3 scheduled at time 6 <br />
+   Meeting 4 scheduled at time 4 <br />
+   Meeting 5 scheduled at time 8 <br />
+   Meeting 6 scheduled at time 2 <br />
+   Meeting 7 scheduled at time 8 <br />
+   Meeting 8 scheduled at time 0 <br />
+   Meeting 9 scheduled at time 0 <br />
+   Meeting 10 scheduled at time 6 <br />
+   Meeting 11 scheduled at time 0 <br />
+   Meeting 12 scheduled at time 10 <br />
+   Meeting 13 scheduled at time 11 <br />
+   Meeting 14 scheduled at time 8 <br />
+   Meeting 15 scheduled at time 0 <br />
+   Meeting 16 scheduled at time 11 <br />
+   Meeting 17 scheduled at time 2 <br />
+   Meeting 18 scheduled at time 4 <br />
+   Meeting 19 scheduled at time 11   </p>
+<p><strong>Instance #3</strong><br />
+ The instance is satisfiable and has the following solution:  <br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 7 <br />
+   Meeting 2 scheduled at time 2 <br />
+   Meeting 3 scheduled at time 11 <br />
+   Meeting 4 scheduled at time 0 <br />
+   Meeting 5 scheduled at time 4 <br />
+   Meeting 6 scheduled at time 7 <br />
+   Meeting 7 scheduled at time 9 <br />
+   Meeting 8 scheduled at time 6 <br />
+   Meeting 9 scheduled at time 4 <br />
+   Meeting 10 scheduled at time 2 <br />
+   Meeting 11 scheduled at time 0 <br />
+   Meeting 12 scheduled at time 11 <br />
+   Meeting 13 scheduled at time 0 <br />
+   Meeting 14 scheduled at time 6 <br />
+   Meeting 15 scheduled at time 9 <br />
+   Meeting 16 scheduled at time 0 <br />
+   Meeting 17 scheduled at time 0 <br />
+   Meeting 18 scheduled at time 11 <br />
+   Meeting 19 scheduled at time 3   </p>
+<p><strong>Instance #4</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 3 <br />
+   Meeting 2 scheduled at time 0 <br />
+   Meeting 3 scheduled at time 3 <br />
+   Meeting 4 scheduled at time 9 <br />
+   Meeting 5 scheduled at time 0 <br />
+   Meeting 6 scheduled at time 10 <br />
+   Meeting 7 scheduled at time 2 <br />
+   Meeting 8 scheduled at time 8 <br />
+   Meeting 9 scheduled at time 4 <br />
+   Meeting 10 scheduled at time 8 <br />
+   Meeting 11 scheduled at time 8 <br />
+   Meeting 12 scheduled at time 6 <br />
+   Meeting 13 scheduled at time 5 <br />
+   Meeting 14 scheduled at time 6 <br />
+   Meeting 15 scheduled at time 0 <br />
+   Meeting 16 scheduled at time 6 <br />
+   Meeting 17 scheduled at time 11 <br />
+   Meeting 18 scheduled at time 4 <br />
+   Meeting 19 scheduled at time 3   </p>
+<p><strong>Instance #5</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 0 <br />
+   Meeting 2 scheduled at time 5 <br />
+   Meeting 3 scheduled at time 7 <br />
+   Meeting 4 scheduled at time 9 <br />
+   Meeting 5 scheduled at time 11  <br />
+   Meeting 6 scheduled at time 0 <br />
+   Meeting 7 scheduled at time 4 <br />
+   Meeting 8 scheduled at time 11 <br />
+   Meeting 9 scheduled at time 0 <br />
+   Meeting 10 scheduled at time 2 <br />
+   Meeting 11 scheduled at time 6 <br />
+   Meeting 12 scheduled at time 9 <br />
+   Meeting 13 scheduled at time 9 <br />
+   Meeting 14 scheduled at time 3 <br />
+   Meeting 15 scheduled at time 0 <br />
+   Meeting 16 scheduled at time 11 <br />
+   Meeting 17 scheduled at time 3 <br />
+   Meeting 18 scheduled at time 5 <br />
+   Meeting 19 scheduled at time 0   </p>
+<p><strong>Instance #6</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #7</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #8</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #9</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #10</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #11</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #12</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #13</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #14</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #15</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #16</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #17</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #18</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #19</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 3  <br />
+   Meeting 2 scheduled at time 8 <br />
+   Meeting 3 scheduled at time 0 <br />
+   Meeting 4 scheduled at time 2 <br />
+   Meeting 5 scheduled at time 11  <br />
+   Meeting 6 scheduled at time 11 <br />
+   Meeting 7 scheduled at time 0 <br />
+   Meeting 8 scheduled at time 10 <br />
+   Meeting 9 scheduled at time 0 <br />
+   Meeting 10 scheduled at time 3 <br />
+   Meeting 11 scheduled at time 5 <br />
+   Meeting 12 scheduled at time 3 <br />
+   Meeting 13 scheduled at time 6 <br />
+   Meeting 14 scheduled at time 11 <br />
+   Meeting 15 scheduled at time 9 <br />
+   Meeting 16 scheduled at time 0 <br />
+   Meeting 17 scheduled at time 8 <br />
+   Meeting 18 scheduled at time 0 <br />
+   Meeting 19 scheduled at time 9 <br />
+   Meeting 20 scheduled at time 6 <br />
+   Meeting 21 scheduled at time 8 <br />
+   Meeting 22 scheduled at time 11 <br />
+   Meeting 23 scheduled at time 0 <br />
+   Meeting 24 scheduled at time 5 <br />
+   Meeting 25 scheduled at time 5 <br />
+   Meeting 26 scheduled at time 5 <br />
+   Meeting 27 scheduled at time 11 <br />
+   Meeting 28 scheduled at time 5 <br />
+   Meeting 29 scheduled at time 0 <br />
+   Meeting 30 scheduled at time 5 <br />
+   Meeting 31 scheduled at time 8 <br />
+   Meeting 32 scheduled at time 0 <br />
+   Meeting 33 scheduled at time 0 <br />
+   Meeting 34 scheduled at time 11 <br />
+   Meeting 35 scheduled at time 11 <br />
+   Meeting 36 scheduled at time 0 <br />
+   Meeting 37 scheduled at time 6 <br />
+   Meeting 38 scheduled at time 6 <br />
+   Meeting 39 scheduled at time 2   </p>
+<p><strong>Instance #20</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 11 <br />
+   Meeting 2 scheduled at time 6 <br />
+   Meeting 3 scheduled at time 6 <br />
+   Meeting 4 scheduled at time 10 <br />
+   Meeting 5 scheduled at time 0 <br />
+   Meeting 6 scheduled at time 3 <br />
+   Meeting 7 scheduled at time 11 <br />
+   Meeting 8 scheduled at time 9 <br />
+   Meeting 9 scheduled at time 8 <br />
+   Meeting 10 scheduled at time 0 <br />
+   Meeting 11 scheduled at time 3  <br />
+   Meeting 12 scheduled at time 0 <br />
+   Meeting 13 scheduled at time 0 <br />
+   Meeting 14 scheduled at time 10 <br />
+   Meeting 15 scheduled at time 11 <br />
+   Meeting 16 scheduled at time 3 <br />
+   Meeting 17 scheduled at time 0 <br />
+   Meeting 18 scheduled at time 0 <br />
+   Meeting 19 scheduled at time 2 <br />
+   Meeting 20 scheduled at time 8 <br />
+   Meeting 21 scheduled at time 6 <br />
+   Meeting 22 scheduled at time 9 <br />
+   Meeting 23 scheduled at time 0 <br />
+   Meeting 24 scheduled at time 0 <br />
+   Meeting 25 scheduled at time 9 <br />
+   Meeting 26 scheduled at time 11 <br />
+   Meeting 27 scheduled at time 5 <br />
+   Meeting 28 scheduled at time 4 <br />
+   Meeting 29 scheduled at time 3 <br />
+   Meeting 30 scheduled at time 6 <br />
+   Meeting 31 scheduled at time 0 <br />
+   Meeting 32 scheduled at time 5 <br />
+   Meeting 33 scheduled at time 0 <br />
+   Meeting 34 scheduled at time 6 <br />
+   Meeting 35 scheduled at time 7 <br />
+   Meeting 36 scheduled at time 6 <br />
+   Meeting 37 scheduled at time 8 <br />
+   Meeting 38 scheduled at time 0 <br />
+   Meeting 39 scheduled at time 0   </p>
+<p><strong>Instance #21</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 0 <br />
+   Meeting 2 scheduled at time 3 <br />
+   Meeting 3 scheduled at time 0 <br />
+   Meeting 4 scheduled at time 3 <br />
+   Meeting 5 scheduled at time 6 <br />
+   Meeting 6 scheduled at time 11 <br />
+   Meeting 7 scheduled at time 2 <br />
+   Meeting 8 scheduled at time 0 <br />
+   Meeting 9 scheduled at time 11 <br />
+   Meeting 10 scheduled at time 8 <br />
+   Meeting 11 scheduled at time 9 <br />
+   Meeting 12 scheduled at time 3 <br />
+   Meeting 13 scheduled at time 11 <br />
+   Meeting 14 scheduled at time 0 <br />
+   Meeting 15 scheduled at time 3 <br />
+   Meeting 16 scheduled at time 11 <br />
+   Meeting 17 scheduled at time 6 <br />
+   Meeting 18 scheduled at time 0 <br />
+   Meeting 19 scheduled at time 8 <br />
+   Meeting 20 scheduled at time 11 <br />
+   Meeting 21 scheduled at time 6 <br />
+   Meeting 22 scheduled at time 5 <br />
+   Meeting 23 scheduled at time 9 <br />
+   Meeting 24 scheduled at time 0 <br />
+   Meeting 25 scheduled at time 3 <br />
+   Meeting 26 scheduled at time 9 <br />
+   Meeting 27 scheduled at time 11 <br />
+   Meeting 28 scheduled at time 10 <br />
+   Meeting 29 scheduled at time 8 <br />
+   Meeting 30 scheduled at time 6 <br />
+   Meeting 31 scheduled at time 0 <br />
+   Meeting 32 scheduled at time 5 <br />
+   Meeting 33 scheduled at time 0 <br />
+   Meeting 34 scheduled at time 0 <br />
+   Meeting 35 scheduled at time 5 <br />
+   Meeting 36 scheduled at time 8 <br />
+   Meeting 37 scheduled at time 0 <br />
+   Meeting 38 scheduled at time 3 <br />
+   Meeting 39 scheduled at time 0   </p>
+<p><strong>Instance #22</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 11 <br />
+   Meeting 2 scheduled at time 8 <br />
+   Meeting 3 scheduled at time 5 <br />
+   Meeting 4 scheduled at time 9 <br />
+   Meeting 5 scheduled at time 11 <br />
+   Meeting 6 scheduled at time 2 <br />
+   Meeting 7 scheduled at time 6 <br />
+   Meeting 8 scheduled at time 2 <br />
+   Meeting 9 scheduled at time 8 <br />
+   Meeting 10 scheduled at time 3 <br />
+   Meeting 11 scheduled at time 11 <br />
+   Meeting 12 scheduled at time 6 <br />
+   Meeting 13 scheduled at time 5 <br />
+   Meeting 14 scheduled at time 8 <br />
+   Meeting 15 scheduled at time 4 <br />
+   Meeting 16 scheduled at time 2 <br />
+   Meeting 17 scheduled at time 0 <br />
+   Meeting 18 scheduled at time 0 <br />
+   Meeting 19 scheduled at time 5 <br />
+   Meeting 20 scheduled at time 0 <br />
+   Meeting 21 scheduled at time 0 <br />
+   Meeting 22 scheduled at time 5 <br />
+   Meeting 23 scheduled at time 0 <br />
+   Meeting 24 scheduled at time 0 <br />
+   Meeting 25 scheduled at time 7 <br />
+   Meeting 26 scheduled at time 0 <br />
+   Meeting 27 scheduled at time 0 <br />
+   Meeting 28 scheduled at time 8 <br />
+   Meeting 29 scheduled at time 0 <br />
+   Meeting 30 scheduled at time 8 <br />
+   Meeting 31 scheduled at time 11 <br />
+   Meeting 32 scheduled at time 2 <br />
+   Meeting 33 scheduled at time 0 <br />
+   Meeting 34 scheduled at time 11 <br />
+   Meeting 35 scheduled at time 11 <br />
+   Meeting 36 scheduled at time 10 <br />
+   Meeting 37 scheduled at time 8 <br />
+   Meeting 38 scheduled at time 0 <br />
+   Meeting 39 scheduled at time 7   </p>
+<p><strong>Instance #23</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 3 <br />
+   Meeting 2 scheduled at time 0 <br />
+   Meeting 3 scheduled at time 0 <br />
+   Meeting 4 scheduled at time 0 <br />
+   Meeting 5 scheduled at time 11 <br />
+   Meeting 6 scheduled at time 4 <br />
+   Meeting 7 scheduled at time 3 <br />
+   Meeting 8 scheduled at time 5 <br />
+   Meeting 9 scheduled at time 4 <br />
+   Meeting 10 scheduled at time 4 <br />
+   Meeting 11 scheduled at time 0 <br />
+   Meeting 12 scheduled at time 7 <br />
+   Meeting 13 scheduled at time 6 <br />
+   Meeting 14 scheduled at time 2 <br />
+   Meeting 15 scheduled at time 6 <br />
+   Meeting 16 scheduled at time 0 <br />
+   Meeting 17 scheduled at time 2 <br />
+   Meeting 18 scheduled at time 11 <br />
+   Meeting 19 scheduled at time 5 <br />
+   Meeting 20 scheduled at time 7 <br />
+   Meeting 21 scheduled at time 9 <br />
+   Meeting 22 scheduled at time 0 <br />
+   Meeting 23 scheduled at time 10 <br />
+   Meeting 24 scheduled at time 6 <br />
+   Meeting 25 scheduled at time 0 <br />
+   Meeting 26 scheduled at time 7 <br />
+   Meeting 27 scheduled at time 8 <br />
+   Meeting 28 scheduled at time 8 <br />
+   Meeting 29 scheduled at time 0 <br />
+   Meeting 30 scheduled at time 2 <br />
+   Meeting 31 scheduled at time 11 <br />
+   Meeting 32 scheduled at time 4 <br />
+   Meeting 33 scheduled at time 5 <br />
+   Meeting 34 scheduled at time 0 <br />
+   Meeting 35 scheduled at time 7 <br />
+   Meeting 36 scheduled at time 11 <br />
+   Meeting 37 scheduled at time 0 <br />
+   Meeting 38 scheduled at time 0 <br />
+   Meeting 39 scheduled at time 3   </p>
+<p><strong>Instance #24</strong><br />
+ The instance is satisfiable and has the following solution:<br />
+   Meeting 0 scheduled at time 0 <br />
+   Meeting 1 scheduled at time 0 <br />
+   Meeting 2 scheduled at time 0 <br />
+   Meeting 3 scheduled at time 11 <br />
+   Meeting 4 scheduled at time 11 <br />
+   Meeting 5 scheduled at time 7 <br />
+   Meeting 6 scheduled at time 11 <br />
+   Meeting 7 scheduled at time 7 <br />
+   Meeting 8 scheduled at time 5 <br />
+   Meeting 9 scheduled at time 7 <br />
+   Meeting 10 scheduled at time 0 <br />
+   Meeting 11 scheduled at time 0 <br />
+   Meeting 12 scheduled at time 4 <br />
+   Meeting 13 scheduled at time 0 <br />
+   Meeting 14 scheduled at time 7 <br />
+   Meeting 15 scheduled at time 9 <br />
+   Meeting 16 scheduled at time 10 <br />
+   Meeting 17 scheduled at time 4 <br />
+   Meeting 18 scheduled at time 4 <br />
+   Meeting 19 scheduled at time 0 <br />
+   Meeting 20 scheduled at time 7 <br />
+   Meeting 21 scheduled at time 3 <br />
+   Meeting 22 scheduled at time 0 <br />
+   Meeting 23 scheduled at time 0 <br />
+   Meeting 24 scheduled at time 9 <br />
+   Meeting 25 scheduled at time 11 <br />
+   Meeting 26 scheduled at time 3 <br />
+   Meeting 27 scheduled at time 0 <br />
+   Meeting 28 scheduled at time 0 <br />
+   Meeting 29 scheduled at time 0 <br />
+   Meeting 30 scheduled at time 11 <br />
+   Meeting 31 scheduled at time 7 <br />
+   Meeting 32 scheduled at time 0 <br />
+   Meeting 33 scheduled at time 0 <br />
+   Meeting 34 scheduled at time 0 <br />
+   Meeting 35 scheduled at time 0 <br />
+   Meeting 36 scheduled at time 7 <br />
+   Meeting 37 scheduled at time 3 <br />
+   Meeting 38 scheduled at time 5 <br />
+   Meeting 39 scheduled at time 3   </p>
+<p><strong>Instance #25</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #26</strong><br />
+ The instance is infeasible. </p>
+<p><strong>Instance #27</strong><br />
+ The instance is infeasible. </p>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

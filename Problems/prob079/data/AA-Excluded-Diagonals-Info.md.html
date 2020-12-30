@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>079: n-Queens Completion Problem and Excluded Diagonals n-Queens Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob079">prob079</a></li>
+
+  <li><a href="/Problems/prob079/data">Data</a></li>
+  <li>AA-Excluded-Diagonals-Info.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>079: n-Queens Completion Problem and Excluded Diagonals n-Queens Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob079/">Specification</a></li>
+
+     	<li><a href="/Problems/prob079/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob079/results">Results</a></li>
+
+     	<li><a href="/Problems/prob079/references">References</a></li>
+
+     	<li><a href="/Problems/prob079/models">Models</a></li>
+
+     	<li><a href="/Problems/prob079/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob079.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob079/data/AA-Excluded-Diagonals-Info.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob079/data/AA-Excluded-Diagonals-Info.md">Download</a>
+<h1>Information about the Excluded Diagonals Generator and Format</h1>
+<p>Ian Gent, 8 Sep 2017</p>
+<p>Relevant to our paper &ldquo;Complexity of n-Queens Completion&rdquo;, JAIR 2017
+<a href=""><a href="http://jair.org/papers/paper5512.html">http://jair.org/papers/paper5512.html</a></a></p>
+<p>Supporting material for our paper can be found at the following links:</p>
+<ul>
+<li><a href=""><a href="https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-code.tgz">https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-code.tgz</a></a></li>
+<li><a href=""><a href="https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-results.tgz">https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-results.tgz</a></a></li>
+<li><a href=""><a href="https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-instances.tgz">https://ipg.host.cs.st-andrews.ac.uk/n-queens-completion-experiments-instances.tgz</a></a></li>
+</ul>
+<p>We have provided three Python3 files</p>
+<ul>
+<li><a href="http://queens-diag-gen.py">queens-diag-gen.py</a> </li>
+<li><a href="http://queens-diag-transform.py">queens-diag-transform.py</a></li>
+<li><a href="http://diagtoqueens.py">diagtoqueens.py</a></li>
+</ul>
+<h1>Excluded Diagonals Generator</h1>
+<p><a href="http://queens-diag-gen.py">queens-diag-gen.py</a> generates instances of the Excluded Diagonals problem. There 
+are three arguments:
+    n:          size of board and number of queens to place on it
+    mininfile:  minimum number of unblocked squares required in each row/column
+    seed:       an integer for Python to use as a seed</p>
+<p>For example:</p>
+<p>./<a href="http://queens-diag-gen.py">queens-diag-gen.py</a> 10 4 1</p>
+<p>produces the following output on my machine</p>
+<pre><code>n =  10
+numdiags =  14
+diags =  [[4, 1], [2, 1], [14, 0], [8, 1], [8, 0], [7, 0], [3, 1], 
+          [12, 1], [18, 0], [5, 0], [14, 1], [0, 0], [15, 1], [17, 1]]
+</code></pre>
+
+<p>The value numdiags is the number of diagonals in the list diags.  For any
+number d up to numdiags a valid excluded diagonals instance can be created by
+taking the FIRST d elements of the list diagas.  Other subsets should not be
+taken as they may not be statistically valid.  Therefore the above example
+creates 15 valid instances from d=0 up to d=14.</p>
+<p>The list diags consists of pairs, where the first number represents a pair and
+the second number the type of diagonal. 1 represents a sum diagonal and 0
+represents a difference diagonal. The boards are assumed to be indexed from 0,
+so the corners of a 10x10 board are (0,0) (0,9), (9,0) and (9,9).  </p>
+<p>For sum diagonals the excluded diagonal is given by the first number in the
+pair.</p>
+<p>For difference diagonals the excluded diagonal is offset by n-1, i.e. the
+difference diagonal to be excluded is the first number minus n-1. </p>
+<p>For example in the above, the pair [4,1] excludes sum diagonal 4, i.e.
+squares (0,4), (1,3), (2,2), (3,1), (4,). While the pair [5,0] excludes
+difference diagonal 5-9=-4 (since 10-1=9). That is, it excludes the squares
+(0,4), (1,5), (2,6), (3,7), (4,8), (5,9).</p>
+<h1>Translation to n Queens Completion</h1>
+<p>Because the Excluded Diagonals problem is different to n Queens Completion, instances cannot be used directly with an n Queens Completion solver. For that reason we have created a Python translator from Excluded Diagonals to n Queens Completion. It does greatly increase the size of board but almost all queens are placed at the start.  Solutions are isomorphic in a simple way and the translated problem has the same number of solutions.</p>
+<p>For example if the above output of <a href="http://queens-diag-gen.py">queens-diag-gen.py</a> is in file diag-10-4-1.param then the following creates an equivalent example of n Queens Completion. In this case the parameter &ldquo;10&rdquo; indicates that the first 10 diagonals are to be used.</p>
+<pre><code>./queens-diag-transform.py 10 &lt; diag-10-4-1.param &gt; completion-10-4-1.param
+</code></pre>
+
+<p>The output file starts like this with most of it omitted: </p>
+<pre><code>letting n =  2550
+letting init =  [[52, 19], [58, 31], [59, 33], [48, 11], [61, 37], [66, 47], [14, 18], 
+                  [16, 14], [10, 26], [15, 16], [6, 34], [4, 38], [3, 40], [2527, 1070], 
+                    ...
+</code></pre>
+
+<p>Although the value of n is massively larger, in this example n=2550, only 10 queens remain to be placed, so in fact search in the two problems is equivalent. 
+Note the format is that the board size is 2550 and the bottom square is still (0,0). In this example there are queens placed at squares (52,19), (58,31) and so on.</p>
+<h1>Instances Used In The Paper</h1>
+<p>The following link contains all instances we used in the paper.  If you only wish the instances for Excluded Diagonals, with additional instances up to n=30, they are at this link</p>
+<ul>
+<li><a href=""><a href="https://ipg.host.cs.st-andrews.ac.uk/ExcludedDiagonalsInstances.zip">https://ipg.host.cs.st-andrews.ac.uk/ExcludedDiagonalsInstances.zip</a></a></li>
+</ul>
+<p>If you wish to experiment with n Queens Completion and cannot run the python translator, we have prepared a sample of 100 instances at each n from 10 to 30, with n diagonals excluded in each case.</p>
+<ul>
+<li><a href=""><a href="https://ipg.host.cs.st-andrews.ac.uk/ExcludedDiagonalsAsQueensCompletion.zip">https://ipg.host.cs.st-andrews.ac.uk/ExcludedDiagonalsAsQueensCompletion.zip</a></a></li>
+</ul>
+<h1>Comparisons With Our Results</h1>
+<p>As we discussed in the paper, we could only solve up to n=21 using all our solvers.  The bit manipulation solver was the fastest and could also solve up to n=22. However it is unlikely to scale so currently we have no method to reliably solve instances up to n=30.</p>
+<p>The results file linked above contains results on every experiment we ran. In this directory results directory you can see a file called columns.txt which has the summary.  For the excluded diagonals problems (for our results using the SAT solver Lingeling) they are</p>
+<pre><code># 1 N (size of board)
+# 2 M (number of blocks to place/diagonals to exclude)
+# 3 instance id 
+# 4 result status text
+# 5 sat boolean
+# 6 timed out boolean
+# 7 conflicts
+# 8 conflicts per sec
+# 9 nodes
+# 10 nodes per sec
+# 11 propagations
+# 12 Megapropagations per sec
+# 13 solve time
+# 14 total time
+# 15 total system time
+# 16 total wall time
+# 17 filename for result data
+</code></pre>
+
+<p>You should be able to find the result by looking for the instances you are comparing against.  E.g. the one mentioned generated with parameters 10 4 1, and taking the first 9 queens had results</p>
+<pre><code>10 9 1 UNSATISFIABLE   0   0  28 4000.6  34 4857.8  717 0.1  0.0  0.21 0.03 0.20  runs-diag-2/diag-10/diag-10-9/diag-10-4-1.param-9.result
+</code></pre>
+
+<p>You can see this one had no solution and had a total time (column 14) of 0.21s.
+You can search the data, for example to find the hardest one for this particular algorithm was n=21 excluded=19 id=259 which took about 2600s and was unsatisfiable.</p>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

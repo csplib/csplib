@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>024: Langford's number problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
+
+  <li><a href="/Problems/prob024/models">Models</a></li>
+  <li>langford.lp4</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>024: Langford's number problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob024/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob024/results">Results</a></li>
+
+     	<li><a href="/Problems/prob024/references">References</a></li>
+
+     	<li><a href="/Problems/prob024/models">Models</a></li>
+
+     	<li><a href="/Problems/prob024/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob024.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/models/langford.lp4">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob024/models/langford.lp4">Download</a>
+<pre >% 
+% Langford's number problem in ASP.
+%
+% Langford's number problem (CSP lib problem 24)
+%
+% See CSPLib http://www.csplib.org/Problems/prob024/
+% 
+% From http://www.cs.st-andrews.ac.uk/~andrea/examples/langford/langford.eprime
+% """
+% Arrange 2 sets of positive integers 1..k to a sequence,
+% such that, following the first occurence of an integer i, 
+% each subsequent occurrence of i, appears i+1 indices later
+% than the last. 
+% For example, for k=4, a solution would be 41312432
+% """
+% 
+% 
+% This was created by Hakan Kjellerstrand, hakank@gmail.com
+% See also http://www.hakank.org/answer_set_programming/
+%
+
+% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
+
+#const k = 4.
+
+val(1..k).   % for solution
+pos(1..2*k). % for position
+
+%
+% For k = 4 there are two solutions:
+% position = [2, 5, 3, 1, 4, 8, 7, 6]
+% solution = [4, 1, 3, 1, 2, 4, 3, 2]
+% ----------
+% position = [5, 1, 2, 3, 7, 4, 6, 8]
+% solution = [2, 3, 4, 2, 1, 3, 1, 4]
+
+%
+% alldifferent position
+%
+1 { position(I, N) : pos(N) } 1 :- pos(I).
+1 { position(I, N) : pos(I) } 1 :- pos(N).
+
+% The difference in position between the two I's is I.
+:- position(I+k, N1), position(I, N2), N1 != N2 + I+1, val(I).
+
+
+% solution: unique index
+1 { solution(I, N) : val(N) } 1 :- pos(I).
+% exactly two occurrences of 1..k
+2 { solution(I, N) : pos(I) } 2 :- val(N).
+
+% channel solution &lt;-&gt; position
+:- position(I, P1), solution(P1, I2), I != I2, val(I;I2).
+:- position(I+k, P2), solution(P2, I2), I != I2, val(I;I2).
+
+% symmetry breaking
+% :- solution(1) &gt;= solution(2*k).
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

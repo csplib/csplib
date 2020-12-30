@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob068">prob068</a></li>
+
+  <li><a href="/Problems/prob068/models">Models</a></li>
+  <li>TTPPV.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob068/">Specification</a></li>
+
+     	<li><a href="/Problems/prob068/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob068/results">Results</a></li>
+
+     	<li><a href="/Problems/prob068/references">References</a></li>
+
+     	<li><a href="/Problems/prob068/models">Models</a></li>
+
+     	<li><a href="/Problems/prob068/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob068.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob068/models/TTPPV.mzn">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob068/models/TTPPV.mzn">Download</a>
+<pre class ='brush: minizinc'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Traveling Tournament Problem with Predefined Venues
+%
+% Compact single round robin schedule minimizing total travel distance
+% The venue of each game has already been decided
+% Specialized for CIRC instances (circular distances)
+%
+% Author: Gilles Pesant
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+include "globals.mzn";
+
+int: nbTeams;
+int: nbRounds = nbTeams-1;
+
+set of int: Teams = 1..nbTeams;
+set of int: Rounds = 1..nbRounds;
+set of int: Travels = 1..nbRounds+1;
+
+% predefined venue: pv[i][j] = 1 iff i is playing at home against j
+array[Teams,Teams] of 1..2: pv; 
+
+% circular distances: for i&gt;=j, distance[i][j]=min{i-j,j-i+nbTeams}
+array[Teams,Teams] of int: distance = 
+  array2d(Teams,Teams,[ if i&gt;=j then (if i-j &lt; j-i+nbTeams then i-j else j-i+nbTeams endif) 
+                                else (if j-i &lt; i-j+nbTeams then j-i else i-j+nbTeams endif) 
+                                endif | i,j in Teams]);
+
+% output related
+int: digs = ceil(log(10.0,int2float(nbTeams)));
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% decision variables: in round k, team i plays against team opponent[i,k]
+array[Teams,Rounds] of var Teams: opponent;
+
+% auxiliary variables: venue[i,k] = 1 iff team i plays at home in round k
+array[Teams,Rounds] of var 1..2: venue;
+constraint forall (i in Teams, k in Rounds) (venue[i,k] = pv[i,opponent[i,k]]);
+
+% auxiliary variables: travel[i,k] is the distance travelled by team i to go play in round k (includes travelling back home after last round)
+array[Teams,Travels] of var 0..(nbTeams div 2): travel;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% a team cannot play against itself
+constraint forall (i in Teams, k in Rounds) (opponent[i,k] != i);
+
+% in round k, i plays j means j plays i
+constraint forall (i in Teams, k in Rounds) (opponent[opponent[i,k],k] = i);
+
+% for each team i, all opponents are different
+constraint forall (i in Teams) (alldifferent([opponent[i,k] | k in Rounds]));
+
+% for each round k, all opponents are different (implied constraint)
+constraint forall (k in Rounds) (alldifferent([opponent[i,k] | i in Teams]));
+
+% for each team i, there can be at most 3 consecutive home games and at most 3 consecutive away games
+int: nbStates = 7;
+set of int: States = 1..nbStates;
+array[States,1..2] of int: delta = 
+  [| 2, 5
+   | 3, 5
+   | 4, 5
+   | 0, 5
+   | 2, 6
+   | 2, 7
+   | 2, 0 |];
+constraint forall (i in Teams) (regular( [venue[i,k] | k in Rounds], nbStates, 2, delta, 1, States));
+
+% symmetry breaking: distances are symmetric so reversing the rounds yields a schedule of same cost
+constraint (opponent[1,1] &lt; opponent[1,nbRounds]);
+
+% define travel variables wrt venues of current- and next-round games
+constraint forall (i in Teams) (
+	(venue[i,1]=1 -&gt; travel[i,1] = 0) /\
+	(venue[i,1]=2 -&gt; travel[i,1] = distance[i,opponent[i,1]]) );
+constraint forall (i in Teams, k in 1..nbRounds-1) (
+	((venue[i,k]=1 /\ venue[i,k+1]=1) -&gt; travel[i,k+1] = 0) /\
+	((venue[i,k]=2 /\ venue[i,k+1]=1) -&gt; travel[i,k+1] = distance[opponent[i,k],i]) /\
+	((venue[i,k]=1 /\ venue[i,k+1]=2) -&gt; travel[i,k+1] = distance[i,opponent[i,k+1]]) /\
+	((venue[i,k]=2 /\ venue[i,k+1]=2) -&gt; travel[i,k+1] = distance[opponent[i,k],opponent[i,k+1]]) );
+constraint forall (i in Teams) (
+	(venue[i,nbRounds]=1 -&gt; travel[i,nbRounds+1] = 0) /\
+	(venue[i,nbRounds]=2 -&gt; travel[i,nbRounds+1] = distance[opponent[i,nbRounds],i]) );
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+var int: totalTravel;
+constraint totalTravel = sum (i in Teams, k in Travels) (travel[i,k]);
+solve minimize totalTravel;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+output ["SCHEDULE\n"] ++ 
+       [ if fix(venue[i,k]) == 1 then " " else "@" endif ++
+	 show_int(digs,opponent[i,k]) ++ " " ++ 
+         if k == nbRounds /\ i != nbTeams then "\n" else "" endif
+         | i in Teams, k in Rounds ] ++ ["\n"] ++
+       ["total travel = "] ++ [show(totalTravel)] ++ ["\n"];
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

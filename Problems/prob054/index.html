@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>054: N-Queens</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob054">prob054</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>054: N-Queens</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob054/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob054/results">Results</a></li>
+
+     	<li><a href="/Problems/prob054/references">References</a></li>
+
+     	<li><a href="/Problems/prob054/models">Models</a></li>
+
+     	<li><a href="/Problems/prob054/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob054.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob054/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Bilal Syed Hussain
+</p>
+
+<h1>Overview</h1>
+<p>Can $n$ queens (of the same colour) be placed on a $n\times n$ chessboard so that none of the  queens can attack each other?</p>
+<p>In chess a queen attacks other squares on the same row, column, or either diagonal as itself. So the $n$-queens problem is to find a set of $n$ locations on a chessboard, no two of which are on the same row, column or diagonal.  </p>
+<p><center>
+<figure>
+  <img src="assets/4queens.png" alt="solution to 4-queens">
+  <figcaption>A solution to 4-queens</figcaption>
+</figure>
+</center></p>
+<p>A simple arithmetical observation may be helpful in understanding models. Suppose a queen is represented by an ordered pair (&alpha;,&beta;), the value &alpha; represents the queen&rsquo;s column, and &beta; its row on the chessboard. Then two queens do not attack each other iff they have different values of <em>all</em> of &alpha;, &beta;, &alpha;-&beta;, and &alpha;+&beta;. It may not be intuitively obvious that chessboard diagonals correspond to sums and differences, but consider moving one square along the two orthogonal diagonals: in one direction the sum of the coordinates does not change, while in the other direction the difference does not change. (We do not suggest that pairs (&alpha;,&beta;) is a good representation for solving.) </p>
+<p>The problem has inherent symmetry. That is, for any solution we obtain another solution by any of the 8 symmetries of the chessboard (including the identity) obtained by combinations of rotations by 90 degrees and reflections. </p>
+<p>The problem is extremely well studied in the mathematical literature. An outstanding survey from 2009 is by Bell &amp; Stevens<span> <a class="bibref" data-bibfragment="Bell20091" href="/Problems/prob054/references/#Bell20091">[Bell20091]</a></span>.</p>
+<p>See below for discussions of complexity problems with $n$-Queens. For closely related variants without these problems see <span> <a href="/Problems/prob079">n-Queens Completion Problem and Excluded Diagonals n-Queens Problem</a></span>, <span> <a href="/Problems/prob079">[prob079]</a></span>, and <span> <a href="/Problems/prob080">Blocked n-Queens Problem</a></span>, <span> <a href="/Problems/prob080">[prob080]</a></span>.</p>
+<h1>Complexity</h1>
+<p>Some care has to be taken when using the $n$-queens problem as a benchmark.  Here are some points to bear in mind:</p>
+<ul>
+<li>The $n$-queens problem is solvable for $n=1$ and $n \geq 4$. So the decision problem is solvable in constant time. </li>
+<li>A solution to the $n$-queens problem for any $n \not = 2,3$ was given in 1874 by Pauls and can be found in Bell &amp; Stevens&rsquo; survey <span> <a class="bibref" data-bibfragment="Bell20091" href="/Problems/prob054/references/#Bell20091">[Bell20091]</a></span>. It can be constructed in time $O(n)$ (assuming arithemetical operations on size $n$ are $O(1)$.) </li>
+<li>Note that the parameter $n$ for $n$-queens only needs $\log(n)$ bits to specify, so actually $O(n)$ is exponential in the input size. I.e. it&rsquo;s not trivial to provide a witness of poly size in the input. </li>
+<li>While the decision problem is easy, counting the number of solutions for given $n$ is not. Indeed Bell &amp; Stevens<span> <a class="bibref" data-bibfragment="Bell20091" href="/Problems/prob054/references/#Bell20091">[Bell20091]</a></span> report that there is no closed form expression for it and that it is &ldquo;beyond #P-Complete&rdquo;, citing<span> <a class="bibref" data-bibfragment="Hsiang200487" href="/Problems/prob054/references/#Hsiang200487">[Hsiang200487]</a></span>. (Oddly<span> <a class="bibref" data-bibfragment="chaiken_queens" href="/Problems/prob054/references/#chaiken_queens">[chaiken_queens]</a></span> report a closed form solution for the number of solutions to $n$-queens: it&rsquo;s unclear if this contradicts the earlier result, but more importantly it&rsquo;s not clear that this has better complexity than simply enumerating solutions.)</li>
+</ul>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
