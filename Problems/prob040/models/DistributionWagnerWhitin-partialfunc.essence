@@ -1,14 +1,10 @@
 language Essence 1.3
 
-$ ** Updates **
-$ 2021/08/04 - The new model 'DistributionWagnerWhitin-partialfunc.essence' performances
-$              signficantly better in practice.
-
 $ Problem Wagner-Whitin Distribution
 $
 $ Problem details available at http://www.csplib.org/Problems/prob040/
 $
-$ Essence model by Andrew Martin
+$ Based on the Essence model 'DistributionWagnerWhitin.essence' by Andrew Martin, modified by Peter Nightingale
 $
 $ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
@@ -40,28 +36,37 @@ given demand : matrix indexed by [dLeaves, dPeriods] of int(0..)
 $ used to determine where supply comes goes to
 given children : matrix indexed by [dNodes] of set of dNodes
 
-find orders : matrix indexed by [dNodes, dPeriods] of int(0..maxStock)
+$  Where orders is defined it has a value 1..maxStock. When not defined, no order is made. 
+find orders : function (dNodes, dPeriods) --> int(1..maxStock)
 
-$ AUX find statement
-find stock : matrix indexed by [dNodes, dAllPeriods] of int(0..maxStock)
+$ Auxiliary total function to keep track of stock at each node and period. 
+find stock : function (total) (dNodes, dAllPeriods) --> int(0..maxStock)
 
 $ minimising the cost
 $ holding*stock per period per node plus proc if any orders were placed per period per node
-minimising (sum t : dPeriods . (sum i : dNodes . (holdingCost[i] * stock[i][t] + procCost[i] * toInt(orders[i][t] > 0))))
+minimising
+    sum([ (holdingCost[i] * stock((i,t))) | t : dPeriods, i : dNodes]) +
+    sum([ procCost[i] | (i,t) <- defined(orders)])
 
-
+$ stock starts at 0 for all nodes. 
 such that
-
-$ stock starts at 0
     forAll i : dNodes .
-        stock[i][0] = 0
-,
+        stock((i,0)) = 0
+
 $ non-leaf constraints - orders coming from children must be fulfilled
+such that
     forAll t : dPeriods .
         forAll i : int(numLeaves+1..numNodes) .
-            stock[i][t] = stock[i][t-1] + orders[i][t] - (sum m in children[i] . orders[m][t])
-,
+            stock((i,t)) = stock((i,t-1))
+                            + sum([ orders((i,t)) | (i,t) in defined(orders) ])
+                            - sum([ orders((m,t)) | m <- children[i], (m,t) in defined(orders) ])
+
+
 $ leaf constraints - demands must be fullfilled
+such that
     forAll t : dPeriods .
         forAll i : dLeaves .
-            stock[i][t] = stock[i][t-1] + orders[i][t] - demand[i][t]
+            stock((i,t)) = stock((i,t-1))
+                            + sum([ orders((i,t)) | (i,t) in defined(orders) ])
+                            - demand[i][t]
+
