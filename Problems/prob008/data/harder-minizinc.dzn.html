@@ -35,6 +35,8 @@
 	});
 	</script>
 
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
 
 </head>
 
@@ -47,6 +49,7 @@
   <li><a href="/Problems/prob008">prob008</a></li>
 
   <li><a href="/Problems/prob008/data">Data</a></li>
+  <li>harder-minizinc.dzn</li>
 	</ol>
 
 	<div class="container">
@@ -64,7 +67,7 @@
   <ul>
      	<li><a href="/Problems/prob008/">Specification</a></li>
 
-     	<li><a href="" class='current-item'>Data files</a></li>
+     	<li><a href="/Problems/prob008/data">Data files</a></li>
 
      	<li><a class='no-files' href="/Problems/prob008/results">Results</a></li>
 
@@ -76,7 +79,7 @@
 
     <li><a href="/Problems/prob008.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob008/data">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob008/data/harder-minizinc.dzn">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -86,91 +89,59 @@
 		</div>
 
 
+<a href="/Problems/prob008/data/harder-minizinc.dzn">Download</a>
+<pre class ='brush: minizinc'>deck_width = 16;
+deck_length = 16;
+n_containers = 10;
+n_classes = 3;
 
-	<p>Example problem:</p>
-<p>The deck measures 16 units by 16 units. There are 10 containers, in
-three classes:</p>
-<pre><code>A          B         C
-6x8        4x4       4x8
-4x6        4x4       4x8
-4x4        4x6       4x6
-                     4x6
-</code></pre>
-<p>Containers of classes B and C are constrained to be at least 4 units
-apart in at least one of the north-south or east-west directions.</p>
+width = [6, 4, 4, 4, 4, 4, 4, 4, 4, 4];
+length = [8, 6, 4, 4, 4, 6, 8, 8, 6, 6];
+class = [1, 1, 1, 2, 2, 2, 3, 3, 3, 3];
 
-	<table class="tablesorter">
-	<thead>
-	<tr>  <th>File</th>  <th>Type</th>  <th>Notes</th>  </tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td>
-			<a href="easy-essence.param.html">
-				easy-essence.param
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/Essence">
-			Essence
-			</a>
-		</td>
-		<td>
-		<p>An easy instance in the Essence format. Given mainly as an example.</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="easy-minizinc.dzn.html">
-				easy-minizinc.dzn
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/MiniZinc">
-			MiniZinc
-			</a>
-		</td>
-		<td>
-		<p>An easy instance in the MiniZinc data format. Given mainly as an example.</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="harder-essence.param.html">
-				harder-essence.param
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/Essence">
-			Essence
-			</a>
-		</td>
-		<td>
-		<p>Another instance in the Essence format.</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="harder-minizinc.dzn.html">
-				harder-minizinc.dzn
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/MiniZinc">
-			MiniZinc
-			</a>
-		</td>
-		<td>
-		<p>Another instance in the MiniZinc data format.</p>
-		</td>
-	</tr>
-	</tbody>
-	</table>
+separation = [|0, 0, 0|
+               0, 0, 2|
+               0, 2, 0|];
 
+</pre>
 
 
 	</div>
 
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
 
 
 </div>

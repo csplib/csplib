@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>008: Vessel Loading</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob008">prob008</a></li>
+
+  <li><a href="/Problems/prob008/models">Models</a></li>
+  <li>vessel-loading.mzn</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>008: Vessel Loading</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob008/">Specification</a></li>
+
+     	<li><a href="/Problems/prob008/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob008/results">Results</a></li>
+
+     	<li><a href="/Problems/prob008/references">References</a></li>
+
+     	<li><a href="/Problems/prob008/models">Models</a></li>
+
+     	<li><a href="/Problems/prob008/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob008.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob008/models/vessel-loading.mzn">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob008/models/vessel-loading.mzn">Download</a>
+<pre class ='brush: minizinc'>% prob008.mzn: Vessel Loading
+% Problem details available at
+% http://www.csplib.org/Problems/prob008/
+
+% Author: Frej Knutar Lewander
+
+int: deck_width; % width of deck
+int: deck_length; % height of deck
+int: n_containers; % number of containers
+int: n_classes; % number of container classes
+
+array[int] of int: width;
+% width[c] = width of container c
+array[int] of int: length;
+% length[c] = length of container c
+array[int] of int: class;
+% class[c] = class of container c
+array[int, int] of int: separation;
+% separation[a, b] = the minimum allowed separation between
+%                    containers of classes a and b
+
+set of int: Containers = 1..n_containers;
+
+array[Containers] of var 0..deck_width: Left;
+% Left[c] = leftmost point of container c
+array[Containers] of var 0..deck_width: Right;
+% Right[c] = rightmost point of container c
+array[Containers] of var 0..deck_length: Bottom;
+% Bottom[c] = bottommost point of container c
+array[Containers] of var 0..deck_length: Top;
+% Top[c] = topmost point of container c
+
+array[Containers] of var 1..2: orientation;
+% orientation[c] = 2 if container c is turned 90 degrees, else 1.
+
+constraint
+  forall (c in Containers) (
+    let {
+      array[1..2] of int: ElemWidth = [width[c], length[c]];
+      array[1..2] of int: ElemLength = [length[c], width[c]]
+    }
+    in 
+      Right[c] = Left[c] + ElemWidth[orientation[c]] /\
+      Top[c] = Bottom[c] + ElemLength[orientation[c]]
+  )
+;
+
+constraint
+  forall(c, k in Containers where c &lt; k) (
+    Left[c] &gt;= Right[k] + separation[class[c], class[k]] \/
+    Right[c] + separation[class[c], class[k]] &lt;= Left[k] \/
+    Bottom[c] &gt;= Top[k] + separation[class[c], class[k]] \/
+    Top[c] + separation[class[c], class[k]] &lt;= Bottom[k]
+  )
+;
+
+% Excessive (pretty) output
+output ["┌"] ++ ["─" | t in 0..deck_width] ++ ["┐\n"] ++
+       [if x == 0 then "│" else "" endif ++
+        let {
+          bool: l = exists([fix(Left[c])   = x | c in Containers]);
+          bool: r = exists([fix(Right[c])  = x | c in Containers]);
+          bool: b = exists([fix(Bottom[c]) = y | c in Containers]);
+          bool: t = exists([fix(Top[c])    = y | c in Containers])
+        } in
+          if     l /\ r /\ b /\ t then "┼"
+          elseif l /\ r /\ b      then "┬"
+          elseif l /\ r /\      t then "┴"
+          elseif l /\      b /\ t then "├"
+          elseif      r /\ b /\ t then "┤"
+          elseif l /\      b      then "┌"
+          elseif l /\           t then "└"
+          elseif      r /\ b      then "┐"
+          elseif      r /\      t then "┘"
+          elseif l \/ r           then "│"
+          elseif           b \/ t then "─" 
+          else " " endif ++
+        if x == deck_width then "│\n" else "" endif
+        | y in 0..deck_length, x in 0..deck_width] ++
+        ["└"] ++ ["─" | t in 0..deck_width] ++ ["┘"];
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
