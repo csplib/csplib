@@ -9,7 +9,7 @@
 	<meta name="author" content="">
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
 
-	<title>026: Sports Tournament Scheduling</title>
+	<title>050: Diamond-free Degree Sequences</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -46,16 +46,16 @@
     	  <li><a href="/">CSPLib</a></li>
 
   <li><a href="/Problems">Problems</a></li>
-  <li><a href="/Problems/prob026">prob026</a></li>
+  <li><a href="/Problems/prob050">prob050</a></li>
 
-  <li><a href="/Problems/prob026/models">Models</a></li>
-  <li>SportsTournamentScheduling.essence</li>
+  <li><a href="/Problems/prob050/models">Models</a></li>
+  <li>DiamondFree.essence</li>
 	</ol>
 
 	<div class="container">
 
 		<div class="page-header">
-			<h1>026: Sports Tournament Scheduling</h1>
+			<h1>050: Diamond-free Degree Sequences</h1>
 
 
 <!-- macro to Not made a link if on the page the link links to -->
@@ -65,21 +65,21 @@
 <div class="nav-container">
   <nav class="nav">
   <ul>
-     	<li><a href="/Problems/prob026/">Specification</a></li>
+     	<li><a href="/Problems/prob050/">Specification</a></li>
 
-     	<li><a class='no-files' href="/Problems/prob026/data">Data files</a></li>
+     	<li><a class='no-files' href="/Problems/prob050/data">Data files</a></li>
 
-     	<li><a href="/Problems/prob026/results">Results</a></li>
+     	<li><a href="/Problems/prob050/results">Results</a></li>
 
-     	<li><a href="/Problems/prob026/references">References</a></li>
+     	<li><a href="/Problems/prob050/references">References</a></li>
 
-     	<li><a href="/Problems/prob026/models">Models</a></li>
+     	<li><a href="/Problems/prob050/models">Models</a></li>
 
-     	<li><a href="/Problems/prob026/cite">Cite</a></li>
+     	<li><a href="/Problems/prob050/cite">Cite</a></li>
 
-    <li><a href="/Problems/prob026.json" >Json</a></li>
+    <li><a href="/Problems/prob050.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob026/models/SportsTournamentScheduling.essence">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob050/models/DiamondFree.essence">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -89,29 +89,68 @@
 		</div>
 
 
-<a href="/Problems/prob026/models/SportsTournamentScheduling.essence">Download</a>
-<pre class ='brush: essence'>language Essence 1.3
-$ prob026.essence: Round Robin Tournament Scheduling
-$ Problem details available at http://www.csplib.org/Problems/prob026/
+<a href="/Problems/prob050/models/DiamondFree.essence">Download</a>
+<pre class ='brush: essence'>$ from http://csplib.org/Problems/prob050
+$ 050: Diamond-free Degree Sequences
+$ Proposed by Alice Miller, Patrick Prosser
 
-given n_teams : int(1..)
+language Essence 1.3
 
-where n_teams % 2 = 0
 
-letting Team   be new type of size n_teams,
-        Week   be new type of size n_teams-1,
-        Period be new type of size n_teams/2
+$ Given a simple undirected graph G=(V,E),
+$ where V is the set of vertices
+$ and E the set of undirected edges,
+$ the edge {u,v} is in E if and only if vertex u is adjacent to vertex v∈G.
 
-find sched :
-    relation (size ((n_teams-1)*n_teams)/2) of
-        (Week * Period * set (size 2) of Team)
+$ The graph is simple in that there are no loop edges,
+$ i.e. we have no edges of the form {v,v}.
+$ Each vertex v∈V has a degree dv
+$ i.e. the number of edges incident on that vertex.
 
+$ Consequently a graph has a degree sequence d1,…,dn, where di&gt;=di+1.
+
+$ A diamond is a set of four vertices in V such that there are at least five edges between those vertices.
+$ Conversely, a graph is diamond-free if it has no diamond as an induced subgraph,
+$ i.e. for every set of four vertices the number of edges between those vertices is at most four.
+
+$ In our problem we have additional properties required of the degree sequences of the graphs,
+$ in particular that the degree of each vertex is greater than zero (i.e. isolated vertices are disallowed),
+$ the degree of each vertex is modulo 3, and the sum of the degrees is modulo 12 (i.e. |E| is modulo 6).
+
+$ The problem is then for a given value of n, produce all unique degree sequences d1,…,dn such that
+$ - di≥di+1
+$ - each degree di&gt;0 and di is modulo 3
+$ - the sum of the degrees is modulo 12
+$ - there exists a simple diamond-free graph with that degree sequence
+
+given n : int
+letting NODE be domain int(1..n)
+
+find edges : relation (symmetric, irreflexive) of (NODE * NODE)
+find degrees : function (total) NODE --&gt; int(1..n)
+
+$ calculate the degrees
+such that forAll i : NODE . degrees(i) = sum([toInt((i,j) in edges) | j : NODE])
+
+$ symmetry breaking, nodes have decreasing degree
+such that forAll i : int(2..n) . degrees(i-1) &gt;= degrees(i)
+
+$ for every set of four vertices,
+$ the number of edges between those vertices is at most four
 such that
-    forAll t : Team . forAll w : Week . exists (p,ts) in toSet(sched(w,_,_)) . t in ts,
-    forAll t : Team . forAll p : Period .
-        (sum (w,ts) in toSet(sched(_,p,_)) . toInt(t in ts)) &lt;= 2,
-    forAll t1,t2 : Team , t1 != t2 . |toSet(sched(_,_,{t1,t2}))| = 1
+    forAll i,j,k,l : NODE, i &lt; j /\ j &lt; k /\ k &lt; l .
+        |{(i,j), (i,k), (i,l), (j,k), (j,l), (k,l)} intersect toSet(edges)| &lt;= 4
 
+$ degrees are modulo 3
+such that
+    forAll i : NODE . degrees(i) % 3 = 0
+
+$ sum of degrees is modulo 12
+such that
+    (sum i : NODE . degrees(i)) % 12 = 0
+
+$ we are only interested in unique degrees
+branching on [degrees]
 
 </pre>
 

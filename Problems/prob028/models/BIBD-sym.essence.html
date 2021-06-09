@@ -9,7 +9,7 @@
 	<meta name="author" content="">
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
 
-	<title>026: Sports Tournament Scheduling</title>
+	<title>028: Balanced Incomplete Block Designs</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -46,16 +46,16 @@
     	  <li><a href="/">CSPLib</a></li>
 
   <li><a href="/Problems">Problems</a></li>
-  <li><a href="/Problems/prob026">prob026</a></li>
+  <li><a href="/Problems/prob028">prob028</a></li>
 
-  <li><a href="/Problems/prob026/models">Models</a></li>
-  <li>SportsTournamentScheduling.essence</li>
+  <li><a href="/Problems/prob028/models">Models</a></li>
+  <li>BIBD-sym.essence</li>
 	</ol>
 
 	<div class="container">
 
 		<div class="page-header">
-			<h1>026: Sports Tournament Scheduling</h1>
+			<h1>028: Balanced Incomplete Block Designs</h1>
 
 
 <!-- macro to Not made a link if on the page the link links to -->
@@ -65,21 +65,21 @@
 <div class="nav-container">
   <nav class="nav">
   <ul>
-     	<li><a href="/Problems/prob026/">Specification</a></li>
+     	<li><a href="/Problems/prob028/">Specification</a></li>
 
-     	<li><a class='no-files' href="/Problems/prob026/data">Data files</a></li>
+     	<li><a href="/Problems/prob028/data">Data files</a></li>
 
-     	<li><a href="/Problems/prob026/results">Results</a></li>
+     	<li><a href="/Problems/prob028/results">Results</a></li>
 
-     	<li><a href="/Problems/prob026/references">References</a></li>
+     	<li><a href="/Problems/prob028/references">References</a></li>
 
-     	<li><a href="/Problems/prob026/models">Models</a></li>
+     	<li><a href="/Problems/prob028/models">Models</a></li>
 
-     	<li><a href="/Problems/prob026/cite">Cite</a></li>
+     	<li><a href="/Problems/prob028/cite">Cite</a></li>
 
-    <li><a href="/Problems/prob026.json" >Json</a></li>
+    <li><a href="/Problems/prob028.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob026/models/SportsTournamentScheduling.essence">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob028/models/BIBD-sym.essence">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -89,28 +89,39 @@
 		</div>
 
 
-<a href="/Problems/prob026/models/SportsTournamentScheduling.essence">Download</a>
+<a href="/Problems/prob028/models/BIBD-sym.essence">Download</a>
 <pre class ='brush: essence'>language Essence 1.3
-$ prob026.essence: Round Robin Tournament Scheduling
-$ Problem details available at http://www.csplib.org/Problems/prob026/
+$ prob028.essence: Balanced Incomplete Block Design
+$ Problem details available at http://www.csplib.org/Problems/prob028/
 
-given n_teams : int(1..)
+given v : int(2..)
+given k : int(2..)
+given lambda : int(1..)
 
-where n_teams % 2 = 0
+where v &gt; k
+$ where lambda &gt; k
+$ where lambda &gt; v
 
-letting Team   be new type of size n_teams,
-        Week   be new type of size n_teams-1,
-        Period be new type of size n_teams/2
+letting b be (lambda * v * (v - 1)) / (k * (k - 1))
+letting r be (lambda * (v - 1)) / (k - 1)
 
-find sched :
-    relation (size ((n_teams-1)*n_teams)/2) of
-        (Week * Period * set (size 2) of Team)
+letting Obj   be domain int(1..v) $ new type of size v
+letting Block be domain int(1..b) $ new type of size b
+
+find bibd : relation of (Obj * Block)
 
 such that
-    forAll t : Team . forAll w : Week . exists (p,ts) in toSet(sched(w,_,_)) . t in ts,
-    forAll t : Team . forAll p : Period .
-        (sum (w,ts) in toSet(sched(_,p,_)) . toInt(t in ts)) &lt;= 2,
-    forAll t1,t2 : Team , t1 != t2 . |toSet(sched(_,_,{t1,t2}))| = 1
+    forAll o  : Obj   . |toSet(bibd(o,_ ))| = r,
+    forAll bl : Block . |toSet(bibd(_,bl))| = k,
+    forAll o1, o2 : Obj , o1 &lt; o2 .
+        |toSet(bibd(o1,_)) intersect toSet(bibd(o2,_))| = lambda
+
+$ symmetry breaking
+such that
+    forAll o : int(1..v-1) .
+        [ toInt(bibd(o,bl)) | bl : Block ] &lt;=lex [ toInt(bibd(o+1,bl)) | bl : Block ],
+    forAll bl : int(1..b-1) .
+        [ toInt(bibd(o,bl)) | o : Obj ] &lt;=lex [ toInt(bibd(o,bl+1)) | o : Obj ]
 
 
 </pre>

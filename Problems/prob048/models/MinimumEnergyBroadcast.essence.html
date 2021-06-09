@@ -92,86 +92,31 @@
 <a href="/Problems/prob048/models/MinimumEnergyBroadcast.essence">Download</a>
 <pre class ='brush: essence'>language Essence 1.3
 
-$ Problem Minimum Energy Broadcast
-$
-$ Problem details available at http://www.csplib.org/Problems/prob048/
-$
-$ Essence model by Andrew Martin
-$
-$ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
-
-given numNodes : int(1..)
-given maxPower : int(1..)
-
-given initialNode : int(1..)
-
-letting dNodes be domain int(1..numNodes)
-letting dPower be domain int(0..maxPower)
-
+given numberNodes : int(1..)
+given initialNode : int(1..numberNodes)
+letting dNodes be domain int(1..numberNodes)
+letting dDepths be domain dNodes
 $ if a node has power link of 0 to another node, that link is not possible
-given linkCosts : matrix indexed by [dNodes, dNodes] of dPower
+given linkCosts : function (total) (dNodes,dNodes) --&gt; int(0..)
 
-$ if a node has power of 0 it is not broadcasting
-find nodeBroadcastPower : matrix indexed by [dNodes] of dPower
 
-$ AUX FIND VALUES, appear in solution but are not important -
-$ checking that these exist is much slower than 'find'ing values for them
-find directChildrenMatrix : matrix indexed by [dNodes] of set of dNodes
-find totalChildrenMatrix : matrix indexed by [dNodes] of set of dNodes
-
-$ minimising total power usage
-minimising (sum i : dNodes . nodeBroadcastPower[i])
-
+find parents : function (total) dNodes --&gt; dNodes
+find depths : function (total) dNodes --&gt; dDepths
 such that
-
-$ NODES DO NOT SHARE CHILDREN
-    forAll i,j : dNodes .
-
-        i=j
-        \/
-        |directChildrenMatrix[i] intersect directChildrenMatrix[j]| = 0
-
-,
-
-$ TOTAL CHILD NODES OF NODE initialNode MUST BE SIZE NUMNODES (THUS CONTAINING ALL NODES)
-    |totalChildrenMatrix[initialNode]| = numNodes
-
-    /\
-
-    forAll node : dNodes .
-            
-$ EACH NODE IS A TOTAL CHILD OF ITSELF
-        node in totalChildrenMatrix[node]
-
-        /\
-
-$ ENSURE NODES TOTAL EQUALS THE SUM OF ITS DIRECT CHILDRENS TOTALS + ITSELF
-$ (Each link must add a new node to the graph, not including cycles)
-        (sum i in directChildrenMatrix[node] . |totalChildrenMatrix[i]|) = |totalChildrenMatrix[node]| - 1
-
-        /\
-
-$ NODE MUST HAVE TOTALCHILDREN CONTAIN A SUBSET WHICH IS THE TOTALCHILDREN OF EACH DIRECT CHILD
-        forAll childNode in directChildrenMatrix[node] .
-
-            totalChildrenMatrix[childNode] subsetEq totalChildrenMatrix[node]
-
-            /\
-
-$ LINK MUST BE ALLOWED
-            linkCosts[node][childNode] != 0
-
-            /\
-
-$ CONSTRAINT FOR PROBLEM SOLUTION
-            nodeBroadcastPower[node] &gt;= linkCosts[node][childNode]
+parents(initialNode) = initialNode
+, forAll (child,parent) in parents .
+(child != initialNode) -&gt; 
+(parent != child /\ linkCosts((parent,child)) != 0)
+such that forAll (child,parent) in parents .
+child != initialNode -&gt; depths(child) &gt; depths(parent)
 
 
-
-
-
-
-
+find optVar : int(0..numberNodes * max([cost | (_,cost) &lt;- linkCosts]))
+such that 
+optVar = sum parent : dNodes . max([ linkCosts((parent,child)) * toInt(parentI = parent)
+                                                | (child,parentI) &lt;- parents
+                                                ])
+minimising optVar
 </pre>
 
 

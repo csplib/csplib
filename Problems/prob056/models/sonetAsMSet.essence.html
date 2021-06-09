@@ -9,7 +9,7 @@
 	<meta name="author" content="">
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
 
-	<title>026: Sports Tournament Scheduling</title>
+	<title>056: Synchronous Optical Networking (SONET) Problem</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -46,16 +46,16 @@
     	  <li><a href="/">CSPLib</a></li>
 
   <li><a href="/Problems">Problems</a></li>
-  <li><a href="/Problems/prob026">prob026</a></li>
+  <li><a href="/Problems/prob056">prob056</a></li>
 
-  <li><a href="/Problems/prob026/models">Models</a></li>
-  <li>SportsTournamentScheduling.essence</li>
+  <li><a href="/Problems/prob056/models">Models</a></li>
+  <li>sonetAsMSet.essence</li>
 	</ol>
 
 	<div class="container">
 
 		<div class="page-header">
-			<h1>026: Sports Tournament Scheduling</h1>
+			<h1>056: Synchronous Optical Networking (SONET) Problem</h1>
 
 
 <!-- macro to Not made a link if on the page the link links to -->
@@ -65,21 +65,21 @@
 <div class="nav-container">
   <nav class="nav">
   <ul>
-     	<li><a href="/Problems/prob026/">Specification</a></li>
+     	<li><a href="/Problems/prob056/">Specification</a></li>
 
-     	<li><a class='no-files' href="/Problems/prob026/data">Data files</a></li>
+     	<li><a href="/Problems/prob056/data">Data files</a></li>
 
-     	<li><a href="/Problems/prob026/results">Results</a></li>
+     	<li><a class='no-files' href="/Problems/prob056/results">Results</a></li>
 
-     	<li><a href="/Problems/prob026/references">References</a></li>
+     	<li><a href="/Problems/prob056/references">References</a></li>
 
-     	<li><a href="/Problems/prob026/models">Models</a></li>
+     	<li><a href="/Problems/prob056/models">Models</a></li>
 
-     	<li><a href="/Problems/prob026/cite">Cite</a></li>
+     	<li><a href="/Problems/prob056/cite">Cite</a></li>
 
-    <li><a href="/Problems/prob026.json" >Json</a></li>
+    <li><a href="/Problems/prob056.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob026/models/SportsTournamentScheduling.essence">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob056/models/sonetAsMSet.essence">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -89,29 +89,43 @@
 		</div>
 
 
-<a href="/Problems/prob026/models/SportsTournamentScheduling.essence">Download</a>
-<pre class ='brush: essence'>language Essence 1.3
-$ prob026.essence: Round Robin Tournament Scheduling
-$ Problem details available at http://www.csplib.org/Problems/prob026/
+<a href="/Problems/prob056/models/sonetAsMSet.essence">Download</a>
+<pre class ='brush: essence'>language Essence 1.2.0
+$ prob056.essence: SONET Configuration
+$
+$ A SONET communication network comprises a number of rings, each joining a
+$ a number of nodes. A node is installed on a ring using an add-drop multiplexer
+$ (ADM) and there is a capacity bound on the number of ADMs that can be
+$ installed on a ring. Each node can be installed on more than one ring.
+$ Communication can be routed between a pair of nodes only if both are installed
+$ on a common ring. Given the capacity bound and a specification of which pairs
+$ of nodes must communicate, allocate a set of nodes to each ring so that the
+$ given communication demands are met. The objective is to minimise the number
+$ of ADMs used. (This is a common simplification of the full SONET problem.)
+$
+$ 03 September 2007
+$
 
-given n_teams : int(1..)
+given nnodes, nrings, capacity : int(1..)
 
-where n_teams % 2 = 0
+letting Nodes be domain int(1..nnodes)
 
-letting Team   be new type of size n_teams,
-        Week   be new type of size n_teams-1,
-        Period be new type of size n_teams/2
+given demand : set of set (size 2) of Nodes
 
-find sched :
-    relation (size ((n_teams-1)*n_teams)/2) of
-        (Week * Period * set (size 2) of Team)
+find network : mset (size nrings) of set (maxSize capacity) of Nodes
 
-such that
-    forAll t : Team . forAll w : Week . exists (p,ts) in toSet(sched(w,_,_)) . t in ts,
-    forAll t : Team . forAll p : Period .
-        (sum (w,ts) in toSet(sched(_,p,_)) . toInt(t in ts)) &lt;= 2,
-    forAll t1,t2 : Team , t1 != t2 . |toSet(sched(_,_,{t1,t2}))| = 1
+find optVar : int(0..nrings*capacity)
 
+minimising optVar
+
+such that 
+
+optVar=sum ring in network . |ring|,
+such that 
+
+forAll pair in demand . 
+    exists ring in network . 
+        pair subsetEq ring
 
 </pre>
 

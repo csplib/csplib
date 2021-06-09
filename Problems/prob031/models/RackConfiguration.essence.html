@@ -94,63 +94,80 @@
 $ prob031.essence: Rack Configuration Problem
 $ Problem details available at http://www.csplib.org/Problems/prob031/
 
-$ n_models: the number of rack models
-$ n_types: the number of card types
-$ n_cards: the number of cards being plugged in
-$ n_racks: the number of racks to use
-given n_models, n_types, n_cards, n_racks : int(1..)
+$ We are using the problem description from the following paper very closely here.
+$ "Symmetry Breaking in a Rack Configuration Problem" Zeynep Kızıltan and Brahim Hnich
 
-$ Model: a rack model is represented as an integer between 1 and n_models
-$ Type: a card type is represented as an integer between 1 and n_types
-$ Card: 
-$ Rack: ...
-letting Model be domain int(1..n_models),
-        Type  be domain int(1..n_types),
-        Card  be domain int(1..n_cards),
-        Rack  be new type of size n_racks
 
-$ max_power: the maximum power a rack model can supply
-$ max_connects : the maximum number of connections a rack model can accomodate
-$ price: the price of a rack model
-$ req_power: the amount of power required by a particular card type
-$ ctype: the type of a particular card
-given max_power    : function (total) Model --&gt; int(1..),
-      max_connects : function (total) Model --&gt; int(1..),
-      price        : function (total) Model --&gt; int(1..),
-      req_power    : function (total) Type  --&gt; int(1..),
-      ctype        : function (total) Card  --&gt; Type
 
-$ model: the model of each rack
-$ plugged: the set of cards plugged in to a particular rack
-find model   : function Rack --&gt; Model,
-     $ The size of each set returned by plugged is &lt;= some value returned by max_connects (given)
-     plugged : function Rack --&gt; set (maxSize max(range(max_connects))) of Card
+$ The rack configuration problem consists of plugging a set of electronic cards
+$ into racks with electronic connectors.
+given nbRacks : int(1..)
+letting Rack be new type of size nbRacks
 
-$ minimise the total rack price
-minimising sum r in defined(model) . price(model(r))
+$ Each card belongs to a certain card type.
+given nbTypes : int(1..)
+letting Type be domain int(1..nbTypes)
 
-$ every card is plugged in to at least one rack
+$ A card type is characterised by the power it requires, ...
+given requiredPower : function (total) Type --&gt; int(1..)
+
+$ ... and a demand, which designates how many cards of that type have to be plugged.
+given demand : function (total) Type --&gt; int(1..)
+
+
+$ In order to plug a card into a rack, the rack needs to use a rack model.
+given nbModels : int
+letting Model be domain int(1..nbModels)
+
+$ Each rack model is characterised by the maximal power it can supply, its number of connectors, and its price.
+given maxPower      : function (total) Model --&gt; int(1..)
+given maxConnectors : function (total) Model --&gt; int(1..)
+given price         : function (total) Model --&gt; int(1..)
+
+$ A rack model can be used by any rack.
+$ Each card plugged into a rack uses a connector.
+$ The problem is to decide how many of the available racks are needed,
+$ and which rack models the racks use in order to plug all the cards
+$ such that the total price is minimised.
+
+find configuration :
+        function Rack --&gt;
+            $ the model for this rack
+            ( Model
+            $ for each type, the number of cards of that type
+            , function (total) Type --&gt; int(0..max(range(maxConnectors)))
+            )
+
+
+$ The constraints of the problem and the cost function can be summarised as the following:
+
+$ The connector-capacity constraint:
+$ the number of cards plugged into a rack r
+$ must not exceed the number of connectors of the rack model used by r.
 such that
-    forAll c : Card .
-        exists r in defined(model) .
-            c in plugged(r)
+    forAll (rack, (model, counts)) in configuration .
+        sum([ num | (ty, num) &lt;- counts ]) &lt;= maxConnectors(model)
 
-$ no card is plugged in to more than one rack
+$ The power-capacity constraint:
+$ the total power of the cards plugged into a rack r
+$ must not exceed the power of the rack model used by r.
 such that
-    forAll r1, r2 in defined(model)
-        , r2 &gt; r1
-        . |plugged(r1) intersect plugged(r2)| = 0
+    forAll (rack, (model, counts)) in configuration .
+        sum([ requiredPower(ty) * num | (ty, num) &lt;- counts ]) &lt;= maxPower(model)
 
-$ the power demand placed on a rack does not exceed the maximum it can supply
+$ The demand constraint: all the cards have to be plugged into some rack.
 such that
-    forAll r in defined(model) .
-        (sum c in plugged(r) . (req_power(ctype(c))))
-        &lt;= max_power(model(r))
+    forAll (ty, tyDemand) in demand .
+        tyDemand &lt;= sum([ num
+                        | (rack, (model, counts)) &lt;- configuration
+                        , (ty2, num) &lt;- counts
+                        , ty = ty2
+                        ])
 
-$ the number of cards plugged in to a rack does not exceed the number of slots available
-such that
-    forAll r in defined(model) .
-        |plugged(r)| &lt;= max_connects(model(r))
+$ The cost function is the sum of the prices of the rack models used by all the racks needed.
+find totalCost : int(0.. |Rack| * |Model| * max(range(price)) )
+such that totalCost = sum (rack, (model, counts)) in configuration . price(model)
+minimising totalCost
 
 </pre>
 

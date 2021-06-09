@@ -94,52 +94,75 @@
 
 $ This is the decision version of the cover test problem
 
-given k,b,t: int(1..), g: int(2..)
+given t : int(1..) $ strength (size of subset of rows)
+given k : int(1..) $ rows
+given g : int(2..) $ number of values
+given b : int(1..) $ columns
+
 where k&gt;=t, b&gt;=g**t
 
-letting alphabet be new type of size g
-letting switches be new type of size k
+$ TODO:
+$ - Look into the second model from https://link.springer.com/content/pdf/10.1007/s10601-006-7094-9.pdf
+$ - Can we break the symmetry via unnamed types?
 
-find CoverTest: mset (size b) of function (total) switches --&gt; alphabet
+$ k * b of 1..g
+find CA: matrix indexed by [int(1..k), int(1..b)] of int(1..g)
 
-such that 
-    forAll testcase: function switches --&gt; alphabet                         $% every test case  
-        , |toSet(testcase)| = t
-        .  
-            exists test in CoverTest. testcase subsetEq test                $% must be covered by some test in CoverTest
+such that
+    forAll rows : sequence (size t) of int(1..k) .
+        (forAll i : int(2..t) . rows(i-1) &lt; rows(i)) -&gt;
+        forAll values : sequence (size t) of int(1..g) .
+            exists column : int(1..b) .
+                forAll i : int(1..t) .
+                    CA[rows(i), column] = values(i)
 
+$ row &amp; col symmetry breaking
+such that forAll i : int(2..k) . CA[i-1,..] &lt;=lex CA[i,..]
+such that forAll i : int(2..b) . CA[..,i-1] &lt;=lex CA[..,i]
 
-$=============================================================================
-$INSTANCES
+$ =============================================================================
+$ EXAMPLE
+$ g=2 values
+$ k=5 rows
+$ b=10 columns
+$ any subset of t=3 rows selected will contain all full-factorial assignments
+$ 0   0   0   0   0   1   1   1   1   1
+$ 0   0   0   1   1   0   0   1   1   1
+$ 0   0   1   0   1   0   1   0   1   1
+$ 0   1   0   0   1   0   1   1   0   1
+$ 0   1   1   1   0   1   0   0   0   1
 
-$Note: These are all easy in that they can be solved by MiniZinc in under 2 minutes.
-      $The paper cited below uses Ilog Solver, which is tens of times faster.
-
-$These are easy and unsat
-$letting t=3, g=2, k=5, b=8
-$letting t=3, g=2, k=5, b=9
-$letting t=3, g=2, k=6, b=8
-$letting t=3, g=2, k=6, b=9
-$letting t=3, g=2, k=6, b=10
-$letting t=3, g=2, k=7, b=8
-$letting t=3, g=2, k=7, b=9
-$letting t=3, g=2, k=8, b=8
-$letting t=3, g=2, k=8, b=11
-$letting t=3, g=2, k=9, b=11
-$letting t=3, g=2, k=10, b=11
-$letting t=3, g=2, k=11, b=11
-$letting t=3, g=2, k=12, b=11
-
-$These are easy and sat
-$letting t=3, g=2, k=4, b=8
-$letting t=3, g=2, k=4, b=9
-$letting t=3, g=2, k=5, b=10
-$letting t=3, g=2, k=6, b=12
-$letting t=3, g=2, k=7, b=12
-$letting t=3, g=2, k=8, b=12
-$letting t=3, g=2, k=9, b=12
-$letting t=3, g=2, k=10, b=12
-$letting t=3, g=2, k=11, b=12
+$ =============================================================================
+$ INSTANCES
+$
+$ Note: These are all easy in that they can be solved by MiniZinc in under 2 minutes.
+$       The paper cited below uses Ilog Solver, which is tens of times faster.
+$
+$ These are easy and unsat
+$ letting t be 3, g be 2, k be 5, b be 8
+$ letting t be 3, g be 2, k be 5, b be 9
+$ letting t be 3, g be 2, k be 6, b be 8
+$ letting t be 3, g be 2, k be 6, b be 9
+$ letting t be 3, g be 2, k be 6, b be 10
+$ letting t be 3, g be 2, k be 7, b be 8
+$ letting t be 3, g be 2, k be 7, b be 9
+$ letting t be 3, g be 2, k be 8, b be 8
+$ letting t be 3, g be 2, k be 8, b be 11
+$ letting t be 3, g be 2, k be 9, b be 11
+$ letting t be 3, g be 2, k be 10, b be 11
+$ letting t be 3, g be 2, k be 11, b be 11
+$ letting t be 3, g be 2, k be 12, b be 11
+$
+$ These are easy and sat
+$ letting t be 3, g be 2, k be 4, b be 8
+$ letting t be 3, g be 2, k be 4, b be 9
+$ letting t be 3, g be 2, k be 5, b be 10
+$ letting t be 3, g be 2, k be 6, b be 12
+$ letting t be 3, g be 2, k be 7, b be 12
+$ letting t be 3, g be 2, k be 8, b be 12
+$ letting t be 3, g be 2, k be 9, b be 12
+$ letting t be 3, g be 2, k be 10, b be 12
+$ letting t be 3, g be 2, k be 11, b be 12
 
 
 </pre>

@@ -49,7 +49,7 @@
   <li><a href="/Problems/prob056">prob056</a></li>
 
   <li><a href="/Problems/prob056/models">Models</a></li>
-  <li>sonet.essence</li>
+  <li>sonetAsSet.essence</li>
 	</ol>
 
 	<div class="container">
@@ -79,7 +79,7 @@
 
     <li><a href="/Problems/prob056.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob056/models/sonet.essence">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob056/models/sonetAsSet.essence">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -89,7 +89,7 @@
 		</div>
 
 
-<a href="/Problems/prob056/models/sonet.essence">Download</a>
+<a href="/Problems/prob056/models/sonetAsSet.essence">Download</a>
 <pre class ='brush: essence'>language Essence 1.2.0
 $ prob056.essence: SONET Configuration
 $
@@ -112,10 +112,15 @@ letting Nodes be domain int(1..nnodes)
 
 given demand : set of set (size 2) of Nodes
 
-find network : mset (size nrings) of set (maxSize capacity) of Nodes
+find network : set (maxSize nrings) of set (minSize 2, maxSize capacity) of Nodes
 
-minimising sum ring in network . |ring|
+find optVar : int(0..nrings*capacity)
 
+minimising optVar
+
+such that 
+
+optVar=sum ring in network . |ring|,
 such that 
 
 forAll pair in demand . 

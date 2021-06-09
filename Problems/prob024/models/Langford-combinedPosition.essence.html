@@ -9,7 +9,7 @@
 	<meta name="author" content="">
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
 
-	<title>013: Progressive Party Problem</title>
+	<title>024: Langford's number problem</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -46,16 +46,16 @@
     	  <li><a href="/">CSPLib</a></li>
 
   <li><a href="/Problems">Problems</a></li>
-  <li><a href="/Problems/prob013">prob013</a></li>
+  <li><a href="/Problems/prob024">prob024</a></li>
 
-  <li><a href="/Problems/prob013/models">Models</a></li>
-  <li>ProgressivePartyProblem.essence</li>
+  <li><a href="/Problems/prob024/models">Models</a></li>
+  <li>Langford-combinedPosition.essence</li>
 	</ol>
 
 	<div class="container">
 
 		<div class="page-header">
-			<h1>013: Progressive Party Problem</h1>
+			<h1>024: Langford's number problem</h1>
 
 
 <!-- macro to Not made a link if on the page the link links to -->
@@ -65,21 +65,21 @@
 <div class="nav-container">
   <nav class="nav">
   <ul>
-     	<li><a href="/Problems/prob013/">Specification</a></li>
+     	<li><a href="/Problems/prob024/">Specification</a></li>
 
-     	<li><a href="/Problems/prob013/data">Data files</a></li>
+     	<li><a class='no-files' href="/Problems/prob024/data">Data files</a></li>
 
-     	<li><a href="/Problems/prob013/results">Results</a></li>
+     	<li><a href="/Problems/prob024/results">Results</a></li>
 
-     	<li><a href="/Problems/prob013/references">References</a></li>
+     	<li><a href="/Problems/prob024/references">References</a></li>
 
-     	<li><a href="/Problems/prob013/models">Models</a></li>
+     	<li><a href="/Problems/prob024/models">Models</a></li>
 
-     	<li><a href="/Problems/prob013/cite">Cite</a></li>
+     	<li><a href="/Problems/prob024/cite">Cite</a></li>
 
-    <li><a href="/Problems/prob013.json" >Json</a></li>
+    <li><a href="/Problems/prob024.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob013/models/ProgressivePartyProblem.essence">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob024/models/Langford-combinedPosition.essence">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -89,33 +89,102 @@
 		</div>
 
 
-<a href="/Problems/prob013/models/ProgressivePartyProblem.essence">Download</a>
+<a href="/Problems/prob024/models/Langford-combinedPosition.essence">Download</a>
 <pre class ='brush: essence'>language Essence 1.3
-$ prob013.essence: Progressive Party Problem
-$ Problem details available at http://www.csplib.org/Problems/prob013/
+$ prob024.essence: Langford's Number Problem
+$ Problem details available at http://www.csplib.org/Problems/prob024
 
-given n_boats, n_periods : int(1..)
+$ numbers 1 to n, each appearing k times in a sequence (of length k*n)
+given k : int(2..)
+given n : int(1..)
 
-letting Boat be domain int(1..n_boats)
 
-given capacity, crew : function (total) Boat --&gt; int(1..)
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$ MODEL 1: DIRECT
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-find hosts : set (minSize 1) of Boat,
-     sched : set (size n_periods) of function (total) Boat --&gt; Boat
 
-minimising |hosts|
+letting seqLength be k * n
 
+$ The sequence of numbers
+find seq : sequence (size seqLength) of int(1..n)
+
+$ symmetry breaking
+such that seq(1) &lt; seq(seqLength)
+
+$ Each number from 1 to n appear exactly k times in seq.
+$ This constraint is implied, and it probably doesn't help search either.
 such that
-    $ Hosts remain the same throughout the schedule
-    forAll p in sched . range(p) = hosts,
-    $ Hosts stay on their own boat
-    forAll p in sched . forAll h in hosts . p(h) = h,
-    $ Hosts have the capacity to support the visiting crews
-    forAll p in sched . forAll h in hosts . (sum b in preImage(p,h) . crew(b))
-                                            &lt;= capacity(h),
-    $ No two crews are at the same party more than once
-    forAll b1,b2 : Boat . b1 &lt; b2 -&gt;
-        (sum p in sched . toInt(p(b1) = p(b2))) &lt;= 1
+    forAll i : int(1..n) . |preImage(seq, i)| = k
+
+$ Each occurrence of a number N is N positions apart.
+$ 
+$ So if the number 4 is at position 1 and if k=3,
+$ then there has to be a 4 at position 6 and 11 as well.
+such that
+    $ for each number
+    forAll number : int(1..n) .                     
+        $ there exists a starting position 
+        $ (i.e. the first position where number occurs)
+        exists start : int(1..seqLength) .          
+            $ positions start, start+(number+1), start+2*(number+1), ... 
+            $ all contain the value "number"
+            forAll i : int(1..k) . seq(start + (i-1) * (number+1)) = number
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$ MODEL 2: POSITIONAL
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+letting number be domain int(1..n)
+letting repetition be domain int(1..k)
+letting position be domain int(1..k*n)
+
+$ The positions of all repetitions of all numbers
+find pos : function (total, injective)
+                    tuple (number, repetition) --&gt; position
+
+$ Occurrences of number i must be i+1 places apart.
+$ So if the number 4 appers at position 3,
+$ the next occurrence of it must be at position 8,
+$ leaving a gap of 4 positions.
+such that
+    forAll i : number .
+        forAll j : int(2..k) .
+            pos(tuple (i,j)) = pos(tuple (i,j-1)) + i + 1
+
+$ Symmetry breaking.
+$ The first occurrence of the number 1 is closer to the beginning than
+$ the last occurrence of the number 1 is to the end.
+$such that
+    $pos(tuple (1,1)) - 1 &lt; k*n - pos(tuple (1,k))
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$ CHANNELLING
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+$ from pos to seq
+such that
+    forAll i : number .
+        forAll j : repetition .
+            seq(pos(tuple (i,j))) = i
+
+$ from seq to pos
+such that
+    forAll i : int(1..k*n) .
+        exists j : repetition .
+            pos(tuple (seq(i),j)) = i
+
+$ entries in pos are ordered
+such that
+    forAll i : number .
+        forAll j : int(2..k) .
+            pos(tuple (i,j-1)) &lt; pos(tuple (i,j))
+
+branching on [pos]
+
 
 </pre>
 
