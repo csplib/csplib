@@ -1,0 +1,61 @@
+$ from http://csplib.org/Problems/prob050
+$ 050: Diamond-free Degree Sequences
+$ Proposed by Alice Miller, Patrick Prosser
+
+language Essence 1.3
+
+
+$ Given a simple undirected graph G=(V,E),
+$ where V is the set of vertices
+$ and E the set of undirected edges,
+$ the edge {u,v} is in E if and only if vertex u is adjacent to vertex v∈G.
+
+$ The graph is simple in that there are no loop edges,
+$ i.e. we have no edges of the form {v,v}.
+$ Each vertex v∈V has a degree dv
+$ i.e. the number of edges incident on that vertex.
+
+$ Consequently a graph has a degree sequence d1,…,dn, where di>=di+1.
+
+$ A diamond is a set of four vertices in V such that there are at least five edges between those vertices.
+$ Conversely, a graph is diamond-free if it has no diamond as an induced subgraph,
+$ i.e. for every set of four vertices the number of edges between those vertices is at most four.
+
+$ In our problem we have additional properties required of the degree sequences of the graphs,
+$ in particular that the degree of each vertex is greater than zero (i.e. isolated vertices are disallowed),
+$ the degree of each vertex is modulo 3, and the sum of the degrees is modulo 12 (i.e. |E| is modulo 6).
+
+$ The problem is then for a given value of n, produce all unique degree sequences d1,…,dn such that
+$ - di≥di+1
+$ - each degree di>0 and di is modulo 3
+$ - the sum of the degrees is modulo 12
+$ - there exists a simple diamond-free graph with that degree sequence
+
+given n : int
+letting NODE be domain int(1..n)
+
+find edges : relation (symmetric, irreflexive) of (NODE * NODE)
+find degrees : function (total) NODE --> int(1..n)
+
+$ calculate the degrees
+such that forAll i : NODE . degrees(i) = sum([toInt((i,j) in edges) | j : NODE])
+
+$ symmetry breaking, nodes have decreasing degree
+such that forAll i : int(2..n) . degrees(i-1) >= degrees(i)
+
+$ for every set of four vertices,
+$ the number of edges between those vertices is at most four
+such that
+    forAll i,j,k,l : NODE, i < j /\ j < k /\ k < l .
+        |{(i,j), (i,k), (i,l), (j,k), (j,l), (k,l)} intersect toSet(edges)| <= 4
+
+$ degrees are modulo 3
+such that
+    forAll i : NODE . degrees(i) % 3 = 0
+
+$ sum of degrees is modulo 12
+such that
+    (sum i : NODE . degrees(i)) % 12 = 0
+
+$ we are only interested in unique degrees
+branching on [degrees]

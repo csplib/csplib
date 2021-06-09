@@ -22,8 +22,13 @@ given demand : set of set (size 2) of Nodes
 
 find network : mset (size nrings) of set (maxSize capacity) of Nodes
 
-minimising sum ring in network . |ring|
+find optVar : int(0..nrings*capacity)
 
+minimising optVar
+
+such that 
+
+optVar=sum ring in network . |ring|,
 such that 
 
 forAll pair in demand . 
