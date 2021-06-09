@@ -3,33 +3,23 @@ $ Steel Mill Slab Design Problem
 $ Problem details available at http://www.csplib.org/Problems/prob038/
 $ 4/8/2020
 
-given n_colours, n_orders, col_per_slab : int(1..)
+given Colour new type enum
+given n_orders, col_per_slab : int(1..)
 given slabSizes: set of int(1..)
+letting Order be domain int(1..n_orders)
+given ordSize : function (total) Order --> int(1..)
+given ordCol : function (total) Order --> Colour
+letting max_slab_size be max(slabSizes)
 
-letting sizes be domain int(0..max(slabSizes))   $  0 for unused slabs 
+find cut : partition from Order
+minimising sum p in parts(cut) .
+    min([s | s <- slabSizes, s >= 
+        sum o in p . ordSize(o)]) 
 
-letting Colour be domain int(1..n_colours),
-        Order be domain int(1..n_orders)
+$max slab size not exceeded
+such that forAll p in parts(cut) .
+    max_slab_size >= sum o in p . ordSize(o) 
 
-given ordSize : function (total) Order --> int(1..),
-      ordCol : function (total) Order --> Colour
-
-find cut : function (maxSize n_orders) set of Order --> sizes
-
-minimising sum (_,slabSize) in cut . slabSize
-
-such that
-    
-    $ defined(cut) is a partition of the set of orders
-    forAll os1, os2 in defined(cut) . os1 != os2 -> |os1 intersect os2| = 0,
-    n_orders = sum os in defined(cut) . |os|,
-    
-    $ Size of slab is sufficient to hold all the orders allocated to the slab.
-    forAll (os,slabSize) in cut . (sum o in os . ordSize(o)) <= slabSize,
-    
-    $ Slab size must be one of the allowed sizes
-    forAll (_,slabSize) in cut . slabSize in ({0} union slabSizes),
-    
     $ At most col_per_slab distinct colours on each slab
-    forAll os in defined(cut) .  (|toSet([ ordCol(o) | o <- os ])|) <= col_per_slab
-    
+such that forAll p in parts(cut) .  
+    |toSet([ ordCol(o) | o <- p])| <= col_per_slab
