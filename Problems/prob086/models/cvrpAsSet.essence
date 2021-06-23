@@ -1,0 +1,63 @@
+language Essence 1.3
+$The simplest version of the capacitated vehicle routing problem.
+$One depot, multiple drop off locations.
+$Set of vehicles with capacity limits, shipping goods  from depot to drop off locations.
+$Vehicles make only one trip.
+$One order per drop off location.
+
+
+$locations:
+given numberLocations : int(1..)
+$one order per location
+$ location 0 is depot location 
+letting locDomain  be domain int (0..numberLocations) $0 is included as distances from depot is needed
+letting plannedLocDomain  be domain int(1..numberLocations)
+given orderWeights : function (total) plannedLocDomain --> int(1..)
+
+given costs : function (total)  tuple (locDomain,locDomain) --> int(0..)
+
+
+$Vehicles 
+given vehicleCapacity : int(1..)
+
+$  Maximum total cost is the cost of putting each item onto its own vehicle and driving from depot and back.
+letting maxTotalCost be sum([costs((0, i)) | i : plannedLocDomain])*2
+
+letting totalOrderWeight be sum([weight | (_,weight) <- orderWeights])
+
+letting minVehicles be totalOrderWeight / vehicleCapacity + toInt(totalOrderWeight % vehicleCapacity != 0)
+
+find plan : set (minSize minVehicles, maxSize numberLocations) of
+                sequence (maxSize numberLocations, injective, minSize 1) of plannedLocDomain
+
+find optVar : int(0..maxTotalCost)
+such that
+   optVar = sum route in plan . (
+                   sum([ costs(tuple(route(i-1), route(i)))
+                       | i : int(2..numberLocations),
+                       i<=|route|
+                       ])
+                   + costs((0, route(1)))
+                   + costs((route(|route|), 0))
+               )
+
+minimising optVar
+
+$add capacity restriction 
+such that
+forAll route in plan .
+    (sum (_,order) in route . orderWeights(order))
+    <= vehicleCapacity 
+
+$all orders delivered once
+such that
+allDiff([loc | route <- plan, (_,loc) <- route]) 
+such that
+(sum p in plan .
+    |p|)
+    = numberLocations
+
+$Implied constraint, commented out 
+    $ such that
+    $ forAll order : plannedLocDomain .
+    $     1 = sum([toInt(order = loc) | route <- plan, (_,loc) <- route])
