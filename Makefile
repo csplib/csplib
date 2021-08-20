@@ -1,3 +1,5 @@
+
+
 build: ./internal/scripts/env creation_dates
 	# activate virtual python environment
 	. ./internal/scripts/env/bin/activate && \
@@ -42,3 +44,7 @@ debug:
 clean:
 	rm -rf _deploy
 	rm -rf internal/scripts/env
+
+docker:
+	docker build . --tag csplib
+	bash -c 'docker run --user `id -u`:`id -g` -v `pwd`:/dir csplib sh -c "cd /dir;make"'
