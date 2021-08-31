@@ -4,3 +4,4 @@ MarkupSafe==0.23
 pybtex==0.17
 latexcodec==0.3.2
 namedentities==1.5.2
+sortedcontainers==2.4.0
