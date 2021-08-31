@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
 	<meta name="author" content="">
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
 
-	<title>CSPLib: A problem library for constraints</title>
+	<title>085: Bookshelves</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -36,61 +37,98 @@
 	</script>
 
 
+	<style>
+	p.highlight{
+		border: 1px solid;
+		padding-left: 5px;
+		padding-right: 1px;
+	}
+	</style>
+
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		ref_id= window.location.hash.substring(1);
+		if (ref_id){
+		  $('p#'+ ref_id).addClass('highlight');
+	 	}
+
+		$( "a.bibref" ).on("click", function() {
+			ref_id=$(this).attr("data-bibfragment")
+			$( "p.bib" ).removeClass('highlight')
+		 	$('p#'+ ref_id).addClass('highlight');
+		});
+
+	});
+
+	</script>
+
+
 </head>
 
 <body>
 
 	<ol class="breadcrumb">
-	  <li><a href="/">CSPLib</a></li>
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob085">prob085</a></li>
+
+  <li><a href="/Problems/prob085/references">References</a></li>
 	</ol>
 
 	<div class="container">
 
 		<div class="page-header">
-			<h1>CSPLib: A problem library for constraints</h1>
+			<h1>085: Bookshelves</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob085/">Specification</a></li>
+
+     	<li><a href="/Problems/prob085/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob085/results">Results</a></li>
+
+     	<li><a href="" class='current-item'>References</a></li>
+
+     	<li><a href="/Problems/prob085/models">Models</a></li>
+
+     	<li><a href="/Problems/prob085/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob085.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob085/references">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
 
 
 		</div>
 
 
-<h2>Overview</h2>
-
-<p> CSPLib is a library of test problems for constraint solvers. The library consists of: </p>
-
-<ul>
-    <li>Problems organised by <a href="/Problems/categories.html">subject area</a> and <a href="/Problems">problem number</a></li>
-</ul>
-
-<p> CSPLib also maintains a list of <a href="/Languages/index.html">constraint languages</a> and the tools which can be used to solve problems in these languages.</p>
-
-
 <p>
-The main motivation for CSPLib is to focus research in constraints away from purely random problems and onto more structured problems.
+	<a href="/Problems/prob085/references/prob085-refs.bib">Download bibtex</a>
 </p>
 
-<p>
-We currently have 91 problems in 14 <a href="/Problems/categories.html">categories</a> proposed by 70 <a href="/authors.html">authors</a>.
-</p>
 
-<p>Please submit any updates or corrections to CSPLib to our <a href="http://github.com/csplib/csplib">git repository</a>, either as a <a href="https://github.com/csplib/csplib/issues">new issue</a>, or <a href="https://github.com/csplib/csplib/pulls">pull request</a>.
-</p>
 
-<hr>
+<style>
+    .venue     { font-style: italic; }
+    .publisher { font-style: italic; }
+    .title     { font-weight: bold;  }
+    .bibkey    {
+        text-align:center;
+        font-size: 70%;
+    }
+</style>
 
-<p> The current editors-in-chief of CSPLib are <a href="https://caj.host.cs.st-andrews.ac.uk">Chris Jefferson</a> and <a href="https://ozgur.host.cs.st-andrews.ac.uk/">Özgür Akgün</a>.
-The current website maintainers are <a href="http://bh246.host.cs.st-andrews.ac.uk">Bilal Syed Hussain</a>, <a href="http://caj.host.cs.st-andrews.ac.uk">Chris Jefferson</a> and <a href="https://ozgur.host.cs.st-andrews.ac.uk/">Özgür Akgün</a>.
-</p>
-
-<p>We are grateful to the previous editors of CSPLib: Ian Miguel, Brahim Hnich, Ian Gent and Toby Walsh, and all the contributors to CSPLib since its creation in 1999.
-</p>
-
-<p>
-<a href="/updates.html">Updates</a>
-</p>
-
-<!-- <p>
-    The Essence specification of each problem can also be downloaded as a <a href="/essences.zip">zip file</a>
-</p> -->
 
 
 	</div>

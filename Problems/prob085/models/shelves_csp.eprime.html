@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>085: Bookshelves</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob085">prob085</a></li>
+
+  <li><a href="/Problems/prob085/models">Models</a></li>
+  <li>shelves_csp.eprime</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>085: Bookshelves</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob085/">Specification</a></li>
+
+     	<li><a href="/Problems/prob085/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob085/results">Results</a></li>
+
+     	<li><a href="/Problems/prob085/references">References</a></li>
+
+     	<li><a href="/Problems/prob085/models">Models</a></li>
+
+     	<li><a href="/Problems/prob085/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob085.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob085/models/shelves_csp.eprime">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob085/models/shelves_csp.eprime">Download</a>
+<pre class ='brush: essenceprime'>language ESSENCE' 1.0
+$ the SATISFACTION version of the bookshelves OPTIMISATION problem
+$ this time with the extra `width` parameter
+
+
+$ length of each plank
+given lengths : matrix indexed by [int(1..n)] of int
+letting PLANKS be domain int(1..n)
+letting LENGTH be domain int(0..max(lengths))
+
+$ how thick are the planks?
+given thickness : LENGTH
+
+$ how much vertical space does each shelf need?
+given vertical_gap : LENGTH
+
+$ how wide should the shelves be?
+given width : LENGTH
+
+$ how much do we lose with each cut?
+letting CUTCOST = 1
+
+$----------------------------------------------------------------------
+$ how should we cut the planks?
+$ pfrom stores the index of the plank a piece comes from
+$ pieces stores the length of the piece
+$ pieces[1..2] should be the uprights and the rest of
+$ pieces should be equal-length shelves
+
+$ To find the max. number of pieces we'll use, assume that the two
+$ longest pieces are equal and will be used for uprights.  Now we can
+$ fit at most (max_length / (vertical_gap+thickness)) horizontal
+$ shelves in
+
+letting maxpieces = 2+(max(lengths) / (thickness+vertical_gap))
+letting PIECES be domain int(1..maxpieces)
+find pieces : matrix indexed by [PIECES] of LENGTH
+find pfrom : matrix indexed by [PIECES] of PLANKS
+
+such that
+
+$ the OPTIMISATION changed to SATISFACTION
+(sum(pieces) - (pieces[1]+pieces[2])) = width,
+
+$ at least 3 pieces are used (two uprights and a shelf)
+pieces[1] * pieces[2] * pieces[3] &gt; 0 ,
+
+$ pack the pieces at the start of the array
+forAll i : PIECES . (i&gt;4 /\ pieces[i-1]=0) -&gt; pieces[i]=0 ,
+
+$ the first two pieces are equal to each other (the uprights) and ... 
+pieces[1] = pieces[2] ,
+
+$ ... all other pieces are of equal length (the shelves)
+forAll i : PIECES  . (i&gt;3) -&gt; (pieces[i]=pieces[3] \/ pieces[i]=0),
+
+$ each plank is not overused - remember the cutting loss
+forAll x : PLANKS .(
+    sum([pieces[i]*(pfrom[i]=x) | i:PIECES ]) +
+    CUTCOST * (sum([(pieces[i]&gt;0)*(pfrom[i]=x) | i:PIECES]) - 1)
+  ) &lt;= lengths[x],
+
+$ each shelf has enough vertical room, i.e. if K is number of shelves,
+$ the uprights must be at least THICKNESS x (K-1) + vertical_gap x K
+pieces[1] &gt;= 
+  (sum([(i&gt;2 /\ pieces[i]&gt;0)|i:PIECES])) * (thickness+vertical_gap),
+
+$----------------------------------------------------------------------
+true
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

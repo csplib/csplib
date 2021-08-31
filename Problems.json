@@ -986,6 +986,17 @@
     ],
     "title": "2cc Hadamard matrix Legendre pairs"
   },
+  "prob085": {
+    "category": [
+      "Design and configuration"
+    ],
+    "id": "prob085",
+    "number": 85,
+    "proposer": [
+      "Felix Ulrich-Oltean"
+    ],
+    "title": "Bookshelves"
+  },
   "prob110": {
     "category": [
       "Combinatorial mathematics",
