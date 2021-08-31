@@ -15,13 +15,13 @@ which pip
 
 # Don't use pip new cache feature since at lest on OSX it requires sudo, when I tested Python 3.5
 if ( pip --no-cache-dir &>/dev/null ); then
-	pip install wheel==0.37.0 --no-cache-dir
-	pip install -r  internal/scripts/support/packages.txt --no-cache-dir
-	pip install packages/*.gz --no-cache-dir
+	pip install -q wheel==0.37.0 --no-cache-dir
+	pip install -q -r  internal/scripts/support/packages.txt --no-cache-dir
+	pip install -q packages/*.gz --no-cache-dir
 else
-	pip install wheel==0.37.0
-	pip install -r  internal/scripts/support/packages.txt
-	pip install packages/*.gz
+	pip install -q wheel==0.37.0
+	pip install -q -r  internal/scripts/support/packages.txt
+	pip install -q packages/*.gz
 fi
 
-echo "<<Finished>>"
+echo "Setup python"
