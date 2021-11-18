@@ -5,3 +5,6 @@ pybtex==0.17
 latexcodec==0.3.2
 namedentities==1.5.2
 sortedcontainers==2.4.0
+pybtex==0.17
+PyYAML==5.4.1
+six==1.16.0
