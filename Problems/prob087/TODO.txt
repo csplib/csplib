@@ -1,0 +1,9 @@
+1. De adaugat poza cu FV
+2. De scris README in Github (CloudResource)
+3. De adaugat link-ul de github
+
+-----------------
+Pull Request catre CSPLib
+
+---------------
+De redactat TO-DO List pe vineri!
