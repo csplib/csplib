@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>087: Rotating Rostering Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob087">prob087</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>087: Rotating Rostering Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob087/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob087/results">Results</a></li>
+
+     	<li><a href="/Problems/prob087/references">References</a></li>
+
+     	<li><a href="/Problems/prob087/models">Models</a></li>
+
+     	<li><a href="/Problems/prob087/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob087.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob087/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by Sven Löffler, Ilja Becker, Petra Hofstedt
+</p>
+
+<h2>Rotating Rostering Problem</h2>
+<p>This problem is taken from real life rostering challenges (like nurse rostering). The task is it to find a
+shift assignment for every employee for every day. A rotation system is used to decrease the size of the problem. Thus,
+only the rostering for one employee is calculated and all other employees gain a rotated version of the rostering. So
+Employee 2 has in the first week the rostering of Employee 1 in the second week. Employee 3 has in the first week the
+rostering of Employee 2 in the second week and Employee 1 in the third week etc. See the following example for 4
+employees:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Employee 1</td>
+<td>Week 1</td>
+<td>Week 2</td>
+<td>Week 3</td>
+<td>Week 4</td>
+</tr>
+<tr>
+<td>Employee 2</td>
+<td>Week 2</td>
+<td>Week 3</td>
+<td>Week 4</td>
+<td>Week 1</td>
+</tr>
+<tr>
+<td>Employee 3</td>
+<td>Week 3</td>
+<td>Week 4</td>
+<td>Week 1</td>
+<td>Week 2</td>
+</tr>
+<tr>
+<td>Employee 4</td>
+<td>Week 4</td>
+<td>Week 1</td>
+<td>Week 2</td>
+<td>Week 3</td>
+</tr>
+</tbody>
+</table>
+<p>Thus, the number of employees is always also the number of weeks. Furthermore, it must be possible to have the shift
+assignments of the first week (week1) follow after the last week (week4) to create a continuous rolling schedule.
+Consider that every week in this example represents the shift assignment for 7 days, for example: week1 = Night, Day Off,
+Day Off, Day Off, Early, Early, Early. Thus, the resulting rostering can be read in two ways. Reading a line shows the
+rostering for one employee for all weeks. Reading a column (meaning a day of the week) shows the rostering for all
+employees for one day. Further details and restrictions follow below.</p>
+<h3>Definitions and restrictions</h3>
+<ul>
+<li>let $w$  in N be the number of weeks (and also the number of employees) we&rsquo;re planning for<ul>
+<li>..be $x_1$ to $x_{(w*7)}$ the variables for the CSP, i.e. the days</li>
+</ul>
+</li>
+<li>there are 4 possible shifts: early = 1, late = 2 and night shift = 3 and day off (rest day) = 0 <ul>
+<li>..resulting in the domains $D_1 = D_2 = &hellip; =  D_{(w*7)} = {0,1,2,3}$</li>
+</ul>
+</li>
+<li>$C_{shiftRequirements}$: for every weekday for each shift the number of required staff is provided (e.g. usually less
+   staff is required on the weekend) see an example staff requirement matrix $M$ below</li>
+<li>$C_{shiftRepetitions}$: for every shift type a maximum number of consecutive assignments to this shift is given to
+   comply with work regulations, e.g. we restrict the general number of repetitions to $s_{max} = 4$. A number of minimal
+   consecutive assignments is given as well to comply with work regulations, e.g. we demand at least two days in a row
+   with the same shift $s_{min} = 2$</li>
+<li>$C_{shiftOrder}$: restricts the order of shifts. There is a forward rotating principle. This means, that after an early
+   shift there can only follow a shift with the same or a higher value, or a rest shift (day off).</li>
+<li>$C_{equalDays}$: constrains that weekend days (Saturday and Sunday) always have the same shift</li>
+<li>$C_{restDays}$: at least 2 days must be rest days every 14 days.</li>
+</ul>
+<p>These restrictions are either based on regulations or academic findings on good work practices.</p>
+<p>A rostering instance can be described by Rostering-<em>w</em>-<em>M</em>-$s_{min}$-$s_{max}$, where</p>
+<ul>
+<li>$w$ is the number of weeks</li>
+<li>$M$ is a 4 times 7 matrix, including at $M_{i,j}$ the needed employees for shift <em>(i-1)</em> and day <em>j</em> (shift types are 0-indexed, the matrix <em>M</em> is 1-indexed)</li>
+<li>$s_{min}$ is the minimum number of days in a row with the same shift</li>
+<li>$s_{max}$ is the maximum number of days in a row with the same shift</li>
+</ul>
+<p>The following CSP $P = (X, D, C)$ can describe the problem:</p>
+<ul>
+<li>
+<p>variables $X = \{x_{1}, &hellip;, x_{w * 7} \}$ ($w * 7$ variables for the days)</p>
+<ul>
+<li>$X$ is also represented by a matrix $X^{2d}$
+    with matrix elements $X^{2d}_{i,j} = x_{(i-1)*7+j}, i \in \{1,&hellip;,w\}, j \in \{1,&hellip;,7\}$.</li>
+</ul>
+</li>
+<li>
+<p>domains $D = \{D_{1}, &hellip;, D_{w * 7} \ | \ D_1 = &hellip; = D_{w * 7} =  \{0,1,2,3\}\}$  ($3+1$ different shifts)</p>
+</li>
+<li>
+<p>constraints $C$ is the conjunction of:</p>
+<ul>
+<li>$\{global\_cardinality(\{(X_{1,i}^{2d}, X_{2,i}^{2d}, &hellip;,
+    X_{w,i}^{2d}\}, \{(0,M_{1,i}),(1,M_{2,i}),(2,M_{3,i}),(3,M_{4,i})\}) \;\;\; | \;\;\; \forall i \in \{1,&hellip;,7\} \}$ $(C_{shiftRequirements})$</li>
+<li>$\{X^{2d}_{j,7-1} = X^{2d}_{j,7}  \;\;\; | \;\;\; \forall j \in \{1,&hellip;,w\}\}$ $(C_{equalDays})$</li>
+<li>$\{ (x_i \neq x_{(i+1)_{mod}}) \rightarrow all\_equal(\{x_i, x_{(i-1)_{mod}}, &hellip;, x_{(i-s_{min}+1)_{mod}}\}) \;\;\; |  \;\;\; \forall i \in \{1,&hellip;,w * 7\}\}$ $(C_{shiftRepetitions\ 1})$</li>
+<li>$\{all\_equal(x_i, x_{(i+1)_{mod}}, x_{(i+2)_{mod}}, &hellip; ,
+      x_{(i+s_{max}-1)_{mod}}) \rightarrow (x_i \neq x_{(i+s_{max})_{mod}})
+      \;\;\; | \;\;\; \forall i \in \{1, &hellip;, w * 7\}\}$ $(C_{shiftRepetitions\ 2})$</li>
+<li>$\{(x_i \leq x_{(i+1)_{mod}}) \vee (x_{(i+1)_{mod}} = 0) \;\;\; | \;\;\; \forall
+      i \in \{1,&hellip;,w * 7\}\}$ $(C_{shiftOrder})$</li>
+<li>$\{count(0,\{x_{i}, x_{(i+1)_{mod}}, &hellip;, x_{(i+2 * 7)_{mod}}\},\geq,2) \;\;\; |  \;\;\;
+      \forall i \in \{1,&hellip;,w * 7\}\}$ $(C_{restDays})$ </li>
+</ul>
+</li>
+</ul>
+<p>where &ldquo;$i_{mod}$&rdquo; stands for &ldquo;$(i\ mod\ (w * 7)) + 1$&rdquo; and allows to describe a continuous schedule </p>
+<p>and with an example staff requirement table like <em>M</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Shift / Day</th>
+<th>Mo</th>
+<th>Tu</th>
+<th>We</th>
+<th>Th</th>
+<th>Fr</th>
+<th>Sa</th>
+<th>Su</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day Off</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Early</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Late</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Night</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>This represents an instance that covers 8 weeks with 8 employees, as can be calculated from the assignments to the
+shifts in <em>M</em>.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

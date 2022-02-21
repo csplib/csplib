@@ -1008,6 +1008,17 @@
     ],
     "title": "Capacitated Vehicle Routing Problem"
   },
+  "prob087": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob087",
+    "number": 87,
+    "proposer": [
+      "Sven L\u00f6ffler, Ilja Becker, Petra Hofstedt"
+    ],
+    "title": "Rotating Rostering Problem"
+  },
   "prob110": {
     "category": [
       "Combinatorial mathematics",
