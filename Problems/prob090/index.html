@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>090: Wordpress application deployment in the Cloud</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob090">prob090</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>090: Wordpress application deployment in the Cloud</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob090/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob090/results">Results</a></li>
+
+     	<li><a href="/Problems/prob090/references">References</a></li>
+
+     	<li><a href="/Problems/prob090/models">Models</a></li>
+
+     	<li><a href="/Problems/prob090/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob090.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob090/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by David Bogdan-Nicolae
+</p>
+
+<p>Wordpress (<a href="https://wordpress.com">https://wordpress.com</a>) is an open-source application frequently used in creating websites, blogs and web applications. A high-load and fault tolerant Wordpress deployment scenario is described as follows. The two characteristics are ensured by load balancing. One possibility to balance the load is at the DNS level using servers like Bind. Alternatively, one can use as website entry point an HTTP reverse proxy capable of load balancing such as Varnish. In both cases, Wordpress instances need to be configured to connect to the same database. Furthermore, having redundancy and balancing at the front-end level, one would expect to have them also at the Database Management System (DBMS) level. One way to achieve that is to use a MySQL cluster and configure Wordpress instances with multiple entry points to it. In this deployment scenario, the following constraints must be fulfilled:
+- DNSLoadBalancer requires at least 1 instance of Wordpress and can serve at most 7 such instances (<em>Require-Provide</em> constraint).
+- HTTPLoadBalancer requires at least 1 instance of Wordpress and can serve at most 3 such instances (<em>Require-Provide</em> constraint).
+- Wordpress requires at least 3 instances of MySQL and MySQL can server at most 2 Wordpress instances (<em>Require-Provide</em> constraint).
+- Only one type of balancer must be deployed (<em>Exclusive deployment</em> constraint).
+- As Varnish exhibits load balancing features, it should not be deployed on the same virtual machine as any other balancer (<em>Conflict</em> constraint).
+- Varnish and MySQL should not be deployed on the same virtual machine (<em>Conflict</em> constraint).
+- At least 2 instances of Varnish must be deployed (<em>Deployment with bounded number of instances</em> constraint, in particular <em>lower bound</em>).
+- There must be at least 2 entry points to the MySQL cluster (<em>Deployment with bounded number of instance</em> constraint, in particular <em>lower bound</em>).
+- No more than 1 DNSLoadBalancer can be deployed (<em>Deployment with bounded number of instances</em> constraint, in particular <em>upper bound</em>).
+- Balancer components must be deployed on a single virtual machine (<em>Conflict</em> constraint).</p>
+<p>In the picture below the constraints specified above are depicted. Additionally, for each component, the minimum hardware requirements are specified.</p>
+<p align="center">
+<img src="assets/Wordpress.png" alt="assets/Wordpress.png" width="500"/>
+</p>
+
+<p>We want to deploy the Wordpress application in the Cloud at a minimum price. There are various Cloud Providers (e.g. Amazon WS, Microsoft Azure, Google Cloud) which offer virtual machines (VMs) with various hardware/software characteristics at different price (depending on the geographical region). </p>
+<p>The problem can be formalized as follows. We consider a set of <em>N</em> interacting components, <em>C = {C<sub>1</sub>,&hellip;,C<sub>N</sub>}</em>, to be assigned to a set of <em>M</em> virtual machines, <em>V={V<sub>1</sub>, &hellip;, V<sub>M</sub>}</em>. Each component <em>C<sub>i</sub></em> is characterized by a set of requirements concerning the hardware resources. Each virtual machine, <em>V<sub>K</sub></em>, is characterized by a <em>type</em>, which is comprised by hardware/software characteristics and leasing price. There are also <em>structural constraints</em> describing the interactions between components (e.g. Conflict, Exclusive deployment). </p>
+<p>The problem is to find (output):
+- an assignment of components to VMs, and 
+- the type of acquired VMs</p>
+<p>such that:
+- the structural constraints and
+- the hardware requirements  (capacity constraints) of all components are satisfied and 
+- the purchasing/ leasing price is minimized. </p>
+<p>For example, when 3 Wordpress instances are deployed (the problem corresponds
+to 5 components as in the figure above), a prior estimation of the number of VMs is equal to 8. The output consists of the Assignment Matrix and the VM types. </p>
+<p>The Assignment Matrix is:</p>
+<pre>
+                  V<sub>1</sub> V<sub>2</sub> V<sub>3</sub> V<sub>4</sub>  V<sub>5</sub> V<sub>6</sub> V<sub>7</sub> V<sub>8</sub>
+WordPress         0  0  1  0  0  1  0  1
+MySQL             0  1  0  1  0  0  0  0
+DNS_LoadBalancer  0  0  0  0  0  0  0  0
+HTTP_LoadBalancer 0  0  0  0  0  0  1  0
+Varnish           1  0  0  0  1  0  0  0
+</pre>
+
+<p>and the VM types are:</p>
+<pre>
+V<sub>1</sub>   V<sub>2</sub>  V<sub>3</sub>  V<sub>4</sub>   V<sub>5</sub>  V<sub>6</sub>  V<sub>7</sub>  V<sub>8</sub>
+15  17  17  17  15  17  15  17
+</pre>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

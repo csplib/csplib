@@ -1019,6 +1019,17 @@
     ],
     "title": "Rotating Rostering Problem"
   },
+  "prob090": {
+    "category": [
+      "Bin Packing"
+    ],
+    "id": "prob090",
+    "number": 90,
+    "proposer": [
+      "David Bogdan-Nicolae"
+    ],
+    "title": "Wordpress application deployment in the Cloud"
+  },
   "prob110": {
     "category": [
       "Combinatorial mathematics",
