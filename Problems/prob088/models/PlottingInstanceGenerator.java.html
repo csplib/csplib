@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>088: Plotting</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob088">prob088</a></li>
+
+  <li><a href="/Problems/prob088/models">Models</a></li>
+  <li>PlottingInstanceGenerator.java</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>088: Plotting</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob088/">Specification</a></li>
+
+     	<li><a href="/Problems/prob088/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob088/results">Results</a></li>
+
+     	<li><a href="/Problems/prob088/references">References</a></li>
+
+     	<li><a href="/Problems/prob088/models">Models</a></li>
+
+     	<li><a href="/Problems/prob088/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob088.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob088/models/PlottingInstanceGenerator.java">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob088/models/PlottingInstanceGenerator.java">Download</a>
+<pre class ='brush: java'>import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random ;
+import java.util.*;
+
+// An instance generator for Plotting.
+// Takes gridWidth, gridHeight and nbColours
+// Can generate all instances with these characteristics or
+// a random single grid with a variety of blocks remaining/steps.
+// Enumerating all instances is generally too large a collection.
+// Output labelled either with seed or a grid id for complete enumeration.
+
+public final class PlottingInstanceGenerator {
+    static int gridWidth, gridHeight, nbColours, goalBlocks ;
+    static int gridId = 0 ;
+    static int seed ;
+    static Random random ;
+
+    static String instanceName="";  
+    static List&lt;String&gt; PDDLFiles=new ArrayList&lt;String&gt;();  
+    static List&lt;String&gt; EPrimeFiles=new ArrayList&lt;String&gt;();  
+
+    public static void main(String[] args) {
+        // parse args
+        if (args.length &lt; 5 || args.length &gt; 5) {
+            System.out.println("Usage: java PIG &lt;width&gt; &lt;height&gt; &lt;colours&gt; &lt;goalBlocks&gt; &lt;seed&gt;") ;
+            return ;
+        }
+        gridWidth = Integer.parseInt(args[0]) ;
+        gridHeight = Integer.parseInt(args[1]) ;
+        nbColours = Integer.parseInt(args[2]) ;
+        goalBlocks = Integer.parseInt(args[3]) ;
+        seed = Integer.parseInt(args[4]) ;
+
+        instanceName = "Plotting_"+gridHeight+"x"+gridWidth+"_"+
+                nbColours+"colours_"+
+                seed+"seed_"+
+                goalBlocks+"goal";
+    
+        // generate the file
+        random = new Random(seed) ;
+        generateSingleRandom(0,0, new int[gridHeight][gridWidth]) ;
+
+        // output the generated files
+        try {
+            FileWriter fw = new FileWriter(instanceName+".instance") ;
+            fw.write("pddl:");
+            for (int i = 0; i &lt; PDDLFiles.size(); i++) {
+                fw.write(PDDLFiles.get(i));
+                if (i+1 != PDDLFiles.size()) fw.write(",");
+            }
+            fw.write("\n");
+            fw.write("eprime:");
+            for (int i = 0; i &lt; EPrimeFiles.size(); i++) {
+                fw.write(EPrimeFiles.get(i));
+                if (i+1 != EPrimeFiles.size()) fw.write(",");
+            }
+            fw.write("\n");
+            fw.close();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    // Main usage, producing the simplest random instance.
+    // We are given everything: grid size, colours, seed and goal.
+    private static void generateSingleRandom(int row, int col, int[][] grid) {
+
+        if (row &gt;= gridHeight) {
+            // Each step must remove at least one block, so number of steps
+            //   is at most grid size - goalBlocks.
+            for (int noSteps = 1;
+                    noSteps &lt;= gridWidth*gridHeight-goalBlocks;
+                    noSteps++) {
+                EPrimeFiles.add(writeEPrime(grid, noSteps));
+            }
+            PDDLFiles.add(writePDDL(grid));
+            return ;
+        }
+        if (col &gt;= gridWidth) {
+            generateSingleRandom(row+1, 0, grid) ;
+            return ;
+        }
+        grid[row][col] = random.nextInt(nbColours)+1 ;
+        generateSingleRandom(row, col+1, grid) ;
+    }
+
+    // Write a PDDL instance.
+    private static String writePDDL(int[][] grid) {
+
+        String idfile = instanceName+".pddl";
+        try {
+            FileWriter fw = new FileWriter(idfile) ;
+
+            // header
+            fw.write("(define (problem "+idfile+")\n");
+            fw.write("(:domain plotting)\n");
+
+            // we need to define the numbers and colours
+            fw.write("(:objects\n");
+            // numbers
+            int largestNum = Math.max(gridHeight, gridWidth);
+            for(int currentNum = 1; currentNum &lt;= largestNum; currentNum++){
+                fw.write("n"+currentNum+" - number\n");
+            }
+            // colours
+            for(int currentColour = 1; currentColour &lt;= nbColours; currentColour++){
+                fw.write("c"+currentColour+" - colour\n");
+            }
+            fw.write(")\n"); // closing objects
+
+            // in the init part we need to state:
+            // state of the grid
+            fw.write("(:init\n");
+            for (int row = 1; row &lt;= gridHeight; row++) {
+                for (int col = 1; col &lt;= gridWidth; col++) {
+                    fw.write("(coloured n"+(row)+ " n"+(col)+" c"+ grid[row-1][col-1]+")\n");
+                }
+            }
+            // The hand always starts as a wildcard
+            fw.write("(hand wildcard)\n");
+
+            // numeric axioms 
+            // successor
+            for (int num = 1; num &lt; largestNum; num++) {
+                fw.write("(succ n"+ (num+1) +" n" + num + ")\n");
+            }
+
+            // predecessor
+            for (int num = 1; num &lt; largestNum; num++) {
+                fw.write("(pred n"+ num +" n" + (num+1) + ")\n");
+            }
+
+            // less-than
+            for (int num = 1; num &lt;= largestNum; num++) {
+                for (int num2 = num+1; num2 &lt;= largestNum; num2++) {
+                    fw.write("(lt n"+ num +" n" + num2 + ")\n");
+                }
+            }
+
+            // greater-than
+            for (int num = largestNum; num &gt; 1; num--) {
+                for (int num2 = num-1; num2 &gt; 0; num2--) {
+                    fw.write("(gt n"+ num +" n" + num2 + ")\n");
+                }
+            }
+
+            // helpers
+            fw.write("(isfirstcolumn n1)\n");
+            fw.write("(islastcolumn n"+largestNum+")\n");
+            fw.write("(istoprow n1)\n");
+            fw.write("(isbottomrow n"+largestNum+")\n");
+
+            // Distances
+            for (int num = 1; num &lt; largestNum; num++) {
+                for (int num2 = 1; num2 &lt; largestNum; num2++) {
+                    if( Math.abs(num-num2) != 0)
+                        fw.write("(distance n"+num+" n"+num2+" n"+Math.abs(num-num2)+")\n");
+                }
+            }
+            fw.write(")\n"); // closing init
+
+            fw.write(encodePDDLGoal()); 
+            fw.write(")\n"); // closing define problem
+            fw.close() ;
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return idfile;
+    }
+
+    // Compact formulation of the goal
+    //
+    //(:goal  ;; at most 2 cells are not null, i.e., g=2
+    //(exists (?x1 ?x2 ?y1 ?y2 - number)
+    //    (and
+    //        (or     ;; cell 1 != cell 2.
+    //            (not (= ?x1 ?x2))
+    //            (not (= ?y1 ?y2)))
+    //        (forall (?x3 ?y3 - number)
+    //            (or ; Or is one of cell 1 or cell 2, or is null
+    //                (and (= ?x1 ?x3) (= ?y1 ?y3))
+    //                (and (= ?x2 ?x3) (= ?y2 ?y3))
+    //                (coloured ?x3 ?y3 null))))))
+    private static String encodePDDLGoal(){
+        String goal = "(:goal\n";
+
+        switch (goalBlocks) {
+            case 0: 
+                goal += "(forall (?x1 ?y1 - number)\n";
+                goal += "    (coloured ?x1 ?y1 null))\n";
+                break;
+            case 1: 
+                goal += "(exists (?x1 ?y1 - number)\n";
+                goal += "        (forall (?x2 ?y2 - number)\n";
+                goal += "            (or\n";
+                goal += "                (and (= ?x1 ?x2) (= ?y1 ?y2))\n";
+                goal += "                (coloured ?x2 ?y2 null))))\n";
+                break;
+            default:
+                goal += "(exists (";
+                for(int i = 1; i &lt; goalBlocks; i++){
+                    goal += "?x"+i+" ?y"+i+" ";
+                }
+                goal += "- number)\n"+ "(and\n"; 
+                for (int num = 1; num &lt; goalBlocks; num++) {
+                    for (int num2 = num+1; num2 &lt; goalBlocks; num2++) {
+                        goal += "(or (not (= ?x"+num+" ?x"+num2+")) (not (= ?y"+num+" ?y"+num2+")))\n";
+                    }
+                }
+                goal += "(forall (?x"+goalBlocks+" ?y"+goalBlocks+" - number) (or\n";
+                for (int num = 1; num &lt; goalBlocks; num++) {
+                    goal += "    (and (= ?x"+num+" ?x"+goalBlocks+") (= ?y"+num+" ?y"+goalBlocks+"))\n";
+                }
+                goal += "(coloured ?x"+goalBlocks+" ?y"+goalBlocks+" null)))))\n";
+                break;
+        }
+        goal += ")\n"; // closing goal
+
+        return goal;
+    }
+
+    // write an Essence Prime file.
+    private static String writeEPrime(int[][] grid, int noSteps) {
+        String paddedSteps = String.format("%03d", noSteps);
+        String idfile = instanceName+"_"+paddedSteps+"steps.param";
+        try {
+            FileWriter fw = new FileWriter(idfile) ;
+            fw.write("language ESSENCE' 1.0\n") ;
+            fw.write("letting initGrid be [\n") ;
+            for (int row = 0; row &lt; gridHeight; row++) {
+                fw.write("[") ;
+                for (int col = 0; col &lt; gridWidth; col++) {
+                    fw.write(""+grid[row][col]) ;
+                    if (col &lt; gridWidth-1)
+                        fw.write(", ") ;
+                }
+                if (row &lt; gridHeight-1)
+                    fw.write("], \n") ;
+                else
+                    fw.write("]\n") ;
+            }
+            fw.write("]\n") ;
+            fw.write("letting goalBlocksRemaining be "+
+                    goalBlocks+"\n") ;
+            fw.write("letting noSteps be "+noSteps+"\n") ;
+            fw.close() ;
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return idfile;
+    }
+}
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

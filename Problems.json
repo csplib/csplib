@@ -1019,6 +1019,17 @@
     ],
     "title": "Rotating Rostering Problem"
   },
+  "prob088": {
+    "category": [
+      "Planning Problems"
+    ],
+    "id": "prob088",
+    "number": 88,
+    "proposer": [
+      "Joan Espasa Arxer & Ian Miguel"
+    ],
+    "title": "Plotting"
+  },
   "prob090": {
     "category": [
       "Bin Packing"
