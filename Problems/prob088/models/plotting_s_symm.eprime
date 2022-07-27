@@ -1,0 +1,453 @@
+language ESSENCE' 1.0
+
+$ ---- Parameters & Constants ----
+
+$ **** Allowing 0 here for testing purposes only
+given initGrid : matrix indexed by[int(1..gridHeight), int(1..gridWidth)] of int(0..)
+letting GRIDCOLS be domain int(1..gridWidth)
+letting GRIDROWS be domain int(1..gridHeight)
+letting NOBLOCKS be gridWidth * gridHeight
+letting COLOURS be domain int(1..max(flatten(initGrid)))
+letting EMPTY be 0
+letting EMPTYANDCOLOURS be domain int(EMPTY) union COLOURS
+
+given goalBlocksRemaining : int(0..NOBLOCKS)
+
+given noSteps : int(1..)
+letting STEPSFROM1 be domain int(1..noSteps)
+letting STEPSFROM0 be domain int(0..noSteps)
+
+$ ---- Decision Variables ----
+$ NB Actual game sometimes restricted firing positions.
+find fpRow : matrix indexed by[STEPSFROM1] of int(0..gridHeight)
+find fpCol : matrix indexed by[STEPSFROM1] of int(0..gridWidth)
+find grid : matrix indexed by[STEPSFROM0, GRIDROWS, GRIDCOLS]
+                             of EMPTYANDCOLOURS 
+find hand : matrix indexed by[STEPSFROM0] of COLOURS
+
+$ Aux to deal with shot down a row hitting a wall and then falling.
+find wallFall : matrix indexed by[STEPSFROM1] of int(0..gridHeight)
+
+$ Aux to deal with monochrome column symmetry
+$ 0 means empty or non-monochrome.
+find monochromeCols : matrix indexed by[STEPSFROM0, GRIDCOLS] of EMPTYANDCOLOURS
+
+$ ---- Constraints -------------------------------------------------------------
+such that
+
+$ ---- Initial & Goal States ----------------------------
+$ Initial state:
+forAll gCol : GRIDCOLS .
+  forAll gRow : GRIDROWS .
+    grid[0, gRow, gCol] = initGrid[gRow, gCol],
+
+$ Goal state:
+atleast(flatten(grid[noSteps,..,..]),
+        [NOBLOCKS - goalBlocksRemaining],
+        [EMPTY]),
+$ ---- End of Initial & Goal States ---------------------
+
+$ ---- Constrain Actions --------------------------------
+$ Each move must do something useful:
+$ Careful: if not counting 0s then it will try and insert phantom colours.
+forAll step : STEPSFROM1 .
+   sum(flatten(grid[step-1,..,..])) > sum(flatten(grid[step,..,..])),
+
+$ Exactly one fp axis must be 0. (exclusive OR, only ONE fired angle)
+forAll step : STEPSFROM1 .
+  (
+   (fpRow[step] * fpCol[step]) = 0 /\ (fpRow[step] + fpCol[step]) > 0
+  ),
+$ ---- End of Constrain Actions -------------------------
+
+$ ---- Implied Constraint ------------------------------------------------------
+$ If there is only cell of a particular colour left in the grid then it cannot
+$  appear in the hand before the goal state.
+forAll step : int(0..noSteps-2) .
+  forAll colour : COLOURS .
+    atmost(flatten(grid[step,..,..]), [1], [colour])
+    ->
+    forAll step2 : int(step+1..noSteps-1) .
+      hand[step2] != colour,
+
+$ ---- Compute wallFall distance-----------------------
+$ The number of blocks travelled in the final column by the shot block.
+$ Checks at least one block consumed en route to force progressing move.
+$ 0 if no travel in final col.
+forAll step : STEPSFROM1 .
+ forAll i : int (1..gridHeight) .
+  (wallFall[step] = i)
+  =
+  (exists row : int(1..gridHeight) .
+    (fpRow[step] = row) /\
+    $ Travelled to the rightmost column
+    (forAll col : int(1..gridWidth) .
+      grid[step-1,row,col] = EMPTY \/
+      grid[step-1,row,col] = hand[step-1]) /\
+    $ Travelled i in the last column
+    (forAll underRow : int (row..row+i-1) .
+      grid[step-1,underRow,gridWidth] = hand[step-1] \/
+      grid[step-1,underRow,gridWidth] = EMPTY) /\
+    $ And no more
+    ((grid[step-1,row+i,gridWidth] != hand[step-1]) \/
+     (row+i > gridHeight)) /\
+    $ And consumed a block somewhere, otherwise not a progressing move.
+    ((exists col : GRIDCOLS .
+        grid[step-1,row,col] = hand[step-1]) \/
+     (exists underRow : int(row..row+i-1) .
+        grid[step-1,underRow,gridWidth] = hand[step-1]))
+  ),
+$ ---- End of Compute wallFall distance----------------
+
+$ ---- The hand stays the same ------------------------
+$ There are only two cases when we require a progressing move.
+$ Otherwise the hand must change.
+forAll step : STEPSFROM1 .
+  (hand[step-1] = hand[step])
+  =
+  (
+    $ Fired down col, hitting wall
+    (
+      (forAll colBlock : GRIDROWS .
+        ((grid[step-1,colBlock,fpCol[step]] = hand[step-1]) \/
+         (grid[step-1,colBlock,fpCol[step]] = EMPTY))
+      )
+    ) \/
+    $ Fired row, hitting wall, dropping through hand-colour only.
+    $ We can test this by comparing the wallFall value with fpRow:
+    (wallFall[step] = gridHeight-fpRow[step]+1)
+  ),
+$ ---- End of The hand stays the same -----------------
+
+$ ---- Emptiness --------------------------------------
+$ If a cell is empty then one of these cases must apply, and conversely.
+ forAll step : STEPSFROM1 .
+   forAll gRow : GRIDROWS .
+     forAll gCol : GRIDCOLS .
+      (grid[step,gRow,gCol] = EMPTY)
+      =
+      (
+        $ When a cell is EMPTY, it stays EMPTY
+        (grid[step-1,gRow,gCol] = EMPTY) \/
+        $ Deleted by shot down column
+        (
+          $ The right column
+          (fpCol[step] = gCol) /\
+          $ same colour as hand
+          (grid[step-1,gRow,gCol] = hand[step-1]) /\
+          $ Nothing blocking the way
+          (forAll blockAbove : int(1..gRow-1) .
+            ((grid[step-1,blockAbove,fpCol[step]] = hand[step-1]) \/
+             (grid[step-1,blockAbove,fpCol[step]] = EMPTY))
+          )
+        ) \/
+        $ Deleted by shot along row. Doesn't include last column.
+        (
+          $ The right row
+          (fpRow[step] = gRow) /\
+          $ Interior column.
+          (gCol < gridWidth) /\
+          $ same colour as hand
+          (grid[step-1,gRow,gCol] = hand[step-1]) /\
+          $ no block above. This is why not last col: can't check 1 block above.
+          ((gRow = 1) \/
+           (grid[step-1,gRow-1,gCol] = EMPTY)) /\
+          $ nothing blocking way
+          (forAll blockLeft : int(1..gCol-1) .
+            ((grid[step-1,gRow,blockLeft] = hand[step-1]) \/
+             (grid[step-1,gRow,blockLeft] = EMPTY))
+          )
+        ) \/
+        $ Deleted by shot along row, then down col
+        (
+          $ Only the final column
+          (gCol = gridWidth) /\
+          $ Can exploit wallfall here: fpRow..fpRow+WF-1 is directly deleted
+          (gRow >= fpRow[step]) /\
+          (gRow <= fpRow[step]+wallFall[step]-1) /\
+          $ Now check there was nothing there
+          (
+            (gRow - wallFall[step] < 1) \/
+            (grid[step-1,gRow - wallFall[step], gridWidth] = EMPTY)
+          )
+        ) \/
+        $ Fall from this cell to become empty: row shot underneath, not last col.
+        (
+          $ There was no block above
+          ((grid[step-1,gRow-1,gCol] = EMPTY) \/
+           (gRow = 1)) /\
+          $ Interior column.
+          (gCol < gridWidth) /\
+          $ Deletion below
+          (fpRow[step] > gRow) /\
+          (forAll delBlock : int(1..gCol) .
+            ((grid[step-1,fpRow[step],delBlock] = hand[step-1]) \/
+             (grid[step-1,fpRow[step],delBlock] = EMPTY)))
+        ) \/
+        $ Final Column shot along a row consuming several blocks underneath
+        (
+          $ Only the final column
+          (gCol = gridWidth) /\
+          $ There was a wallfall - this implies a successful row shot.
+          (wallFall[step] > 0) /\
+          $ The shot was beneath here
+          (fpRow[step] > gRow) /\
+          $ Nothing there to fall into here
+          (grid[step-1,gRow-wallFall[step],gridWidth] = EMPTY \/
+           gRow-wallFall[step] < 1)
+        )
+      ),
+$ ---- End of Emptiness -------------------------------
+
+$ ---- Grid Stays Same --------------------------------
+$ A cell stays the same if one of these cases applies.
+forAll step : STEPSFROM1 .
+  forAll gRow : GRIDROWS .
+    forAll gCol : GRIDCOLS .
+      (grid[step,gRow,gCol] = grid[step-1,gRow,gCol])
+      =
+      (
+        $ It was empty
+        (grid[step-1,gRow,gCol] = EMPTY) \/
+        $ Fired beneath this row, not far enough to cause fall:
+        (
+          (fpRow[step] > gRow) /\
+          (exists blockLeft : int(1..gCol) .
+             ((grid[step-1,fpRow[step],blockLeft] != EMPTY) /\
+              (grid[step-1,fpRow[step],blockLeft] != hand[step-1]))
+          )
+        ) \/
+        $ Fired along this row, but something in the way
+        (
+          (fpRow[step] = gRow) /\
+          (exists blockLeft : int(1..gCol-1) .
+            ((grid[step-1, gRow, blockLeft] != EMPTY) /\
+             (grid[step-1, gRow, blockLeft] != hand[step-1]))
+          )
+        ) \/
+        $ Fired along row above, cols except last
+        (
+          (gCol < gridWidth) /\
+          (fpRow[step] != 0) /\
+          (fpRow[step] < gRow)
+        ) \/
+        $ Fired along row above, last col. Sth in way on row or last col.
+        (
+          (gCol = gridWidth) /\
+          (fpRow[step] != 0) /\
+          (fpRow[step] < gRow) /\
+          (
+            (exists rowBlock : int(1..gridWidth) .
+             ((grid[step-1, fpRow[step], rowBlock] != EMPTY) /\
+              (grid[step-1, fpRow[step], rowBlock] != hand[step-1]))
+            ) \/
+            (exists colBlock : int(1..gRow-1) .
+             ((colBlock >= fpRow[step]) /\
+              (grid[step-1, colBlock, gridWidth] != EMPTY) /\
+              (grid[step-1, colBlock, gridWidth] != hand[step-1]))
+            )
+          )
+        ) \/
+        $ Fired down this column, but something in way
+        (
+          (fpCol[step] = gCol) /\
+          (exists blockAbove : int(1..gRow-1) .
+            ((grid[step-1,blockAbove,gCol] != EMPTY) /\
+             (grid[step-1,blockAbove,gCol] != hand[step-1])))
+        ) \/
+        $ Fired down a different column
+        (
+          (fpCol[step] != 0) /\
+          (fpCol[step] != gCol)
+        ) \/
+        $ This row or below. Same colour block falls here. All but last col.
+        (
+          (gCol < gridWidth) /\
+          (fpRow[step] >= gRow) /\
+          (forAll delBlock : int(1..gCol) .
+            ((grid[step-1,fpRow[step],delBlock] = hand[step-1]) \/
+             (grid[step-1,fpRow[step],delBlock] = EMPTY))) /\
+          (grid[step-1,gRow-1,gCol] = grid[step-1,gRow,gCol])
+        ) \/
+        $ This row or below. Same colour block falls here. Last col.
+        (
+          (gCol = gridWidth) /\
+          (fpRow[step] >= gRow) /\
+          (wallFall[step] > 0) /\
+          (grid[step-1,gRow-wallFall[step],gCol] = grid[step-1,gRow,gCol])
+        )
+      ),
+$ ---- End of Grid Stays Same -------------------------
+
+$ ---- Grid changes to something other than empty -----
+forAll step : STEPSFROM1 .
+  forAll gRow : GRIDROWS .
+    forAll gCol : GRIDCOLS .
+      $ makeTable around this runs forever (search not table making)
+      ((grid[step,gRow,gCol] != grid[step-1,gRow,gCol]) /\
+       (grid[step,gRow,gCol] != EMPTY))
+      =
+      (
+        $ Fall from above. Not rightmost col.
+        (
+          (gCol < gridWidth) /\
+          $there was a block above
+          (grid[step-1,gRow-1,gCol] != EMPTY) /\
+          $Deletion here or below
+          (fpRow[step] >= gRow) /\
+          (forAll delBlock : int(1..gCol) .
+            ((grid[step-1,fpRow[step],delBlock] = hand[step-1]) \/
+             (grid[step-1,fpRow[step],delBlock] = EMPTY))) /\
+          $ Is now the same as the block above.
+          (grid[step,gRow,gCol] = grid[step-1,gRow-1,gCol]) /\
+          $ Which was a different colour
+          (grid[step-1,gRow,gCol] != grid[step-1,gRow-1,gCol])
+        ) \/
+        $ Fall from above. Rightmost col.
+        (
+          (gCol = gridWidth) /\
+          $ WallFall implies successful row shot
+          (wallFall[step] > 0) /\
+          $ It's in the wall fall area. Everything down to fprow+wallfall-1 changes
+          (gRow  <= fpRow[step] + wallFall[step] - 1) /\
+          $ Is now the same as the block above
+          (grid[step,gRow,gridWidth] =
+           grid[step-1,gRow-wallFall[step],gridWidth]) /\
+          $ Which was a different colour, and not empty.
+          (grid[step-1,gRow,gridWidth] !=
+           grid[step-1,gRow-wallFall[step],gridWidth]) /\
+          (grid[step-1,gRow-wallFall[step],gridWidth] != EMPTY)
+        ) \/
+        $ Cell swaps with hand: row shot.
+        (
+          (gRow = fpRow[step]) /\
+          $ The row shot
+          (forAll colsLeft : int(1..gCol-1) .
+            (grid[step-1,fpRow[step],colsLeft] = hand[step-1]) \/
+            (grid[step-1,fpRow[step],colsLeft] = EMPTY)) /\
+          $ At least one cell has to match the hand
+          (exists colsLeft : int(1..gCol-1) .
+            (grid[step-1,fpRow[step],colsLeft] = hand[step-1])) /\
+          $ Exchanges with the hand
+          (hand[step] = grid[step-1,fpRow[step],gCol]) /\
+          (hand[step-1] = grid[step,fpRow[step],gCol]) /\
+          $ Which was a different colour
+          (hand[step-1] != grid[step-1,fpRow[step],gCol])
+        ) \/
+        $ Cell swaps with hand: col shot
+        (
+          (gCol = fpCol[step]) /\
+          $ The col shot
+          (forAll rowsAbove : int(1..gRow-1) .
+            (grid[step-1,rowsAbove,fpCol[step]] = hand[step-1]) \/
+            (grid[step-1,rowsAbove,fpCol[step]] = EMPTY)) /\
+          $ At least one cell has to match the hand
+          (exists rowsAbove : int(1..gRow-1) .
+            (grid[step-1,rowsAbove,fpCol[step]] = hand[step-1])) /\
+          $ Exchanges with the hand
+          (hand[step] = grid[step-1,gRow,fpCol[step]]) /\
+          (hand[step-1] = grid[step,gRow,fpCol[step]]) /\
+          $ Which was a different colour
+          (hand[step-1] != grid[step-1,gRow,fpCol[step]])
+        ) \/
+        $ Cell swaps with hand: row then down last col.
+        (
+          $ rightmost col
+          (gCol = gridWidth) /\
+          $ WallFall implies travel row then col.
+          (wallFall[step] > 0) /\
+          $ and this cell must be at fpRow+wallFall
+          (gRow = wallFall[step] + fpRow[step]) /\
+          $ Some consumption must have happened in either row or col.
+          $ Exchanges with hand
+          (hand[step] = grid[step-1,gRow,gridWidth]) /\
+          (hand[step-1] = grid[step,gRow,gridWidth]) /\
+          $ Which was a different colour
+          (hand[step-1] != grid[step-1,gRow,gridWidth])
+        )
+      ),
+$ ---- End: Grid changes to something other than empty
+
+$ ---- Interchangeable Moves
+$ Sequences of monochrome column shots can be permuted. Break that sym.
+
+$ Channel to the monochrome columns variables.
+$ Set up an iff for each colour, defaults to 0 for empty or non-monochrome.
+forAll step : int(0..noSteps) .
+  forAll gCol : int(1..gridWidth) .
+    forAll colour : COLOURS .
+      (monochromeCols[step, gCol] = colour)
+      =
+      (
+        $ not empty
+        (grid[step, gridHeight, gCol] = colour) /\
+        $ monochrome
+        (forAll gRow : int(1..gridHeight-1) .
+           (grid[step, gRow, gCol] = colour) \/
+           (grid[step, gRow, gCol] = EMPTY))
+      ),
+$ Use monochrome columns variables to break the symmetry.
+forAll step : int(1..noSteps-1) .
+  forAll gCol : int(1..gridWidth-1) .
+    forAll gCol2 : int(gCol+1..gridWidth) .
+      ((monochromeCols[step-1, gCol] != EMPTY) /\
+       (monochromeCols[step-1, gCol] = monochromeCols[step-1, gCol2]))
+      ->
+      (
+        $ If consecutive must be left to right
+        fpCol[step] = gCol2
+        ->
+        fpCol[step+1] != gCol
+      ),
+$ ---- End of Interchangeable Moves
+
+
+$ ------------------------
+$ Extra constraints
+$ ------------------------
+
+$ If a row is completely empty, then shooting along it will have the same effect as shooting down the last column, assuming we're considering an instance where shooting down the last column is possible. Since these two actions are interchangeable, we can simply disallow shots along empty rows:
+
+forAll step : STEPSFROM1 .
+  $ Assume bottom row not going to be empty.
+  forAll gRow : int(1..gridHeight-1) .
+    ((sum gCol : int(1..gridWidth) . grid[step-1,gRow,gCol]) = 0) ->
+    (fpRow[step] != gRow),
+
+$ This remains true if the row is empty except for the last column, and the block in the last column on that row has nothing above it. Again, we can disallow a row shot in this situation:
+forAll step : STEPSFROM1 .
+  $ Assume bottom row not going to be empty.
+  forAll gRow : int(1..gridHeight-1) .
+    ((sum gCol : int(1..gridWidth-1) . grid[step-1,gRow,gCol]) = 0) /\
+    ((gRow = 1) \/ (grid[step-1,gRow-1,gridWidth] = EMPTY))
+    ->
+    (fpRow[step] != gRow),
+
+$ Here is a symmetry breaking constraint for consecutive monochrome column shots
+$ ---------------------
+forAll step : int(1..noSteps-1) .
+  forAll gCol : int(1..gridWidth-1) .
+    forAll gCol2 : int(gCol+1..gridWidth) .
+     $ Monochrome
+     (forAll gRow : int(1..gridHeight) .
+       ((grid[step-1,gRow,gCol] = EMPTY) \/
+        (grid[step-1,gRow,gCol] = hand[step-1])) /\
+       ((grid[step-1,gRow,gCol2] = EMPTY) \/
+        (grid[step-1,gRow,gCol2] = hand[step-1])))
+     ->
+     (
+       $ If consecutive must be left to right
+       fpCol[step] = gCol2
+       ->
+       fpCol[step+1] != gCol
+     ),
+
+$ DEADEND symmetry breaking
+forAll step : int(0..noSteps-2) .
+    forAll colour : COLOURS .
+    atmost(flatten(grid[step,..,..]), [1], [colour])
+    ->
+    forAll step2 : int(step+1..noSteps-1) .
+        hand[step2] != colour,
+
+true
