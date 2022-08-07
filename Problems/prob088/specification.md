@@ -1,6 +1,6 @@
 ---
 Title:    Plotting
-Proposer: Joan Espasa Arxer & Ian Miguel
+Proposer: Joan Espasa Arxer & Ian Miguel & Mateu Villaret
 Category: Planning Problems
 ---
 
