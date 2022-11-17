@@ -7,7 +7,7 @@ PyCSP3 is a Python library for writting, in a declarative manner, models of cons
 
 On a dedicated [website](https://pycsp.org/), find more than 60 Jupyter notebooks for gently learning CP (Constraint Programming):
 
-- understanding the 25 popular constraints 
+- understanding 25 popular constraints 
 - understanding, step by step, 34 models of classical problems
 
 Useful links:
