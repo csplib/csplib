@@ -45,7 +45,8 @@ source_mapping = {}
 # Only input the lowercase versions
 language_mapping = {
 	"ilog solver": 'cpp',
-	"numberjack": 'py'
+	"numberjack": 'py',
+        "pycsp3": 'py'
 }
 
 
