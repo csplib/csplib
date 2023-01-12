@@ -48,3 +48,7 @@ clean:
 docker:
 	docker build . --tag csplib
 	bash -c 'docker run --user `id -u`:`id -g` -v `pwd`:/dir csplib sh -c "cd /dir;make"'
+
+podman:
+	podman build . --tag csplib
+	bash -c 'podman run -v `pwd`:/dir csplib sh -c "cd /dir;make"'
