@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
-import cgi	# for cgi.escape
 import markdown
 import os, os.path as path
 import zipfile
 import html
+
+from sortedcontainers import SortedSet
+
+# from https://github.com/posativ/isso/pull/600/files
+try:
+    from cgi import escape
+except ImportError:
+    from html import escape
 
 import logging
 logger = logging.getLogger(__name__)
@@ -15,17 +22,17 @@ markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
 
 #  File extensions listed in language pages should not be added,
 #  since they are added automatically.
-source_types = set(['cc', 'c', 'java', 'cpp', 'cs', 'erl', 'groovy', 'h', 'hh', 'hpp',
+source_types = SortedSet(['cc', 'c', 'java', 'cpp', 'cs', 'erl', 'groovy', 'h', 'hh', 'hpp',
                     'hrl', 'js', 'php', 'pl', 'py', 'rb', 'scala', 'xml'])
 
 # File formats that should be display inline
-text_formats = set(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'egenet','chip'])
+text_formats = SortedSet(['txt', 'hs', 'lhs', 'lisp', 'cnf', 'egenet','chip'])
 
 text_formats |= source_types
 
 # Format that should not be displayed inline
-binary_formats = set(['ps', 'pdf'])
-archive_formats = set(['zip', 'tar', 'tar.gz', 'tgz', 'rar', '7z', 'xz', 'sit', 'sitx',
+binary_formats = SortedSet(['ps', 'pdf'])
+archive_formats = SortedSet(['zip', 'tar', 'tar.gz', 'tgz', 'rar', '7z', 'xz', 'sit', 'sitx',
 	 					'iso', 'bz2', 'lz', 'gz', 'lzma', 'lzo', 'z', 'Z', 'ace',
 						'jar', 'pea', 'tarz', 'tar.bz2', 'tbz2', 'tlz', 'xar',
 						'zipx', 'zz', 'zpaq'])
@@ -38,7 +45,8 @@ source_mapping = {}
 # Only input the lowercase versions
 language_mapping = {
 	"ilog solver": 'cpp',
-	"numberjack": 'py'
+	"numberjack": 'py',
+        "pycsp3": 'py'
 }
 
 
@@ -108,9 +116,7 @@ def get_content_and_metadata(filepath, store_dir):
 		txt = read_file(filepath)
 		if stype in source_types:
 			css_class = "class ='brush: {0}'".format(stype)
-			txt = cgi.escape(txt)
-		else:
-			txt = html.escape(txt,quote=False)
+		txt = escape(txt,quote=False)
 
 		return ("<pre {0}>{1}</pre>".format(css_class, txt), meta, None)
 	else:

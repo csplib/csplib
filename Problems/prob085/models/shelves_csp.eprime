@@ -1,0 +1,69 @@
+language ESSENCE' 1.0
+$ the SATISFACTION version of the bookshelves OPTIMISATION problem
+$ this time with the extra `width` parameter
+
+
+$ length of each plank
+given lengths : matrix indexed by [int(1..n)] of int
+letting PLANKS be domain int(1..n)
+letting LENGTH be domain int(0..max(lengths))
+
+$ how thick are the planks?
+given thickness : LENGTH
+
+$ how much vertical space does each shelf need?
+given vertical_gap : LENGTH
+
+$ how wide should the shelves be?
+given width : LENGTH
+
+$ how much do we lose with each cut?
+letting CUTCOST = 1
+
+$----------------------------------------------------------------------
+$ how should we cut the planks?
+$ pfrom stores the index of the plank a piece comes from
+$ pieces stores the length of the piece
+$ pieces[1..2] should be the uprights and the rest of
+$ pieces should be equal-length shelves
+
+$ To find the max. number of pieces we'll use, assume that the two
+$ longest pieces are equal and will be used for uprights.  Now we can
+$ fit at most (max_length / (vertical_gap+thickness)) horizontal
+$ shelves in
+
+letting maxpieces = 2+(max(lengths) / (thickness+vertical_gap))
+letting PIECES be domain int(1..maxpieces)
+find pieces : matrix indexed by [PIECES] of LENGTH
+find pfrom : matrix indexed by [PIECES] of PLANKS
+
+such that
+
+$ the OPTIMISATION changed to SATISFACTION
+(sum(pieces) - (pieces[1]+pieces[2])) = width,
+
+$ at least 3 pieces are used (two uprights and a shelf)
+pieces[1] * pieces[2] * pieces[3] > 0 ,
+
+$ pack the pieces at the start of the array
+forAll i : PIECES . (i>4 /\ pieces[i-1]=0) -> pieces[i]=0 ,
+
+$ the first two pieces are equal to each other (the uprights) and ... 
+pieces[1] = pieces[2] ,
+
+$ ... all other pieces are of equal length (the shelves)
+forAll i : PIECES  . (i>3) -> (pieces[i]=pieces[3] \/ pieces[i]=0),
+
+$ each plank is not overused - remember the cutting loss
+forAll x : PLANKS .(
+    sum([pieces[i]*(pfrom[i]=x) | i:PIECES ]) +
+    CUTCOST * (sum([(pieces[i]>0)*(pfrom[i]=x) | i:PIECES]) - 1)
+  ) <= lengths[x],
+
+$ each shelf has enough vertical room, i.e. if K is number of shelves,
+$ the uprights must be at least THICKNESS x (K-1) + vertical_gap x K
+pieces[1] >= 
+  (sum([(i>2 /\ pieces[i]>0)|i:PIECES])) * (thickness+vertical_gap),
+
+$----------------------------------------------------------------------
+true

@@ -16,5 +16,5 @@ find sched : set (size w) of
 
 such that
 
-forAll g1, g2 : Golfers, g1 < g2 .
+forAll g1, g2 : Golfers, g1 != g2 .
     (sum week in sched . toInt(together({g1, g2}, week))) <= 1

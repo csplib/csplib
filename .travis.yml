@@ -1,13 +1,13 @@
 language: python
 python:
-# - '3.3'
-# - '3.4'
-- '3.5'
-install:
-- ./internal/scripts/support/setup.sh && pip install github3.py
+- "3.5"
+- "3.6"
+- "3.7"
+- "3.8"
 script:
-- make build_for_gh_pages
-- ./internal/scripts/support/upload_to_csplib-builds.sh
+ - make
+#- make build_for_gh_pages
+#- ./internal/scripts/support/upload_to_csplib-builds.sh
 notifications:
   email:
     on_success: change

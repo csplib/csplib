@@ -17,6 +17,4 @@ ECLiPSe's offical web site is
 [eclipseclp.org](http://www.eclipseclp.org), where source and binary
 distributions can be downloaded.  There are also three ECLiPSe based
 text books (see references), and an [online E-learning
-course](http://4c.ucc.ie/~hsimonis/ELearning/index.htm).
-
-
+course](http://www.eclipseclp.org/ELearning/).

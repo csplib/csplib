@@ -32,6 +32,7 @@ from collections import defaultdict
 from datetime import datetime
 from distutils import dir_util
 from jinja2 import Environment, FileSystemLoader
+from sortedcontainers import SortedSet
 
 from problem import Problem, PageType, write_json_for_overview
 from util import create_zip_file, makedirs_exist_ok, source_mapping
@@ -95,14 +96,14 @@ logger.info("Output:%s", output_dir)
 
 # Problem paths
 problems_path = path.join(base, "Problems")
-probs_names = set(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
+probs_names = SortedSet(f for f in os.listdir(problems_path) if path.isdir(path.join(problems_path, f)))
 
 languages_path = path.join(base, "Languages")
-langs_names = set(f for f in os.listdir(languages_path) if path.isdir(path.join(languages_path, f)))
+langs_names = SortedSet(f for f in os.listdir(languages_path) if path.isdir(path.join(languages_path, f)))
 
 # If args are given, only build the specifed problems
 if args.only:
-	to_build = set(args.only)
+	to_build = SortedSet(args.only)
 	probs_names = probs_names & to_build
 	langs_names = langs_names & to_build
 
@@ -227,7 +228,7 @@ for lang in langs:
 	(_,meta) = util.convert_markdown(lang.specification)
 	util.source_types.add(meta['title'][0].lower())
 	PROB_DATA[lang.name] = dict(title=meta['title'][0],is_language=True)
-	if 'extensions' in meta:
+	if 'extensions' in meta and meta['extensions'] != [None]:
 		util.source_types.update(meta['extensions'])
 		for ext in meta['extensions']:
 			util.source_mapping[ext] = meta['title'][0].lower()

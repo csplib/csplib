@@ -2,7 +2,9 @@
 [![License CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-brightgreen.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Build Status](https://travis-ci.org/csplib/csplib.svg?branch=master)](https://travis-ci.org/csplib/csplib)
 
-Requires Python 3.3+,  (Python 3.4+ on windows)
+Requires Python 3.3+,  (Python 3.4+ on windows).
+
+csplib does not work with Python 3.9 or above. If you have trouble running csplib, try 'make docker' instead of 'make'.
 
 To build a local copy of csplib to view locally type:
 
@@ -114,9 +116,3 @@ The extensions will be matched against the file extensions, or `Type` contained 
 # Website building scripts
 
 An overview of the architecture used to build csplib can be found at [internal/readme.md](internal/readme.md).
-
-# Development builds
-
-Development builds of every branch and pull requests are located at http://csplib.github.io/csplib-builds/
-
-The master (main) branch has a vanity url as well for convenience:  http://git.io/csplib

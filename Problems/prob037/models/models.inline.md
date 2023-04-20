@@ -20,4 +20,10 @@ An optimisation variant of peg Solitaire is to attempt to reach a position where
 ## Code ##
 A basic Ilog Solver program to solve central Solitaire can be found [here](SolitaireSolverCode.zip).
 
-For comparison, a PDDL version of the problem, for use with AI planning systems such as [Blackbox](http://www.cs.washington.edu/homes/kautz/blackbox), [Fastforward](http://www.informatik.uni-freiburg.de/~hoffmann/ff.html), [HSP](http://www.cs.ucla.edu/~bonet), or [STAN](http://www.dur.ac.uk/computer.science/research/stanstuff/html/dpgstan.html), can be found [here](SolitairePDDL.zip).
+For comparison, a PDDL version of the problem,
+for use with AI planning systems such as
+[Blackbox](https://www.cs.rochester.edu/u/kautz/satplan/blackbox/),
+[Fastforward](https://fai.cs.uni-saarland.de/hoffmann/ff.html),
+[HSP](https://planning.wiki/ref/planners/hsp), or
+[STAN](https://www.cs.cmu.edu/afs/cs/project/jair/pub/volume17/howe02a-html/node11.html),
+can be found [here](SolitairePDDL.zip).

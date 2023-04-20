@@ -1,0 +1,11 @@
+deck_width = 5;
+deck_length = 5;
+n_containers = 3;
+n_classes = 2;
+
+width = [5, 2, 3];
+length = [1, 4, 4];
+class = [1, 1, 1];
+
+separation = [|0, 0|
+               0, 0|];

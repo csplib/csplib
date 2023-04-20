@@ -1,0 +1,328 @@
+language ESSENCE' 1.0
+
+$ ---- Parameters & Constants ----
+
+$ **** Allowing 0 here for testing purposes only
+given initGrid : matrix indexed by[int(1..gridHeight), int(1..gridWidth)] of int(0..)
+letting GRIDCOLS be domain int(1..gridWidth)
+letting GRIDROWS be domain int(1..gridHeight)
+letting NOBLOCKS be gridWidth * gridHeight
+letting COLOURS be domain int(1..max(flatten(initGrid)))
+letting EMPTY be 0
+letting EMPTYANDCOLOURS be domain int(EMPTY) union COLOURS
+
+given goalBlocksRemaining : int(0..NOBLOCKS)
+
+given noSteps : int(1..)
+letting STEPSFROM1 be domain int(1..noSteps)
+letting STEPSFROM0 be domain int(0..noSteps)
+
+$ ---- Decision Variables ----
+$ NB Actual game sometimes restricted firing positions.
+find fpRow : matrix indexed by[STEPSFROM1] of int(0..gridHeight)
+find fpCol : matrix indexed by[STEPSFROM1] of int(0..gridWidth)
+find grid : matrix indexed by[STEPSFROM0, GRIDROWS, GRIDCOLS]
+                             of EMPTYANDCOLOURS 
+find hand : matrix indexed by[STEPSFROM0] of COLOURS
+
+$ ---- Constraints -------------------------------------------------------------
+such that
+
+$ ---- Initial & Goal States ----------------------------
+$ Initial state:
+forAll gCol : GRIDCOLS .
+  forAll gRow : GRIDROWS .
+    grid[0, gRow, gCol] = initGrid[gRow, gCol],
+
+$ Goal state:
+atleast(flatten(grid[noSteps,..,..]),
+        [NOBLOCKS - goalBlocksRemaining],
+        [EMPTY]),
+$ ---- End of Initial & Goal States ---------------------
+
+$ ---- Constrain Actions --------------------------------
+$ Each move must do something useful:
+$ Careful: if not counting 0s then it will try and insert phantom colours.
+forAll step : STEPSFROM1 .
+   sum(flatten(grid[step-1,..,..])) > sum(flatten(grid[step,..,..])),
+
+$ Exactly one fp axis must be 0. (exclusive OR, only ONE fired angle)
+forAll step : STEPSFROM1 .
+  (
+   (fpRow[step] * fpCol[step]) = 0 /\ (fpRow[step] + fpCol[step]) > 0
+  ),
+$ ---- End of Constrain Actions -------------------------
+
+$ Column Shot
+forAll step : STEPSFROM1 .
+  (fpCol[step] > 0)
+  ->
+  $ All other columns are untouched.
+  (forAll col : GRIDCOLS .
+   (col != fpCol[step]) ->
+   (forAll row : GRIDROWS . grid[step,row,col] = grid[step-1,row,col])
+  ) /\
+  $ Must exist a row where grid[step-1,row,fpCol[step]] = hand.
+  (exists row : GRIDROWS .
+   (grid[step-1,row,fpCol[step]] = hand[step-1]) /\
+   $ Everything above is empty or same colour as the hand.
+   (forAll above : int(1..row-1) .
+     grid[step-1,above,fpCol[step]] = EMPTY \/
+     grid[step-1,above,fpCol[step]] = hand[step-1]) /\
+   $ Effect is to make everything down to this row empty
+   (forAll clear : int(1..row) . grid[step,clear,fpCol[step]] = EMPTY) /\
+   ($ Either this is bottom in which case hand remains same.
+    (row = gridHeight) /\ (hand[step] = hand[step-1])
+    \/
+    $ Or the next row down is of a different colour, swaps with hand.
+    (grid[step-1,row+1,fpCol[step]] != hand[step-1] /\
+     grid[step,row+1,fpCol[step]] = hand[step-1] /\
+     hand[step] = grid[step-1,row+1,fpCol[step]] /\
+     forAll below : int(row+2..gridHeight) .
+       grid[step,below,fpCol[step]] = grid[step-1,below,fpCol[step]])
+   )
+  ),
+
+$ Row Shot
+$ We identify the column that is *different* from the hand, if one exists. This
+$ separates us from wall fall and saves us from worrying about gaps after the
+$ last consumed block.
+forAll step : STEPSFROM1 .
+  (fpRow[step] > 0)
+  ->
+  (exists col : GRIDCOLS .
+   $ Preconditions: a col with a block different from hand, to the left
+   $ all empty/hand colour, but there must exist a block of hand colour.
+   (
+     (grid[step-1,fpRow[step],col] != hand[step-1]) /\
+     (forAll left : int(1..col-1) .
+        grid[step-1,fpRow[step],left] = EMPTY \/
+        grid[step-1,fpRow[step],left] = hand[step-1]) /\
+     (exists left : int(1..col-1) .
+        grid[step-1,fpRow[step],left] = hand[step-1])
+   )
+   /\
+   $ Effects:
+   ($ left: Blocks falling, staying fixed.
+    $ NB If nothing above then replacing with up still works: it is EMPTY
+    $    So split is on fpRow[step] > 1. Irrespective, below is fixed.
+    (forAll left : int(1..col-1) .
+       $ Everything below is fixed
+       (forall below : GRIDROWS .
+          (below > fpRow[step]) ->
+          (grid[step,below,left] = grid[step-1,below,left])
+       ) /\
+       $ Top row guaranteed to be empty.
+       (grid[step,1,left] = EMPTY) /\
+       $ Otherwise fall from above.
+       ((fpRow[step] > 1) ->
+        (forAll above : int(2..gridHeight) .
+           above <= fpRow[step] ->
+           grid[step,above,left] = grid[step-1,above-1,left]
+        )
+       )
+    ) /\
+    $ this col: all fixed apart from fprow, which exchanges with the hand
+    (hand[step] = grid[step-1, fpRow[step], col]) /\
+    (grid[step, fpRow[step], col] = hand[step-1]) /\
+    (forAll colBlock : GRIDROWS .
+       (colBlock != fpRow[step]) ->
+       (grid[step,colBlock,col] = grid[step-1,colBlock,col])
+    ) /\
+    $ right: all fixed
+    (forAll right : int(col+1..gridWidth) .
+       forAll colBlock : GRIDROWS .
+         grid[step,colBlock,right] = grid[step-1,colBlock,right]
+    )
+   )
+  )
+
+  \/
+
+  $ Wall and fall shot, case 1: no block of colour != hand
+  (
+    $ Preconditions:
+    (
+      $ This row is a mix of hand and empty.
+      (forAll col : GRIDCOLS .
+        (grid[step-1,fpRow[step], col] = EMPTY) \/
+        (grid[step-1,fpRow[step], col] = hand[step-1])
+      ) /\
+      $ last col from next row down is a mix of hand and empty.
+      (forAll row : GRIDROWS .
+         (row > fpRow[step])
+         ->
+         ((grid[step-1,row,gridWidth] = EMPTY) \/
+          (grid[step-1,row,gridWidth] = hand[step-1]))
+      ) /\
+      $ But there must be a hand-coloured block somewhere
+      ((exists col : GRIDCOLS . grid[step-1,fpRow[step],col] = hand[step-1])
+       \/
+       (exists row : GRIDROWS .
+          (row > fpRow[step]) /\
+          (grid[step-1,row,gridWidth] = hand[step-1])
+       )
+      )
+    )
+    /\
+    $ Effects
+    (
+      $ hand is unchanged.
+      (hand[step] = hand[step-1]) /\
+      $ left: Blocks falling, staying fixed.
+      $ NB If nothing above then replacing with up still works: it is EMPTY
+      $    So split is on fpRow[step] > 1. Irrespective, below is fixed.
+      (forAll left : int(1..gridWidth-1) .
+         $ Everything below is fixed
+         (forall below : GRIDROWS .
+            (below > fpRow[step]) ->
+            (grid[step,below,left] = grid[step-1,below,left])
+         ) /\
+         $ Top row guaranteed to be empty.
+         (grid[step,1,left] = EMPTY) /\
+         $ Otherwise fall from above.
+         ((fpRow[step] > 1) ->
+          (forAll above : int(2..gridHeight) .
+             above <= fpRow[step] ->
+             grid[step,above,left] = grid[step-1,above-1,left]
+          )
+         )
+      ) /\
+      $ Last column. Everything remaining falls gridHeight - fpRow[step] + 1
+      (
+        $ Move the fallen material
+        (forAll row : GRIDROWS .
+          row > gridHeight - fpRow[step] + 1
+          ->
+          grid[step,row,gridWidth] = grid[step-1,row-(gridHeight - fpRow[step] + 1),gridWidth]
+        ) /\
+        $ Everything above the fallen material is empty.
+        (forAll row : GRIDROWS .
+          row <= gridHeight - fpRow[step] + 1
+          ->
+          grid[step,row,gridWidth] = EMPTY)
+      )
+    )
+  )
+
+  \/
+
+  $ Wall and fall shot, case 2: a block of colour != hand in the final col
+  (exists row : GRIDROWS .
+   $ Preconditions:
+   ( $ block different from hand in final col, below fpRow.
+     (row > fpRow[step]) /\
+     (grid[step-1,row,gridWidth] != hand[step-1]) /\
+     $ fpRow is all hand/empty as is final col from fpRow to row above this.
+     (forAll col : GRIDCOLS .
+        (grid[step-1,fpRow[step],col] = hand[step-1]) \/
+        (grid[step-1,fpRow[step],col] = EMPTY)
+     ) /\
+     (forAll row2 : int(1..row-1) .
+        row2 > fpRow[step] ->
+        ((grid[step-1,row2,gridWidth] = hand[step-1]) \/
+         (grid[step-1,row2,gridWidth] = EMPTY))
+     ) /\
+     $ But there must exist a block of hand colour somewhere
+     ((exists col : GRIDCOLS .
+         grid[step-1,fpRow[step],col] = hand[step-1]) \/
+      (exists row2 : int(1..row-1).
+         row2 > fpRow[step] /\
+         grid[step-1,row2,gridWidth] = hand[step-1]))
+   )
+   /\
+   $ Effects:
+   ( $ hand exchanges with the block identified in final col.
+     (hand[step] = grid[step-1,row,gridWidth]) /\
+     (grid[step,row,gridWidth] = hand[step-1]) /\
+     $ Everything below in the final column is fixed.
+     (forAll below : int(row+1..gridHeight) .
+        grid[step,below,gridWidth] = grid[step-1,below,gridWidth]
+     ) /\
+     $ Blocks above block identified in the final col fall (row - fpRow) cells.
+     ($ Which means the top row - fpRow cells must be empty:
+      (forAll row2 : GRIDROWS .
+         row2 <= row - fpRow[step]
+         ->
+         grid[step,row2,gridWidth] = EMPTY) /\
+      $ And the cells from there down to one above the identified block are
+      $ determined by what was row-fpRow[step] above them at the previous step.
+      (forAll row2 : GRIDROWS .
+         (row2 > row - fpRow[step]) /\ (row2 < row)
+         ->
+         grid[step,row2,gridWidth] =
+         grid[step-1,row2 - (row -fpRow[step]),gridWidth]
+      )
+     ) /\
+     $ Everything left falls or stays fixed.
+     (forAll left : int(1..gridWidth-1) .
+        $ Everything below is fixed
+        (forall below : GRIDROWS .
+           (below > fpRow[step]) ->
+           (grid[step,below,left] = grid[step-1,below,left])
+        ) /\
+        $ Top row guaranteed to be empty.
+        (grid[step,1,left] = EMPTY) /\
+        $ Otherwise fall from above.
+        ((fpRow[step] > 1) ->
+         (forAll above : int(2..gridHeight) .
+            above <= fpRow[step] ->
+            grid[step,above,left] = grid[step-1,above-1,left]
+         )
+        )
+     )
+   )
+  ),
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+$ ------------------------
+$ Extra constraints
+$ ------------------------
+
+$ If a row is completely empty, then shooting along it will have the same effect as shooting down the last column, assuming we're considering an instance where shooting down the last column is possible. Since these two actions are interchangeable, we can simply disallow shots along empty rows:
+
+forAll step : STEPSFROM1 .
+  $ Assume bottom row not going to be empty.
+  forAll gRow : int(1..gridHeight-1) .
+    ((sum gCol : int(1..gridWidth) . grid[step-1,gRow,gCol]) = 0) ->
+    (fpRow[step] != gRow),
+
+$ This remains true if the row is empty except for the last column, and the block in the last column on that row has nothing above it. Again, we can disallow a row shot in this situation:
+forAll step : STEPSFROM1 .
+  $ Assume bottom row not going to be empty.
+  forAll gRow : int(1..gridHeight-1) .
+    ((sum gCol : int(1..gridWidth-1) . grid[step-1,gRow,gCol]) = 0) /\
+    ((gRow = 1) \/ (grid[step-1,gRow-1,gridWidth] = EMPTY))
+    ->
+    (fpRow[step] != gRow),
+
+$ Here is a symmetry breaking constraint for consecutive monochrome column shots
+$ ---------------------
+forAll step : int(1..noSteps-1) .
+  forAll gCol : int(1..gridWidth-1) .
+    forAll gCol2 : int(gCol+1..gridWidth) .
+     $ Monochrome
+     (forAll gRow : int(1..gridHeight) .
+       ((grid[step-1,gRow,gCol] = EMPTY) \/
+        (grid[step-1,gRow,gCol] = hand[step-1])) /\
+       ((grid[step-1,gRow,gCol2] = EMPTY) \/
+        (grid[step-1,gRow,gCol2] = hand[step-1])))
+     ->
+     (
+       $ If consecutive must be left to right
+       fpCol[step] = gCol2
+       ->
+       fpCol[step+1] != gCol
+     ),
+
+$ DEADEND symmetry breaking
+forAll step : int(0..noSteps-2) .
+    forAll colour : COLOURS .
+    atmost(flatten(grid[step,..,..]), [1], [colour])
+    ->
+    forAll step2 : int(step+1..noSteps-1) .
+        hand[step2] != colour,
+
+true
