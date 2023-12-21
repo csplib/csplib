@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob068">prob068</a></li>
+
+  <li><a href="/Problems/prob068/models">Models</a></li>
+  <li>TravelingTournamentWithPredefinedVenues.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob068/">Specification</a></li>
+
+     	<li><a href="/Problems/prob068/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob068/results">Results</a></li>
+
+     	<li><a href="/Problems/prob068/references">References</a></li>
+
+     	<li><a href="/Problems/prob068/models">Models</a></li>
+
+     	<li><a href="/Problems/prob068/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob068.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob068/models/TravelingTournamentWithPredefinedVenues.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob068/models/TravelingTournamentWithPredefinedVenues.py">Download</a>
+<pre class ='brush: py'>"""
+PyCSP3 Model (see pycsp.org)
+
+Data can come:
+ - either directly from a JSON file
+ - or from an intermediate parser
+
+Examples:
+  python TravelingTournamentWithPredefinedVenues.py -data=Ttppv_circ8bbal.json -variant=a2
+  python TravelingTournamentWithPredefinedVenues.py -data=Ttppv_circ8bbal.json -variant=a3
+"""
+
+from pycsp3 import *
+
+nTeams, venues = data
+nRounds = nTeams - 1
+assert nTeams % 2 == 0, "an even number of teams is expected"
+nConsecutiveGames = 2 if variant("a2") else 3  # used in one comment
+
+
+def table(i, at_end=False):  # when at_end is True, this is for the first or last game of the ith team
+    def cd(v1, v2):  # circular distance
+        return min(abs(v1 - v2), nTeams - abs(v1 - v2))
+
+    if at_end:  # note that when playing at home (whatever the opponent), the travel distance is 0
+        return {(1, ANY, 0)} | {(0, j, cd(i, j)) for j in range(nTeams) if j != i}
+    else:
+        return ({(1, 1, ANY, ANY, 0)} |
+                {(0, 1, j, ANY, cd(j, i)) for j in range(nTeams) if j != i} |
+                {(1, 0, ANY, j, cd(i, j)) for j in range(nTeams) if j != i} |
+                {(0, 0, j, k, cd(j, k)) for j in range(nTeams) for k in range(nTeams) if different_values(i, j, k)})
+
+
+def automaton():
+    qi, q01, q02, q03, q11, q12, q13 = states = "q", "q01", "q02", "q03", "q11", "q12", "q13"
+    tr2 = [(qi, 0, q01), (qi, 1, q11), (q01, 0, q02), (q01, 1, q11), (q11, 0, q01), (q11, 1, q12), (q02, 1, q11), (q12, 0, q01)]
+    tr3 = [(q02, 0, q03), (q12, 1, q13), (q03, 1, q11), (q13, 0, q01)]
+    return Automaton(start=qi, final={q for q in states if q != qi}, transitions=tr2 if variant("a2") else tr2 + tr3)
+
+
+# o[i][k] is the opponent (team) of the ith team  at the kth round
+o = VarArray(size=[nTeams, nRounds], dom=range(nTeams))
+
+# h[i][k] is 1 iff the ith team plays at home at the kth round
+h = VarArray(size=[nTeams, nRounds], dom={0, 1})
+
+# t[i][k] is the travelled distance by the ith team at the kth round. An additional round is considered for returning at home.
+t = VarArray(size=[nTeams, nRounds + 1], dom=range(nTeams // 2 + 1))
+
+satisfy(
+    # a team cannot play against itself
+    [o[i][k] != i for i in range(nTeams) for k in range(nRounds)],
+
+    # ensuring predefined venues
+    [venues[i][o[i][k]] == h[i][k] for i in range(nTeams) for k in range(nRounds)],
+
+    # ensuring symmetry of games: if team i plays against j, then team j plays against i
+    [o[:, k][o[i][k]] == i for i in range(nTeams) for k in range(nRounds)],
+
+    # each team plays once against all other teams
+    [AllDifferent(row) for row in o],
+
+    # at most 'nConsecutiveGames' consecutive games at home, or consecutive games away
+    [h[i] in automaton() for i in range(nTeams)],
+
+    # handling travelling for the first game
+    [(h[i][0], o[i][0], t[i][0]) in table(i, at_end=True) for i in range(nTeams)],
+
+    # handling travelling for the last game
+    [(h[i][-1], o[i][-1], t[i][-1]) in table(i, at_end=True) for i in range(nTeams)],
+
+    # handling travelling for two successive games
+    [(h[i][k], h[i][k + 1], o[i][k], o[i][k + 1], t[i][k + 1]) in table(i) for i in range(nTeams) for k in range(nRounds - 1)],
+
+    # at each round, opponents are all different  tag(redundant-constraints)
+    [AllDifferent(col) for col in columns(o)],
+
+    # tag(symmetry-breaking)
+    o[0][0] &lt; o[0][-1]
+)
+
+minimize(
+    # minimizing summed up travelled distance
+    Sum(t)
+)
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

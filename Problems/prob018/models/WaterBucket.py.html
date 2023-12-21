@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>018: Water Bucket Problem</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob018">prob018</a></li>
+
+  <li><a href="/Problems/prob018/models">Models</a></li>
+  <li>WaterBucket.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>018: Water Bucket Problem</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob018/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob018/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob018/results">Results</a></li>
+
+     	<li><a href="/Problems/prob018/references">References</a></li>
+
+     	<li><a href="/Problems/prob018/models">Models</a></li>
+
+     	<li><a href="/Problems/prob018/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob018.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob018/models/WaterBucket.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob018/models/WaterBucket.py">Download</a>
+<pre class ='brush: py'>"""
+PyCSP3 Model (see pycsp.org)
+
+Examples:
+  python WaterBucket.py
+  python WaterBucket.py -data=[8,5,3,4,4,0,8]
+"""
+
+from pycsp3 import *
+
+# ci for capacities of the three buckets
+# gi for goal (which quantities must be present in the three buckets after all transfers)
+# h for horizon (maximal number of rounds/transfers)
+c1, c2, c3, g1, g2, g3, h = data or (8, 5, 3, 4, 4, 0, 8)
+
+assert c1 &gt;= c2 &gt;= c3 &gt; 0, "Bucket capacities must be in decreasing order"
+assert g1 + g2 + g3 == c1, "water from bucket 1 must be split into the three buckets to reach the goal"
+
+
+def tables():
+    def nearby_states(a1, a2, a3, b1, b2, b3):
+        if (a1, a2, a3) == (g1, g2, g3):
+            return (b1, b2, b3) == (g1, g2, g3)  # when the goal is reached, buckets are kept as they are
+        if a1 != b1 and a2 != b2 and a3 != b3:  # not a possible transition if three buckets are impacted
+            return False
+        if a1 != b1 and a2 != b2:
+            return b1 in {0, c1} or b2 in {0, c2}
+        if a1 != b1 and a3 != b3:
+            return b1 in {0, c1} or b3 in {0, c3}
+        if a2 != b2 and a3 != b3:
+            return b2 in {0, c2} or b3 in {0, c3}
+        return False  # not related in other cases
+
+    states = {(i, j, k) for i in range(c1 + 1) for j in range(c2 + 1) for k in range(c3 + 1) if i + j + k == c1}
+    table_tr = {(*state1, *state2) for state1 in states for state2 in states if nearby_states(*state1, *state2)}
+    table_hr = {(t,) + (ANY,) * (t * 3) + (g1, g2, g3) * (h - t) for t in range(h)}
+    return table_tr, table_hr
+
+
+table_transitions, table_horizon = tables()
+
+# x[t][i] is the volume of water in bucket i at time (round) t
+x = VarArray(size=[h, 3], dom=lambda t, i: range(c1 + 1) if i == 0 else range(c2 + 1) if i == 1 else range(c3 + 1))
+
+# z is the number of transfers of water in order to reach the goal
+z = Var(dom=range(h))
+
+satisfy(
+    # Initially, at round 0, the bucket 1 is full of water while the other buckets are empty
+    x[0] == (c1, 0, 0),
+
+    # only some transfers are possible between two successive rounds
+    [(x[t] + x[t + 1]) in table_transitions for t in range(h - 1)],  # or (*x[t], *x[t + 1])
+
+    # computing the number of transfers
+    (z, *flatten(x)) in table_horizon
+)
+
+minimize(
+    # minimizing the number of transfers
+    z
+)
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

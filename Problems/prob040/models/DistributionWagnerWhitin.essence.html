@@ -15,7 +15,7 @@
 	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 	<link href="/css/main.css" rel="stylesheet">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+	<script src="/js/jquery.min.js" ></script>
 
 	<!-- Enable table sorting -->
 	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
@@ -92,11 +92,15 @@
 <a href="/Problems/prob040/models/DistributionWagnerWhitin.essence">Download</a>
 <pre class ='brush: essence'>language Essence 1.3
 
+$ ** Updates **
+$ 2021/08/04 - The new model 'DistributionWagnerWhitin-partialfunc.essence' performances
+$              signficantly better in practice.
+
 $ Problem Wagner-Whitin Distribution
 $
 $ Problem details available at http://www.csplib.org/Problems/prob040/
 $
-$ Essence model by Andrew Martin modified by Peter Nightingale
+$ Essence model by Andrew Martin
 $
 $ Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
 
@@ -128,40 +132,31 @@ given demand : matrix indexed by [dLeaves, dPeriods] of int(0..)
 $ used to determine where supply comes goes to
 given children : matrix indexed by [dNodes] of set of dNodes
 
-$  Where orders is defined it has a value 1..maxStock. When not defined, no order is made. 
-find orders : function (dNodes, dPeriods) --&gt; int(1..maxStock)
+find orders : matrix indexed by [dNodes, dPeriods] of int(0..maxStock)
 
-$ Auxiliary total function to keep track of stock at each node and period. 
-find stock : function (total) (dNodes, dAllPeriods) --&gt; int(0..maxStock)
+$ AUX find statement
+find stock : matrix indexed by [dNodes, dAllPeriods] of int(0..maxStock)
 
 $ minimising the cost
 $ holding*stock per period per node plus proc if any orders were placed per period per node
-minimising
-    sum([ (holdingCost[i] * stock((i,t))) | t : dPeriods, i : dNodes]) +
-    sum([ procCost[i] | (i,t) &lt;- defined(orders)])
+minimising (sum t : dPeriods . (sum i : dNodes . (holdingCost[i] * stock[i][t] + procCost[i] * toInt(orders[i][t] &gt; 0))))
 
-$ stock starts at 0 for all nodes. 
+
 such that
+
+$ stock starts at 0
     forAll i : dNodes .
-        stock((i,0)) = 0
-
+        stock[i][0] = 0
+,
 $ non-leaf constraints - orders coming from children must be fulfilled
-such that
     forAll t : dPeriods .
         forAll i : int(numLeaves+1..numNodes) .
-            stock((i,t)) = stock((i,t-1))
-                            + sum([ orders((i,t)) | (i,t) in defined(orders) ])
-                            - sum([ orders((m,t)) | m &lt;- children[i], (m,t) in defined(orders) ])
-
-
+            stock[i][t] = stock[i][t-1] + orders[i][t] - (sum m in children[i] . orders[m][t])
+,
 $ leaf constraints - demands must be fullfilled
-such that
     forAll t : dPeriods .
         forAll i : dLeaves .
-            stock((i,t)) = stock((i,t-1))
-                            + sum([ orders((i,t)) | (i,t) in defined(orders) ])
-                            - demand[i][t]
-
+            stock[i][t] = stock[i][t-1] + orders[i][t] - demand[i][t]
 
 </pre>
 

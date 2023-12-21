@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>PyCSP3</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Languages">Languages</a></li>
+  <li><a href="/Languages/PyCSP3">PyCSP3</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>PyCSP3</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+    	<li><a href="" class='current-item'>Specification</a></li>
+
+    	<li><a href="/Languages/PyCSP3/data">Data files</a></li>
+
+    	<li><a href="/Languages/PyCSP3/references">References</a></li>
+
+    	<li><a href="/Languages/PyCSP3/models">Models</a></li>
+
+    	<li><a href="/Languages/PyCSP3/cite">Cite</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Languages/PyCSP3/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+
+<p>PyCSP3 is a Python library for writting, in a declarative manner, models of constraint satisfaction and optimization problems. Models are compiled into the intermediate format XCSP3, and can be directly solved with two embedded solvers (<a href="https://github.com/xcsp3team/ace">ACE</a> and <a href="https://github.com/chocoteam/choco-solver">Choco</a>).</p>
+<p>On a dedicated <a href="https://pycsp.org/">website</a>, find more than 60 Jupyter notebooks for gently learning CP (Constraint Programming):</p>
+<ul>
+<li>understanding 25 popular constraints </li>
+<li>understanding, step by step, 34 models of classical problems</li>
+</ul>
+<p>Useful links:</p>
+<ul>
+<li><a href="https://pycsp.org/"><a href="http://pycsp.org">pycsp.org</a></a> </li>
+<li>a well-documented <a href="https://arxiv.org/abs/2009.00326">guide</a> </li>
+<li>a <a href="https://pypi.org/project/pycsp3/">PyPi package</a></li>
+<li><a href="https://xcsp.org/"><a href="http://xcsp.org">xcsp.org</a></a> </li>
+</ul>
+
+
+All the PyCSP3 models can be downloaded as a  <a href ="/Languages/PyCSP3/PyCSP3.zip"> zip file </a>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

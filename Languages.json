@@ -89,5 +89,15 @@
     ],
     "id": "Picat",
     "title": "Picat"
+  },
+  "PyCSP3": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [
+      "py"
+    ],
+    "id": "PyCSP3",
+    "title": "PyCSP3"
   }
 }

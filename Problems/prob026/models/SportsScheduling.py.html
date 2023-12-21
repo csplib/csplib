@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>026: Sports Tournament Scheduling</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob026">prob026</a></li>
+
+  <li><a href="/Problems/prob026/models">Models</a></li>
+  <li>SportsScheduling.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>026: Sports Tournament Scheduling</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob026/">Specification</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob026/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob026/results">Results</a></li>
+
+     	<li><a href="/Problems/prob026/references">References</a></li>
+
+     	<li><a href="/Problems/prob026/models">Models</a></li>
+
+     	<li><a href="/Problems/prob026/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob026.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob026/models/SportsScheduling.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob026/models/SportsScheduling.py">Download</a>
+<pre class ='brush: py'>"""
+PyCSP3 Model (see pycsp.org)
+
+Examples:
+  python SportsScheduling.py
+  python SportsScheduling.py -data=10
+  python SportsScheduling.py -data=10 -variant=dummy
+"""
+
+from pycsp3 import *
+
+nTeams = data or 8
+nWeeks, nPeriods, nMatches = nTeams - 1, nTeams // 2, (nTeams - 1) * nTeams // 2
+
+
+def match_number(t1, t2):
+    return nMatches - ((nTeams - t1) * (nTeams - t1 - 1)) // 2 + (t2 - t1 - 1)
+
+
+table = {(t1, t2, match_number(t1, t2)) for t1, t2 in combinations(range(nTeams), 2)}
+
+# m[w][p] is the number of the match at week w and period p
+m = VarArray(size=[nWeeks, nPeriods], dom=range(nMatches))
+
+# x[w][p] is the first team for the match at week w and period p
+x = VarArray(size=[nWeeks, nPeriods], dom=range(nTeams))
+
+# y[w][p] is the second team for the match at week w and period p
+y = VarArray(size=[nWeeks, nPeriods], dom=range(nTeams))
+
+satisfy(
+    # all matches are different (no team can play twice against another team)
+    AllDifferent(m),
+
+    # linking variables through ternary table constraints
+    [(x[w][p], y[w][p], m[w][p]) in table for w in range(nWeeks) for p in range(nPeriods)],
+
+    # each week, all teams are different (each team plays each week)
+    [AllDifferent(x[w] + y[w]) for w in range(nWeeks)],
+
+    # each team plays at most two times in each period
+    [Cardinality(x[:, p] + y[:, p], occurrences={t: range(1, 3) for t in range(nTeams)}) for p in range(nPeriods)],
+
+    # tag(symmetry-breaking)
+    [
+        # the match '0 versus t' (with t strictly greater than 0) appears at week t-1
+        [Count(m[w], value=match_number(0, w + 1)) == 1 for w in range(nWeeks)],
+
+        # the first week is set : 0 vs 1, 2 vs 3, 4 vs 5, etc.
+        [m[0][p] == match_number(2 * p, 2 * p + 1) for p in range(nPeriods)]
+    ]
+)
+
+if variant("dummy"):
+    # xd[p] is the first team for the dummy match of period p  tag(dummy-week)
+    xd = VarArray(size=nPeriods, dom=range(nTeams))
+
+    # yd[p] is the second team for the dummy match of period p  tag(dummy-week)
+    yd = VarArray(size=nPeriods, dom=range(nTeams))
+
+    satisfy(
+        # handling dummy week (variables and constraints)  tag(dummy-week)
+        [
+            # all teams are different in the dummy week
+            AllDifferent(xd + yd),
+
+            # each team plays two times in each period
+            [Cardinality(x[:, p] + y[:, p] + [xd[p], yd[p]], occurrences={t: 2 for t in range(nTeams)}) for p in range(nPeriods)],
+
+            # tag(symmetry-breaking)
+            [xd[p] &lt; yd[p] for p in range(nPeriods)]
+        ]
+    )
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

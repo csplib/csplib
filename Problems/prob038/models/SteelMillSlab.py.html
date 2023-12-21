@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>038: Steel Mill Slab Design</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob038">prob038</a></li>
+
+  <li><a href="/Problems/prob038/models">Models</a></li>
+  <li>SteelMillSlab.py</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>038: Steel Mill Slab Design</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob038/">Specification</a></li>
+
+     	<li><a href="/Problems/prob038/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob038/results">Results</a></li>
+
+     	<li><a href="/Problems/prob038/references">References</a></li>
+
+     	<li><a href="/Problems/prob038/models">Models</a></li>
+
+     	<li><a href="/Problems/prob038/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob038.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob038/models/SteelMillSlab.py">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob038/models/SteelMillSlab.py">Download</a>
+<pre class ='brush: py'>"""
+PyCSP3 Model (see pycsp.org)
+
+Data can come:
+ - either directly from a JSON file
+ - or from an intermediate parser
+
+Exampless:
+  python SteelMillSlab.py -data=SteelMillSlab_bench_2_0.json
+  python SteelMillSlab.py -data=SteelMillSlab_bench_2_0.json -variant=01
+"""
+
+from pycsp3 import *
+
+capacities, orders = data
+possibleLosses = [min(v for v in [0] + capacities if v &gt;= i) - i for i in range(max(capacities) + 1)]
+sizes, colors = zip(*orders)
+allColors = sorted(set(colors))
+colorGroups = [[i for i, order in enumerate(orders) if order.color == color] for color in allColors]
+nOrders, nSlabs, nColors = len(orders), len(orders), len(allColors)
+
+# sb[i] is the slab used to produce the ith order
+sb = VarArray(size=nOrders, dom=range(nSlabs))
+
+# ld[j] is the load of the jth slab
+ld = VarArray(size=nSlabs, dom=range(max(capacities) + 1))
+
+# ls[j] is the loss of the jth slab
+ls = VarArray(size=nSlabs, dom=set(possibleLosses))
+
+if not variant():
+    satisfy(
+        # computing (and checking) the load of each slab
+        [[sb[i] == j for i in range(nOrders)] * sizes == ld[j] for j in range(nSlabs)],
+
+        # computing the loss of each slab
+        [(ld[j], ls[j]) in {(i, loss) for i, loss in enumerate(possibleLosses)} for j in range(nSlabs)],
+
+        # no more than two colors for each slab
+        [Sum(disjunction(sb[i] == j for i in g) for g in colorGroups) &lt;= 2 for j in range(nSlabs)]
+    )
+
+elif variant("01"):
+    # y[j][i] is 1 iff the jth slab is used to produce the ith order
+    y = VarArray(size=[nSlabs, nOrders], dom={0, 1})
+
+    # z[j][c] is 1 iff the jth slab is used to produce an order of color c
+    z = VarArray(size=[nSlabs, nColors], dom={0, 1})
+
+    satisfy(
+        # linking variables sb and y
+        [iff(sb[i] == j, y[j][i]) for j in range(nSlabs) for i in range(nOrders)],
+
+        # linking variables sb and z
+        [imply(sb[i] == j, z[j][allColors.index(orders[i].color)]) for j in range(nSlabs) for i in range(nOrders)],
+
+        # computing (and checking) the load of each slab
+        [y[j] * sizes == ld[j] for j in range(nSlabs)],
+
+        # computing the loss of each slab
+        [(ld[j], ls[j]) in {(i, loss) for i, loss in enumerate(possibleLosses)} for j in range(nSlabs)],
+
+        # no more than two colors for each slab
+        [Sum(z[j]) &lt;= 2 for j in range(nSlabs)]
+    )
+
+satisfy(
+    # tag(redundant-constraints)
+    Sum(ld) == sum(sizes),
+
+    # tag(symmetry-breaking)
+    [
+        Decreasing(ld),
+
+        [sb[i] &lt;= sb[j] for i, j in combinations(range(nOrders), 2) if orders[i] == orders[j]]
+    ]
+)
+
+minimize(
+    # minimizing summed up loss
+    Sum(ls)
+)
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
