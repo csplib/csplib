@@ -8,7 +8,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout 🛎️
-          uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+          uses: actions/checkout@v4.1.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
           with:
             persist-credentials: false
 
@@ -16,9 +16,9 @@ jobs:
           run: make docker
 
         - name: Deploy 🚀
-          uses: JamesIves/github-pages-deploy-action@3.7.1
+          uses: JamesIves/github-pages-deploy-action@v4.5.0
           with:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            BRANCH: gh-pages # The branch the action should deploy to.
-            FOLDER: _deploy # The folder the action should deploy.
-            CLEAN: true # Automatically remove deleted files from the deploy branch
+            token: ${{ secrets.GITHUB_TOKEN }}
+            branch: gh-pages # The branch the action should deploy to.
+            folder: _deploy # The folder the action should deploy.
+            clean: true # Automatically remove deleted files from the deploy branch
