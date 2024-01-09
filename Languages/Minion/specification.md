@@ -7,4 +7,4 @@ Minion Input Language is the language accepted by the Minion constraint solver. 
 
 There is one solver which accepts the Minion Input Language:
 
-* [Minion](http://minion.sourceforge.net/) is an open source constraint solver, which accepts the Minion Input Language
+* [Minion](http://github.com/minion) is an open source constraint solver, which accepts the Minion Input Language
