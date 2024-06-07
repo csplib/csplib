@@ -1,0 +1,154 @@
+language ESSENCE' 1.0
+
+$ given WPInstances : int(1..)
+$ given VM : int(1..) $ max number of VMs
+given NoComponents : int(1..) $ number of components of the application
+given HardwareREQ : int(1..) $ number of hardware requirements for a component (ex. CPU, Memory, Storage)
+given CompREQ : matrix indexed by [int(1..NoComponents), int(1..HardwareREQ)] of int(1..) $ requirements of each component
+given VMOffers : int(1..) $ number of VM offers
+$ VM specs
+given VMSpecs : matrix indexed by [int(1..VMOffers), int(1..HardwareREQ)] of int(1..)
+given VMPrice : matrix indexed by [int(1..VMOffers)] of int(1..)
+
+
+given WPInstances : int
+given VM : int
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$  CONSTANTS $$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+letting Wordpress be 1
+letting MySQL be 2
+letting DNS_LoadBalancer be 3
+letting HTTP_LoadBalancer be 4
+letting Varnish be 5
+letting BasicAllocation be domain int(Wordpress, MySQL, Varnish)
+
+$ letting CPU_Index be 1
+$ letting Memory_Index be 2
+$ letting Storage_Index be 3
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$  Decision Variables $$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+find AssignmentMatrix : matrix indexed by [int(1..NoComponents), int(1..VM)] of int(0..1)
+find VMType : matrix indexed by [int(1..VM)] of int(1..VMOffers) 
+find OccupancyVector: matrix indexed by [int(1..VM)] of int(0..1)
+
+$ find CPU : matrix indexed by [int(1..VM)] of int(1..64)
+$ find Memory : matrix indexed by [int(1..VM)] of int(1700..976000)
+$ find Storage : matrix indexed by [int(1..VM)] of int(1000..24000)
+find Price : matrix indexed by [int(1..VM)] of int(0..16000)
+
+
+branching on [AssignmentMatrix, OccupancyVector, VMType, Price]
+
+minimising sum(Price)
+
+such that 
+
+$ isDeployed not used anywhere?
+
+$ BASIC ALLOCATION
+$ ensures each component deployed at least once
+$ HANDLED IN LOWER BOUND?
+
+$ SET TYPE
+
+$ OCCUPANCY
+
+$ CAPACITY
+$ chosen components on VM is within VM specifications
+$ ex. within memory, storage, cpu etc
+forAll k : int(1..VM) .
+    forAll h : int(1..HardwareREQ) .
+        $ sum(AssignmentMatrix[..,k]) > 0 ->
+            sum([AssignmentMatrix[i,k]*CompREQ[i,h] | i : int(1..NoComponents)]) <= VMSpecs[VMType[k],h],
+
+forAll k : int(1..VM) .
+    sum(AssignmentMatrix[..,k]) > 0 -> OccupancyVector[k] = 1,
+
+
+$ LINK
+$ resource arrays match VM specs
+$ forAll k : int(1..VM) .
+$     (sum(AssignmentMatrix[..,k]) >= 1) -> (
+$         CPU[k] = VMSpecs[VMType[k],CPU_Index] 
+$         /\ Memory[k] = VMSpecs[VMType[k], Memory_Index]
+$         /\ Storage[k] = VMSpecs[VMType[k], Storage_Index]
+$         /\ Price[k] = VMPrice[VMType[k]]),
+forAll k : int(1..VM) .
+    Price[k] = VMPrice[VMType[k]] * OccupancyVector[k],
+
+$ forAll k: int(1..VM) .
+$     sum(AssignmentMatrix[..,k]) = 0 -> Price[k] = 0,
+
+$ NULL TYPE
+$ unused machines have a set default type
+$ forAll k : int(1..VM) .
+$     $ doesn't affect the minimal price as the price for the said VM will be 0 if it is unoccupied
+$     sum(AssignmentMatrix[..,k]) = 0 -> VMType[k] = 1,
+
+$ already covered in below constraints??
+forAll i : BasicAllocation .
+    sum(AssignmentMatrix[i,..]) >= 1,
+
+$ LOWER BOUNDS
+$ Wordpress should be deployed by at least the number of WPInstances required
+sum(AssignmentMatrix[Wordpress, ..]) >= WPInstances,
+$ At least 2 instances of Varnish must be deployed
+sum(AssignmentMatrix[Varnish, ..]) >= 2,
+$ There must be at least 2 entry points to the MySQL cluster
+sum(AssignmentMatrix[MySQL, ..]) >= 2,
+
+$ UPPER BOUNDS
+$ No more than 1 DNSLoadBalancer can be deployed 
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) <= 1,
+
+$ EXCLUSIVE DEPLOYMENT
+$ Only one type of balancer must be deployed
+$ sum(AssignmentMatrix[DNS_LoadBalancer, ..]) > 0 xor sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) > 0,
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) > 0 \/ sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) > 0,
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) > 0 -> sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) = 0,
+sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) > 0 -> sum(AssignmentMatrix[DNS_LoadBalancer, ..]) = 0,
+
+$ REQUIRE PROVIDE
+$ DNSLoadBalancer requires at least 1 instance of Wordpress and can serve at most 7 such instances (Require-Provide constraint)
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) > 0 -> 
+    sum(AssignmentMatrix[Wordpress, ..]) <= sum(AssignmentMatrix[DNS_LoadBalancer, ..]) * 7,
+$ HTTPLoadBalancer requires at least 1 instance of Wordpress and can serve at most 3 such instances (Require-Provide constraint)
+sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) > 0 -> 
+    sum(AssignmentMatrix[Wordpress, ..]) <= sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) * 3,
+$ Wordpress requires at least 3 instances of MySQL and MySQL can server at most 2 Wordpress instances (Require-Provide constraint
+sum(AssignmentMatrix[Wordpress, ..]) * 2 <= sum(AssignmentMatrix[MySQL, ..]) * 3,
+
+$ CONFLICT
+$ Varnish exhibits load balancing features, it should not be deployed on the same virtual machine as any other balancer
+$ Varnish and MySQL should not be deployed on the same virtual machine
+$ In short, Varnish cannot be used with DNS, HTTP, or MySQL
+forAll k : int(1..VM) .
+    AssignmentMatrix[Varnish, k] + AssignmentMatrix[MySQL, k] <= 1,
+
+$ Balancer components must be deployed on a single virtual machine
+$ DNS cannot be used with Wordpress, MySQL or Varnish
+$ HTTP cannot be used with Wordpress, MySQL or Varnish
+forAll k : int(1..VM) .
+    forAll i : int(Wordpress, MySQL, Varnish) .
+        (AssignmentMatrix[DNS_LoadBalancer, k] + AssignmentMatrix[i, k] <= 1)
+        /\
+        (AssignmentMatrix[HTTP_LoadBalancer, k] + AssignmentMatrix[i, k] <= 1),
+       
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$  SYMMETRY $$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+$ VM machines can be swapped around for same result, break lexigraphical symmetry
+$ forAll k : int(1..VM-1) .
+$     AssignmentMatrix[..,k] >=lex AssignmentMatrix[..,k+1]
+
+forAll k : int(1..VM-1) .
+    (Price[k] <= Price[k+1])
+    $ /\
+    $ (Price[k] = Price[k+1]) ->
+    $     (AssignmentMatrix[..,k] >=lex AssignmentMatrix[..,k+1])
