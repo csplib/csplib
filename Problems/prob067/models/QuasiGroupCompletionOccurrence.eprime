@@ -1,0 +1,28 @@
+language ESSENCE' 1.0
+
+given N : int(1..)
+given start : matrix indexed by [int(1..N), int(1..N)] of int(0..N)
+
+find puzzle : matrix indexed by [int(1..N), int(1..N), int(1..N)] of int(0..1)
+
+such that 
+
+$ initial board respected
+forAll i : int(1..N) .
+    forAll j : int(1..N) . 
+        start[i,j] > 0 -> puzzle[i,j,start[i,j]] = 1,
+
+$ every row's number is distinct
+forAll i : int(1..N) .
+    forAll k : int(1..N) .
+        sum(puzzle[i,..,k]) = 1,
+
+$ every column's number is distinct
+forAll j : int(1..N) .
+    forAll k : int(1..N) .
+        sum(puzzle[..,j,k]) = 1,
+
+$ each "number" must have a number assigned
+forAll i : int(1..N) .
+    forAll j : int(1..N) .
+        sum(puzzle[i,j,..]) = 1

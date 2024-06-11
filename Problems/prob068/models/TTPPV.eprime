@@ -1,0 +1,95 @@
+language ESSENCE' 1.0
+
+given nbTeams : int(1..)
+
+letting nbRounds = nbTeams-1
+letting nbStates = 7
+
+letting Teams be domain int(1..nbTeams)
+letting Rounds be domain int(1..nbRounds)
+letting Travels be domain int(1..nbRounds+1)
+
+letting maxObj be sum([nbTeams/2 | i : Teams, j : Travels])
+
+$ predefined venue: pv[i][j] = 1 iff i is playing at home against j
+given pv : matrix indexed by [Teams, Teams] of int(1..2)
+
+
+find opponent : matrix indexed by [Teams, Rounds] of Teams
+$ auxiliary variables: venue[i,k] = 1 iff team i plays at home in round k
+find venue : matrix indexed by [Teams, Rounds] of int(1..2) 
+find travel : matrix indexed by [Teams, Travels] of int(0..(nbTeams/2))
+find distance : matrix indexed by [Teams, Teams] of int(0..nbTeams)
+find objective : int(0..maxObj)
+
+branching on [[opponent[i,j] | i : Teams, j : Rounds], 
+                [venue[i,j] | i : Teams, j : Rounds],
+                [travel[i,j] | i : Teams, j : Travels]]
+
+minimising objective
+
+such that
+
+objective = sum(flatten(travel)),
+
+forAll i : Teams .
+    forAll j : Teams . 
+        (i >= j -> (
+            (i-j < j-i+nbTeams -> distance[i,j] = i-j)
+            /\
+            (i-j >= j-i+nbTeams -> distance[i,j] = j-i+nbTeams)
+        ))
+        /\
+        (i < j -> (
+            (j-i < i-j+nbTeams -> distance[i,j] = j-i)
+            /\
+            (j-i >= i-j+nbTeams -> distance[i,j] = i-j+nbTeams) 
+        )),
+
+$ predetermined venues match venue allocation
+forAll i : Teams .
+    forAll k : Rounds .
+        venue[i,k] = pv[i,opponent[i,k]],
+
+$ cannot play against oneself
+forAll i : Teams .
+    forAll k : Rounds .
+        opponent[i,k] != i,
+
+$ if I play you, you play me
+forAll i : Teams .
+    forAll k : Rounds .
+        opponent[opponent[i,k],k] = i,
+
+$ each team i, all the opponents are different
+forAll i : Teams . 
+    allDiff(opponent[i, ..]),
+
+$ each round, all opponents are different (implied)
+forAll k : Rounds.
+    allDiff(opponent[..,k]),
+
+$ for each team i, there can be at most 3 consecutive home games and at most 3 consecutive away games
+forAll i : Teams .
+    forAll j : int(1..2) .
+        forAll k : int(1..nbRounds-3) .
+            (venue[i,k] = j /\ venue[i,k+1] = j /\ venue[i,k+2] = j) -> venue[i,k+3] != j,
+
+$ break symmetry
+opponent[1,1] < opponent[1,nbRounds],
+
+$ define travel variables wrt venues of current- and next-round games
+forAll i : Teams .
+    (venue[i,1]=1 -> travel[i,1] = 0) /\
+    (venue[i,1]=2 -> travel[i,1] = distance[i,opponent[i,1]]),
+
+forAll i : Teams .
+    forAll k : int(1..nbRounds-1) .
+        ((venue[i,k]=1 /\ venue[i,k+1]=1) -> travel[i,k+1] = 0) /\
+        ((venue[i,k]=2 /\ venue[i,k+1]=1) -> travel[i,k+1] = distance[opponent[i,k],i]) /\
+        ((venue[i,k]=1 /\ venue[i,k+1]=2) -> travel[i,k+1] = distance[i,opponent[i,k+1]]) /\
+        ((venue[i,k]=2 /\ venue[i,k+1]=2) -> travel[i,k+1] = distance[opponent[i,k],opponent[i,k+1]]),
+
+forAll i : Teams . 
+    (venue[i,nbRounds]=1 -> travel[i,nbRounds+1] = 0) /\
+    (venue[i,nbRounds]=2 -> travel[i,nbRounds+1] = distance[opponent[i,nbRounds],i])
