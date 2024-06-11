@@ -10,8 +10,6 @@ letting Rounds be domain int(1..nbRounds)
 letting Travels be domain int(1..nbRounds+1)
 
 letting maxObj be sum([nbTeams/2 | i : Teams, j : Travels])
-$ letting States be domain int(1..nbStates)
-$ letting delta be [[2,5], [3,5], [4,5], [0,5], [2,6], [2,7], [2,0]]
 
 $ predefined venue: pv[i][j] = 1 iff i is playing at home against j
 given pv : matrix indexed by [Teams, Teams] of int(1..2)
@@ -76,13 +74,6 @@ forAll i : Teams .
     forAll j : int(1..2) .
         forAll k : int(1..nbRounds-3) .
             (venue[i,k] = j /\ venue[i,k+1] = j /\ venue[i,k+2] = j) -> venue[i,k+3] != j,
-$ x = venue[i,k] | k in Rounds
-$ Q = nbStates
-$ S = 2
-$ d = delta
-$ q0 = 1
-$ F = States
-    $ ???
 
 $ break symmetry
 opponent[1,1] < opponent[1,nbRounds],
