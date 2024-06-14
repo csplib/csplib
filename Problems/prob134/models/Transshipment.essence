@@ -1,0 +1,53 @@
+language Essence 1.3
+
+given n_warehouses, n_transshipment, n_customer : int(1..)
+
+letting
+    Warehouse     be domain int(1..n_warehouses),
+    Transshipment be domain int(1..n_transshipment),
+    Customer      be domain int(1..n_customer)
+
+given
+
+    $ cost of transporting items from a Warehouse to a Transshipment point
+    costWT : function (total) tuple (Warehouse, Transshipment) --> int(1..),
+
+    $ cost of transporting items from a Transshipment point to a Customer
+    costTC : function (total) tuple (Transshipment, Customer) --> int(1..),
+
+    $ available stock at each Warehouse
+    stock : function (total) Warehouse --> int(1..),
+
+    $ demand for each customer
+    demand : function (total) Customer --> int(1..)
+
+letting maxStock be max(range(stock))
+letting maxDemand be max(range(demand))
+
+find amountWT : function (Warehouse, Transshipment) --> int(1..maxStock)
+find amountTC : function (Transshipment, Customer)  --> int(1..maxDemand)
+
+$ preservation of flow
+such that
+    forAll t : Transshipment .
+        sum([ amount | ((w, t'), amount) <- amountWT, t = t' ]) =
+        sum([ amount | ((t', c), amount) <- amountTC, t = t' ])
+
+$ meet the demand
+such that
+    forAll c : Customer .
+        sum([ amount | ((t, c'), amount) <- amountTC, c = c' ]) = demand(c)
+
+$ stay within the stock
+such that
+    forAll w : Warehouse .
+        sum([ amount | ((w', t), amount) <- amountWT, w = w' ]) <= stock(w)
+
+given maxCost : int(1..)
+
+$ calculate the total cost
+find totalCost : int(1..maxCost)
+such that
+    totalCost = sum([ costWT(key) | (key, amount) <- amountWT ])
+              + sum([ costTC(key) | (key, amount) <- amountTC ])
+
