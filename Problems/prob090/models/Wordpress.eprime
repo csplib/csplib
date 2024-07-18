@@ -4,7 +4,7 @@ given NoComponents : int(1..) $ number of components of the application
 given HardwareREQ : int(1..) $ number of hardware requirements for a component (ex. CPU, Memory, Storage)
 given CompREQ : matrix indexed by [int(1..NoComponents), int(1..HardwareREQ)] of int(1..) $ requirements of each component
 given VMOffers : int(1..) $ number of VM offers
-$ VM specs
+
 given VMSpecs : matrix indexed by [int(1..VMOffers), int(1..HardwareREQ)] of int(1..)
 given VMPrice : matrix indexed by [int(1..VMOffers)] of int(1..)
 
@@ -35,14 +35,18 @@ minimising sum(Price)
 
 such that 
 
+$ CAPACITY
+$ chosen components on VM is within VM specifications
+$ ex. within memory, storage, cpu etc
 forAll k : int(1..VM) .
     forAll h : int(1..HardwareREQ) .
-            sum([AssignmentMatrix[i,k]*CompREQ[i,h] | i : int(1..NoComponents)]) <= VMSpecs[VMType[k],h],
+        sum([AssignmentMatrix[i,k]*CompREQ[i,h] | i : int(1..NoComponents)]) <= VMSpecs[VMType[k],h],
 
 forAll k : int(1..VM) .
     sum(AssignmentMatrix[..,k]) > 0 -> OccupancyVector[k] = 1,
 
 
+$ LINK
 forAll k : int(1..VM) .
     Price[k] = VMPrice[VMType[k]] * OccupancyVector[k],
 
