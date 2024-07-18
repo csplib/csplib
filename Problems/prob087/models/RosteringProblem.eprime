@@ -17,7 +17,6 @@ given shiftRequirements : matrix indexed by [int(1..daysPerWeek), int(1..numberO
 
 find plan1d : matrix indexed by [int(1..numberOfWeeks * daysPerWeek)] of int(0..numberOfShifts)
 find plan2d : matrix indexed by [int(1..numberOfWeeks), int(1..daysPerWeek)] of int(0..numberOfShifts)
-find plan2dT : matrix indexed by [int(1..daysPerWeek), int(1..numberOfWeeks)] of int(0..numberOfShifts)
 
 find s_min_arrays : matrix indexed by [int(1..s_min), int(1..s_min)] of int(0..numberOfShifts)
 find s_max_arrays : matrix indexed by [int(1..s_max), int(1..s_max)] of int(0..numberOfShifts)
@@ -26,16 +25,10 @@ branching on [plan1d]
 
 such that 
 
-$ plan1d = flatten(plan2d),
-$ flatten? 
+$ flatten
 forAll week : int(1..numberOfWeeks) .
     forAll day : int(1..daysPerWeek) .
         plan2d[week,day] = plan1d[(week-1) * daysPerWeek + day],
-
-$ transpose the 2D plan
-forAll week : int(1..numberOfWeeks) .
-    forAll day : int(1..daysPerWeek) .
-        plan2d[week,day] = plan2dT[day,week],
 
 $ C_equalDays: constrains that weekend days (Saturday and Sunday) always have the same shift
 forAll week : int(1..numberOfWeeks) .
@@ -51,17 +44,10 @@ forAll day : int(1..numberOfDays-s_min) .
     plan1d[day] != plan1d[day+1] -> 
         forAll i : int(day+1..day+s_min) .
             plan1d[i] = plan1d[i+1],
-        $ forAll i, j : int(day+1..day+1+s_min) .
-        $     i < j -> plan1d[i] = plan1d[j],
-        $ sum([plan1d[day+1] != plan1d[i] | i : int(day+2..day+s_min)]) = 0,
-
-forAll day : int(1..s_min-1) .
-    plan1d[day] = plan1d[day+1],
 
 $ the constraints over the array bounds
 forAll d : int(1..s_min) . 
     plan1d[d+numberOfDays - s_min] != plan1d[((d+numberOfDays-s_min) % numberOfDays) + 1] ->
-        $ sum([s_min_arrays[d, 1] != s_min_arrays[d, i] | i : int(2..s_min)]) = 0,
         forAll i : int(2..s_min) .
             s_min_arrays[d,1] = s_min_arrays[d,i],
 
@@ -72,18 +58,15 @@ forAll i : int(1..s_max) .
 
 $ C_shiftRepetitions:for every shift type a maximum number of consecutive assignments to this shift is given 
 forAll d : int(1..numberOfWeeks * daysPerWeek - s_max) .
-    (forAll i : int(d+1..d+s_max) .
+    (forAll i : int(d+1..d+s_max-1) .
         plan1d[d] = plan1d[i]) ->
-    $ all equal
-    $ sum([plan1d[d] != plan1d[j] | j : int(d+1..d+s_max)]) = 0 ->
-        plan1d[d] != plan1d[d + s_max],
+            plan1d[d] != plan1d[d + s_max],
 
 $ the constraints over the array bounds
 forAll d : int(1..s_max) . 
     (forAll i : int(2..s_max) .
         s_max_arrays[d,1] = s_max_arrays[d,i]) ->
-    $ sum([s_max_arrays[d,1] != s_max_arrays[d,i] | i : int(2..s_max)]) = 0 -> 
-        plan1d[d+numberOfDays-s_max] != plan1d[d],
+            plan1d[d+numberOfDays-s_max] != plan1d[d],
 
 $ C_restDays: at least 2 days must be rest days every 2 weeks
 forAll day : int(1..((numberOfWeeks - 2)*daysPerWeek)) .
@@ -100,9 +83,6 @@ forAll day : int(2..numberOfWeeks*daysPerWeek-1) .
 
 $ forward rotating
 (plan1d[1] >= plan1d[numberOfDays]) \/ plan1d[1] = 0,
-
-$ forAll day : int(1..daysPerWeek) .
-$     gcc(plan2dT[..,day], [0,1,2,3], shiftRequirements[day, ..])
 
 forAll day : int(1..daysPerWeek) .
     gcc(plan2d[..,day], [0,1,2,3], shiftRequirements[day, ..])
