@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>090: Wordpress application deployment in the Cloud</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob090">prob090</a></li>
+
+  <li><a href="/Problems/prob090/models">Models</a></li>
+  <li>Wordpress.eprime</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>090: Wordpress application deployment in the Cloud</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob090/">Specification</a></li>
+
+     	<li><a href="/Problems/prob090/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob090/results">Results</a></li>
+
+     	<li><a href="/Problems/prob090/references">References</a></li>
+
+     	<li><a href="/Problems/prob090/models">Models</a></li>
+
+     	<li><a href="/Problems/prob090/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob090.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob090/models/Wordpress.eprime">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob090/models/Wordpress.eprime">Download</a>
+<pre class ='brush: essenceprime'>language ESSENCE' 1.0
+
+given NoComponents : int(1..) $ number of components of the application
+given HardwareREQ : int(1..) $ number of hardware requirements for a component (ex. CPU, Memory, Storage)
+given CompREQ : matrix indexed by [int(1..NoComponents), int(1..HardwareREQ)] of int(1..) $ requirements of each component
+given VMOffers : int(1..) $ number of VM offers
+
+given VMSpecs : matrix indexed by [int(1..VMOffers), int(1..HardwareREQ)] of int(1..)
+given VMPrice : matrix indexed by [int(1..VMOffers)] of int(1..)
+
+given WPInstances : int
+given VM : int
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$  CONSTANTS $$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+letting Wordpress be 1
+letting MySQL be 2
+letting DNS_LoadBalancer be 3
+letting HTTP_LoadBalancer be 4
+letting Varnish be 5
+letting BasicAllocation be domain int(Wordpress, MySQL, Varnish)
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$  Decision Variables $$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+find AssignmentMatrix : matrix indexed by [int(1..NoComponents), int(1..VM)] of int(0..1)
+find VMType : matrix indexed by [int(1..VM)] of int(1..VMOffers) 
+find OccupancyVector: matrix indexed by [int(1..VM)] of int(0..1)
+find Price : matrix indexed by [int(1..VM)] of int(0..16000)
+
+branching on [AssignmentMatrix, OccupancyVector, VMType, Price]
+
+minimising sum(Price)
+
+such that 
+
+$ CAPACITY
+$ chosen components on VM is within VM specifications
+$ ex. within memory, storage, cpu etc
+forAll k : int(1..VM) .
+    forAll h : int(1..HardwareREQ) .
+        sum([AssignmentMatrix[i,k]*CompREQ[i,h] | i : int(1..NoComponents)]) &lt;= VMSpecs[VMType[k],h],
+
+forAll k : int(1..VM) .
+    sum(AssignmentMatrix[..,k]) &gt; 0 -&gt; OccupancyVector[k] = 1,
+
+
+$ LINK
+forAll k : int(1..VM) .
+    Price[k] = VMPrice[VMType[k]] * OccupancyVector[k],
+
+forAll i : BasicAllocation .
+    sum(AssignmentMatrix[i,..]) &gt;= 1,
+
+$ LOWER BOUNDS
+$ Wordpress should be deployed by at least the number of WPInstances required
+sum(AssignmentMatrix[Wordpress, ..]) &gt;= WPInstances,
+$ At least 2 instances of Varnish must be deployed
+sum(AssignmentMatrix[Varnish, ..]) &gt;= 2,
+$ There must be at least 2 entry points to the MySQL cluster
+sum(AssignmentMatrix[MySQL, ..]) &gt;= 2,
+
+$ UPPER BOUNDS
+$ No more than 1 DNSLoadBalancer can be deployed 
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) &lt;= 1,
+
+$ EXCLUSIVE DEPLOYMENT
+$ Only one type of balancer must be deployed
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) &gt; 0 \/ sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) &gt; 0,
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) &gt; 0 -&gt; sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) = 0,
+sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) &gt; 0 -&gt; sum(AssignmentMatrix[DNS_LoadBalancer, ..]) = 0,
+
+$ REQUIRE PROVIDE
+$ DNSLoadBalancer requires at least 1 instance of Wordpress and can serve at most 7 such instances (Require-Provide constraint)
+sum(AssignmentMatrix[DNS_LoadBalancer, ..]) &gt; 0 -&gt; 
+    sum(AssignmentMatrix[Wordpress, ..]) &lt;= sum(AssignmentMatrix[DNS_LoadBalancer, ..]) * 7,
+$ HTTPLoadBalancer requires at least 1 instance of Wordpress and can serve at most 3 such instances (Require-Provide constraint)
+sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) &gt; 0 -&gt; 
+    sum(AssignmentMatrix[Wordpress, ..]) &lt;= sum(AssignmentMatrix[HTTP_LoadBalancer, ..]) * 3,
+$ Wordpress requires at least 3 instances of MySQL and MySQL can server at most 2 Wordpress instances (Require-Provide constraint)
+sum(AssignmentMatrix[Wordpress, ..]) * 2 &lt;= sum(AssignmentMatrix[MySQL, ..]) * 3,
+
+$ CONFLICT
+$ Varnish exhibits load balancing features, it should not be deployed on the same virtual machine as any other balancer
+$ Varnish and MySQL should not be deployed on the same virtual machine
+$ In short, Varnish cannot be used with DNS, HTTP, or MySQL
+forAll k : int(1..VM) .
+    AssignmentMatrix[Varnish, k] + AssignmentMatrix[MySQL, k] &lt;= 1,
+
+$ Balancer components must be deployed on a single virtual machine
+$ DNS cannot be used with Wordpress, MySQL or Varnish
+$ HTTP cannot be used with Wordpress, MySQL or Varnish
+forAll k : int(1..VM) .
+    forAll i : int(Wordpress, MySQL, Varnish) .
+        (AssignmentMatrix[DNS_LoadBalancer, k] + AssignmentMatrix[i, k] &lt;= 1)
+        /\
+        (AssignmentMatrix[HTTP_LoadBalancer, k] + AssignmentMatrix[i, k] &lt;= 1),
+       
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$  SYMMETRY $$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+forAll k : int(1..VM-1) .
+    (Price[k] &lt;= Price[k+1])
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

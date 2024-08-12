@@ -35,6 +35,8 @@
 	});
 	</script>
 
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
 
 </head>
 
@@ -47,6 +49,7 @@
   <li><a href="/Problems/prob067">prob067</a></li>
 
   <li><a href="/Problems/prob067/models">Models</a></li>
+  <li>QuasiGroupCompletionOccurrence.eprime</li>
 	</ol>
 
 	<div class="container">
@@ -70,13 +73,13 @@
 
      	<li><a href="/Problems/prob067/references">References</a></li>
 
-     	<li><a href="" class='current-item'>Models</a></li>
+     	<li><a href="/Problems/prob067/models">Models</a></li>
 
      	<li><a href="/Problems/prob067/cite">Cite</a></li>
 
     <li><a href="/Problems/prob067.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob067/models">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob067/models/QuasiGroupCompletionOccurrence.eprime">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -86,79 +89,74 @@
 		</div>
 
 
+<a href="/Problems/prob067/models/QuasiGroupCompletionOccurrence.eprime">Download</a>
+<pre class ='brush: essenceprime'>language ESSENCE' 1.0
 
-	<table class="tablesorter">
-	<thead>
-	<tr>  <th>File</th>  <th>Type</th>  <th>Notes</th>  </tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td>
-			<a href="QuasiGroupCompletionOccurrence.eprime.html">
-				QuasiGroupCompletionOccurrence.eprime
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/EssencePrime">
-			EssencePrime
-			</a>
-		</td>
-		<td>
-		<p>Quasigroup Completion Model using Occurrence Constraints</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="QuasiGroupCompletion.eprime.html">
-				QuasiGroupCompletion.eprime
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/EssencePrime">
-			EssencePrime
-			</a>
-		</td>
-		<td>
-		
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="QuasiGroupCompletionOccurrence.mzn.html">
-				QuasiGroupCompletionOccurrence.mzn
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/MiniZinc">
-			MiniZinc
-			</a>
-		</td>
-		<td>
-		<p>Quasigroup Completion Model using Occurrence Constraints</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="QuasigroupCompletion.mzn.html">
-				QuasigroupCompletion.mzn
-			</a>
-		</td>
-		<td>
-			<a href="../../../Languages/MiniZinc">
-			MiniZinc
-			</a>
-		</td>
-		<td>
-		
-		</td>
-	</tr>
-	</tbody>
-	</table>
+given N : int(1..)
+given start : matrix indexed by [int(1..N), int(1..N)] of int(0..N)
 
+find puzzle : matrix indexed by [int(1..N), int(1..N), int(1..N)] of int(0..1)
+
+such that 
+
+$ initial board respected
+forAll i : int(1..N) .
+    forAll j : int(1..N) . 
+        start[i,j] &gt; 0 -&gt; puzzle[i,j,start[i,j]] = 1,
+
+$ every row's number is distinct
+forAll i : int(1..N) .
+    forAll k : int(1..N) .
+        sum(puzzle[i,..,k]) = 1,
+
+$ every column's number is distinct
+forAll j : int(1..N) .
+    forAll k : int(1..N) .
+        sum(puzzle[..,j,k]) = 1,
+
+$ each "number" must have a number assigned
+forAll i : int(1..N) .
+    forAll j : int(1..N) .
+        sum(puzzle[i,j,..]) = 1
+</pre>
 
 
 	</div>
 
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
 
 
 </div>

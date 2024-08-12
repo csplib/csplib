@@ -35,6 +35,8 @@
 	});
 	</script>
 
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
 
 </head>
 
@@ -46,7 +48,8 @@
   <li><a href="/Problems">Problems</a></li>
   <li><a href="/Problems/prob067">prob067</a></li>
 
-  <li><a href="/Problems/prob067/data">Data</a></li>
+  <li><a href="/Problems/prob067/models">Models</a></li>
+  <li>QuasiGroupCompletion.eprime</li>
 	</ol>
 
 	<div class="container">
@@ -64,7 +67,7 @@
   <ul>
      	<li><a href="/Problems/prob067/">Specification</a></li>
 
-     	<li><a href="" class='current-item'>Data files</a></li>
+     	<li><a href="/Problems/prob067/data">Data files</a></li>
 
      	<li><a href="/Problems/prob067/results">Results</a></li>
 
@@ -76,7 +79,7 @@
 
     <li><a href="/Problems/prob067.json" >Json</a></li>
 
-    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob067/data">Edit Page</a></li>
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob067/models/QuasiGroupCompletion.eprime">Edit Page</a></li>
   </ul>
   </nav>
 </div>
@@ -86,45 +89,69 @@
 		</div>
 
 
+<a href="/Problems/prob067/models/QuasiGroupCompletion.eprime">Download</a>
+<pre class ='brush: essenceprime'>language ESSENCE' 1.0
 
-	<table class="tablesorter">
-	<thead>
-	<tr>  <th>File</th>  <th>Type</th>  <th>Notes</th>  </tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td>
-			<a href="QuasigroupCompletionInstances.zip">
-				QuasigroupCompletionInstances.zip
-			</a>
-		</td>
-		<td>
-			zip
-		</td>
-		<td>
-		<p>40 Quasigroup Completion instances by Gilles Pesant</p>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<a href="QuasiGroupCompletionParameters.zip">
-				QuasiGroupCompletionParameters.zip
-			</a>
-		</td>
-		<td>
-			zip
-		</td>
-		<td>
-		
-		</td>
-	</tr>
-	</tbody>
-	</table>
+given N : int(1..) $ inputted size
 
+$ starting board
+given start : matrix indexed by [int(1..N), int(1..N)] of int(0..N)
+
+find puzzle : matrix indexed by [int(1..N), int(1..N)] of int(1..N)
+
+such that 
+
+$ initial board matches solution board
+forAll i : int(1..N) .
+    forAll j : int(1..N) . 
+        start[i,j] &gt; 0 -&gt; puzzle[i,j] = start[i,j],
+
+$ every row is distinct
+forAll i : int(1..N) .
+    allDiff(puzzle[i, ..]),
+
+$ every column is distinct
+forAll j : int(1..N) .
+    allDiff(puzzle[..,j])
+</pre>
 
 
 	</div>
 
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
 
 
 </div>

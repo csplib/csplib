@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob068">prob068</a></li>
+
+  <li><a href="/Problems/prob068/models">Models</a></li>
+  <li>TTPPV.eprime</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>068: Traveling Tournament Problem with Predefined Venues (TTPPV)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob068/">Specification</a></li>
+
+     	<li><a href="/Problems/prob068/data">Data files</a></li>
+
+     	<li><a class='no-files' href="/Problems/prob068/results">Results</a></li>
+
+     	<li><a href="/Problems/prob068/references">References</a></li>
+
+     	<li><a href="/Problems/prob068/models">Models</a></li>
+
+     	<li><a href="/Problems/prob068/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob068.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob068/models/TTPPV.eprime">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob068/models/TTPPV.eprime">Download</a>
+<pre class ='brush: essenceprime'>language ESSENCE' 1.0
+
+given nbTeams : int(1..)
+
+letting nbRounds = nbTeams-1
+letting nbStates = 7
+
+letting Teams be domain int(1..nbTeams)
+letting Rounds be domain int(1..nbRounds)
+letting Travels be domain int(1..nbRounds+1)
+
+letting maxObj be sum([nbTeams/2 | i : Teams, j : Travels])
+
+$ predefined venue: pv[i][j] = 1 iff i is playing at home against j
+given pv : matrix indexed by [Teams, Teams] of int(1..2)
+
+
+find opponent : matrix indexed by [Teams, Rounds] of Teams
+$ auxiliary variables: venue[i,k] = 1 iff team i plays at home in round k
+find venue : matrix indexed by [Teams, Rounds] of int(1..2) 
+find travel : matrix indexed by [Teams, Travels] of int(0..(nbTeams/2))
+find distance : matrix indexed by [Teams, Teams] of int(0..nbTeams)
+find objective : int(0..maxObj)
+
+branching on [[opponent[i,j] | i : Teams, j : Rounds], 
+                [venue[i,j] | i : Teams, j : Rounds],
+                [travel[i,j] | i : Teams, j : Travels]]
+
+minimising objective
+
+such that
+
+objective = sum(flatten(travel)),
+
+forAll i : Teams .
+    forAll j : Teams . 
+        (i &gt;= j -&gt; (
+            (i-j &lt; j-i+nbTeams -&gt; distance[i,j] = i-j)
+            /\
+            (i-j &gt;= j-i+nbTeams -&gt; distance[i,j] = j-i+nbTeams)
+        ))
+        /\
+        (i &lt; j -&gt; (
+            (j-i &lt; i-j+nbTeams -&gt; distance[i,j] = j-i)
+            /\
+            (j-i &gt;= i-j+nbTeams -&gt; distance[i,j] = i-j+nbTeams) 
+        )),
+
+$ predetermined venues match venue allocation
+forAll i : Teams .
+    forAll k : Rounds .
+        venue[i,k] = pv[i,opponent[i,k]],
+
+$ cannot play against oneself
+forAll i : Teams .
+    forAll k : Rounds .
+        opponent[i,k] != i,
+
+$ if I play you, you play me
+forAll i : Teams .
+    forAll k : Rounds .
+        opponent[opponent[i,k],k] = i,
+
+$ each team i, all the opponents are different
+forAll i : Teams . 
+    allDiff(opponent[i, ..]),
+
+$ each round, all opponents are different (implied)
+forAll k : Rounds.
+    allDiff(opponent[..,k]),
+
+$ for each team i, there can be at most 3 consecutive home games and at most 3 consecutive away games
+forAll i : Teams .
+    forAll j : int(1..2) .
+        forAll k : int(1..nbRounds-3) .
+            (venue[i,k] = j /\ venue[i,k+1] = j /\ venue[i,k+2] = j) -&gt; venue[i,k+3] != j,
+
+$ break symmetry
+opponent[1,1] &lt; opponent[1,nbRounds],
+
+$ define travel variables wrt venues of current- and next-round games
+forAll i : Teams .
+    (venue[i,1]=1 -&gt; travel[i,1] = 0) /\
+    (venue[i,1]=2 -&gt; travel[i,1] = distance[i,opponent[i,1]]),
+
+forAll i : Teams .
+    forAll k : int(1..nbRounds-1) .
+        ((venue[i,k]=1 /\ venue[i,k+1]=1) -&gt; travel[i,k+1] = 0) /\
+        ((venue[i,k]=2 /\ venue[i,k+1]=1) -&gt; travel[i,k+1] = distance[opponent[i,k],i]) /\
+        ((venue[i,k]=1 /\ venue[i,k+1]=2) -&gt; travel[i,k+1] = distance[i,opponent[i,k+1]]) /\
+        ((venue[i,k]=2 /\ venue[i,k+1]=2) -&gt; travel[i,k+1] = distance[opponent[i,k],opponent[i,k+1]]),
+
+forAll i : Teams . 
+    (venue[i,nbRounds]=1 -&gt; travel[i,nbRounds+1] = 0) /\
+    (venue[i,nbRounds]=2 -&gt; travel[i,nbRounds+1] = distance[opponent[i,nbRounds],i])
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
