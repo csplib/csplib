@@ -10,10 +10,14 @@
 #
 # Copyright 2024 - Yan Georget
 ###############################################################################
+import argparse
 from typing import List
 
 from nucs.problems.problem import Problem
 from nucs.propagators.propagators import ALG_AND, ALG_EXACTLY_TRUE, ALG_LEXICOGRAPHIC_LEQ
+from nucs.solvers.backtrack_solver import BacktrackSolver
+from nucs.solvers.heuristics import max_value_dom_heuristic
+from nucs.statistics import get_statistics
 
 
 class BIBDProblem(Problem):
@@ -59,3 +63,20 @@ class BIBDProblem(Problem):
 
     def solution_as_matrix(self, solution: List[int]) -> List[List[int]]:
         return [[solution[i * self.b + j] for j in range(0, self.b)] for i in range(0, self.v)]
+
+
+# Run with the following command (the second run is much faster because the code has been compiled):
+# NUMBA_CACHE_DIR=.numba/cache python bibd_problem.py -v 8 -b 14 -r 7 -k 4 -l 3 --symmetry_breaking
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", type=int)
+    parser.add_argument("-b", type=int)
+    parser.add_argument("-r", type=int)
+    parser.add_argument("-k", type=int)
+    parser.add_argument("-l", type=int)
+    parser.add_argument("--symmetry_breaking", action=argparse.BooleanOptionalAction, default=True)
+    args = parser.parse_args()
+    problem = BIBDProblem(args.v, args.b, args.r, args.k, args.l, args.symmetry_breaking)
+    solver = BacktrackSolver(problem, dom_heuristic=max_value_dom_heuristic)
+    solver.solve_one()
+    print(get_statistics(solver.statistics))

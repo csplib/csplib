@@ -10,10 +10,14 @@
 #
 # Copyright 2024 - Yan Georget
 ###############################################################################
+import argparse
 from typing import List
 
 from nucs.problems.problem import Problem
 from nucs.propagators.propagators import ALG_AFFINE_EQ, ALG_AFFINE_LEQ, ALG_ALLDIFFERENT
+from nucs.solvers.backtrack_solver import BacktrackSolver
+from nucs.solvers.heuristics import smallest_domain_var_heuristic, max_value_dom_heuristic
+from nucs.statistics import get_statistics
 
 
 class MagicSquareProblem(Problem):
@@ -54,3 +58,18 @@ class MagicSquareProblem(Problem):
 
     def second_diag(self) -> List[int]:
         return list(range(self.n**2 - self.n, 0, 1 - self.n))
+
+
+# Run with the following command (the second run is much faster because the code has been compiled):
+# NUMBA_CACHE_DIR=.numba/cache python magic_square_problem.py -n 4 --symmetry_breaking
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n", type=int)
+    parser.add_argument("--symmetry_breaking", action=argparse.BooleanOptionalAction, default=True)
+    args = parser.parse_args()
+    problem = MagicSquareProblem(args.n, args.symmetry_breaking)
+    solver = BacktrackSolver(
+        problem, var_heuristic=smallest_domain_var_heuristic, dom_heuristic=max_value_dom_heuristic
+    )
+    solver.solve_all()
+    print(get_statistics(solver.statistics))
