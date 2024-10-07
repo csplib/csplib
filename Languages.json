@@ -72,6 +72,14 @@
     "id": "Minion",
     "title": "Minion Input Language"
   },
+  "NuCS": {
+    "category": [
+      "Unclassified"
+    ],
+    "extensions": [],
+    "id": "NuCS",
+    "title": "NuCS"
+  },
   "Numberjack": {
     "category": [
       "Unclassified"
