@@ -46,7 +46,9 @@ source_mapping = {}
 language_mapping = {
 	"ilog solver": 'cpp',
 	"numberjack": 'py',
-        "pycsp3": 'py'
+    "pycsp3":     'py',
+    'nucs':       'py',
+    'or-tools/python': 'py',
 }
 
 
