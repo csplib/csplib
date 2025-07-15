@@ -164,8 +164,7 @@ $$
 \text{weekDayMatch}_{aux,p_w} = \left\lfloor \frac{aux}{M} \right\rfloor \mod 7 = p_w 
 $$
 
-*Implementation note*:  
-Corresponds to `auxCalendarVar.div(24).mod(7).intVar()`
+
 
  Time slots (start and end) matching for one resource for the appointment  is expressed as 
 
@@ -173,8 +172,7 @@ $$
 \text{timeMatch}_{aux,p} = (aux \mod M) \in [s_p, e_p] 
 $$
 
-*Implementation note*:  
-Corresponds to `auxCalendarVar.mod(24).intVar()`
+
 
 
 A violation occurs when:
