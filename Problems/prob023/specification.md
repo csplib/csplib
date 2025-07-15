@@ -27,7 +27,7 @@ C+G+L = B+F+K+P = ... = H+M+Q = 38.
 
 The problem can be generalized to other sizes. This is the diameter 5 problem.
 
-<center>
+<center markdown="1">
 ![Magic Hexagon](assets/magic.jpg)
 </center>
 
