@@ -9,12 +9,12 @@ import xml.etree.ElementTree as etree
 # from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 # Seem to slow doing building
 
-LINK_RE = r'\b((?:https?://|(?:[a-z0-9.-]+\.(?:[a-z]{2,})))(?:[^\s<>"\[\]{}|\\^`]*[^\s<>"\[\]{}|\\^`.,;:!?])?)(?=\s|$|[<>"\[\]{}|\\^`.,;:!?])'
+LINK_RE = r'(?<=\s)(https?://[^\s<>"\[\]{}|\\^`]*[^\s<>"\[\]{}|\\^`.,;:!?\)])(?=\s|$|[<>"\[\]{}|\\^`.,;:!?\)])'
 
 class AutoLink(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
 		a = etree.Element('a')
-
+		print("LinkRe",m.group(2))
 		href = m.group(2)
 		if not re.match('^(ftp|https?)://', href, flags=re.IGNORECASE):
 			href = 'http://%s' % href

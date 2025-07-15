@@ -8,3 +8,4 @@ PyYAML==6.0.2
 six==1.17.0
 smartypants==2.0.2
 sortedcontainers==2.4.0
+markdown-full-yaml-metadata==2.2.1
