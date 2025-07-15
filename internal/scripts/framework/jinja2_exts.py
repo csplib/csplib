@@ -6,7 +6,6 @@ import os.path as path
 
 from datetime import date
 
-from jinja2._compat import text_type
 from markupsafe import escape
 from util import convert_markdown_fragment
 

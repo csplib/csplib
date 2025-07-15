@@ -39,14 +39,14 @@ class Bib(object):
     def parse(self):
         with codecs.open(self.bibfile, encoding="latex+utf8") as ff:
             # remove {} useful in TeX, not in html
-            f=re.sub(u"{(\w)}", u"\\1", ff.read(), re.UNICODE)
+            f=re.sub(r"{(\w)}", r"\1", ff.read(), re.UNICODE)
             buf=StringIO(f)
             db = bibtex.Parser().parse_stream(buf)
         for k, v in db.entries.items():
             v.fields['key'] = k
             # fragment is the bibtex key sanitised for use in html anchors
-            fragment = re.sub("[^\w]", "_", k)
-            fragment = re.sub("^(\d+)", "_\\1", fragment)
+            fragment = re.sub(r"[^\w]", r"_", k)
+            fragment = re.sub(r"^(\d+)", r"_\\1", fragment)
             v.fields['fragment'] = fragment
 
         def _sortkey(entry):
@@ -175,7 +175,7 @@ def _title(entry):
     # title = re.sub("[{}]", "", title)
     # If there are '$', there is maths, and we will not try to remove {}
     if '$' not in title:
-        title = re.sub('(?<!\\\)[{}]',"",title)
+        title = re.sub(r'(?<!\\)[{}]',"",title)
     return title
 
 

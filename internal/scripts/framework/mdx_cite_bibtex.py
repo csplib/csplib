@@ -3,22 +3,23 @@
 
 import markdown
 import re
+import xml.etree.ElementTree as etree
 
-CITE_BIBTEX_RE = r' ?cite\{([,\ \w:/-]+?)\}',
+CITE_BIBTEX_RE = r' ?cite\{([,\ \w:/-]+?)\}'
 
 
-class CitePattern(markdown.inlinepatterns.Pattern):
+class CitePattern(markdown.inlinepatterns.InlineProcessor):
 	numbered = {}
 
-	def handleMatch(self, m):
-		base = markdown.util.etree.Element('span')
+	def handleMatch(self, m, data):
+		base = etree.Element('span')
 		base.text=' '
-		refs = m.group(2).split(",")
+		refs = m.group(1).split(",")
 		for (i,ref) in enumerate(refs):
 			ref = ref.strip()
 			# to allow in a html Fragment
-			ref = re.sub("[^\w]", "_", ref)
-			ref = re.sub("^(\d+)", "_\\1", ref)
+			ref = re.sub(r"[^\w]", r"_", ref)
+			ref = re.sub(r"^(\d+)", r"_\\1", ref)
 			url = '~~PROB_BASE~~/references/#' + ref
 
 			if ref in self.numbered:
@@ -27,7 +28,7 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 				num = len(self.numbered) + 1
 				self.numbered[ref] = num
 
-			el = markdown.util.etree.Element("a")
+			el = etree.Element("a")
 			el.set('href', url)
 			el.set('class', 'bibref')
 			el.set('data-bibfragment', ref)
@@ -51,15 +52,15 @@ class CitePattern(markdown.inlinepatterns.Pattern):
 		# bibkey refs
 
 
-		return base
+		return base, m.start(0), m.end(0)
 
 
 class CiteBibtexExtension(markdown.Extension):
 	""" cite_bibtex Extension for Python-Markdown. """
 
-	def extendMarkdown(self, md, md_globals):
-		md.inlinePatterns['cite_bibtex'] = CitePattern(CITE_BIBTEX_RE, md)
+	def extendMarkdown(self, md):
+		md.inlinePatterns.register(CitePattern(CITE_BIBTEX_RE, md), 'cite_bibtex', 175)
 
 
-def makeExtension(configs=None):
-	return CiteBibtexExtension(configs=configs)
+def makeExtension(**kwargs):
+	return CiteBibtexExtension(**kwargs)
