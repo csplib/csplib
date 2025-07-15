@@ -25,7 +25,6 @@ if not %ERRORLEVEL%=9009 (
 echo Cannot find python...
 echo Please run the following yourself:
 echo pip install -r scripts/support/packages.txt
-echo pip install --allow-external guess-language-spirit --allow-unverified guess-language-spirit mdx_smartypants==1.5.1 --pre
 echo python internal/scripts/framework/generate_web_site.py
 exit 1
 
@@ -33,7 +32,6 @@ exit 1
 
 echo Installing packages (this may take up to 5 minutes first time)
 %pipcmd% install -q -r internal/scripts/support/packages.txt
-%pipcmd% install -q --allow-external guess-language-spirit --allow-unverified guess-language-spirit mdx_smartypants==1.5.1 --pre
 echo Building csplib website
 %pycmd% internal/scripts/framework/generate_web_site.py
 echo Website in _deploy directory
