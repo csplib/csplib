@@ -9,7 +9,7 @@ Scientific American columns.
 
 Life is played on a squared board, considered to extend to infinity in all directions. Each square of the board is a cell, which at any time during the game is either alive or dead. A cell has eight neighbours:
 
-<center>
+<center markdown="1">
 ![Magic Hexagon](assets/neighbours.jpg)
 </center>
 
@@ -31,7 +31,7 @@ On this definition, the 8 x 8 pattern below is a *pseudo still-life*.)
 
 A 3 x 3 still-life with 6 live cells and an 8 x 8 still-life with 36 live cells.
 
-<center>
+<center markdown="1">
 ![Life 3](assets/life3.jpg)
 
 ![Life 8](assets/life8.jpg)

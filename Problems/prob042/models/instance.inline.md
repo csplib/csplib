@@ -3,7 +3,7 @@
 
 The *c6288* digital circuit from the ISCAS-85 set of benchmarks is a 16-bit multiplier, which can be seen as a grid-like pattern of 240 half and full adders (as in Figure below) consisting of 2406 logical gates in all.
 
-<center>
+<center markdown="1">
     ![instance figure](../assets/c6288.gif)
 </center>
 
