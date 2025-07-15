@@ -30,7 +30,7 @@ import mdx_rel_link
 
 from collections import defaultdict
 from datetime import datetime
-from distutils import dir_util
+import shutil
 from jinja2 import Environment, FileSystemLoader
 from sortedcontainers import SortedSet
 
@@ -143,7 +143,7 @@ except IOError:
 	creations_times={}
 
 # Copy every file in web to the output directory
-dir_util.copy_tree(path.join(base, "internal/web"), output_dir)
+shutil.copytree(path.join(base, "internal/web"), output_dir, dirs_exist_ok=True)
 for fp in ['Readme.txt', 'test_syntax_autoload.html', 'problems_creation_dates.txt']:
 	if os.path.exists(path.join(output_dir,fp)):
 		os.remove(path.join(output_dir,fp))
