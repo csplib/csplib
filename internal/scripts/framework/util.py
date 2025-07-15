@@ -17,8 +17,8 @@ except ImportError:
 import logging
 logger = logging.getLogger(__name__)
 
-markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
-                 'smartypants(entities=named)', 'cite_bibtex', 'prob_link', 'auto_link', 'rel_link']
+markdown_exts = ['extra', 'meta', 'sane_lists', 'tables',
+				 'smarty', 'mdx_cite_bibtex', 'mdx_prob_link', 'mdx_auto_link', 'mdx_rel_link']
 
 #  File extensions listed in language pages should not be added,
 #  since they are added automatically.
