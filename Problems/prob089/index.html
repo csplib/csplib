@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>089: Medical Appointment Scheduling Problem (MASP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob089">prob089</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>089: Medical Appointment Scheduling Problem (MASP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob089/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob089/results">Results</a></li>
+
+     	<li><a href="/Problems/prob089/references">References</a></li>
+
+     	<li><a href="/Problems/prob089/models">Models</a></li>
+
+     	<li><a href="/Problems/prob089/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob089.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob089/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by George Assaf, Sven Löffler, and Petra Hofstedt
+</p>
+
+<h2>Model Description</h2>
+<p>The <strong>Medical Appointment Scheduling Problem (MASP)</strong> focuses on assigning a set of medical resources at specific times to constitute a medical appointment for a given patient.</p>
+<p>Given a set of medical resources, e.g., physicians with their current schedules represented as calendars (each with <em>M</em> time slots per day), the MASP must satisfy the following constraints:</p>
+<ul>
+<li>Resources must have sufficient available time slots in their schedules to cover the required appointment duration.</li>
+<li>Time slots allocated for one appointment must be <strong>sequential</strong> (i.e., no gaps are allowed).</li>
+<li>The correct medical resource types must be chosen to serve the appointment&rsquo;s purpose. For example, a cardiologist is required for cardiological conditions.</li>
+<li>The appointment must not be scheduled on <strong>dates</strong> (i.e., those mandatorily excluded by the patient).</li>
+<li>Patient preferences&mdash;such as preferred dates, physicians, weekdays, and times&mdash;should be respected as much as possible.</li>
+</ul>
+<hr />
+<h2>Model Parameters</h2>
+<ul>
+<li>
+<p><strong>T = { &tau;&#8321;, &hellip;, &tau;&#8343; }</strong>: A set of required <strong>resource types</strong>  (conjunction of types) for the appointment.<br />
+  Example:  <strong>T = { Cardiologist, Neurologist, CT_Room }</strong><br />
+  means that the appointment must include a cardiologist, a neurologist, and a CT scan room.</p>
+</li>
+<li>
+<p><strong><em>d</em></strong>: The required <strong>duration</strong> of the appointment (in  slot).<br />
+  Assuming a slot is 15 minutes long,  <strong><em>d = 4</em></strong> implies an appointment duration of 60 minutes (1 hour).</p>
+</li>
+<li>
+<p><strong>U</strong>: A set of undesired dates by patient.</p>
+</li>
+<li>
+<p><strong><em>P<sub>r</sub></em></strong>: A set of <strong>preferred resource identifiers</strong> (e.g., preferred physicians) specified by the patient.</p>
+</li>
+<li>
+<p><strong><em>P<sub>d</sub></em></strong>: A set of <strong>preferred dates</strong>, represented as column indices of the calendar matrix.</p>
+</li>
+<li>
+<p>A set of <strong>preferred time slot specifications</strong>. Each specification consists of:</p>
+<ul>
+<li>Start slot index  <strong>s<sub>p</sub></strong></li>
+<li>End slot index    <strong>e<sub>p</sub></strong></li>
+<li>Weekday index (0 = Monday, &hellip;, 6 = Sunday) <strong><em>p<sub>w</sub></em></strong></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2>Modelling</h2>
+<p>This section defines the <strong>decision variables</strong>, their <strong>domains</strong>, and the <strong>constraints</strong> governing the problem.</p>
+<hr />
+<h2>Problem Domains</h2>
+<p>We define two types of integer domains:</p>
+<ul>
+<li>
+<p><strong>Resource Identifier Domain (R)</strong>: Divided into sub-domains <strong>R<sub>&tau;</sub></strong> for each <strong>&tau; &isin; T</strong>, depending on the resource type.<br />
+  For instance, all cardiology physicians form a cardiology sub-domain.</p>
+</li>
+<li>
+<p><strong>Time Slot Identifier Domain</strong>: Describes the available time slots of all resource calendars. Each slot is uniquely encoded by an identifier based on its start time and date. A time slot domain corresponding a resource calendar can be seen as 2D matrix as shown below. The columns represent scheduling days (dates) and the rows model time slots (in our example 32 slots per day). Slot identifiers help to cope with tracking resource availability and extracting time and day (and date) information. For example, slot identifier 33 corresponds to the second scheduling day (or date) $\lfloor \frac{33}{32} \rfloor$  = 1 (second calendar date) mod 7 = 1 (Tu). The time slot corresponds to the slot identifer 33 is $33 \quad mod \quad 32 = 1$ (time slot index) corresponding to the slot starting at 08:15. From all resource calendars, a globla shared calendar representing the calendar of the medical facility can be built to reflect the structure of the scheduling horizon within the medical facility. Note that each resource has a local calendar, which maps to the shared global calendar used for synchronization.</p>
+</li>
+</ul>
+<p>In the modeling, we make use of slot identifiers and column/row indcies to express various time/date-related constraints. </p>
+<h2><img alt="Time slot matrix encoding a resource calendar" src="assets/timeSltMatrix.png" /></h2>
+<h2>Assumptions</h2>
+<p>In the prototype model (Choco implementation), we assume the duration of each time slot is 15 minutes and the number of slots per each calendar day is $M =24$ slots. Moreover, we assume that all resources have the same availability, i.e., they share slot identifiers. Please also note that, resource calendars are unfolded into 1 D array with previously calculated slot identifiers. To teach yourself on constructing time slot identifiers, please check our reference published paper.</p>
+<hr />
+<h2>Decision Variables</h2>
+<ul>
+<li>
+<p><strong>V = { x&#8321;, &hellip;, x&#8343; }</strong>: A set of decision variables over domains <strong>R<sub>&tau;</sub></strong>, where <strong>&tau; &isin; T</strong>.<br />
+  For example, if two cardiologists are needed, two variables over the cardiology domain are introduced.</p>
+</li>
+<li>
+<p>For each involved resource $z$ in resource domain, an auxiliary variable is declared:</p>
+</li>
+<li>
+<p><strong>aux<sub>z</sub> &isin; S<sub>z</sub> \ {&ndash;1}</strong>,<br />
+    where <strong>S<sub>z</sub></strong> is the calendar of resource <strong>z</strong> excluding unavailable slots (denoted by &ndash;1).<br />
+    These track time slot allocations for that resource. Each auxiliary variable can be seen as the start slot of the appointment nominated by the associated resource. The set of all auxiliary variables are indicated by $A = {aux_1, \dots, aux_n}$</p>
+</li>
+<li>
+<p><strong>d</strong> decision variables for encoding the time slots of the appointment: <strong>&forall;k &isin; {1, &hellip;, d}</strong>,  <strong>t<sub>k</sub> &isin; S<sub>g</sub></strong>, where <strong>S<sub>g</sub></strong> is the global time slot domain (facility-wide calendar).</p>
+</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<p>The model includes <strong>hard constraints</strong> (structural rules) and <strong>soft constraints</strong> (patient preferences).</p>
+<h3>Hard Constraints</h3>
+<ul>
+<li>
+<p><strong>Distinct Resources</strong>:<br />
+  Resources allocated for the appointment must be different:
+$$ 
+  \texttt{AllDifferent}({x_1, x_2, \dots, x_l}), \quad \forall\, \tau_i = \tau_j \in T
+$$</p>
+</li>
+<li>
+<p><strong>Sequential Time Slots</strong>:<br />
+  Appointment time slots must be consecutive:
+$$ 
+  t_k = t_{k-1} + 1, \quad \forall k = 2, \dots, N
+$$ </p>
+</li>
+<li>
+<p><strong>Linking Constraint</strong>:<br />
+  Connects a resource assignment to the start time of the appointment:
+$$
+  (x_i \in R_\tau) \rightarrow (t_1 = \text{aux}_i)
+$$ </p>
+</li>
+<li>
+<p><strong>Eliminate undesired dates by patient</strong>
+This constraint is met when all resources do not match slots falling within the slots of the corresponding undeired dates. This constraint is expressed as:
+$$
+\forall a \in A, \quad \forall d \in U:\quad
+\left\lfloor \frac{\text{a}}{M} \right\rfloor \ne d
+$$</p>
+</li>
+</ul>
+<h3>Soft Constraints</h3>
+<ul>
+<li><strong>Date Preference Violation</strong>:<br />
+  Date preference violation by one resource occurs when a resource nominates a start  slot  falling outside of the slots describing the calendar date that is preferred by patient. This can be expressed as:</li>
+</ul>
+<p>$$
+v_{\text{date}, \text{aux}} =
+  \bigvee_{p \in P_d}
+  \left(
+    \left\lfloor \frac{\text{aux}}{M} \right\rfloor = \text{dateIndex}(p)
+  \right) = 0
+$$</p>
+<p>Function $\textbf{dateIndex}$ returns the date index corresponding to a give date $p$. The total number of violations over all resource calendars is:</p>
+<p>$$
+\text{totalDateViolation} = \sum_{a \in \mathcal{A}} v_{\text{date}, \text{a}} 
+$$</p>
+<ul>
+<li><strong>Preferred Resource Violation</strong>:
+  Let $x$ be a decison variable describing a resource that is desired to be assigned an identifier $P_r$  corresponding to a resource specified by the patient. The decision variables that should be assigned preferred resources denoted by $\mathcal{V&rsquo;} \subset V$ . Then, the violation of this constraint occurs when the variable $x$ is assigned an identifier that differs from those given by the patient. This can be expressed as:</li>
+</ul>
+<p>$$
+v_\text{resource} =  {x \notin P_r}
+$$</p>
+<p>Then the total number of violations over all preferred resources is:</p>
+<p>$$
+\text{totalResourceViolation} = \sum_{x \in \mathcal{V&rsquo;}} v_{resource}(x)
+$$</p>
+<ul>
+<li><strong>Preferred  weekday and time violation</strong>
+For a resource calendar $aux$ and weekday preference $p_d$, a violation occurs, when a resource nominates a slot identifier  falling in the slots of the preferred weekday in that resource calendar. This can be described as follows:</li>
+</ul>
+<p>$$
+\text{weekDayMatch}_{aux,p_w} = \left\lfloor \frac{aux}{M} \right\rfloor \mod 7 = p_w 
+$$</p>
+<p>Time slots (start and end) matching for one resource for the appointment  is expressed as </p>
+<p>$$
+\text{timeMatch}_{aux,p} = (aux \mod M) \in [s_p, e_p] 
+$$</p>
+<p>A violation occurs when:
+- Appointment is on the right day <strong>AND</strong>  Outside the preferred time window</p>
+<p>$$
+v_{aux,p} = weekDayMatch_{aux,p_w} \cdot  (1 - \text{timeMatch}_{aux,p} )
+$$</p>
+<p>Total violations over all calendars:</p>
+<p>$$
+\text{totalTimeviolation} = \sum_{a \in \mathcal{A}} \sum_{p \in \mathcal{P}} v_{a,p}
+$$</p>
+<p><strong>Optimization Function</strong>
+ As the goal is to minimize the violation of patient preferences, we define the objective function as: 
+ $$
+\text{Minimize} \quad F = \text{totalDateViolation}  + \text{totalResourceViolation}  + \text{totalTimeviolation} 
+ $$</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

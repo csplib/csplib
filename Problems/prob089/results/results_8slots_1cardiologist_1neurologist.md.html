@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>089: Medical Appointment Scheduling Problem (MASP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob089">prob089</a></li>
+
+  <li><a href="/Problems/prob089/results">Results</a></li>
+  <li>results_8slots_1cardiologist_1neurologist.md</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>089: Medical Appointment Scheduling Problem (MASP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob089/">Specification</a></li>
+
+     	<li><a href="/Problems/prob089/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob089/results">Results</a></li>
+
+     	<li><a href="/Problems/prob089/references">References</a></li>
+
+     	<li><a href="/Problems/prob089/models">Models</a></li>
+
+     	<li><a href="/Problems/prob089/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob089.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob089/results/results_8slots_1cardiologist_1neurologist.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob089/results/results_8slots_1cardiologist_1neurologist.md">Download</a>
+<p>Instance: Solution of eight-slot appointment with 1 cardiologist and 1 neurologist</p>
+<p>preferred_dates: [11.07.2025, 14.07.2025]</p>
+<p>undesired_weekdays: [ Tu (1) ]</p>
+<p>preferred_times: &ldquo;Thu(3), slotIds 0&ndash;7 (8:0&ndash;09:30)&rdquo;</p>
+<p>preferred_doctors:</p>
+<ul>
+<li>
+<p>cardiologists: [4, 8]</p>
+</li>
+<li>
+<p>neurologists: [13, 17]</p>
+</li>
+</ul>
+<p>Solution found:</p>
+<p>Appointment Slots:
+appSlots[0]=72 appSlots[1]=73 appSlots[2]=74 appSlots[3]=75 appSlots[4]=76 appSlots[5]=77 appSlots[6]=78 appSlots[7]=79 appResource_CARDIOLOGY=8 appResource_NEUROLOGIE=17 </p>
+<p>** Choco 4.10.9 (2022-08) : Constraint Programming Solver, Copyright (c) 2010-2022</p>
+<ul>
+<li>
+<p>Model[MASP Scheduling Problem] features:</p>
+<p>Variables : 1067</p>
+<p>Constraints : 799</p>
+<p>Building time : 0.292s</p>
+<p>User-defined search strategy : no</p>
+<p>Complementary search strategy : no</p>
+</li>
+<li>
+<p>Complete search - 1 solution found.</p>
+<p>Model[MASP Scheduling Problem]</p>
+<p>Solutions: 1</p>
+<p>MINIMIZE Optimize Soft Constraints = 0,</p>
+<p>Building time : 0.292s</p>
+<p>Resolution time : 0.204s</p>
+<p>Time to best solution : 0.184s</p>
+<p>Nodes: 131 (643.3 n/s) </p>
+<p>Backtracks: 261</p>
+<p>Backjumps: 0</p>
+<p>Fails: 130</p>
+<p>Restarts: 0</p>
+</li>
+</ul>
+<p>[INFO] &ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;</p>
+<p>[INFO] BUILD SUCCESS</p>
+<p>[INFO] &ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;</p>
+<p>[INFO] Total time:  1.169 s</p>
+<p>[INFO] Finished at: 2025-07-11T10:56:43+02:00</p>
+<p>[INFO] &ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;</p>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
