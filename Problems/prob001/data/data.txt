@@ -5,11 +5,14 @@ utilisation of the option stations is high,  so that these are relatively
 difficult problems to solve.  At least two have no solution (10/93 and 16/81).
 Some of the problems were used by Regin and Puget in their CP97 paper.
 
+
 #------------
 # Problem 4/72  (Regin & Puget #1)
 # Satisfiable
 #------------
 100 5 22
+1 2 1 2 1
+2 3 3 5 5
 0 6 1 0 0 1 0
 1 10 1 1 1 0 0
 2 2 1 1 0 0 1
@@ -38,6 +41,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # No solution
 #----------------
 100 5 22
+1 2 1 2 1
+2 3 3 5 5
 0 13 1 0 0 0 0
 1 8 0 0 0 1 0
 2 7 0 1 0 0 0
@@ -66,6 +71,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # No solution
 #----------------
 100 5 25
+1 2 1 2 1
+2 3 3 5 5
 0 7 1 0 0 1 0
 1 11 1 1 0 0 0
 2 1 0 1 1 1 1
@@ -98,6 +105,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # No solution
 #--------------
 100 5 26
+1 2 1 2 1
+2 3 3 5 5
 0 10 1 0 0 0 0
 1 2 0 0 0 0 1
 2 8 0 1 0 1 0
@@ -130,6 +139,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 #  Shown by Ian Gent to have no solution
 #--------------
 100 5 23
+1 2 1 2 1
+2 3 3 5 5
 0 2 0 0 0 1 1
 1 2 0 0 1 0 1
 2 5 0 1 1 1 0
@@ -158,6 +169,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # Problem 21/90
 #---------------
 100 5 23
+1 2 1 2 1
+2 3 3 5 5
 0 14 0 1 0 0 0
 1 11 1 0 0 0 0
 2 2 0 1 1 1 0
@@ -186,6 +199,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # Problem 36/92
 #--------------
 100 5 22
+1 2 1 2 1
+2 3 3 5 5
 0 20 0 1 0 0 0
 1 7 1 1 1 0 0
 2 3 0 0 1 1 0
@@ -214,6 +229,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 # Satisfiable
 #--------------
 100 5 19
+1 2 1 2 1
+2 3 3 5 5
 0 7 1 0 0 0 0
 1 9 0 1 1 0 0
 2 4 0 0 0 1 0
@@ -238,6 +255,8 @@ Some of the problems were used by Regin and Puget in their CP97 paper.
 #Problem 26/82
 #-------------
 100 5 24
+1 2 1 2 1
+2 3 3 5 5
 0 2 1 1 0 1 0
 1 13 0 1 0 0 0
 2 10 0 1 0 1 0
