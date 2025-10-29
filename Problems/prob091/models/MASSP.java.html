@@ -1,0 +1,795 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>091: Medical Appointment Sequence Scheduling Problem (MASSP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+  
+	<link type="text/css" rel="stylesheet" href="/syntax_highlighter/shCoreDefault.css"/>
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+    	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob091">prob091</a></li>
+
+  <li><a href="/Problems/prob091/models">Models</a></li>
+  <li>MASSP.java</li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>091: Medical Appointment Sequence Scheduling Problem (MASSP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="/Problems/prob091/">Specification</a></li>
+
+     	<li><a href="/Problems/prob091/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob091/results">Results</a></li>
+
+     	<li><a href="/Problems/prob091/references">References</a></li>
+
+     	<li><a href="/Problems/prob091/models">Models</a></li>
+
+     	<li><a href="/Problems/prob091/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob091.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob091/models/MASSP.java">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<a href="/Problems/prob091/models/MASSP.java">Download</a>
+<pre class ='brush: java'>/**
+ * @author: Dr. rer. nat. George Assaf (Brandenburg University of Technology (BTU), Cottbus, Germany)
+ * @version: 1.0
+ * @date: 2025-10-26
+ * @description: Prototype implementation of the medical appointment sequence scheduling problem(MASSP) 
+*/
+package com.example.massp;
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.chocosolver.solver.Model;
+import org.chocosolver.solver.Solver;
+import org.chocosolver.solver.variables.BoolVar;
+import org.chocosolver.solver.variables.IntVar;
+import java.util.Arrays;
+public class MASSP {
+    
+    private Model model;
+    private ArrayList&lt;ArrayList&lt;CalendarDomain&gt;&gt; potentialResourceSlot;
+    private int[][] appID2Resources;
+    private IntVar[] resourceVariables;
+    private IntVar[][] sequenceSlots;
+    private IntVar totalWorkloadPenalty;
+    private Map&lt;Integer, Integer&gt; resourceIndex2AppointmentMap;
+    private List&lt;Integer&gt;                 similiarResourcesList;
+    private Map&lt;Integer, List&lt;Integer&gt;&gt;   resourceToIndices;
+
+
+
+    public MASSP() {
+
+        Appointment maxResAppointment = MASPConfigLarge.getAppointmentWithMostResources();
+
+
+        this.appID2Resources = new int[MASPConfigLarge.sequence.size()][(maxResAppointment.getRequiredResources().size())+1];
+        
+        this.model = new Model("MASSP");
+
+        this.potentialResourceSlot  = new ArrayList&lt;ArrayList&lt;CalendarDomain&gt;&gt;();
+
+        int max = MASPConfigLarge.getMaxAppointmentDuration();
+
+        this.sequenceSlots = new IntVar[max][MASPConfigLarge.sequence.size()];
+
+    }
+
+
+
+    public void solve() {
+
+        initialize();
+
+        //declare decision variables
+        assignVariableDomains();
+
+        //different resources per each appointment
+        applyAllDifferentConstraints();
+
+        //link resources with appointment slots and ensure sequential slots per appointment
+        ensureSequentialSlotsPerAppointment();
+
+        // No overlapping time slots for appointments
+        NoTimeSlotOverlapping();
+
+        // Set the chronological order of the sequence
+        setChronologicalOrderOfSequence1( MASPConfigLarge.chronologicalOrder);
+
+        ensureMinimalDistanceBetweenAppointments(sequenceSlots, MASPConfigLarge.min_distance );
+
+        ensureMaximalDistanceBetweenAppointments(sequenceSlots, MASPConfigLarge.max_distance );
+
+        //sameResourceconstraint();
+
+        totalWorkloadPenalty = optimizeResourcceWorkload();
+       // totalWorkloadPenalty = optimizeResourcecWorkload();
+
+        model.setObjective(Model.MINIMIZE, totalWorkloadPenalty);
+
+
+
+        Solver solver = model.getSolver();
+ 
+
+        while (solver.solve()) {
+        System.out.println("=== Solution ===");
+
+        for (Map.Entry&lt;Integer, Appointment&gt; entry : MASPConfigLarge.sequence.entrySet()) {
+            int appointmentId = entry.getKey();
+            int appIndex = appointmentId - 1;
+            Appointment app = entry.getValue();
+
+            // Print all resource assignments for this appointment
+            System.out.print("Appointment " + app.getId() + " (" + app.getRequiredResources() + "): ");
+            System.out.print("assigned resource IDs = [");
+            
+            boolean first = true;
+            for (int i = 0; i &lt; resourceVariables.length; i++) {
+                if (resourceIndex2AppointmentMap.get(i) == appIndex) {
+                    if (!first) {
+                        System.out.print(", ");
+                    }
+                    System.out.print(resourceVariables[i].getValue());
+                    first = false;
+                }
+            }
+            System.out.println("]");
+
+            // Print slot identifiers for this appointment
+            System.out.print("  Slots: ");
+            for (int slot = 0; slot &lt; app.getDurationInSlot(); slot++) {
+                System.out.print(sequenceSlots[slot][appIndex].getValue() + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+    solver.printStatistics();
+
+     }
+
+
+    private void initialize() {
+        
+        int requiredResourceId = 0;
+        int maxResources = MASPConfigLarge.getAppointmentWithMostResources().getRequiredResources().size();
+
+
+        for(int i=0;i&lt;appID2Resources.length;i++) {
+            appID2Resources[i][0] = i;
+            Appointment appointment = MASPConfigLarge.sequence.get(i+1);
+             for(int j=0;j&lt;maxResources;j++) {
+
+               if(appointment.getRequiredResources().size()&gt;requiredResourceId) {
+                
+                 appID2Resources[i][j+1] = appointment.getRequiredResources().get(requiredResourceId).ordinal();
+
+               } else {
+                  appID2Resources[i][j+1] = -1;
+               }
+                 requiredResourceId++;
+            }
+            requiredResourceId = 0;
+        }
+
+
+        for(int i = 0; i &lt; appID2Resources.length; i++)
+        {
+            for(int j = 1; j &lt; appID2Resources[i].length; j++)
+            {
+                if(appID2Resources[i][j] != -1)
+                {
+                    potentialResourceSlot.add(new ArrayList&lt;CalendarDomain&gt;());
+                }
+            }
+        }
+    }
+
+
+
+    private void assignVariableDomains() {
+
+         int noResources = MASPConfigLarge.getTotalNumberOfResources();
+        this.resourceVariables= new IntVar[noResources];
+
+        this.resourceIndex2AppointmentMap = new HashMap&lt;&gt;();
+        int resourceIndex =0;
+        int resourceId=0;
+
+
+        for(int i=0;i&lt;appID2Resources.length;i++) {
+
+            for(int j=1;j&lt;appID2Resources[i].length;j++) {
+
+            if(appID2Resources[i][j] == ResourceType.CARDIOLOGY.ordinal() &amp;&amp; appID2Resources[i][j] !=-1)  {
+
+            resourceVariables[resourceIndex] = model.intVar("Resource_var " + i, MASPConfigLarge.CARDIOLOGY_DOMAIN);
+
+            for (int k = 0; k &lt;  MASPConfigLarge.CARDIOLOGY_DOMAIN.length; k++) {
+                CalendarDomain calendarDomain = new CalendarDomain(MASPConfigLarge.CARDIOLOGY_DOMAIN[k],
+                        MASPConfigLarge.getFilteredGlobalCalendar(),
+                        MASPConfigLarge.getFilteredResourceCalendar(),
+                        MASPConfigLarge.SLOTS_PER_DAY,
+                        MASPConfigLarge.CURRENT_WORKLOAD[MASPConfigLarge.CARDIOLOGY_DOMAIN[k]]
+                );
+                
+                calendarDomain.findDate(model);
+
+                potentialResourceSlot.get(resourceIndex).add(calendarDomain);
+            }
+            resourceIndex2AppointmentMap.put(resourceIndex++, i);
+
+            }else if(appID2Resources[i][j] !=-1){
+            
+            resourceVariables[resourceIndex] = model.intVar("Resource_var " + i, MASPConfigLarge.NEUROLOGY_DOMAIN);
+
+            for (int k = 0; k &lt;  MASPConfigLarge.NEUROLOGY_DOMAIN.length; k++) {
+                CalendarDomain calendarDomain = new CalendarDomain(MASPConfigLarge.NEUROLOGY_DOMAIN[k],
+                        MASPConfigLarge.getFilteredGlobalCalendar(),
+                        MASPConfigLarge.getFilteredResourceCalendar(),
+                        MASPConfigLarge.SLOTS_PER_DAY,
+                        MASPConfigLarge.CURRENT_WORKLOAD[MASPConfigLarge.NEUROLOGY_DOMAIN[k]]
+                );
+                calendarDomain.findDate(model);
+                potentialResourceSlot.get(resourceIndex).add(calendarDomain);
+            }
+            resourceIndex2AppointmentMap.put(resourceIndex++, i);
+
+            }
+        }
+    }
+
+
+    // Initialize sequence start slots of appointments
+    for (int i = 0; i &lt; sequenceSlots[0].length; i++) {
+         sequenceSlots[0][i] = model.intVar("SeqSlot_0_App" + (i+1), MASPConfigLarge.getFilteredGlobalCalendar());
+    }
+}
+
+
+
+    private void applyAllDifferentConstraints() {
+    // Collect resource variables per appointment
+    Map&lt;Integer, List&lt;IntVar&gt;&gt; appointment2Vars = new HashMap&lt;&gt;();
+
+    for (int idx = 0; idx &lt; resourceVariables.length; idx++) {
+        int appointmentId = resourceIndex2AppointmentMap.get(idx);
+        appointment2Vars
+            .computeIfAbsent(appointmentId, k -&gt; new ArrayList&lt;&gt;())
+            .add(resourceVariables[idx]);
+    }
+
+    // Apply allDifferent per appointment
+    for (Map.Entry&lt;Integer, List&lt;IntVar&gt;&gt; entry : appointment2Vars.entrySet()) {
+        List&lt;IntVar&gt; vars = entry.getValue();
+        if (vars.size() &gt; 1) {
+            model.allDifferent(vars.toArray(new IntVar[0])).post();
+        }
+    }
+}
+
+private void ensureSequentialSlotsPerAppointment() {
+
+
+    // link resources to slots
+    for (int i=0;i&lt;potentialResourceSlot.size();i++) {
+        int appointmentId = resourceIndex2AppointmentMap.get(i);
+        //Appointment appointment = MASPConfigLarge.sequence.get(appointmentId + 1);
+        //System.out.println("Linking resource variable " + resourceVariables[i].getName() +
+        // " to appointment " + (appointmentId + 1) + " starting slot variable " + sequenceSlots[0][appointmentId].getName());
+
+        for (int j = 0; j &lt; potentialResourceSlot.get(i).size(); j++) {
+             model.ifThen(model.arithm(resourceVariables[i], "=", potentialResourceSlot.get(i).get(j).getResourceId()),
+              //todo: fix this bug here for mapping resources to correct appointment
+              model.arithm(sequenceSlots[0][appointmentId], "=", potentialResourceSlot.get(i).get(j).getCalendarVar()));
+        }
+    }
+
+     //ensure sequential slots per each appointment
+     for(int i=0;i&lt;sequenceSlots[0].length;i++)
+    {
+           for(int j=1;j&lt;sequenceSlots.length;j++)
+        {
+            if(j&gt;=MASPConfigLarge.sequence.get(i+1).getDurationInSlot())
+            {//when the appointment duration is greater than the number of slots
+                sequenceSlots[j][i] = null;//model.intVar(-1*sequenceSlots.length*sequenceSlots.length, -1);
+               // System.out.println("Appointment " + (i+1) + " exceeds available slots at "+ j);
+            }
+            else 
+            {
+                sequenceSlots[j][i] = model.intVar(MASPConfigLarge.getFilteredGlobalCalendar());
+                model.arithm(sequenceSlots[j][i], "=", sequenceSlots[j-1][i].add(1).intVar()).post();
+            }
+        }
+    
+    }
+}
+
+
+private void NoTimeSlotOverlapping() {
+
+
+        int index = 0;
+        for(int i = 0; i &lt; sequenceSlots.length; i++)
+        {
+            for(int j = 0; j &lt; sequenceSlots[0].length; j++)
+            {  
+                if(sequenceSlots[i][j] == null) continue;
+
+                 
+                index++;
+            }
+        }
+         
+        IntVar[] unfoldedSequenceSlots = new IntVar[index];
+
+        index = 0;
+        for(int i = 0; i &lt; sequenceSlots.length; i++)
+        {
+            for(int j = 0; j &lt; sequenceSlots[0].length; j++)
+            {  
+                if(sequenceSlots[i][j] == null) continue;
+
+                unfoldedSequenceSlots[index] = sequenceSlots[i][j];
+                index++;
+            }
+        }
+
+        model.allDifferent(unfoldedSequenceSlots).post();
+
+}
+
+
+private void setChronologicalOrderOfSequence1(List&lt;Integer&gt; requestedOrderList) {
+  //  System.out.println("Applying chronological order: " + requestedOrderList);
+    
+    for (int i = 0; i &lt; requestedOrderList.size() - 1; i++) {
+        int aId = requestedOrderList.get(i);
+        int bId = requestedOrderList.get(i + 1);
+        int aIndex = aId - 1;
+        int bIndex = bId - 1;
+        
+   /*      System.out.printf("Constraint: slot[%d][%d] (%s) &lt;= slot[%d][%d] (%s)%n",
+            aIndex, 0, sequenceSlots[0][aIndex].getName(),
+            bIndex, 0, sequenceSlots[0][bIndex].getName()); */
+        
+        model.arithm(sequenceSlots[0][aIndex], "&lt;=", sequenceSlots[0][bIndex]).post();
+    }
+}
+
+
+ /* This method ensures that the minimal distance between two appointments is satisfied
+     * @param appointments: The appointments
+     * @param minDistanceList: The list of minimal distances
+     * @param appointmentDurationsInSlots: The appointment durations in slots
+     * @param NoSinD: The number of slots per day
+    */
+    private void ensureMinimalDistanceBetweenAppointments(IntVar[][] appointments, int[][] minDistanceList) 
+    {
+
+        if (minDistanceList.length == 0 || appointments.length == 0) {
+            return;  // Nothing to process if minDistance or appointments are empty
+        }
+
+        for(int i=0;i&lt;minDistanceList.length;i++)
+        {
+            for(int j=0;j&lt;minDistanceList[i].length;j++)
+            {
+                if(minDistanceList[i][j] &gt; 0)
+                {
+                    int minimalDistanceInDays = minDistanceList[i][j];
+
+                    if (minimalDistanceInDays &lt;= 0) {
+                        continue;
+                    }
+
+                    // Convert minimal distance from days to slots (days * NoSinD slots per day)
+                    int minimalDistanceInSlots = minimalDistanceInDays * MASPConfigLarge.SLOTS_PER_DAY;
+
+                    // Ensure that the minimal distance in slots is enforced
+                    if (minimalDistanceInSlots % MASPConfigLarge.SLOTS_PER_DAY == 0)// day case
+                    {
+                        int appDuration =  MASPConfigLarge.sequence.get(i + 1).getDurationInSlot();//appointmentDurationsInSlots[i];  // Get the duration of the current appointment
+                        
+
+                        model.arithm(appointments[0][j].sub(appointments[appDuration - 1][i]).add(appointments[0][i].mod(MASPConfigLarge.SLOTS_PER_DAY)).intVar(), "&gt;=", minimalDistanceInSlots).post();;
+                    }
+                    else
+                    {
+                        //todo hours case
+                    }
+                }
+            }
+        }
+    }
+
+
+
+     /**
+     * This method ensures that the maximal distance between two appointments is satisfied
+     * @param appointments: The appointments
+     * @param maxDistanceMatrix: The maximal distance matrix
+     * @param appointmentDurationsInSlots: The appointment durations in slots
+     * @param NoSinD: The number of slots per day
+    */
+    private void ensureMaximalDistanceBetweenAppointments(IntVar[][] appointments, int[][] maxDistanceMatrix) 
+    {
+     
+
+        if (maxDistanceMatrix.length == 0 || appointments.length == 0) {
+            return;  // Nothing to process if maxDistance or appointments are empty
+        }
+
+        // Iterate over each row in the maximal distance matrix
+        for (int i = 0; i &lt; maxDistanceMatrix.length; i++)
+        {
+            // Iterate over each column in the row
+            for (int j = 0; j &lt; maxDistanceMatrix[i].length; j++)
+            {
+
+                // Get the maximal distance between the two appointments
+                int maximalDistanceInDays = maxDistanceMatrix[i][j];
+
+                // If maximal distance is less than or equal to 0, skip this pair
+                if (maximalDistanceInDays &lt;= 0) {
+                    continue;
+                }
+
+                // Convert maximal distance from days to slots (days * NoSinD slots per day)
+                int maximalDistanceInSlots = maximalDistanceInDays * MASPConfigLarge.SLOTS_PER_DAY;
+
+                // Ensure that the maximal distance in slots is enforced
+                if (maximalDistanceInSlots % MASPConfigLarge.SLOTS_PER_DAY == 0)// day case
+                {
+
+                    int appDuration =  MASPConfigLarge.sequence.get(i + 1).getDurationInSlot();//appointmentDurationsInSlots[i];  // Get the duration of the current appointment
+
+                    
+                    // Calculate the end of the first appointment (start time + duration)
+                    IntVar endOfFirstAppointment = appointments[0][i].add(appDuration).intVar();
+
+                    // Calculate the constraint to ensure that the second appointment starts within the maximal distance
+                    model.arithm(appointments[0][j], "&lt;=", endOfFirstAppointment.add(maximalDistanceInSlots).intVar()).post();
+
+                }
+                else
+                {
+                    //todo hours case
+                }
+            }
+        }
+    }
+
+    private void sameResourceconstraint() {
+
+        for (SameResources constraint : MASPConfigLarge.sameResourcesConstraints) {
+            int idxA = MASPConfigLarge.getGlobalResourceIndex(constraint.getAppointmentIndex1(), constraint.getResourceIndex1());
+            int idxB = MASPConfigLarge.getGlobalResourceIndex(constraint.getAppointmentIndex2(), constraint.getResourceIndex2());
+           
+            model.arithm(resourceVariables[idxA], "=", resourceVariables[idxB]).post();
+           
+            //System.out.printf("Constraint: resources[%d] must equal resources[%d]%n", idxA, idxB);
+        }
+
+
+    }
+
+    private IntVar optimizeResourcceWorkload() {
+
+                
+        IntVar[] workloadPenalties = new IntVar[resourceVariables.length];
+
+        Map&lt;Integer,IntVar&gt; totalWorkloadperResource = new HashMap&lt;&gt;();
+
+        Map&lt;Integer,IntVar&gt;    totalWorkloadPerResource = new HashMap&lt;&gt;();
+
+        Map&lt;Integer,IntVar&gt;    resourceWorkloadPerResource = new HashMap&lt;&gt;();
+
+            for (int i=0;i&lt;potentialResourceSlot.size();i++) {
+
+            
+                int appointmentId = resourceIndex2AppointmentMap.get(i);
+                   workloadPenalties[i] = model.intVar("workloadPenalty" + i, 0, 500);
+
+                for (int j = 0; j &lt; potentialResourceSlot.get(i).size(); j++) {
+
+                    int resourceId = potentialResourceSlot.get(i).get(j).getResourceId();
+                
+                    int initialWorkload = potentialResourceSlot.get(i).get(j).getCurrentWorkload();
+                   // System.out.println("Appointment " + (appointmentId+1) + " resource variable " + resourceVariables[i].getName() +
+                    // " assigned to resource ID " + resourceId + " with initial workload " + initialWorkload);
+
+                    int thisAppDuration = MASPConfigLarge.sequence.get(appointmentId+1).getDurationInSlot() * 15;//15 minutes per slot
+
+                    totalWorkloadPerResource.putIfAbsent(resourceId, model.intVar(initialWorkload));
+
+                     // Dynamically update workload penalty for this resource
+                model.ifThen(
+                    model.arithm(resourceVariables[i], "=", resourceId),
+                    model.arithm(workloadPenalties[i], "=",
+                        model.intOffsetView(totalWorkloadPerResource.get(resourceId), thisAppDuration))
+                );
+
+                resourceWorkloadPerResource.put(i, workloadPenalties[i]);
+
+                }
+            }
+
+        // Step 2: Aggregate workloads for each resource
+        for (int resourceId : totalWorkloadPerResource.keySet()) 
+        {
+            IntVar cumulativeWorkload = model.intVar("cumulativeWorkload_" + resourceId, 0, 500);
+            ArrayList&lt;IntVar&gt; resourceWorkloads = new ArrayList&lt;&gt;();
+
+            for (int i = 0; i &lt; resourceVariables.length; i++)
+            {
+                IntVar workloadForThisResource = model.intVar("workloadForResource_" + resourceId + "_app" + i, 0, 500);
+                model.ifThenElse(
+                    model.arithm(resourceVariables[i], "=", resourceId),
+                    model.arithm(workloadForThisResource, "=", workloadPenalties[i]),
+                    model.arithm(workloadForThisResource, "=", 0)
+                );
+                resourceWorkloads.add(workloadForThisResource);
+            }
+
+            // Sum all workloads for this resource
+            model.sum(resourceWorkloads.toArray(new IntVar[0]), "=", cumulativeWorkload).post();
+
+            // Update the cumulative workload in the tracking map
+            totalWorkloadPerResource.put(resourceId, cumulativeWorkload);
+        }
+
+         // Step 3: Calculate maximum workload
+        IntVar maxWorkload = model.intVar("maxWorkload", 0, 500);
+        model.max(maxWorkload, totalWorkloadPerResource.values().toArray(new IntVar[0])).post();
+
+
+
+        return maxWorkload;
+}
+
+
+
+
+
+    private IntVar optimizeResourcecWorkload() {
+    int numResources = MASPConfigLarge.CURRENT_WORKLOAD.length;
+    
+    // Calculate total duration each resource will work based on assignments
+    IntVar[] finalWorkloads = new IntVar[numResources];
+    IntVar[] workloadIncreases = new IntVar[numResources];
+    
+    for (int r = 0; r &lt; numResources; r++) {
+        // Start with current workload
+        finalWorkloads[r] = model.intVar("final_workload_" + r, 
+            MASPConfigLarge.CURRENT_WORKLOAD[r], 
+            MASPConfigLarge.CURRENT_WORKLOAD[r] + getMaxPossibleWorkloadIncrease());
+        
+        // Calculate workload increase for this resource
+        workloadIncreases[r] = model.intVar("workload_inc_" + r, 0, getMaxPossibleWorkloadIncrease());
+        
+        // Sum up all durations where this resource is selected
+        List&lt;IntVar&gt; indicators = new ArrayList&lt;&gt;();
+        List&lt;Integer&gt; durations = new ArrayList&lt;&gt;();
+        
+        for (int i = 0; i &lt; resourceVariables.length; i++) {
+            int appointmentId = resourceIndex2AppointmentMap.get(i);
+            Appointment appointment = MASPConfigLarge.sequence.get(appointmentId + 1);
+            int duration = appointment.getDurationInSlot();
+            
+            // Create indicator variable for whether this resource is selected
+            BoolVar indicator = model.boolVar("indicator_r" + r + "_var" + i);
+            model.arithm(resourceVariables[i], "=", r).reifyWith(indicator);
+            
+            indicators.add(indicator);
+            durations.add(duration);
+        }
+        
+        // Workload increase = sum of (indicator * duration) for all assignments to this resource
+        if (!indicators.isEmpty()) {
+            model.scalar(indicators.toArray(new IntVar[0]), 
+                        durations.stream().mapToInt(Integer::intValue).toArray(), 
+                        "=", workloadIncreases[r]).post();
+        } else {
+            model.arithm(workloadIncreases[r], "=", 0).post();
+        }
+        
+        // Final workload = current workload + workload increase
+        model.arithm(finalWorkloads[r], "=", 
+                    model.intVar(MASPConfigLarge.CURRENT_WORKLOAD[r]).add(workloadIncreases[r]).intVar()).post();
+    }
+    
+    // Calculate mean workload
+    IntVar totalWorkload = model.intVar("total_workload", 0, 
+        Arrays.stream(MASPConfigLarge.CURRENT_WORKLOAD).sum() + getTotalPossibleWorkloadIncrease());
+    model.sum(finalWorkloads, "=", totalWorkload).post();
+    
+    IntVar meanWorkload = model.intVar("mean_workload", 0, 
+        Arrays.stream(MASPConfigLarge.CURRENT_WORKLOAD).max().orElse(0) + getMaxPossibleWorkloadIncrease());
+    model.arithm(meanWorkload, "=", totalWorkload.div(model.intVar(numResources)).intVar()).post();
+    
+    // Calculate variance = sum of (workload - mean)^2 for all resources
+    IntVar[] squaredDeviations = new IntVar[numResources];
+    for (int r = 0; r &lt; numResources; r++) {
+        IntVar deviation = model.intVar("dev_" + r, 
+            -getMaxPossibleWorkloadIncrease(), 
+            getMaxPossibleWorkloadIncrease());
+        
+        // deviation = finalWorkloads[r] - meanWorkload
+        model.arithm(deviation, "=", finalWorkloads[r].sub(meanWorkload).intVar()).post();
+        
+        // squaredDeviation = deviation * deviation
+        squaredDeviations[r] = model.intVar("sq_dev_" + r, 0, 
+            (int)Math.pow(getMaxPossibleWorkloadIncrease() * 2, 2));
+        model.times(deviation, deviation, squaredDeviations[r]).post();
+    }
+    
+    // Total penalty = sum of squared deviations (variance)
+    IntVar totalPenalty = model.intVar("workload_penalty", 0, 
+        numResources * (int)Math.pow(getMaxPossibleWorkloadIncrease() * 2, 2));
+    model.sum(squaredDeviations, "=", totalPenalty).post();
+    
+    return totalPenalty;
+}
+
+private int getMaxPossibleWorkloadIncrease() {
+    // Maximum possible workload increase for a single resource
+    // This is the sum of durations of all appointments that could potentially use this resource
+    int maxIncrease = 0;
+    for (Appointment app : MASPConfigLarge.sequence.values()) {
+        maxIncrease += app.getDurationInSlot();
+    }
+    return maxIncrease;
+}
+
+private int getTotalPossibleWorkloadIncrease() {
+    // Total possible workload increase across all resources
+    int totalIncrease = 0;
+    for (Appointment app : MASPConfigLarge.sequence.values()) {
+        totalIncrease += app.getDurationInSlot() * app.getRequiredResources().size();
+    }
+    return totalIncrease;
+}
+
+
+
+
+
+    
+}
+
+
+
+
+</pre>
+
+
+	</div>
+
+
+<!-- Syntax highlighter  -->
+<script type="text/javascript" src="/syntax_highlighter/shCore.js"></script>
+<script type="text/javascript" src="/syntax_highlighter/shAutoloader.js" ></script>
+<script type="text/javascript">
+    SyntaxHighlighter.autoloader(
+
+    // Languages that have a language page in csplib
+    // Only the Title from specification.md converted to lower case should be used.
+    ['comet',        '/js/shBrushComet.js'],
+    ['eclipse',      '/js/shBrushECLiPSe.js'],
+    ['essence',      '/js/shBrushEssence.js'],
+    ['essenceprime', '/js/shBrushEssencePrime.js'],
+    ['minizinc',     '/js/shBrushMiniZinc.js'],
+
+
+    // Standard Programming languages
+    ['cpp','hpp','hh','cc','h','c', '/syntax_highlighter/shBrushCpp.js'],
+    ['erl','hrl', '/syntax_highlighter/shBrushErlang.js'] ,
+    ['cs'       , '/syntax_highlighter/shBrushCSharp.js'] ,
+    ['groovy'   , '/syntax_highlighter/shBrushGroovy.js'] ,
+    ['java'     , '/syntax_highlighter/shBrushJava.js']   ,
+    ['js'       , '/syntax_highlighter/shBrushJScript.js'],
+    ['php'      , '/syntax_highlighter/shBrushPhp.js']    ,
+    ['pl'       , '/syntax_highlighter/shBrushPerl.js']   ,
+    ['py'       , '/syntax_highlighter/shBrushPython.js'] ,
+    ['rb'       , '/syntax_highlighter/shBrushRuby.js']   ,
+    ['scala'    , '/syntax_highlighter/shBrushScala.js']  ,
+    ['xml'      , '/syntax_highlighter/shBrushXml.js']
+ 	);
+
+	SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+</script>
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>

@@ -1052,6 +1052,17 @@
     ],
     "title": "Wordpress application deployment in the Cloud"
   },
+  "prob091": {
+    "category": [
+      "Scheduling and related problems"
+    ],
+    "id": "prob091",
+    "number": 91,
+    "proposer": [
+      "George Assaf, Petra Hofstedt, Sven L\u00f6ffler"
+    ],
+    "title": "Medical Appointment Sequence Scheduling Problem (MASSP)"
+  },
   "prob110": {
     "category": [
       "Combinatorial mathematics",

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.png"> -->
+
+	<title>091: Medical Appointment Sequence Scheduling Problem (MASSP)</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+	<link href="/css/main.css" rel="stylesheet">
+	<script src="/js/jquery.min.js" ></script>
+
+	<!-- Enable table sorting -->
+	<script src="/js/tablesorter/jquery.tablesorter.min.js"></script>
+	<link rel="stylesheet" href="/js/tablesorter/blue/style.css" type="text/css"/>
+	<script type="text/javascript">
+	$(function() {
+		$(".tablesorter").tablesorter();
+	});
+	</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML.js">
+	MathJax.Hub.Config({
+	  	tex2jax: {
+	    inlineMath: [['$','$'], ['\\(','\\)']],
+	    processEscapes: true
+	  	}
+	});
+	</script>
+
+
+</head>
+
+<body>
+
+	<ol class="breadcrumb">
+  	  <li><a href="/">CSPLib</a></li>
+
+  <li><a href="/Problems">Problems</a></li>
+  <li><a href="/Problems/prob091">prob091</a></li>
+	</ol>
+
+	<div class="container">
+
+		<div class="page-header">
+			<h1>091: Medical Appointment Sequence Scheduling Problem (MASSP)</h1>
+
+
+<!-- macro to Not made a link if on the page the link links to -->
+
+
+<header class="nav-header">
+<div class="nav-container">
+  <nav class="nav">
+  <ul>
+     	<li><a href="" class='current-item'>Specification</a></li>
+
+     	<li><a href="/Problems/prob091/data">Data files</a></li>
+
+     	<li><a href="/Problems/prob091/results">Results</a></li>
+
+     	<li><a href="/Problems/prob091/references">References</a></li>
+
+     	<li><a href="/Problems/prob091/models">Models</a></li>
+
+     	<li><a href="/Problems/prob091/cite">Cite</a></li>
+
+    <li><a href="/Problems/prob091.json" >Json</a></li>
+
+    <li style="float:right"><a href="https://github.com/csplib/csplib/blob/master/Problems/prob091/specification.md">Edit Page</a></li>
+  </ul>
+  </nav>
+</div>
+</header>
+
+
+		</div>
+
+
+<p class='proposed'>
+Proposed by George Assaf, Petra Hofstedt, Sven Löffler
+</p>
+
+<h1>Model Description</h1>
+<p>The goal of the <strong>Medical Appointment Sequence Scheduling Problem (MASSP)</strong> is to determine a schedule for a series of medical appointments, where each appointment corresponds to a treatment stage within a patient&rsquo;s overall treatment plan. To schedule an appointment in the sequence, a set of medical resources such as specialists, medical equipment, and other necessary facilities must be selected from those available in the medical center. A resource is considered available if its calendar contains sufficient consecutive time slots that are unoccupied.</p>
+<hr />
+<h2>Implicit Hard Constraints</h2>
+<ul>
+<li>Each individual appointment requires a set of medical resources, all of which must be available simultaneously for the entire duration of the appointment.  </li>
+<li>Each appointment within the sequence has a pre-determined duration, subject to the treatment plan.  </li>
+<li>No two appointments within a sequence can occur simultaneously; instead, each appointment must be scheduled at a distinct time.  </li>
+<li>It is prohibited to assign the same resource more than once when multiple instances of the same resource type are required.  </li>
+<li><em>Example 1:</em> If two cardiologists are needed, they must be distinct individuals.  </li>
+</ul>
+<hr />
+<h2>Explicit Hard Constraints</h2>
+<p>In addition, the following constraints, which are determined by medical needs, must also be satisfied when applicable:</p>
+<ul>
+<li>Individual appointments must be scheduled in chronological order according to the treatment plan.  </li>
+<li><em>Example 2:</em> A blood test must occur before a CT scan.  </li>
+<li>A minimum time interval, measured in days or hours, must be maintained between appointments to ensure sufficient time for the patient to prepare for the next stage of treatment.  </li>
+<li><em>Example 3:</em> There must be at least 5 days between Appointment 1 and Appointment 2.  </li>
+<li>A maximum time interval must also be observed between certain appointments.  </li>
+<li><em>Example 4:</em> The gap between Appointment 2 and Appointment 3 must not exceed 3 days to perform the CT scan.  </li>
+<li>The same resource may be required for multiple appointments to ensure continuity of care.  </li>
+<li><em>Example 5:</em> Both Appointment 2 and Appointment 3 may require the presence of the same specialist.  </li>
+</ul>
+<p>The following figure illustrates an example of a resource calendar represented as a 2D matrix. The <strong>columns</strong> correspond to scheduling days (from Monday, 04/11/2024, to Wednesday, 13/11/2024), while the <strong>rows</strong> denote time slots ranging from 08:00 to 14:00, each of 15-minute duration. The cells represent slot identifiers. Negative slots (highlighted in red) indicate times that are already occupied and therefore unavailable for scheduling. Green slots indicate availability where the resource is assigned to a sequence of three appointments:</p>
+<ol>
+<li>The first appointment takes place on Wednesday, 06/11/2024, lasting 30 minutes starting at 08:00.  </li>
+<li>The second appointment occurs on Monday, 11/11/2024, starting at 08:15 and lasting 45 minutes.  </li>
+<li>The third appointment is scheduled on Wednesday, 13/11/2024, starting at 08:00 and lasting 60 minutes.</li>
+</ol>
+<p><img alt="Time slot matrix encoding a resource calendar" src="assets/calendar_cr.png" /></p>
+<p>This encoding style facilitates extracting date and time information from the calendars. For more details, see our published paper: <a href="https://link.springer.com/chapter/10.1007/978-3-031-95973-8_1">https://link.springer.com/chapter/10.1007/978-3-031-95973-8_1</a>.</p>
+<h2>Problem Modeling</h2>
+<p>Let the tuple $\mathcal{S} = (A_1, \dots, A_l)$ represent a sequence of $l$ medical appointments.<br />
+Each appointment $\mathcal{A}<em i_1="i,1">i = \langle R_i, T_i \rangle$, $i \in {1, \dots, l}$, is defined as follows.
+1. (R_i = {x</em>, \dots, x_{i,l}}) denotes the set of resources required by the (i)-th individual appointment.
+2. (T_i = {t_{i,1}, \dots, t_{i,m}}) denotes the set of time slot identifiers required to cover the (i)-th individual appointment, where (m) is the appointment length in slots. For example, if the appointment duration is 60 minutes and the length of each time slot is 15 minutes, then the appointment length $m = \frac{60}{15} = 4$ (slots).</p>
+<p>In the following, we describe the problem constraints.</p>
+<ol>
+<li><strong>Distinct resources within an appointment.</strong><br />
+$$
+\text{AllDifferent}(x_{i,1}, x_{i,2}, \ldots, x_{i,rn})
+\quad \forall i \in {1, \ldots, l}.
+$$</li>
+</ol>
+<p>The constraint given in Example 1 is encoded using this constraint.</p>
+<ol>
+<li>
+<p><strong>Type consistency / continuity (when required).</strong> If continuity of care is required for a given resource type across appointments (A_i) and (A_j), then the same individual must be used:
+$$
+\forall i \neq j,\; \forall k,h:\;
+\big(\mathrm{Type}(x_{i,k}) = \mathrm{Type}(x_{j,h}) \big)\;\Rightarrow\; x_{i,k} = x_{j,h},
+$$
+which means that the resources that are encoded by the variables $x_{i,k}$ and $x_{j,h}$ must be the same for appointment $A_i$ and appointment $A_j$. For example, constraint given in Example 5 is encoded using this constraint.</p>
+</li>
+<li>
+<p><strong>Sequential time slots within an appointment (no gaps).</strong><br />
+$$
+t_{i,j} = t_{i,j-1} + 1,
+\quad \forall i,\; \forall j \in {2, \ldots, m}.
+$$</p>
+</li>
+<li>
+<p><strong>No overlap of appointment starts.</strong><br />
+$$
+\text{AllDifferent}(t_{1,1}, t_{2,1}, \ldots, t_{l,1}).
+$$</p>
+</li>
+<li>
+<p><strong>Minimum distance between appointments.</strong><br />
+Let (d_j) be the duration in slots of appointment (A_j), and let $\Delta_{i,j}$ be the minimum required gap (in slots) from the end of (A_j) to the start of (A_i). Then
+$$
+t_{i,1} \;\ge\; t_{j,1} + d_j + \Delta_{i,j}
+\quad \forall i \neq j.
+$$
+As an example, the constraint given in Example 3 (lower bound) is encoded using this constraint.</p>
+</li>
+<li><strong>Maximum distance between appointments.</strong><br />
+Let $\alpha_{i,j}$ be the maximum allowed gap (in slots) from the end of (A_j) to the start of (A_i). Then
+$$
+t_{i,1} \;\le\; t_{j,1} + d_j + \alpha_{i,j}
+\quad \forall i \neq j.
+$$</li>
+</ol>
+<p>As an example, the constraint given in Example 4 (upper bound) is encoded using this constraint.</p>
+<ol>
+<li><strong>Patient unavailability (exclude dates).</strong><br />
+Let (N) be the number of slots per day, and let (D_{\text{absence}}) be the set of calendar <strong>column indices</strong> (days) on which the patient is unavailable. Then the first slot of each appointment must not fall on an absence day:
+$$
+\left\lfloor \frac{t_{i,1}}{N} \right\rfloor \notin D_{\text{absence}}
+\quad \forall i \in {1,2,\ldots,l}.
+$$</li>
+</ol>
+<p><em>Example.</em> To exclude the date 05/11/2024 with column index (1), we impose
+$$
+\left\lfloor \frac{t_{1,1}}{N} \right\rfloor \neq 1.
+$$</p>
+<ol>
+<li><strong>Predefined chronological order.</strong><br />
+Given an order (O = (o_1,o_2,\dots,o_l)) over appointments, enforce:
+$$
+t_{o_p,1} \;&lt;\; t_{o_{p+1},1}
+\quad \forall p \in {1,\dots,l-1}.
+$$
+For instance, the constraint given in Example 2 is encoded using this constraint.</li>
+</ol>
+<h3>9. Workload-Balanced Resource Assignment</h3>
+<p>The optimization objective is to assign medical resources to appointments in a way that minimizes the maximum workload across all resources, promoting balanced utilization. Let $w_r$ denote the initial workload of resource $r$, and let $d_a$ be the duration of appointment $a$. The binary indicator (\mathbb{1}<em a_i="a,i">{x</em> = r}) equals 1 if resource $r$ is assigned to the $i$-th resource requirement of appointment $a$. The final workload $W_r$ for resource $r$ is calculated as:</p>
+<p>$$
+W_{r} = w_{r} + \sum_{a=1}^{l} \sum_{i=1}^{|R_a|} x_{a,i}=r \cdot d_a
+\quad \forall r \in R.
+$$</p>
+<p>The objective is then to minimize:</p>
+<p>$$
+\min \left( \max_{r \in R} W_r \right)
+$$</p>
+<p>This formulation ensures that appointments are assigned to the least-loaded available resources, preventing resource overutilization while maintaining schedule feasibility.</p>
+<p><em>Example:</em> Given cardiologists with workloads {4, 8, 13} hours and neurologists with workloads {12, 4, 66} hours, an appointment requiring one cardiologist and one neurologist with duration 5 hours would be assigned to the cardiologist with 4 hours and the neurologist with 4 hours, resulting in balanced workloads of 9 hours each rather than overloading already heavily utilized resources.</p>
+
+
+	</div>
+
+
+
+</div>
+
+<div id="footer">
+
+    <center><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. </center>
+
+</div>
+  <!-- float footer to bottom of page -->
+  <script>
+
+    $(document).ready(function() {
+
+     var docHeight = $(window).height();
+     var footerHeight = $('#footer').height();
+     var footerTop = $('#footer').position().top + footerHeight;
+
+     if (footerTop + 20 < docHeight) {
+      $('#footer').css('margin-top',  (docHeight - (footerTop + 20)) + 'px');
+     }
+    });
+   </script>
+</body>
+
+</html>
