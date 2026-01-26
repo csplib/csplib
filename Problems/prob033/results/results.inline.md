@@ -45,3 +45,10 @@ This was included in Dan C Tuplan's PhD thesis (cite{tulpan2006effective}).
 M. Codish, M. Frank, and V. Lagoon also found a solution with 128 words using a SAT solver and a clustering technique. This work was presented at ModRef 2016 workshop cite{codishWordDesign}.
 
 The solution file provided by Mike Codish can be found [here](length_128.md.html)
+
+A solution of size *144* has been found using a deterministic greedy construction with a weak symmetry-avoidance heuristic.
+The heuristic was found using an automated heuristic evolution approach based on large language models
+(see Liu et al., 2024, arXiv:2401.02051)
+
+The corresponding solution and construction code are provided in
+[length_144.md](length_144.md.html)
