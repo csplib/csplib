@@ -1,0 +1,194 @@
+name: Documentation
+
+# WARNING: This workflow runs on `pull_request_target` and checks out PR code.
+# It therefore executes untrusted code with access to repository secrets, including
+# `CSPLIB_BOT_PRIVATE_KEY`. This is an intentional tradeoff to allow fork PR
+# deployments without artifacts. Do not add other sensitive secrets to this repo.
+
+on:
+  pull_request_target:
+    paths:
+      - Problems/**
+      - Languages/**
+      - internal/**
+  push:
+    branches:
+      - master
+    paths:
+      - Problems/**
+      - Languages/**
+      - internal/**
+      - .github/workflows/docs.yml
+  workflow_dispatch:
+
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  generate_docs:
+    name: "Generate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v6
+        with:
+          # Avoid checkout's default auth header so deploy uses the app token.
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          # Full history needed for problem_creation_dates.sh git log. This runs for PRs
+          fetch-depth: 0
+
+      - name: Checkout repository
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v6
+        with:
+          # Avoid checkout's default auth header so deploy uses the app token.
+          persist-credentials: false
+          # Full history needed for problem_creation_dates.sh git log. This runs for pushes to master and manual dispatches.
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          # python 3.8 to match dockerfile
+          python-version: '3.8'
+
+      - name: Set deploy target
+        id: deploy
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
+            echo "folder=pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            echo "label=pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            echo "prefix=/csplib-builds/pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "folder=main" >> "$GITHUB_OUTPUT"
+            echo "label=main" >> "$GITHUB_OUTPUT"
+            echo "prefix=/csplib-builds/main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        run: |
+          python3 -m venv internal/scripts/env
+          . ./internal/scripts/env/bin/activate
+          pip install -q wheel==0.37.0
+          pip install -q -r internal/scripts/support/packages.txt
+          pip install -q packages/*.gz
+
+      - name: Build site
+        run: |
+          . ./internal/scripts/env/bin/activate
+          ./internal/scripts/support/problem_creation_dates.sh "_deploy/${{ steps.deploy.outputs.folder }}"
+          ./internal/scripts/framework/generate_web_site.py \
+            --prefix_path "${{ steps.deploy.outputs.prefix }}" \
+            --output_suffix "${{ steps.deploy.outputs.folder }}" \
+            --no_index
+
+      - name: Create reports app token
+        id: reports-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CSPLIB_BOT_ID }}
+          private-key: ${{ secrets.CSPLIB_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            csplib-builds
+
+      - name: Deploy docs to csplib-builds
+        uses: JamesIves/github-pages-deploy-action@v4
+        env:
+          GITHUB_TOKEN: ${{ steps.reports-token.outputs.token }}
+        with:
+          commit-message: "Actions: Deploy preview for ${{ steps.deploy.outputs.label }}"
+          repository-name: csplib/csplib-builds
+          branch: gh-pages
+          token: ${{ steps.reports-token.outputs.token }}
+          folder: _deploy/${{ steps.deploy.outputs.folder }}
+          target-folder: ${{ steps.deploy.outputs.folder }}
+
+          # do not overwrite previous deployments, such as those made by other
+          # actions
+          force: false
+
+      - name: Create csplib-bot token
+        if: ${{ github.event_name == 'pull_request_target' }}
+        id: bot-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CSPLIB_BOT_ID }}
+          private-key: ${{ secrets.CSPLIB_BOT_PRIVATE_KEY }}
+
+      - name: Comment docs preview on PR
+        if: ${{ github.event_name == 'pull_request_target' }}
+        continue-on-error: true
+        uses: actions/github-script@v8
+        env:
+          REPORT_URL: https://${{ github.repository_owner }}.github.io/csplib-builds/pr/${{ github.event.pull_request.number }}/
+        with:
+          github-token: ${{ steps.bot-token.outputs.token }}
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            if (!prNumber) return;
+
+            try {
+              const marker = "<!-- csplib-preview -->";
+              const body = [
+                marker,
+                "## Build Preview",
+                "",
+                `Preview: ${process.env.REPORT_URL}`,
+                "",
+                "This will be automatically updated if more commits are added."
+              ].join("\n");
+
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                per_page: 100
+              });
+
+              // Keep a single preview comment per PR: update newest, delete older duplicates.
+              const matching = comments
+                .filter(c => c.body?.includes(marker))
+                .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at));
+
+              let keepComment;
+
+              if (matching.length > 0) {
+                keepComment = matching[0];
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: keepComment.id,
+                  body
+                });
+              } else {
+                const created = await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body
+                });
+                keepComment = created.data;
+              }
+
+              for (const comment of matching) {
+                if (comment.id === keepComment.id) continue;
+                try {
+                  await github.rest.issues.deleteComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: comment.id
+                  });
+                } catch (deleteError) {
+                  console.log(`Skipping preview comment cleanup for ${comment.id}: ${deleteError.message || deleteError}`);
+                }
+              }
+            } catch (error) {
+              console.log(`Skipping preview PR comment: ${error.message || error}`);
+            }
