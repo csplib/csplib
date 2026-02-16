@@ -64,7 +64,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
             echo "folder=pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
             echo "label=pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
-            echo "prefix=/csplib-builds/pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            echo "prefix=/csplib-PR-builds/pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
           else
             echo "folder=main" >> "$GITHUB_OUTPUT"
             echo "label=main" >> "$GITHUB_OUTPUT"
@@ -97,14 +97,33 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: |
             csplib-builds
+            csplib-PR-builds
 
-      - name: Deploy docs to csplib-builds
+      - name: Deploy main to csplib-builds
+        if: ${{ github.event_name != 'pull_request_target' }}
         uses: JamesIves/github-pages-deploy-action@v4
         env:
           GITHUB_TOKEN: ${{ steps.reports-token.outputs.token }}
         with:
           commit-message: "Actions: Deploy preview for ${{ steps.deploy.outputs.label }}"
           repository-name: csplib/csplib-builds
+          branch: gh-pages
+          token: ${{ steps.reports-token.outputs.token }}
+          folder: _deploy/${{ steps.deploy.outputs.folder }}
+          target-folder: ${{ steps.deploy.outputs.folder }}
+
+          # do not overwrite previous deployments, such as those made by other
+          # actions
+          force: false
+
+      - name: Deploy PR to csplib-PR-builds
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        env:
+          GITHUB_TOKEN: ${{ steps.reports-token.outputs.token }}
+        with:
+          commit-message: "Actions: Deploy preview for ${{ steps.deploy.outputs.label }}"
+          repository-name: csplib/csplib-PR-builds
           branch: gh-pages
           token: ${{ steps.reports-token.outputs.token }}
           folder: _deploy/${{ steps.deploy.outputs.folder }}
@@ -127,7 +146,7 @@ jobs:
         continue-on-error: true
         uses: actions/github-script@v8
         env:
-          REPORT_URL: https://${{ github.repository_owner }}.github.io/csplib-builds/pr/${{ github.event.pull_request.number }}/
+          REPORT_URL: https://${{ github.repository_owner }}.github.io/csplib-PR-builds/pr/${{ github.event.pull_request.number }}/
         with:
           github-token: ${{ steps.bot-token.outputs.token }}
           script: |
