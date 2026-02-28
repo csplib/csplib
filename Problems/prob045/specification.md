@@ -11,7 +11,7 @@ A covering array $CA(t,k,g)$ of size $b$ and strength $t$, is a $k x b$ array $A
 
 A covering array number $CAN(t,k,g)$ is the smallest b such that there exists a $CA(t,k,g)$ of size $b$.
 
-Informally, any t distinct rows of the covering array must encode column-wise all numbers from $0$ to $g^{t-1}$ (repititions are allowed).
+Informally, any t distinct rows of the covering array must encode column-wise all numbers from $0$ to $g^{t-1}$ (repetitions are allowed).
 
 An example of covering array $CA(3,5,2)$ over the Boolean alphabet ${0,1}$ is:
 

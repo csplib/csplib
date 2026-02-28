@@ -7,7 +7,7 @@ Category: Scheduling and related problems
 
 The problem is finding a timetable for the 1997/98 Atlantic Coast Conference (ACC) in basketball. It was first tackled by Nemhauser and Trick.
 
-The 9 basketball teams in the tournament are Clemson (Clem), Duke (Duke), Florida State (FSU) , Georgia Tech (TT), Maryland (UMD), North Carolina (UNC), North Carolina State (NCSt), Virginia (UVA), and Wake Forest (Wake). The problem is to determine a double round robin schedule for these 9 teams subject to some additional constraints. In a double round robin, each team places each other, once at home, once away. The schedule is to be played over 18 dates. The first and all subsequent odd dates are weekday fixtures. The second and all subsequent even dates are weekend fixtures. There are nine other sets of constraints.
+The 9 basketball teams in the tournament are Clemson (Clem), Duke (Duke), Florida State (FSU) , Georgia Tech (TT), Maryland (UMD), North Carolina (UNC), North Carolina State (NCSt), Virginia (UVA), and Wake Forest (Wake). The problem is to determine a double round robin schedule for these 9 teams subject to some additional constraints. In a double round robin, each team plays each other, once at home, once away. The schedule is to be played over 18 dates. The first and all subsequent odd dates are weekday fixtures. The second and all subsequent even dates are weekend fixtures. There are nine other sets of constraints.
 
 **1. Mirroring**. The dates are grouped into pairs (r1, r2), such that each team will get to play against the same team in dates r1 and r2. Such a grouping is called a mirroring scheme. Nemhauser and Trick use the mirroring scheme {(1, 8), (2, 9), (3, 12), (4, 13), (5, 14), (6, 15), (7, 16), (10, 17), (11, 18)}
 

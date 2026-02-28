@@ -90,7 +90,7 @@ should be minimized as secondary criterion.
 
 The companies have replied to the increased demand by also increasing
 the number of slots available. But they are worried that not enough
-student are assigned to their interviews, and they wont participate if
+student are assigned to their interviews, and they won't participate if
 less than half of their slots are taken. This leads to two scenarios:
 
 1. We can assign no students to a company, and incur a disappointment

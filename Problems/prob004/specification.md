@@ -10,7 +10,7 @@ A well-known cosmetic company wants to evaluate the performance of their sales p
 
 2. There will be 1 to 4 sales people in each outlet. Each sales person will be visited by 4 different shoppers. The frequency of visits to a particular outlet will be the number of sales people times 4. There are a total of 35 sales people working in all outlets everyday. Therefore, the total number of visits is 140.
 
-3. The shoppers are divided into 4 groups according to age, professions, and etc. Each group has 10 shoppers. Therefore, the total number of shoppers is 40. Therefore, in each group of shoppers, 5 shoppers will perform 3 visits and the other 5 shoppers will perform 4 visits.
+3. The shoppers are divided into 4 groups according to age, professions, etc. Each group has 10 shoppers. Therefore, the total number of shoppers is 40. Therefore, in each group of shoppers, 5 shoppers will perform 3 visits and the other 5 shoppers will perform 4 visits.
 
 4. Each shopper should only visit 1 outlet in each of the 4 areas.
 

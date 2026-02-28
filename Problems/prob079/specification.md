@@ -29,7 +29,7 @@ Excluded Diagonals $n$-Queens Problem
 The Excluded Diagonals Problem is a closely related problem where, given an $n \times n$ board, only certain rows and columns are allowed and certain diagonals are excluded. 
 For rows and columns, a subset of rows and columns are specified which are allowed. The subsets must be the same size.
 A sum diagonal is the set of squares where the sum of the row and column indexes of the squares is constant.  A difference diagonal is the set of squares where the difference between the row and column indexes is constant.  
-For the Excluded Diagonals Problem, we are given $n$ and a set of diagonals, each of which is either a sum diagonal or a difference diagonal. A solution is a set of queens with exactly one queen in each of the allowed rows and columns, and where where no queen is placed on one of the  
+For the Excluded Diagonals Problem, we are given $n$ and a set of diagonals, each of which is either a sum diagonal or a difference diagonal. A solution is a set of queens with exactly one queen in each of the allowed rows and columns, and where no queen is placed on one of the  
 excluded diagonals.
 
 Relation between the two problems
