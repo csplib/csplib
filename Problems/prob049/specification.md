@@ -15,7 +15,7 @@ There is no solution for $N < 8$.
 
 Here is an example for$ N = 8$:$ A = (1,4,6,7)$ and $B = (2,3,5,8)$
 
-Then from $N \>= 8$, there is no solution if $N$ is not a multiple of $4$.
+Then from $N \geq 8$, there is no solution if $N$ is not a multiple of $4$.
 
 ### Generalisation
 
@@ -48,7 +48,7 @@ Here are the first solutions computed:
 -   $P = 1$: first solutions found for $N = 4, 8, 12, 16, 20, 24, 28, 32$ (then for every multiple of 4 ?)
 -   $P = 2$: first solutions found for $N = 8, 12, 16, 20, 24, 28, 32, 36$ (then for every multiple of 4 ?)
 -   $P = 3$: first solutions found for$ N = 16, 24, 32, 40 $(then for every multiple of 8 ?)
--   $P = 4$: first solutions found for$ N = 32, 40, 48, 56, 64$ (then forevery multiple of 8 ?)
+-   $P = 4$: first solutions found for$ N = 32, 40, 48, 56, 64$ (then for every multiple of 8?)
 
 From these tests, it seems the smallest N for which a solution exists is $2^{P+1}$. Can this be proved ?
 

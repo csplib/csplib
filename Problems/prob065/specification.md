@@ -8,7 +8,7 @@ Category: Design and configuration
 
 An OPD problem $\langle v, b, r \rangle$ is to find a matrix of $v$
 rows and $b$ columns of $0$-$1$ values such that each row sums to $r$,
-and the maximum, denoted $\lambda$, of the dot products beween all
+and the maximum, denoted $\lambda$, of the dot products between all
 pairs of distinct rows is minimal.  Equivalently, the objective is to
 find $v$ subsets of cardinality $r$ drawn from a given set of $b$
 elements, such that the largest intersection of any two of the $v$

@@ -34,7 +34,7 @@ References
 
 The Blocked $n$-Queens problem was proposed by cite{blocked-queens} and used in ASP Competitions
 cite{asp-competition-07}. The problem was proved NP-Complete and #P-Complete by cite{nqueenscompletion}, and the same paper 
-introduced a generator of ranodm instances.
+introduced a generator of random instances.
 
 
 

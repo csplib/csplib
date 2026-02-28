@@ -24,7 +24,7 @@ Given a set of medical resources, e.g., physicians with their current schedules 
   Example:  **T = { Cardiologist, Neurologist, CT_Room }**  
   means that the appointment must include a cardiologist, a neurologist, and a CT scan room.
 
-- **_d_**: The required **duration** of the appointment (in  slot).  
+- **_d_**: The required **duration** of the appointment (in slots).  
   Assuming a slot is 15 minutes long,  **_d = 4_** implies an appointment duration of 60 minutes (1 hour).
 
 - **U**: A set of undesired dates by patient.
@@ -57,7 +57,7 @@ We define two types of integer domains:
 
 - **Time Slot Identifier Domain**: Describes the available time slots of all resource calendars. Each slot is uniquely encoded by an identifier based on its start time and date. A time slot domain corresponding a resource calendar can be seen as 2D matrix as shown below. The columns represent scheduling days (dates) and the rows model time slots (in our example 32 slots per day). Slot identifiers help to cope with tracking resource availability and extracting time and day (and date) information. For example, slot identifier 33 corresponds to the second scheduling day (or date) $\lfloor \frac{33}{32} \rfloor$  = 1 (second calendar date) mod 7 = 1 (Tu). The time slot corresponds to the slot identifer 33 is $33 \quad mod \quad 32 = 1$ (time slot index) corresponding to the slot starting at 08:15. From all resource calendars, a globla shared calendar representing the calendar of the medical facility can be built to reflect the structure of the scheduling horizon within the medical facility. Note that each resource has a local calendar, which maps to the shared global calendar used for synchronization.
 
-In the modeling, we make use of slot identifiers and column/row indcies to express various time/date-related constraints. 
+In the modeling, we make use of slot identifiers and column/row indices to express various time/date-related constraints. 
 
 ![Time slot matrix encoding a resource calendar](assets/timeSltMatrix.png)
 ---
@@ -111,7 +111,7 @@ $$
 
 
 - **Eliminate undesired dates by patient**
-This constraint is met when all resources do not match slots falling within the slots of the corresponding undeired dates. This constraint is expressed as:
+This constraint is met when all resources do not match slots falling within the slots of the corresponding undesired dates. This constraint is expressed as:
 $$
 \forall a \in A, \quad \forall d \in U:\quad
 \left\lfloor \frac{\text{a}}{M} \right\rfloor \ne d
@@ -131,14 +131,14 @@ v_{\text{date}, \text{aux}} =
 $$
 
 
-Function $\textbf{dateIndex}$ returns the date index corresponding to a give date $p$. The total number of violations over all resource calendars is:
+Function $\textbf{dateIndex}$ returns the date index corresponding to a given date $p$. The total number of violations over all resource calendars is:
 
 $$
 \text{totalDateViolation} = \sum_{a \in \mathcal{A}} v_{\text{date}, \text{a}} 
 $$
 
  -  **Preferred Resource Violation**:
-  Let $x$ be a decison variable describing a resource that is desired to be assigned an identifier $P_r$  corresponding to a resource specified by the patient. The decision variables that should be assigned preferred resources denoted by $\mathcal{V'} \subset V$ . Then, the violation of this constraint occurs when the variable $x$ is assigned an identifier that differs from those given by the patient. This can be expressed as:
+  Let $x$ be a decision variable describing a resource that is desired to be assigned an identifier $P_r$  corresponding to a resource specified by the patient. The decision variables that should be assigned preferred resources denoted by $\mathcal{V'} \subset V$ . Then, the violation of this constraint occurs when the variable $x$ is assigned an identifier that differs from those given by the patient. This can be expressed as:
 
 $$
 v_\text{resource} =  {x \notin P_r}

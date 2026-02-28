@@ -1,7 +1,6 @@
 ---
 Title:    Nonogram
-Category: Games and puzzles
-Proposer: 
+Proposer:
     - Gary Duncan
     - Ian Gent
 Category: Games and puzzles

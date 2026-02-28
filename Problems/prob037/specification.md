@@ -45,7 +45,7 @@ The French version of the game has four extra holes:
      OOOOO
       OOO
 
-The french version of solitaire cannot be completed starting with one hole in the middle, and
+The French version of solitaire cannot be completed starting with one hole in the middle, and
 ending with one peg in the center, without adding one extra peg during play (the player gets
 to decide where and when to place the extra peg).
 

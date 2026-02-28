@@ -5,7 +5,7 @@ Category: Scheduling and related problems
 ---
 
 ## Rotating Rostering Problem 
-This problem is taken from real life rostering challenges (like nurse rostering). The task is it to find a
+This problem is taken from real life rostering challenges (like nurse rostering). The task is to find a
 shift assignment for every employee for every day. A rotation system is used to decrease the size of the problem. Thus,
 only the rostering for one employee is calculated and all other employees gain a rotated version of the rostering. So
 Employee 2 has in the first week the rostering of Employee 1 in the second week. Employee 3 has in the first week the
