@@ -51,7 +51,7 @@ through the *communication network*.
 The Grid-based SensorDisCSP (or GSensorDisCSP, for short) is a specific
 variant of the general SensorDisCSP:
 as before, we have multiple sensors $\mathcal{S} = \\{s_{1}, \ldots, s_{n}\\}$,
-multiple objects/tagets $\mathcal{T} = \\{t_{1}, \ldots, t_{m}\\}$ which are to
+multiple objects/targets $\mathcal{T} = \\{t_{1}, \ldots, t_{m}\\}$ which are to
 be tracked by the sensors subject to visibility and compatibility
 constraints, and the goal is to allocate three sensors to track each
 object/target, while keeping these triplets of sensors pair-wise disjoint.
@@ -136,7 +136,7 @@ must be distinct.
 
 In Fig. 2, the instance of target tracking in distributed sensor network
 shown in Fig. 1 is formalized as a **TaV** problem. Each target is represented
-by an agent, i.e., there is two agents $A_{1}$ representing $t_{1}$ and
+by an agent, i.e., there are two agents $A_{1}$ representing $t_{1}$ and
 agent $A_{2}$ representing $t_{2}$. Each agent controls 3 distinct variables
 (one for each sensor to track the target).
 Agent $A_{1}$ has variables $x_{1}^{1}$, $x_{1}^{2}$, and $x_{1}^{3}$,
@@ -238,13 +238,13 @@ such that $\forall x_{l}\in [x_{i},\ldots,x_{k}]$, $j\in D_{l}$.
 An example of a sensor network shown in Fig. 1 is formalized as a
 **SaV** problem shown in Fig. 4.
 In Fig. 4, each sensor $s_{i}$ is represented by a variable $x_{i}$
-controlled by agent $A_{i}$. Thus, there is 6 variales/agents
+controlled by agent $A_{i}$. Thus, there are 6 variables/agents
 (i.e., $x_{1},\ldots,x_{6}$). The domain of each variable $x_{i}$
 is the set of targets that $s_{i}$ can track. Thus,
 $D_{1}=D_{4}=\\{1\\}$,
 $D_{3}=D_{6}=\\{2\\}$ and
 $D_{2}=D_{5}=\\{1,2\\}$.
-There is 2 $\texttt{atleast}$ constraints (one for each target):
+There are 2 $\texttt{atleast}$ constraints (one for each target):
 $\texttt{atleast}(3,[x_{1},x_{2},x_{4},x_{5}],1)$
 and $\texttt{atleast}(3,[x_{2},x_{3},x_{5},x_{6}],2)$ specifying
 that at least 3 sensors among $\\{s_{1},s_{2},s_{4},s_{5}\\}$

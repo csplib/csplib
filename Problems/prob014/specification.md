@@ -7,7 +7,7 @@ Category: Games and puzzles
 
 The Battleships puzzle is occasionally published in Games Magazine (US), e.g. in the August 1998 issue where it is credited to Mark Gottlieb. It is loosely based on the two person pencil and paper game. I quote the puzzle description in the magazine:
 
-This fleet consists of one battleship (four grid squares in length), two cruisers (each three grid squares long), three three destroyers (each two squares long) and four submarines (one square each). The ships may be oriented horizontally or vertically, and no two ships will occupy adjacent grid squares, not even diagonally. The digits along the right side of and below the grid indicate the number of grid squares in the corresponding rows and columns that are occupied by vessels.
+This fleet consists of one battleship (four grid squares in length), two cruisers (each three grid squares long), three destroyers (each two squares long) and four submarines (one square each). The ships may be oriented horizontally or vertically, and no two ships will occupy adjacent grid squares, not even diagonally. The digits along the right side of and below the grid indicate the number of grid squares in the corresponding rows and columns that are occupied by vessels.
 
 In each of the puzzles, one or more `shots' have been taken to start you off. These may show water (indicated by wavy lines), a complete submarine (a circle), or the middle (a square), or the end (a rounded-off square) of a longer vessel.
 

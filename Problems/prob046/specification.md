@@ -54,7 +54,7 @@ represented as a constraints satisfaction problem (CSP) in the following way:*
 
 - A set of variables $T$ - $m_1, m_2,\ldots ,m_n$ - the meetings to be scheduled
 - Domains of values $D$ - all weekly time-slots
-- A set of constraints $C$ - for every pair of meetings $m_i,$m_j$ there is an
+- A set of constraints $C$ - for every pair of meetings $m_i, m_j$ there is an
 arrival-time constraint, if there is an agent that participates in both
 meetings. Private meetings are equivalent to unary constraints that remove
 values from domains of some meetings. Since all agents have the same

@@ -21,6 +21,6 @@ There are a number of other distances which can be used, for example
 the 'Lee distance'. When $F=\\{0,1,...,n-1\\}$ the Lee distance between
 $a$,$b$ in $F$ is defined as $\min(|a-b|,n-|a-b|)$. For two vectors $x$
 and $y$ defined over $F^n$, the Lee distance is calculated by
-summing the lee distance of the pairs $x_i$, $y_i$.
+summing the Lee distance of the pairs $x_i$, $y_i$.
 Most commonly $F=\\{0,1,2,3\\}$ as this case proves useful in a number
 of areas.

@@ -8,7 +8,7 @@ Category: Scheduling and related problems
 ---
 
 
-The BACP is to design a balanced academic curriculum by assigning periods to courses in a way that the academic load of each period is balanced, i.e., as similar as possible . The curriculum must obey the following administrative and academic regulations: 
+The BACP is to design a balanced academic curriculum by assigning periods to courses in a way that the academic load of each period is balanced, i.e., as similar as possible. The curriculum must obey the following administrative and academic regulations: 
 
 * Academic curriculum: an academic curriculum is defined by a set of courses and a set of prerequisite relationships among them. 
 * Number of periods: courses must be assigned within a maximum number of academic periods. 
@@ -21,7 +21,7 @@ The BACP is to design a balanced academic curriculum by assigning periods to cou
 
 The goal is to assign a period to every course in a way that the minimum and maximum academic load for each period, the minimum and maximum number of courses for each period, and the prerequisite relationships are satisfied. An optimal balanced curriculum minimises the maximum academic load for all periods.
 
-Note that we could consider other types of balance criterion, such as minimising an expression on the deviation from the mean load per period. This is explored in Monette et al
+Note that we could consider other types of balance criterion, such as minimising an expression on the deviation from the mean load per period. This is explored in Monette et al.
 
 
 **The Generalised Balanced Academic Curriculum Problem**
