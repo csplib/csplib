@@ -66,9 +66,9 @@ jobs:
             echo "label=pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
             echo "prefix=/csplib-PR-builds/pr/${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
           else
-            echo "folder=main" >> "$GITHUB_OUTPUT"
-            echo "label=main" >> "$GITHUB_OUTPUT"
-            echo "prefix=/csplib-builds/main" >> "$GITHUB_OUTPUT"
+            echo "folder=." >> "$GITHUB_OUTPUT"
+            echo "label=." >> "$GITHUB_OUTPUT"
+            echo "prefix=/csplib-builds" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Install dependencies
