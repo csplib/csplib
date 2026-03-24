@@ -47,9 +47,9 @@ Happy hacking!
 If you made a fork of CSPLib and made a clone of your fork to your local computer, you can keep your fork up to date by running the following commands.
 
     git fetch upstream
-    git checkout master
-    git merge upstream/master
-    git push origin master
+    git checkout main
+    git merge upstream/main
+    git push origin main
 
 Note that you need to set `origin` to point to your fork, and `upstream` to point to the main CSPLib repository for this to work. You can set these by running the following commands.
 

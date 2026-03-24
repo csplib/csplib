@@ -13,7 +13,7 @@ on:
       - internal/**
   push:
     branches:
-      - master
+      - main
     paths:
       - Problems/**
       - Languages/**
@@ -49,7 +49,7 @@ jobs:
         with:
           # Avoid checkout's default auth header so deploy uses the app token.
           persist-credentials: false
-          # Full history needed for problem_creation_dates.sh git log. This runs for pushes to master and manual dispatches.
+          # Full history needed for problem_creation_dates.sh git log. This runs for pushes to main and manual dispatches.
           fetch-depth: 0
 
       - name: Set up Python
