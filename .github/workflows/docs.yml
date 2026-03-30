@@ -68,7 +68,6 @@ jobs:
           else
             echo "folder=." >> "$GITHUB_OUTPUT"
             echo "label=." >> "$GITHUB_OUTPUT"
-            echo "prefix=." >> "$GITHUB_OUTPUT"
           fi
 
       - name: Install dependencies
