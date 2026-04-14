@@ -12,4 +12,4 @@ With respect to the BACP, the GBACP adds:
 * several curricula that can share courses
 * soft constraints, in particular for teacher preferences for not teaching during some terms.
 
-The detailed description, data, best results, and a solution validator can be found at [https://opthub.uniud.it/problem/timetabling/gbac](https://opthub.uniud.it/problems/timetabling/gbac).
+The detailed description, data, best results, and a solution validator can be found at [https://opthub.uniud.it/problems/timetabling/gbac](https://opthub.uniud.it/problems/timetabling/gbac).
