@@ -29,7 +29,7 @@ class RelLinkExtension(markdown.Extension):
 	""" RelLink Extension for Python-Markdown. """
 
 	def extendMarkdown(self, md):
-		md.inlinePatterns.register(RelLink(REL_RE, md), 'rel_link', 180)
+		md.inlinePatterns.register(RelLink(REL_RE, md), 'rel_link', 49)
 
 
 def makeExtension(**kwargs):

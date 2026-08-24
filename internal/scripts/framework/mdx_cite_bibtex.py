@@ -59,7 +59,7 @@ class CiteBibtexExtension(markdown.Extension):
 	""" cite_bibtex Extension for Python-Markdown. """
 
 	def extendMarkdown(self, md):
-		md.inlinePatterns.register(CitePattern(CITE_BIBTEX_RE, md), 'cite_bibtex', 175)
+		md.inlinePatterns.register(CitePattern(CITE_BIBTEX_RE, md), 'cite_bibtex', 46)
 
 
 def makeExtension(**kwargs):
