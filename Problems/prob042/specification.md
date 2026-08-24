@@ -26,7 +26,7 @@ incorrect output (instead of the expected &lt;00&gt;) are <i>Gate1 stuck-at-1</i
 stuck-at-1</i>.</p>
 <TT>
 
-<center>
+<center markdown="1">
 ![figure](assets/diagnosis.gif)
 </center>
 

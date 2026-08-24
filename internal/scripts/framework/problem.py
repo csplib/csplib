@@ -5,7 +5,7 @@ import os, os.path as path
 
 import bibtex
 
-from distutils import dir_util, file_util
+import shutil
 from pprint import pformat
 
 from util import convert_markdown, makedirs_exist_ok, get_content_and_metadata
@@ -213,11 +213,11 @@ def process_problem(prob, apply_template, output_dir, base):
 					name=name, part=part_name, rel_path="{0}/{1}".format(part_name, name), prob=prob,
 					**prob.prob_meta)
 				write(res, part_name + "/" + filename)
-				file_util.copy_file(part, path.join(part_dir, name))
+				shutil.copy2(part, path.join(part_dir, name))
 			else:
 				filename = path.basename(url)
 				name = path.basename(filename)
-				file_util.copy_file(part, path.join(part_dir, name))
+				shutil.copy2(part, path.join(part_dir, name))
 
 			part_metadata.append({"name": name, "filename": filename, "meta": metadata})
 
@@ -233,7 +233,7 @@ def process_problem(prob, apply_template, output_dir, base):
 
 	if path.exists(assets_in):
 		logger.debug("Copying assets from %s to %s", assets_in, assets_out )
-		dir_util.copy_tree(assets_in, assets_out)
+		shutil.copytree(assets_in, assets_out, dirs_exist_ok=True)
 
 
 	prob.has_bibtex=None
@@ -241,7 +241,7 @@ def process_problem(prob, apply_template, output_dir, base):
 	prob.ref_notes_html=""
 	if prob.bib:
 		makedirs_exist_ok(path.join(prob.prob_dir, "references"))
-		file_util.copy_file(prob.bib.bibfile, path.join(prob.prob_dir, "references",  prob.name +"-refs.bib"))
+		shutil.copy2(prob.bib.bibfile, path.join(prob.prob_dir, "references",  prob.name +"-refs.bib"))
 		prob.has_bibtex = True
 		prob.bib_html = prob.bib.to_html(apply_template)
 

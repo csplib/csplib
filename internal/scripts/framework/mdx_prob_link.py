@@ -4,6 +4,9 @@
 import markdown
 import re
 
+
+import xml.etree.ElementTree as etree
+
 PROB_LINK_RE = r'([\[{])(\w+)[}\]]',
 # PROB_DATA is shared with generate_web_site
 PROB_DATA = {}
@@ -12,7 +15,7 @@ PREFIX_PATH = None
 
 class ProbLink(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
-		base = markdown.util.etree.Element('span')
+		base = etree.Element('span')
 		base.text=' '
 		ref = m.group(3)
 
@@ -34,7 +37,7 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 
 		url = '{}/{}/{}'.format(PREFIX_PATH,kind,ref)
 
-		el = markdown.util.etree.Element("a")
+		el = etree.Element("a")
 		el.set('href', url)
 
 		el.text= markdown.util.AtomicString(val)
@@ -46,9 +49,9 @@ class ProbLink(markdown.inlinepatterns.Pattern):
 class ProbLinkExtension(markdown.Extension):
 	""" ProbLink Extension for Python-Markdown. """
 
-	def extendMarkdown(self, md, md_globals):
-		md.inlinePatterns['prob_link'] = ProbLink(PROB_LINK_RE, md)
+	def extendMarkdown(self, md):
+		md.inlinePatterns.register(ProbLink(PROB_LINK_RE, md), 'prob_link', 176)
 
 
-def makeExtension(configs=None):
-	return ProbLinkExtension(configs=configs)
+def makeExtension(**kwargs):
+	return ProbLinkExtension(**kwargs)

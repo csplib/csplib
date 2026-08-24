@@ -17,8 +17,8 @@ except ImportError:
 import logging
 logger = logging.getLogger(__name__)
 
-markdown_exts = ['extra', 'yaml_front_matter', 'sane_lists', 'tables',
-                 'smartypants(entities=named)', 'cite_bibtex', 'prob_link', 'auto_link', 'rel_link']
+markdown_exts = ['extra', 'full_yaml_metadata', 'sane_lists', 'tables',
+				 'smarty', 'mdx_cite_bibtex', 'mdx_prob_link', 'mdx_auto_link', 'mdx_rel_link']
 
 #  File extensions listed in language pages should not be added,
 #  since they are added automatically.
@@ -51,13 +51,20 @@ language_mapping = {
     'or-tools/python': 'py',
 }
 
+def ensure_list(obj):
+	if isinstance(obj,list):
+		return obj
+	else:
+		return [obj]
 
 def convert_markdown(page_path):
 	md = markdown.Markdown(extensions=markdown_exts)
 	md_input = read_file(page_path)
 	page = md.convert(md_input)
-	if hasattr(md, 'Meta'):
-		return (page, md.Meta)
+	if hasattr(md, 'Meta') and md.Meta is not None:
+		# make key case-insensitise and make each value a list
+		meta = { key.lower(): ensure_list(val) for key, val in md.Meta.items() }
+		return (page, meta)
 	else:
 		return (page, dict())
 
