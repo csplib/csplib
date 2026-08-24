@@ -4,13 +4,9 @@ import re
 from calendar import month_name
 import codecs
 import latexcodec  #needed
-import sys
-from pprint  import pprint, pformat
+from pprint import pformat
 
-if sys.version_info[0] == 3:
-    from io import StringIO
-else:
-    from StringIO import StringIO
+from io import StringIO
 
 _months = {
     'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,

@@ -4,15 +4,10 @@
 import markdown
 import os, os.path as path
 import zipfile
-import html
 
 from sortedcontainers import SortedSet
 
-# from https://github.com/posativ/isso/pull/600/files
-try:
-    from cgi import escape
-except ImportError:
-    from html import escape
+from html import escape
 
 import logging
 logger = logging.getLogger(__name__)

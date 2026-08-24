@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 # modfied  filter to handle local links
 
-import re
-import os.path as path
-
 from datetime import date
 
-from markupsafe import escape
 from util import convert_markdown_fragment
 
 def init_exts(template_env):
