@@ -2,7 +2,6 @@
 # Bilal Syed Hussain
 
 import markdown
-import re
 import xml.etree.ElementTree as etree
 
 
@@ -14,11 +13,7 @@ LINK_RE = r'(?<=\s)(https?://[^\s<>"\[\]{}|\\^`]*[^\s<>"\[\]{}|\\^`.,;:!?\)])(?=
 class AutoLink(markdown.inlinepatterns.Pattern):
 	def handleMatch(self, m):
 		a = etree.Element('a')
-		print("LinkRe",m.group(2))
-		href = m.group(2)
-		if not re.match('^(ftp|https?)://', href, flags=re.IGNORECASE):
-			href = 'http://%s' % href
-		a.set('href', self.unescape(href))
+		a.set('href', self.unescape(m.group(2)))
 
 		a.text = markdown.util.AtomicString(m.group(2))
 		return a

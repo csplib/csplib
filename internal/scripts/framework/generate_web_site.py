@@ -2,21 +2,10 @@
 # -*- coding: utf-8 -*-
 # Bilal Syed Hussain
 
-from __future__ import print_function
 import sys
 import util
 
 from copy import deepcopy
-
-if sys.version_info[0] == 2:
-	if sys.version_info[1] < 6:
-		print('Only python 2.6+ supported', file=sys.stderr)
-		sys.exit(1)
-
-	# Hack to get unicode to work properly in python2
-	reload(sys)
-	sys.setdefaultencoding('utf-8')
-
 
 import argparse
 import logging
@@ -35,7 +24,7 @@ from jinja2 import Environment, FileSystemLoader
 from sortedcontainers import SortedSet
 
 from problem import Problem, PageType, write_json_for_overview
-from util import create_zip_file, makedirs_exist_ok, source_mapping
+from util import create_zip_file, makedirs_exist_ok
 from pprint import pformat
 
 logger = logging.getLogger(__name__)

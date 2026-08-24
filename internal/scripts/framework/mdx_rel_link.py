@@ -2,7 +2,6 @@
 # Bilal Syed Hussain
 
 import markdown
-import re
 import xml.etree.ElementTree as etree
 
 REL_RE = r"(/(Problems|Languages|authors.html|updates.html)[-0-9_a-z/A-Z.]*)([.,!?;: ]|$)"
@@ -19,8 +18,6 @@ class RelLink(markdown.inlinepatterns.Pattern):
 		a = etree.Element('a')
 		a.text = markdown.util.AtomicString(m.group(2) + m.group(4))
 		a.set('href', url)
-		print("m:{} groups:{} g2:'{}'".format(m, m.groups(), m.group(2) ))
-		print("a href {} a text {}".format(a.get("href"),a.text	 ))
 		# base.append(a)
 		return a
 

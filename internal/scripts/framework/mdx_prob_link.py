@@ -2,7 +2,6 @@
 # Bilal Syed Hussain
 
 import markdown
-import re
 
 
 import xml.etree.ElementTree as etree

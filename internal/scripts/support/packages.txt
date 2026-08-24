@@ -2,10 +2,7 @@ Jinja2==3.1.6
 latexcodec==3.0.1
 Markdown==3.8.2
 MarkupSafe==3.0.2
-namedentities==1.9.4
 pybtex==0.25.1
 PyYAML==6.0.2
-six==1.17.0
-smartypants==2.0.2
 sortedcontainers==2.4.0
 markdown-full-yaml-metadata==2.2.1
