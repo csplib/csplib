@@ -50,7 +50,7 @@ class ProbLinkExtension(markdown.Extension):
 	""" ProbLink Extension for Python-Markdown. """
 
 	def extendMarkdown(self, md):
-		md.inlinePatterns.register(ProbLink(PROB_LINK_RE, md), 'prob_link', 176)
+		md.inlinePatterns.register(ProbLink(PROB_LINK_RE, md), 'prob_link', 47)
 
 
 def makeExtension(**kwargs):

@@ -28,7 +28,7 @@ class AutoLinkExtension(markdown.Extension):
 	""" AutoLink Extension for Python-Markdown. """
 
 	def extendMarkdown(self, md):
-		md.inlinePatterns.register(AutoLink(LINK_RE, md), 'auto_link', 177)
+		md.inlinePatterns.register(AutoLink(LINK_RE, md), 'auto_link', 48)
 
 
 def makeExtension(**kwargs):
