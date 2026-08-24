@@ -13,7 +13,7 @@ Starting from the initial state:
       XXX        
       XXX        
 
-The following dead-end state can be reached in 7 moves (again, see \cite{jefferson03}):
+The following dead-end state can be reached in 7 moves (again, see cite{jefferson03}):
 
       XXX        
       XOX        
