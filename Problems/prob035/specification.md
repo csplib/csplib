@@ -11,22 +11,22 @@ Molnar originally posed the following problem to construct a $k \times
 k$ matrix
 
 $$\begin{pmatrix} 
-a_{11}  & \ldots & a_{1k}\\\\\\\\
-\vdots & \ldots & \vdots\\\\\\\
+a_{11}  & \ldots & a_{1k}\\\\
+\vdots & \ldots & \vdots\\\\
 a_{k1}  & \ldots & a_{kk} 
 \end{pmatrix}$$
 
 such that:
 
 $$\det \begin{pmatrix} 
-a_{11}  & \ldots & a_{1k}\\\\\\\\
-\vdots & \ldots & \vdots\\\\\\\\
+a_{11}  & \ldots & a_{1k}\\\\
+\vdots & \ldots & \vdots\\\\
 a_{k1}  & \ldots & a_{kk} 
 \end{pmatrix} 
  = 1, \ 
 \det \begin{pmatrix} 
-a_{11}^2  & \ldots & a_{1k}^2 \\\\\\\\
-\vdots & \ldots & \vdots  \\\\\\\\
+a_{11}^2  & \ldots & a_{1k}^2 \\\\
+\vdots & \ldots & \vdots  \\\\
 a_{k1}^2  & \ldots & a_{kk}^2 
 \end{pmatrix} 
  = \pm 1$$

@@ -22,8 +22,8 @@ An Example of solution
 A 6x6 chessboard without free primes (the queen is on the cell containing 33): 
 
 
-   |    |    |    |     |	
- --| ---| -- | ---|  -- |  --
+|    |    |    |    |    |    |
+| -- | ---| -- | ---| -- | -- |
  9 | 32 |  3 | 28 | 11 | 30
  4 | 27 | 10 | 31 | 34 |  1
 17 |  8 | 33 |  2 | 29 | 12
