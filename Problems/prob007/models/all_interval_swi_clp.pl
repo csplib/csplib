@@ -3,6 +3,8 @@
 % All-Interval Series (CSPLib prob007)
 % Find a permutation S of {0..N-1} such that the consecutive absolute
 % differences also form a permutation of {1..N-1}.
+%
+% Example: ?- all_interval(8, S).
 
 % all_interval(+N, -S)
 all_interval(N, S) :-
@@ -19,5 +21,5 @@ all_interval(N, S) :-
 % Diffs[i] = |S[i+1] - S[i]| for each consecutive pair.
 consecutive_diffs([_], []).
 consecutive_diffs([A,B|Rest], [D|Ds]) :-
-    D #= abs(B - A), % D is abs A and B, A and B could be variables
+    D #= abs(B - A), % D = |B - A|, posted as a constraint (A, B may be unbound)
     consecutive_diffs([B|Rest], Ds).
