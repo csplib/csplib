@@ -29,14 +29,14 @@ check_partial(Square, N, Sum) :-
 
 % Partial line check (row or column):
 % If complete: partial sum must equal Sum exactly.
-% If incomplete: partial sum must not yet exceed Sum.
+% If incomplete: partial sum must stay below Sum (each empty cell adds at least 1).
 % check_line_partial(+Sum, +Line)
 check_line_partial(Sum, Line) :-
     include(nonvar, Line, Filled),     % only already assigned cells
     sum_list(Filled, PartialSum),
     length(Line, Total),
     length(Filled, FilledCount),
-    FilledCount < Total,               % line incomplete: partial sum must not exceed Sum
+    FilledCount < Total,               % line incomplete: partial sum must stay below Sum
     PartialSum < Sum.
 
 check_line_partial(Sum, Line) :-

@@ -11,8 +11,8 @@ puzzle(10, [6, 2, 1, 0, 0, 0, _, _, _, _]).
 % solve(-Seq)
 solve(Seq) :-
     puzzle(N, Seq),
-    Seq ins 0..N,
     N1 is N - 1,
+    Seq ins 0..N1,
     numlist(0, N1, Indices),
     build_pairs(Indices, Seq, Pairs),
     global_cardinality(Seq, Pairs),
@@ -22,8 +22,8 @@ solve(Seq) :-
 % magic_sequence(+N, -Seq)
 magic_sequence(N, Seq) :-
     length(Seq, N),
-    Seq ins 0..N,
     N1 is N - 1,
+    Seq ins 0..N1,
     numlist(0, N1, Indices),
     build_pairs(Indices, Seq, Pairs),
     global_cardinality(Seq, Pairs),
