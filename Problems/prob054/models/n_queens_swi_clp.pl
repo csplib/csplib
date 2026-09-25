@@ -28,7 +28,6 @@ safe_diagonals(Solution) :-
     all_distinct(DescendingDiagonals).
 
 % Helper functions for the math
-% #= is the CLP version of 'is' or '=' (defines a mathematical rule)
 % sum_index(?Row, ?Col, ?Sum): Sum is the ascending-diagonal id Row + Col
 sum_index(Row, Col, Sum)   :- Sum  #= Row + Col.
 % diff_index(?Row, ?Col, ?Diff): Diff is the descending-diagonal id Row - Col
