@@ -4,18 +4,13 @@
 % A permutation Xs of 1..N where all differences within each level of the difference triangle are distinct.
 % Level L contains differences X(i+L) - X(i) for all valid i.
 
-% costas(?Xs): user provides a list, N is inferred from its length
-costas(Xs) :- % entry point: user provides a list, N is inferred from its length
-    length(Xs, N),
-    costas(N, Xs).
-
 % costas(+N, ?Xs): Xs is a Costas Array of size N
 costas(N, Xs) :-
     length(Xs, N), % Xs= [_,_,_, ... ,_] with N variables
     Xs ins 1..N, % each value is a row position 1..N
     all_distinct(Xs), % one mark per row (permutation)
     N1 is N - 1,
-    numlist(1, N1, Levels), % Levels = [1, 2, 3, ..., N-1] of the difference triangle
+    findall(L, between(1, N1, L), Levels), % Levels = [1, 2, 3, ..., N-1] of the difference triangle
     maplist(level_all_distinct(Xs), Levels), % each level must have distinct differences
     label(Xs).
 

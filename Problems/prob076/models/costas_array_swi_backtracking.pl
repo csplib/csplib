@@ -13,7 +13,6 @@ costas(N, Xs) :- % entry point: builds a Costas Array of size N
 % Buckets: list of N-1 buckets, bucket L holds diffs already used at level L
 % Xs: final result, only bound in the base case
 
-% base case: all values placed
 % build(+Avail, +Placed, +Buckets, -Xs): place the remaining Avail values one
 % by one, recording level diffs in Buckets, until Xs is the finished array
 build([], Placed, _, Xs) :- % all values placed, construct result
