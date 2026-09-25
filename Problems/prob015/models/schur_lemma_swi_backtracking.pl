@@ -8,7 +8,7 @@
 schur(N, C, Colours) :-
     N >= 1,
     numlist(1, C, Palette),             % the available colours 1..C
-    % symmetry break: integer 1 is fixed to colour 1, then colour 2,3,...,N
+    % symmetry break: integer 1 is fixed to colour 1, then integers 2..N in order
     colour(2, N, Palette, [1-1], Colours).
 
 % colour(+I, +N, +Palette, +Assigned, -Colours)
