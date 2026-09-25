@@ -9,7 +9,7 @@ puzzle(4, [_, 1, _, 1, _, _, _, _]).
 % solve the predefined puzzle
 % solve(-S)
 solve(S) :-
-    puzzle(N, S),                    % unifies N with the length and S with the predefined sequence
+    puzzle(N, S),                    % N = largest number (sequence length 2N), S = the predefined sequence
     langford(N, S).
 
 % langford(+N, ?S)
