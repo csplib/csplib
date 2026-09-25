@@ -14,15 +14,15 @@ col_constraints([[1], [3], [5], [3], [1]]).
 nonogram(RowCounts, ColCounts, Solution):-
     length(RowCounts, NumRows),
     length(ColCounts, NumCols),
-    length(Solution, NumRows), % Create a 2D solution matrix with empty variables
+    length(Solution, NumRows), % Create a 2D solution matrix with fresh variables
     maplist(flip_length(NumCols), Solution),
     findsol(RowCounts, ColCounts, Solution, []). % Solve row by row, [] = no rows set yet
 
 % Solve row by row: fills one row with check_line, then checks if columns are
 % still possible (early backtracking), then proceeds to the next row.
-% Base case: all rows are filled. The partial check above only rules out dead
-% prefixes, so the finished columns are now checked against their full clues.
 % findsol(+RowCounts, +ColCounts, ?Lines, +DoneRows)
+% Base case: all rows are filled. The partial check below only rules out dead
+% prefixes, so the finished columns are now checked against their full clues.
 findsol([], ColCounts, [], DoneRows) :-
     my_transpose(DoneRows, Columns),
     maplist(check_line, ColCounts, Columns).
@@ -44,7 +44,7 @@ check_partial_line([], [1|_]) :- fail.
 % (a separate one would overlap this and re-derive the same column twice).
 check_partial_line(Bs, [0|Rest]) :-
     check_partial_line(Bs, Rest).
-% Current cell is 1 -> consume block B until all 1 are gone
+% Current cell is 1 -> consume exactly B ones (plus separator), then the next blocks
 check_partial_line([B|Bs], [1|Rest]) :-
     consume_block(B, [1|Rest], After),
     check_partial_line(Bs, After).
@@ -103,7 +103,7 @@ check_after([B|Bs], [0|After]) :- % After = 0 + After
 flip_length(Length, List) :- length(List, Length).
 
 % Custom transpose: convert rows to columns without library
-% Base case: empty matrix or all rows empty
+% Base case: empty matrix
 % my_transpose(+Rows, -Cols): Cols is the transpose of the matrix Rows
 my_transpose([], []).
 
