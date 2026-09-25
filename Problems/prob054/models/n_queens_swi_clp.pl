@@ -7,7 +7,7 @@ n_queens_clp(N, Solution) :-
     length(Solution, N),        % Create a list with N anonymous variables
     Solution ins 1..N,          % 1. Rule: Every number in the list must be between 1 and N (the rows).
     all_different(Solution),    % 2. Rule: No two queens can be in the same row.
-    safe_diagonals(Solution),   % 2. Rule: No two queens can be on the same diagonal.
+    safe_diagonals(Solution),   % 3. Rule: No two queens can be on the same diagonal.
 
     % FINDING THE SOLUTION
     labeling([ff], Solution).  % 'ff' (First-Fail): Picks the queen with the fewest possible options left and sets her first.

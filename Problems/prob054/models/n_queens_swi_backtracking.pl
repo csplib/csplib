@@ -4,8 +4,8 @@ n_queens2(N, Solution) :-
     numlist(1, N, AllCols),
     place_queens(AllCols, AllRows, [], Solution).
 
-% Base case: No more columns/rows available. Terminate the solution list with [].
 % place_queens(+Cols, +AvailableRows, +PrevQueens, -Solution): place one queen per column
+% Base case: No more columns/rows available. Terminate the solution list with [].
 place_queens([], [], _, []).
 place_queens([Col|RestCols], AvailableRows, PrevQueens, [Row|RestSolution]) :-
     % 1. Select a row from available rows and store the remaining in RestRows
