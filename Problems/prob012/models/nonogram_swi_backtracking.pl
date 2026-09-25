@@ -20,9 +20,12 @@ nonogram(RowCounts, ColCounts, Solution):-
 
 % Solve row by row: fills one row with check_line, then checks if columns are
 % still possible (early backtracking), then proceeds to the next row.
-% Base case: no more constraints and no more lines to fill
+% Base case: all rows are filled. The partial check above only rules out dead
+% prefixes, so the finished columns are now checked against their full clues.
 % findsol(+RowCounts, +ColCounts, ?Lines, +DoneRows)
-findsol([], _, [], _).
+findsol([], ColCounts, [], DoneRows) :-
+    my_transpose(DoneRows, Columns),
+    maplist(check_line, ColCounts, Columns).
 findsol([RC|RCRest], ColCounts, [FirstLine|RestLines], DoneRows):-
     check_line(RC, FirstLine),  % set current row via backtracking
     append(DoneRows, [FirstLine], NewDoneRows), % add completed row to done rows
@@ -47,9 +50,12 @@ check_partial_line([B|Bs], [1|Rest]) :-
     check_partial_line(Bs, After).
 
 % Consume a block of 1s: verify block length and separator
-% Base case: block fully consumed
+% Base case: block fully consumed and the column ends here
 % consume_block(+B, +Cells, -After): consume B leading 1s, After is the remainder
-consume_block(0, Rest, Rest).
+consume_block(0, [], []).
+
+% Block fully consumed: the next cell must be the separating 0
+consume_block(0, [0|Rest], Rest).
 
 % Block not fully consumed but column ends -> ok, more rows will be added later.
 % Guarded with B > 0 so it does not overlap the base case above when B = 0
