@@ -1,18 +1,24 @@
+% APPROACH: CLP(FD) model. Every cell is a finite-domain variable in 1..9.
+% all_distinct/1 is posted on every row, column, 3x3 block and cage, sum/3 on
+% every cage, then label/1 searches for the values.
 :- use_module(library(clpfd)).
 
-% THE PUZZLE: Unknown cells are represented as anonymous variables (_).
+% THE PUZZLE: a Killer Sudoku has no given digits, so every cell starts as an
+% anonymous variable (_). The cages below determine the solution.
 puzzle([
-    [2, _, 5, _, _, _, _, _, _],
-    [_, 6, _, _, _, _, _, _, _],
-    [_, 9, _, _, _, _, _, _, _],
-    [_, _, _, 2, _, _, _, _, _],
-    [1, _, _, _, _, _, _, _, _],
-    [9, 7, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _]
 ]).
 
+% THE CAGES: cage(Sum, Cells). The cells of a cage must be distinct and add up
+% to Sum. This is the example instance from the problem page (Wikipedia).
 cages([
     cage(3,  [pos(1,1), pos(1,2)]),
     cage(15, [pos(1,3), pos(1,4), pos(1,5)]),
@@ -50,16 +56,16 @@ sudoku(Solution):-
     % copy the predefined puzzle into Solution
     puzzle(Solution),
     % flatten the matrix into a single list and restrict every cell (every element in Vars) to 1-9.
-    append(Solution, Vars), % Vars=[_,6,4,8,_,...,_,1]
+    append(Solution, Vars), % Vars = [V11, V12, ..., V99], the 81 cells row by row
     Vars ins 1..9,
     % Apply row, column, and 3x3 block constraints.
     rows_all_diff(Solution), % all elements in a row must be distinct
     cols_all_diff(Solution), % all elements in a col must be distinct
     blocks_all_diff(Solution), % all 3x3 blocks must be distinct
-    %copy the predefinded cages into CageList
+    % copy the predefined cages into CageList
     cages(CageList),
     cages_all_diff_AND_add_up(CageList, Solution),
-    % CLP searchs concrete values to all remaining Vars.
+    % CLP searches concrete values for all remaining Vars.
     label(Vars).
 
 % cages_all_diff_AND_add_up(+CageList, +Solution)

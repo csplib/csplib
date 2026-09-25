@@ -1,21 +1,25 @@
-% APPROACH: Backtracking left-to-right with domain restriction PER CELL.
-% Before assigning a value, candidates are computed as the intersection of:
+% APPROACH: Backtracking row by row (left to right within a row) with domain
+% restriction PER CELL. Before assigning a value, candidates are computed as the
+% intersection of:
 %   - values not yet used in the same row, column, and 3x3 block
 %   - values still valid for the cage (not already used in cage, compatible with remaining sum)
 
-% THE PUZZLE: Unknown cells are represented as anonymous variables (_).
+% THE PUZZLE: a Killer Sudoku has no given digits, so every cell starts as an
+% anonymous variable (_). The cages below determine the solution.
 puzzle([
-    [2, _, 5, _, _, _, _, _, _],
-    [_, 6, _, _, _, _, _, _, _],
-    [_, 9, _, _, _, _, _, _, _],
-    [_, _, _, 2, _, _, _, _, _],
-    [1, _, _, _, _, _, _, _, _],
-    [9, 7, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
+    [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _],
     [_, _, _, _, _, _, _, _, _]
 ]).
 
+% THE CAGES: cage(Sum, Cells). The cells of a cage must be distinct and add up
+% to Sum. This is the example instance from the problem page (Wikipedia).
 cages([
     cage(3,  [pos(1,1), pos(1,2)]),
     cage(15, [pos(1,3), pos(1,4), pos(1,5)]),
@@ -62,14 +66,16 @@ fill_grid([Row|RestRows], Solution, RowIdx) :-
     fill_grid(RestRows, Solution, NextRow).
 
 % fill_row(+Cells, +RowIdx, +ColIdx, +Solution)
-% Gets called, if cell is already prefilled
+% Walks through the cells of one row, tracking ColIdx
 fill_row([], _, _, _).
+
+% Cell already has a value (e.g. a given): skip it
 fill_row([Cell|Rest], RowIdx, ColIdx, Solution) :-
     nonvar(Cell),
     NextCol is ColIdx + 1,
     fill_row(Rest, RowIdx, NextCol, Solution).
 
-% Gets called if cell is empty. Restrics domain
+% Cell is empty: restrict its domain, then try each candidate
 fill_row([Cell|Rest], RowIdx, ColIdx, Solution) :-
     var(Cell),
     candidates(RowIdx, ColIdx, Solution, Cands), % Candidates left due to row, col, box and cage constraint
@@ -110,17 +116,17 @@ cage_candidates(RowIdx, ColIdx, Solution, CageCands) :-
     RemainingSum is Sum - PartialSum, % RemainingSum = value to spread across the empty cells
     numlist(1, 9, All),
     subtract(All, FilledVals, WithoutUsed), % excludes the already used values
-    % include goes through every value in the list WithoutUsed, tests it against the predicate, and stores the one where the predicate returns true in the CageCands list
-    include(valid_cage_val(RemainingCells, RemainingSum), WithoutUsed, CageCands). % include goes through every value in the list WithoutUsed, tests it against the predicate, and stores the one where the predicate returns true in the CageCands list
+    % include tests every value in WithoutUsed against the predicate and keeps the ones for which it succeeds
+    include(valid_cage_val(RemainingCells, RemainingSum), WithoutUsed, CageCands).
 
 % valid_cage_val(+Remaining, +RemainingSum, +V)
 % last cell in cage: must equal remaining sum exactly
 valid_cage_val(0, RemainingSum, V) :-
     V =:= RemainingSum.
 
-% Not last cell: V must leave an achievable remaining sum for other cells.
-% Gauss Law: min sum of remaining distinct values = 1+2+3+..+N = Remaining * (Remaining + 1) // 2
-%            max sum of Remaining distinct values = 9+8+7+..+N = Remaining * (9 + (9 - Remaining + 1)) // 2
+% Not last cell: V must leave an achievable remaining sum for the other cells.
+% Gauss formula: min sum of Remaining distinct values = 1+2+...+Remaining = Remaining * (Remaining + 1) // 2
+%                max sum of Remaining distinct values = 9+8+...+(10-Remaining) = Remaining * (19 - Remaining) // 2
 valid_cage_val(Remaining, RemainingSum, V) :-
     Remaining > 0,
     MinSum is Remaining * (Remaining + 1) // 2,
