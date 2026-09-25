@@ -11,9 +11,9 @@ bibd(V, B, R, K, L, Rows) :-
     build(V, B, R, K, L, ColSums, [], Rows).
 
 % build(+RowsLeft, +B, +R, +K, +L, +ColSums, +Placed, -Rows)
-% base case: no rows left -- columns and overlaps must hit their targets
-build(0, _, _, K, L, ColSums, Placed, Rows) :-
-    maplist(=(K), ColSums),             % every column total must equal K
+% base case: no rows left -- cols_ok already forced every column total to K,
+% so only the pair overlaps remain to be checked
+build(0, _, _, _, L, _, Placed, Rows) :-
     reverse(Placed, Rows),
     all_pairs(Rows, L).                 % every pair of rows must share L ones
 build(N, B, R, K, L, ColSums, Placed, Rows) :-
