@@ -39,6 +39,7 @@ jobs:
           # Avoid checkout's default auth header so deploy uses the app token.
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.sha }}
+          allow-unsafe-pr-checkout: true
           persist-credentials: false
           # Full history needed for problem_creation_dates.sh git log. This runs for PRs
           fetch-depth: 0
